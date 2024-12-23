@@ -33,6 +33,7 @@ changelog.tmp
 terraform-provider-aws
 terraform-provider-rockitcloud
 aws/testdata/service/cloudformation/examplecompany-exampleservice-exampleresource/bin/handler
+backup
 
 # Test exclusions
 !command/test-fixtures/**/*.tfstate
