@@ -250,6 +250,7 @@ plugins:
   - search:
       lang:
         - en
+  - awesome-pages
 
 markdown_extensions:
   - admonition
