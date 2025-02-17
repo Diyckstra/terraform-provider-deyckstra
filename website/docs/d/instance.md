@@ -59,9 +59,6 @@ a single instance ID only.
 `id` is set to the ID of the found instance. In addition, the following attributes
 are exported:
 
-~> **Note** Some values are not always set and may not be available for
-interpolation.
-
 * `affinity` - The affinity setting for an instance on a dedicated host.
 * `ami` - The ID of the image used to launch the instance.
 * `arn` - The ARN of the instance.

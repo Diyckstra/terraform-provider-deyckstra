@@ -58,9 +58,6 @@ you want to match multiple images, use the [`aws_ami_ids`](ami_ids.md) data sour
 
 In addition, the following attributes are exported:
 
-~> **Note** Some values are not always set and may not be available for
-interpolation.
-
 * `arn` - The ARN of the image.
 * `architecture` - The OS architecture of the image (ie: `i386` or `x86_64`).
 * `block_device_mappings` - Set of objects with block device mappings of the image.
