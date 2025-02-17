@@ -3,7 +3,7 @@ subcategory: "EC2 (Elastic Compute Cloud)"
 layout: "aws"
 page_title: "aws_instance"
 description: |-
-  Provides an EC2 instance resource. This allows instances to be created, updated, and deleted. Instances also support provisioning.
+  Manages an EC2 instance.
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
@@ -12,7 +12,7 @@ description: |-
 
 # Resource: aws_instance
 
-Provides an EC2 instance resource. This allows instances to be created, updated, and deleted.
+Manages an EC2 instance. This allows instances to be created, updated, and deleted.
 Instances also support [provisioning].
 
 ## Example Usage

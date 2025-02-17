@@ -3,7 +3,7 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_default_network_acl"
 description: |-
-  Manage a default network ACL.
+  Manage the default network ACL of a VPC.
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
@@ -11,7 +11,7 @@ description: |-
 
 # Resource: aws_default_network_acl
 
-Provides a resource to manage a VPC's default network ACL. This resource can manage the default network ACL of the default or a non-default VPC.
+Manages the default network ACL of a VPC. This resource can manage the default network ACL of the default or a non-default VPC.
 
 ~> **Note** This is an advanced resource with special caveats. Please read this document in its entirety before using this resource. The `aws_default_network_acl` behaves differently from normal resources. Terraform does not _create_ this resource but instead attempts to "adopt" it into management.
 

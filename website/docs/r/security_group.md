@@ -3,7 +3,7 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_security_group"
 description: |-
-  Provides a security group resource.
+  Manages a security group.
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
@@ -12,7 +12,7 @@ description: |-
 
 # Resource: aws_security_group
 
-Provides a security group resource.
+Manages a security group.
 
 ~> **Note on Security Groups and Security Group Rules:** Terraform currently
 provides both a standalone [`aws_security_group_rule`](security_group_rule.md) (a single `ingress` or

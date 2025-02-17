@@ -3,7 +3,7 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_vpc_dhcp_options"
 description: |-
-  Provides a VPC DHCP Options resource.
+  Manages a DHCP Options for a VPC.
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
@@ -11,8 +11,7 @@ description: |-
 
 # Resource: aws_vpc_dhcp_options
 
-Provides a VPC DHCP options resource.
-
+Manages a DHCP Options for a VPC.
 For more information, see the documentation on [DHCP options][dhcp-options].
 
 ## Example Usage

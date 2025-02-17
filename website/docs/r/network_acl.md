@@ -3,7 +3,7 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_network_acl"
 description: |-
-  Provides a network ACL resource.
+  Creates a network ACL.
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
@@ -11,7 +11,7 @@ description: |-
 
 # Resource: aws_network_acl
 
-Provides a network ACL resource. You might set up network ACLs with rules similar
+Creates a network ACL. You might set up network ACLs with rules similar
 to your security groups in order to add an additional layer of security to your VPC.
 
 ~> **Note on Network ACLs and Network ACL Rules:** Terraform currently

@@ -3,7 +3,7 @@ subcategory: "EBS (EC2)"
 layout: "aws"
 page_title: "aws_ebs_snapshot"
 description: |-
-  Provides an elastic block storage snapshot resource.
+  Creates a snapshot of an EBS volume.
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block

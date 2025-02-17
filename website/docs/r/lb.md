@@ -3,7 +3,7 @@ subcategory: "ELB (Elastic Load Balancing)"
 layout: "aws"
 page_title: "aws_lb"
 description: |-
-  Provides a Load Balancer resource.
+  Manages a Load Balancer.
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
@@ -11,7 +11,7 @@ description: |-
 
 # Resource: aws_lb
 
-Provides a Load Balancer resource.
+Manages a Load Balancer.
 
 ~> **Note** `aws_alb` is known as `aws_lb`. The functionality is identical.
 

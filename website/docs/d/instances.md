@@ -3,7 +3,7 @@ subcategory: "EC2 (Elastic Compute Cloud)"
 layout: "aws"
 page_title: "aws_instances"
 description: |-
-  Provides information about an EC2 instances.
+  Provides information about EC2 instances.
 ---
 
 [describe-instances]: https://docs.k2.cloud/en/api/ec2/instances/DescribeInstances.html
@@ -13,7 +13,7 @@ description: |-
 
 # Data Source: aws_instances
 
-Provides information about an EC2 instances. This data source can be used to get IDs or IPs of EC2 instances to be referenced elsewhere.
+Provides information about EC2 instances. This data source can be used to get IDs or IPs of EC2 instances to be referenced elsewhere.
 
 -> **Note:** It's a best practice to expose instance details via [outputs], and [remote state],
 and **use [`terraform_remote_state`][terraform_remote_state] data source instead** if you manage referenced instances via Terraform.

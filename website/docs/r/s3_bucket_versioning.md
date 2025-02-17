@@ -3,14 +3,14 @@ subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_s3_bucket_versioning"
 description: |-
-  Provides an S3 bucket versioning resource.
+  Manages versioning for an S3 bucket.
 ---
 
 [s3-versioning]: https://docs.k2.cloud/en/services/object_storage/operations.html#s3versioningmanual
 
 # Resource: aws_s3_bucket_versioning
 
-Provides a resource for controlling versioning on an S3 bucket.
+Manages versioning for an S3 bucket.
 Deleting this resource will either suspend versioning on the associated S3 bucket or
 simply remove the resource from Terraform state if the associated S3 bucket is unversioned.
 

@@ -11,7 +11,7 @@ description: |-
 
 # Data Source: aws_instance
 
-Provides information about an EC2 instance. This data source can be used to get the ID of an EC2 instance for use in other resources.
+Provides information about an EC2 instance.
 
 ## Example Usage
 

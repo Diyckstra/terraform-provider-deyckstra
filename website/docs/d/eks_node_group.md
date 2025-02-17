@@ -3,12 +3,12 @@ subcategory: "EKS (Elastic Kubernetes)"
 layout: "aws"
 page_title: "aws_eks_node_group"
 description: |-
-  Retrieves information about an EKS node group.
+  Provides information about an EKS node group.
 ---
 
 # Data Source: aws_eks_node_group
 
-Retrieves information about an EKS node group.
+Provides information about an EKS node group.
 
 ## Example Usage
 

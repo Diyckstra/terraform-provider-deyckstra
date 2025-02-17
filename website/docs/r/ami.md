@@ -13,7 +13,7 @@ description: |-
 
 # Resource: aws_ami
 
-The AMI (Amazon Machine Image) resource allows the creation and management of images.
+Creates and manages images.
 
 If you just want to share an existing image with another project,
 it's better to use [`aws_ami_launch_permission`](ami_launch_permission.md) instead.

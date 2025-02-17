@@ -3,12 +3,12 @@ subcategory: "Auto Scaling"
 layout: "aws"
 page_title: "aws_autoscaling_group"
 description: |-
-  Get information on an Auto Scaling Group.
+  Provides information about an Auto Scaling Group.
 ---
 
 # Data Source: aws_autoscaling_group
 
-Use this data source to get information on an existing Auto Scaling Group.
+Provides information about an existing Auto Scaling Group.
 
 ## Example Usage
 

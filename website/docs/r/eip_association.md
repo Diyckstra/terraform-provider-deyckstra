@@ -3,12 +3,12 @@ subcategory: "EC2 (Elastic Compute Cloud)"
 layout: "aws"
 page_title: "aws_eip_association"
 description: |-
-  Provides an AWS EIP Association
+  Manages an EIP Association.
 ---
 
 # Resource: aws_eip_association
 
-Provides an EIP Association as a top level resource, to associate and
+Manages an EIP Association as a top level resource, to associate and
 disassociate Elastic IPs from Instances and Network Interfaces.
 
 ~> **Note** `aws_eip_association` is useful in scenarios where EIPs are either

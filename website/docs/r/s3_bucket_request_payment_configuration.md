@@ -3,7 +3,7 @@ subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_s3_bucket_request_payment_configuration"
 description: |-
-  Provides an S3 bucket request payment configuration resource.
+  Manages an S3 bucket request payment configuration.
 ---
 
 # Resource: aws_s3_bucket_request_payment_configuration
@@ -11,7 +11,7 @@ description: |-
 ->  **Unsupported resource**
 This resource is currently unsupported.
 
-Provides an S3 bucket request payment configuration resource. For more information, see [Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html).
+Manages an S3 bucket request payment configuration resource. For more information, see [Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html).
 
 ~> **Note** Destroying an `aws_s3_bucket_request_payment_configuration` resource resets the bucket's `payer` to the S3 default: the bucket owner.
 

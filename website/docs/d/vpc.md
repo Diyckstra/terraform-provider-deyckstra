@@ -3,14 +3,14 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_vpc"
 description: |-
-    Provides details about a specific VPC
+    Provides information about a specific VPC.
 ---
 
 # Data Source: aws_vpc
 
-`aws_vpc` provides details about a specific VPC.
+Provides information about a specific VPC.
 
-This resource can prove useful when a module accepts a vpc id as
+This resource can be useful when a module accepts a vpc id as
 an input variable and needs to, for example, determine the CIDR block of that
 VPC.
 

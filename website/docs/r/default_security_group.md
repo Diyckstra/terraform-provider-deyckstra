@@ -3,7 +3,7 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_default_security_group"
 description: |-
-  Manage a default security group resource.
+  Manage the default security group resource of a VPC.
 ---
 
 [default-security-groups]: https://docs.k2.cloud/en/services/security/securitygroups.html#id3
@@ -11,7 +11,7 @@ description: |-
 
 # Resource: aws_default_security_group
 
-Provides a resource to manage a default security group. This resource can manage the default security group of the default or a non-default VPC.
+Manages the default security group of a VPC. This resource can manage the default security group of the default or a non-default VPC.
 
 ~> **Note** This is an advanced resource with special caveats. Please read this document in its entirety before using this resource. The `aws_default_security_group` resource behaves differently from normal resources. Terraform does not _create_ this resource but instead attempts to "adopt" it into management.
 

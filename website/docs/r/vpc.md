@@ -3,7 +3,7 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_vpc"
 description: |-
-  Provides a VPC resource.
+  Manages a VPC.
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
@@ -11,8 +11,7 @@ description: |-
 
 # Resource: aws_vpc
 
-Provides a VPC resource.
-
+Manages a VPC.
 For more information, see the documentation on [VPC][vpc].
 
 ## Example Usage

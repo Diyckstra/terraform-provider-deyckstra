@@ -3,7 +3,7 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_default_route_table"
 description: |-
-  Provides a resource to manage a default route table of a VPC.
+  Manage the default route table of a VPC.
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
@@ -12,7 +12,7 @@ description: |-
 
 # Resource: aws_default_route_table
 
-Provides a resource to manage a default route table of a VPC. This resource can manage the default route table of the default or a non-default VPC.
+Manages the default route table of a VPC. This resource can manage the default route table of the default or a non-default VPC.
 
 ~> **Note** This is an advanced resource with special caveats. Please read this document in its entirety before using this resource. The `aws_default_route_table` resource behaves differently from normal resources. Terraform does not _create_ this resource but instead attempts to "adopt" it into management. **Do not** use both `aws_default_route_table` to manage a default route table **and** `aws_main_route_table_association` with the same VPC due to possible route conflicts. See [aws_main_route_table_association](main_route_table_association.md) documentation for more details.
 

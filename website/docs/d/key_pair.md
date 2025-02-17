@@ -3,12 +3,12 @@ subcategory: "EC2 (Elastic Compute Cloud)"
 layout: "aws"
 page_title: "aws_key_pair"
 description: |-
-    Provides details about a specific EC2 Key Pair.
+    Provides information about a specific EC2 Key Pair.
 ---
 
 # Data Source: aws_key_pair
 
-Use this data source to get information about a specific EC2 Key Pair.
+Provides information about a specific EC2 Key Pair.
 
 ## Example Usage
 

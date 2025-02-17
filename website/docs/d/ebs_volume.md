@@ -3,12 +3,12 @@ subcategory: "EBS (EC2)"
 layout: "aws"
 page_title: "aws_ebs_volume"
 description: |-
-  Get information on an EBS volume.
+  Provides information about an EBS volume.
 ---
 
 # Data Source: aws_ebs_volume
 
-Use this data source to get information about an EBS volume for use in other resources.
+Provides information about an EBS volume for use in other resources.
 
 ## Example Usage
 

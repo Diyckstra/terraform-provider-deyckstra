@@ -3,14 +3,13 @@ subcategory: "EBS (EC2)"
 layout: "aws"
 page_title: "aws_ebs_volumes"
 description: |-
-    Provides identifying information for EBS volumes matching given criteria
+    Provides identifying information about EBS volumes matching given criteria.
 ---
 
 # Data Source: aws_ebs_volumes
 
-`aws_ebs_volumes` provides identifying information for EBS volumes matching given criteria.
-
-This data source can be useful for getting a list of volume IDs with (for example) matching tags.
+Provides identifying information about EBS volumes matching given criteria.
+This data source can be used to get a list of volume IDs with (for example) matching tags.
 
 ## Example Usage
 

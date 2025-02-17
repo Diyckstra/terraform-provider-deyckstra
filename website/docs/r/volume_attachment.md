@@ -3,12 +3,12 @@ subcategory: "EBS (EC2)"
 layout: "aws"
 page_title: "aws_volume_attachment"
 description: |-
-  Provides an EBS Volume Attachment
+  Manages an EBS Volume Attachment
 ---
 
 # Resource: aws_volume_attachment
 
-Provides an EBS volume attachment as a top level resource, to attach and detach volumes from instances.
+Manages an EBS volume attachment as a top level resource, to attach and detach volumes from instances.
 
 ~> **Note on EBS block devices:** If you use `ebs_block_device` on an `aws_instance`, Terraform will assume management over the full set of non-root EBS block devices for the instance, and treats additional block devices as drift. For this reason, `ebs_block_device` cannot be mixed with external `aws_ebs_volume` + `aws_volume_attachment` resources for a given instance.
 

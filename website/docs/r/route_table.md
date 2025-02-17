@@ -3,7 +3,7 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_route_table"
 description: |-
-  Provides a resource to create a VPC routing table.
+  Creates a VPC routing table.
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
@@ -12,7 +12,7 @@ description: |-
 
 # Resource: aws_route_table
 
-Provides a resource to create a VPC routing table.
+Creates a VPC routing table.
 
 ~> **Note on Route Tables and Routes:** Terraform currently
 provides both a standalone [`aws_route` resource](route.md) and a Route Table resource with routes

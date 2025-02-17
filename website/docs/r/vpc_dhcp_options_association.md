@@ -3,12 +3,12 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_vpc_dhcp_options_association"
 description: |-
-  Provides a VPC DHCP Options Association resource.
+  Manages a VPC DHCP Options Association.
 ---
 
 # Resource: aws_vpc_dhcp_options_association
 
-Provides a VPC DHCP Options Association resource.
+Manages a VPC DHCP Options Association.
 
 ## Example Usage
 

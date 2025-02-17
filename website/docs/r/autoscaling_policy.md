@@ -3,12 +3,12 @@ subcategory: "Auto Scaling"
 layout: "aws"
 page_title: "aws_autoscaling_policy"
 description: |-
-  Provides an Auto Scaling Group resource.
+  Manages an Auto Scaling policy resource.
 ---
 
 # Resource: aws_autoscaling_policy
 
-Provides an Auto Scaling Policy resource.
+Manages an Auto Scaling policy resource.
 
 ~> **Note** You may want to omit `desired_capacity` attribute from attached `aws_autoscaling_group`
 when using autoscaling policies. It's good practice to pick either manual or dynamic (policy-based) scaling.

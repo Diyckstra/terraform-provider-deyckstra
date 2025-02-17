@@ -3,14 +3,14 @@ subcategory: "ELB (Elastic Load Balancing)"
 layout: "aws"
 page_title: "aws_lb_target_group"
 description: |-
-  Provides a Target Group resource for use with Load Balancers.
+  Manages a Target Group for a Load Balancer.
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 
 # Resource: aws_lb_target_group
 
-Provides a Target Group resource for use with Load Balancer resources.
+Manages a Target Group for a Load Balancer.
 
 ~> **Note** `aws_alb_target_group` is known as `aws_lb_target_group`. The functionality is identical.
 

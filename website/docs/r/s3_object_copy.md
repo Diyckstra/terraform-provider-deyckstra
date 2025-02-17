@@ -3,7 +3,7 @@ subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_s3_object_copy"
 description: |-
-  Provides a resource for copying an S3 object.
+  Manages copying for an S3 object.
 ---
 
 [canned-acl]: https://docs.k2.cloud/en/api/s3/acl.html#cannedacl
@@ -15,7 +15,7 @@ description: |-
 
 # Resource: aws_s3_object_copy
 
-Provides a resource for copying an S3 object.
+Manages copying for an S3 object.
 
 ## Example Usage
 

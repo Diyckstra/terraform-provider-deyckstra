@@ -3,13 +3,12 @@ subcategory: "EKS (Elastic Kubernetes)"
 layout: "aws"
 page_title: "aws_eks_node_groups"
 description: |-
-  Retrieves the EKS node groups names associated with a named EKS cluster.
+  Provides information about the EKS node groups names associated with a named EKS cluster.
 ---
 
 # Data Source: aws_eks_node_groups
 
-Retrieves the EKS node groups names associated with a named EKS cluster. This will allow you to pass a list of node group names to other resources.
-
+Provides information about the EKS node groups names associated with a named EKS cluster.
 ## Example Usage
 
 ```terraform

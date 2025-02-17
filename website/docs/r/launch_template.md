@@ -3,7 +3,7 @@ subcategory: "EC2 (Elastic Compute Cloud)"
 layout: "aws"
 page_title: "aws_launch_template"
 description: |-
-  Provides an EC2 launch template resource. Can be used to create instances or auto scaling groups.
+  Manages an EC2 launch template.
 ---
 
 [asg-create]: https://docs.k2.cloud/en/services/compute/autoscaling.html#createautoscalinggroup
@@ -12,7 +12,7 @@ description: |-
 
 # Resource: aws_launch_template
 
-Provides an EC2 launch template resource. Can be used to create instances or auto scaling groups.
+Manages an EC2 launch template. The resource can be used to create instances or Auto Scaling groups.
 
 ## Example Usage
 

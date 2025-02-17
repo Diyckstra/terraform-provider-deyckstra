@@ -3,12 +3,12 @@ subcategory: "EBS (EC2)"
 layout: "aws"
 page_title: "aws_ebs_snapshot"
 description: |-
-  Get information on an EBS snapshot.
+  Provides information about an EBS snapshot.
 ---
 
 # Data Source: aws_ebs_snapshot
 
-Use this data source to get information about an EBS snapshot for use when provisioning EBS volumes
+Provides information about an EBS snapshot for use when provisioning EBS volumes.
 
 ## Example Usage
 

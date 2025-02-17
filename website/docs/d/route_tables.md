@@ -3,12 +3,12 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_route_tables"
 description: |-
-    Get information on route tables.
+    Provides information about route tables.
 ---
 
 # Data Source: aws_route_tables
 
-This resource can be useful for getting back a list of route table ids to be referenced elsewhere.
+Provides information about route tables.
 
 ## Example Usage
 

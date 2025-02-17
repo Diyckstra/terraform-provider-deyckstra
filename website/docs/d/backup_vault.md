@@ -9,7 +9,6 @@ description: |-
 # Data Source: aws_backup_vault
 
 Provides information about a backup vault.
-Use this data source to get information on an existing backup vault.
 
 ## Example Usage
 

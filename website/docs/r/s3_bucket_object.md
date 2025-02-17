@@ -3,7 +3,7 @@ subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_s3_bucket_object"
 description: |-
-  Provides an S3 object resource.
+  Manages an S3 object.
 ---
 
 [canned-acl]: https://docs.k2.cloud/en/api/s3/acl.html#cannedacl
@@ -16,7 +16,7 @@ description: |-
 
 ~> **Note** The `aws_s3_bucket_object` resource is DEPRECATED and will be removed in a future version! Use [`aws_s3_object`](s3_object.md) instead, where new features and fixes will be added. When replacing `aws_s3_bucket_object` with `aws_s3_object` in your configuration, on the next apply, Terraform will recreate the object. If you prefer to not have Terraform recreate the object, import the object using `aws_s3_object`.
 
-Provides an S3 object resource.
+Manages an S3 object.
 
 ## Example Usage
 

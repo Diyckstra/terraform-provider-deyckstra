@@ -3,12 +3,12 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_network_interface"
 description: |-
-  Get information on a Network Interface resource.
+  Provides information about a Network Interface.
 ---
 
 # aws_network_interface
 
-Use this data source to get information about a network interface.
+Provides information about a network interface.
 
 ## Example Usage
 

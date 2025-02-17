@@ -3,14 +3,14 @@ subcategory: "ELB (Elastic Load Balancing)"
 layout: "aws"
 page_title: "aws_lb_listener"
 description: |-
-  Provides a Load Balancer Listener resource.
+  Manages a Listener for a Load Balancer.
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 
 # Resource: aws_lb_listener
 
-Provides a Load Balancer Listener resource.
+Manages a Listener for a Load Balancer.
 
 ~> **Note** `aws_alb_listener` is known as `aws_lb_listener`. The functionality is identical.
 

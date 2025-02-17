@@ -3,14 +3,14 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_security_group"
 description: |-
-    Provides details about a specific Security Group
+    Provides information about a specific Security Group.
 ---
 
 # Data Source: aws_security_group
 
-`aws_security_group` provides details about a specific Security Group.
+Provides information about a specific Security Group.
 
-This resource can prove useful when a module accepts a Security Group id as
+This resource can be used when a module accepts a Security Group id as
 an input variable and needs to, for example, determine the id of the
 VPC that the security group belongs to.
 

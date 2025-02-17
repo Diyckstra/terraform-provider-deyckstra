@@ -3,7 +3,7 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_subnet"
 description: |-
-  Provides an VPC subnet resource.
+  Manages a VPC subnet.
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
@@ -12,8 +12,7 @@ description: |-
 
 # Resource: aws_subnet
 
-Provides an VPC subnet resource.
-
+Manages a VPC subnet.
 For more information, see the documentation on [Subnets][subnets].
 
 ## Example Usage

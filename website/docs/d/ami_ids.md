@@ -8,7 +8,7 @@ description: |-
 
 # Data Source: aws_ami_ids
 
-Use this data source to get a list of image IDs matching the specified criteria.
+Provides a list of image IDs matching the specified criteria.
 
 ## Example Usage
 

@@ -3,12 +3,12 @@ subcategory: "EC2 (Elastic Compute Cloud)"
 layout: "aws"
 page_title: "aws_eip"
 description: |-
-    Provides details about a specific Elastic IP
+    Provides information about a specific Elastic IP
 ---
 
 # Data Source: aws_eip
 
-`aws_eip` provides details about a specific Elastic IP.
+Provides information about a specific Elastic IP.
 
 ## Example Usage
 

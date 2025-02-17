@@ -3,14 +3,14 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_route"
 description: |-
-  Provides a resource to create a routing entry in a VPC routing table.
+  Creates a routing entry in a VPC routing table.
 ---
 
 [timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
 
 # Resource: aws_route
 
-Provides a resource to create a routing table entry (a route) in a VPC routing table.
+Creates a routing table entry (a route) in a VPC routing table.
 
 ~> **Note on Route Tables and Routes:** Terraform currently provides both a standalone Route resource and a [`aws_route_table`](route_table.md) resource with routes defined in-line. At this time you cannot use a Route Table with in-line routes in conjunction with any Route resources. Doing so will cause a conflict of rule settings and will overwrite rules.
 

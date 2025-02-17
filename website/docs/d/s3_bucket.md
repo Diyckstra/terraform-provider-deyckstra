@@ -3,12 +3,12 @@ subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_s3_bucket"
 description: |-
-    Provides details about a specific S3 bucket.
+    Provides information about a specific S3 bucket.
 ---
 
 # Data Source: aws_s3_bucket
 
-Provides details about a specific S3 bucket.
+Provides information about a specific S3 bucket.
 
 ## Example Usage
 

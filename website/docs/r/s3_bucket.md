@@ -3,7 +3,7 @@ subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_s3_bucket"
 description: |-
-  Provides a S3 bucket resource.
+  Manages an S3 bucket.
 ---
 
 [bucket-naming]: https://docs.k2.cloud/en/services/object_storage/operations.html#s3bucketnaming
@@ -17,7 +17,7 @@ description: |-
 
 # Resource: aws_s3_bucket
 
-Provides a S3 bucket resource.
+Manages an S3 bucket.
 
 ~> **Note on S3 Bucket canned ACL Configuration:** S3 Bucket canned ACL can be configured in either the standalone resource [`aws_s3_bucket_acl`](s3_bucket_acl.md)
 or with the deprecated parameter `acl` in the resource `aws_s3_bucket`.

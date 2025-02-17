@@ -3,13 +3,13 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_security_group_rule"
 description: |-
-  Provides a security group rule resource.
+  Manages a security group rule.
 ---
 
 # Resource: aws_security_group_rule
 
-Provides a security group rule resource. Represents a single `ingress` or
-`egress` group rule, which can be added to external security groups.
+Manages a security group rule.
+Represents a single `ingress` or `egress` group rule, which can be added to external security groups.
 
 ~> **Note on Security Groups and Security Group Rules:** Terraform currently
 provides both a standalone security group rule resource (a single `ingress` or

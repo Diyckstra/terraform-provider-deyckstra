@@ -3,12 +3,12 @@ subcategory: "Route 53"
 layout: "aws"
 page_title: "aws_route53_record"
 description: |-
-  Provides a Route53 record resource.
+  Manages a Route53 record.
 ---
 
 # Resource: aws_route53_record
 
-Provides a Route53 record resource.
+Manages a Route53 record.
 
 ## Example Usage
 

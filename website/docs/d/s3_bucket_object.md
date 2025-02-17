@@ -3,7 +3,7 @@ subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_s3_bucket_object"
 description: |-
-    Provides metadata and optionally content of an S3 object
+    Provides metadata and optionally content of an S3 object.
 ---
 
 [ETag]: https://en.wikipedia.org/wiki/HTTP_ETag
@@ -13,8 +13,7 @@ description: |-
 
 ~> **Note** The `aws_s3_bucket_object` data source is DEPRECATED and will be removed in a future version! Use [`aws_s3_object`](s3_object.md) instead, where new features and fixes will be added.
 
-The S3 object data source allows access to the metadata and
-_optionally_ (see below) content of an object stored inside S3 bucket.
+Provides information about metadata and _optionally_ (see below) content of an object stored inside S3 bucket.
 
 ~> **Note** The content of an object (`body` field) is available only for objects which have a human-readable `Content-Type` (`text/*` and `application/json`). This is to prevent printing unsafe characters and potentially downloading large amount of data which would be thrown away in favour of metadata.
 

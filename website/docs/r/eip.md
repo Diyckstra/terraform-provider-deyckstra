@@ -3,7 +3,7 @@ subcategory: "EC2 (Elastic Compute Cloud)"
 layout: "aws"
 page_title: "aws_eip"
 description: |-
-  Provides an Elastic IP resource.
+  Manages an Elastic IP resource.
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
@@ -12,8 +12,7 @@ description: |-
 
 # Resource: aws_eip
 
-Provides an Elastic IP resource.
-
+Manages an Elastic IP resource.
 For more information about EIPs, see [user documentation][elastic-ips].
 
 ## Example Usage

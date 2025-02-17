@@ -3,14 +3,14 @@ subcategory: "EC2 (Elastic Compute Cloud)"
 layout: "aws"
 page_title: "aws_ami"
 description: |-
-  Get information on an Amazon Machine Image (AMI).
+  Provides information about an Amazon Machine Image (AMI).
 ---
 
 [describe-images]: https://docs.k2.cloud/en/api/ec2/images/DescribeImages.html
 
 # Data Source: aws_ami
 
-Use this data source to get the ID of a registered image for use in other resources.
+Provides information about the ID of a registered image for use in other resources.
 
 ## Example Usage
 

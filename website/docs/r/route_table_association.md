@@ -3,12 +3,12 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_route_table_association"
 description: |-
-  Provides a resource to create an association between a route table and a subnet.
+  Creates an association between a route table and a subnet.
 ---
 
 # Resource: aws_route_table_association
 
-Provides a resource to create an association between a route table and a subnet.
+Creates an association between a route table and a subnet.
 
 ## Example Usage
 

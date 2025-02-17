@@ -3,14 +3,14 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_route"
 description: |-
-    Provides details about a specific Route
+    Provides information about a specific route.
 ---
 
 # Data Source: aws_route
 
-`aws_route` provides details about a specific Route.
+Provides information about a specific route.
 
-This resource can prove useful when finding the resource associated with a CIDR. For example, finding the peering connection associated with a CIDR value.
+This resource can be used when finding the resource associated with a CIDR. For example, finding the peering connection associated with a CIDR value.
 
 ## Example Usage
 

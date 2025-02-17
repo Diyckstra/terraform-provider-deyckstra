@@ -3,7 +3,7 @@ subcategory: "EBS (EC2)"
 layout: "aws"
 page_title: "aws_ebs_volume"
 description: |-
-  Provides an elastic block storage resource.
+  Manages a single EBS volume.
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block

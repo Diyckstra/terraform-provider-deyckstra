@@ -3,13 +3,12 @@ subcategory: "VPN (Site-to-Site)"
 layout: "aws"
 page_title: "aws_vpn_gateway"
 description: |-
-    Provides details about a specific VPN gateway.
+    Provides information about a specific VPN gateway.
 ---
 
 # Data Source: aws_vpn_gateway
 
-The VPN Gateway data source provides details about
-a specific VPN gateway.
+Provides information about a specific VPN gateway.
 
 -> **Note** For convenience, the ID of the VPN gateway is the same as the ID of the VPC, to which it belongs (`vpc-ABCD1234`/`vgw-ABCD1234`).
 

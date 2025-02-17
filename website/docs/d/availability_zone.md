@@ -3,12 +3,12 @@ subcategory: "EC2 (Elastic Compute Cloud)"
 layout: "aws"
 page_title: "aws_availability_zone"
 description: |-
-    Provides details about a specific availability zone
+    Provides information about a specific availability zone.
 ---
 
 # Data Source: aws_availability_zone
 
-`aws_availability_zone` provides details about a specific availability zone (AZ).
+Provides information about a specific availability zone (AZ).
 
 This is different from the [`aws_availability_zones`](availability_zones.md) (plural) data source,
 which provides a list of the available zones.

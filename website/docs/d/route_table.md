@@ -3,14 +3,14 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_route_table"
 description: |-
-    Provides details about a specific Route Table
+    Provides information about a specific Route Table.
 ---
 
 # Data Source: aws_route_table
 
-`aws_route_table` provides details about a specific Route Table.
+Provides information about a specific Route Table.
 
-This resource can prove useful when a module accepts a Subnet ID as an input variable and needs to, for example, add a route in the Route Table.
+This resource can be used when a module accepts a Subnet ID as an input variable and needs to, for example, add a route in the Route Table.
 
 ## Example Usage
 

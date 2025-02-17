@@ -3,12 +3,12 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_default_vpc"
 description: |-
-  Manage a default VPC resource.
+  Manage the default VPC.
 ---
 
 # Resource: aws_default_vpc
 
-Provides a resource to manage the default VPC.
+Manages the default VPC.
 
 **This is an advanced resource** and has special caveats to be aware of when using it. Please read this document in its entirety before using this resource.
 

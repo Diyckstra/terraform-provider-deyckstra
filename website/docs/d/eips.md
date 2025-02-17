@@ -3,12 +3,12 @@ subcategory: "EC2 (Elastic Compute Cloud)"
 layout: "aws"
 page_title: "aws_eips"
 description: |-
-    Provides a list of Elastic IPs in a region
+    Provides a list of Elastic IPs in a region.
 ---
 
 # Data Source: aws_eips
 
-Provides a list of Elastic IPs.
+Provides a list of Elastic IPs in a region.
 
 ## Example Usage
 

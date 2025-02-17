@@ -3,14 +3,14 @@ subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_s3_bucket_cors_configuration"
 description: |-
-  Provides an S3 bucket CORS configuration resource.
+  Manages an S3 bucket CORS configuration.
 ---
 
 [cors]: https://docs.k2.cloud/en/services/object_storage/operations.html#cors
 
 # Resource: aws_s3_bucket_cors_configuration
 
-Provides an S3 bucket CORS configuration resource. For more information about CORS, go to [Cross-Origin Resource Sharing][cors].
+Manages an S3 bucket CORS configuration. For more information about CORS, go to [Cross-Origin Resource Sharing][cors].
 
 ~> **Note** S3 Buckets only support a single CORS configuration. Declaring multiple `aws_s3_bucket_cors_configuration` resources to the same S3 Bucket will cause a perpetual difference in configuration.
 

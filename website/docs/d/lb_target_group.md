@@ -3,7 +3,7 @@ subcategory: "ELB (Elastic Load Balancing)"
 layout: "aws"
 page_title: "aws_lb_target_group"
 description: |-
-  Provides a Load Balancer Target Group data source.
+  Provides information about a Load Balancer Target Group.
 ---
 
 # Data Source: aws_lb_target_group
@@ -12,7 +12,7 @@ description: |-
 
 Provides information about a Load Balancer Target Group.
 
-This data source can prove useful when a module accepts an LB Target Group as an
+This data source can be used when a module accepts an LB Target Group as an
 input variable and needs to know its attributes. It can also be used to get the ARN of
 an LB Target Group for use in other resources, given LB Target Group name.
 

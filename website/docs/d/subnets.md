@@ -3,12 +3,12 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_subnets"
 description: |-
-    Get information about a set of subnets.
+    Provides information about subnets.
 ---
 
 # Data Source: aws_subnets
 
-This resource can be useful for getting back a set of subnet IDs.
+Provides information about subnets.
 
 ## Example Usage
 

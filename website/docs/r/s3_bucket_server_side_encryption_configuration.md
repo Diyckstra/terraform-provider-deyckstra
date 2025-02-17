@@ -3,7 +3,7 @@ subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_s3_bucket_server_side_encryption_configuration"
 description: |-
-  Provides a S3 bucket server-side encryption configuration resource.
+  Manages a S3 bucket server-side encryption configuration.
 ---
 
 # Resource: aws_s3_bucket_server_side_encryption_configuration
@@ -11,7 +11,7 @@ description: |-
 ->  **Unsupported resource**
 This resource is currently unsupported.
 
-Provides a S3 bucket server-side encryption configuration resource.
+Manages a S3 bucket server-side encryption configuration.
 
 ## Example Usage
 

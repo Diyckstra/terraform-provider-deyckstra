@@ -3,14 +3,14 @@ subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_s3_bucket_policy"
 description: |-
-  Attaches a policy to an S3 bucket resource.
+  Attaches a policy to an S3 bucket.
 ---
 
 [policy-restrictions]: https://docs.k2.cloud/en/api/s3/features.html#bucket-policy
 
 # Resource: aws_s3_bucket_policy
 
-Attaches a policy to an S3 bucket resource.
+Attaches a policy to an S3 bucket.
 
 ## Example Usage
 

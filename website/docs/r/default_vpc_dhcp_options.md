@@ -3,12 +3,12 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_default_vpc_dhcp_options"
 description: |-
-  Manage the default VPC DHCP Options resource.
+  Manage the default DHCP Options resource.
 ---
 
 # Resource: aws_default_vpc_dhcp_options
 
-Provides a resource to manage the default AWS DHCP Options Set in the current region.
+Manages the default DHCP Options Set in the current region.
 
 Each AWS region comes with a default set of DHCP options.
 **This is an advanced resource**, and has special caveats to be aware of when

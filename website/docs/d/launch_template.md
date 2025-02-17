@@ -3,7 +3,7 @@ subcategory: "EC2 (Elastic Compute Cloud)"
 layout: "aws"
 page_title: "aws_launch_template"
 description: |-
-  Provides an EC2 launch template data source.
+  Provides information an EC2 launch template.
 ---
 
 [describe-lts]: https://docs.k2.cloud/en/api/ec2/launch_templates/DescribeLaunchTemplates.html

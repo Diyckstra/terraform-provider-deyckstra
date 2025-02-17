@@ -3,7 +3,7 @@ subcategory: "EC2 (Elastic Compute Cloud)"
 layout: "aws"
 page_title: "aws_ami_from_instance"
 description: |-
-  Creates an Amazon Machine Image (AMI) from an EBS-backed EC2 instance
+  Creates an Amazon Machine Image (AMI) from an EBS-backed EC2 instance.
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
@@ -11,7 +11,7 @@ description: |-
 
 # Resource: aws_ami_from_instance
 
-Resource allows the creation of image from existing EBS-backed EC2 instance.
+Creates an image from an existing EBS-backed EC2 instance.
 
 The created image will refer to implicitly-created snapshots of the instance's
 EBS volumes and mimick its assigned block device configuration at the time

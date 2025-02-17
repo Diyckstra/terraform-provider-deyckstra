@@ -3,7 +3,7 @@ subcategory: "ELB (Elastic Load Balancing)"
 layout: "aws"
 page_title: "aws_lb_listener"
 description: |-
-  Provides a Load Balancer Listener data source.
+  Provides information about a Load Balancer Listener.
 ---
 
 # Data Source: aws_lb_listener

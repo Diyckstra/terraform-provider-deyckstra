@@ -3,14 +3,12 @@ subcategory: "VPN (Site-to-Site)"
 layout: "aws"
 page_title: "aws_customer_gateway"
 description: |-
-  Provides a customer gateway inside a VPC. These objects can be
-  connected to VPN gateways via VPN connections, and allow you to
-  establish tunnels between your network and the VPC.
+  Manages a customer gateway inside a VPC.
 ---
 
 # Resource: aws_customer_gateway
 
-Provides a customer gateway inside a VPC. These objects can be connected to VPN gateways via VPN connections, and allow you to establish tunnels between your network and the VPC.
+Manages a customer gateway inside a VPC. These objects can be connected to VPN gateways via VPN connections, and allow you to establish tunnels between your network and the VPC.
 
 ## Example Usage
 

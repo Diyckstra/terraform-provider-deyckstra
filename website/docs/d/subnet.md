@@ -3,14 +3,14 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_subnet"
 description: |-
-    Provides details about a specific VPC subnet
+    Provides information about a specific VPC subnet.
 ---
 
 # Data Source: aws_subnet
 
-`aws_subnet` provides details about a specific VPC subnet.
+Provides information about a specific VPC subnet.
 
-This resource can prove useful when a module accepts a subnet ID as an input variable and needs to, for example, determine the ID of the VPC that the subnet belongs to.
+This resource can be used when a module accepts a subnet ID as an input variable and needs to, for example, determine the ID of the VPC that the subnet belongs to.
 
 ## Example Usage
 

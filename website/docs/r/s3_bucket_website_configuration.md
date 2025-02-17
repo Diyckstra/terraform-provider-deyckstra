@@ -3,15 +3,14 @@ subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_s3_bucket_website_configuration"
 description: |-
-  Provides an S3 bucket website configuration resource.
+  Manages an S3 bucket website configuration.
 ---
 
 [hosting-website]: https://docs.k2.cloud/en/services/object_storage/operations.html#objectstoragestaticwebsitesmanual
 
 # Resource: aws_s3_bucket_website_configuration
 
-Provides an S3 bucket website configuration resource.
-
+Manages an S3 bucket website configuration.
 For more information about hosting websites on S3, see [user documentation][hosting-website].
 
 ## Example Usage

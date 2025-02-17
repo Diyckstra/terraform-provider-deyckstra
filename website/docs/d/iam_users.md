@@ -3,12 +3,12 @@ subcategory: "IAM (Identity & Access Management)"
 layout: "aws"
 page_title: "aws_iam_users"
 description: |-
-  Provides ARNs and names of selected IAM users.
+  Provides information about the ARNs and names of selected IAM users.
 ---
 
 # Data Source: aws_iam_users
 
-Provides ARNs (Amazon Resource Names) and the names of selected IAM users.
+Provides information about the ARNs (Amazon Resource Names) and names of selected IAM users.
 
 ## Example Usage
 

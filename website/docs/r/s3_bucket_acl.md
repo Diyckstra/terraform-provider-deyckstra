@@ -3,7 +3,7 @@ subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_s3_bucket_acl"
 description: |-
-  Provides an S3 bucket ACL resource.
+  Manages an S3 bucket ACL resource.
 ---
 
 [access-rights]: https://docs.k2.cloud/en/services/object_storage/operations.html#s3accessrules
@@ -11,8 +11,7 @@ description: |-
 
 # Resource: aws_s3_bucket_acl
 
-Provides an S3 bucket ACL resource.
-
+Manages an S3 bucket ACL resource.
 For more information about access rights for buckets, see [user documentation][access-rights].
 
 ~> **Note** `terraform destroy` does not delete the S3 Bucket ACL but does remove the resource from Terraform state.

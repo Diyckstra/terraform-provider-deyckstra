@@ -3,12 +3,12 @@ subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_canonical_user_id"
 description: |-
-  Provides the canonical user ID (S3 User ID) associated with the used account.
+  Provides information about the canonical user ID (S3 User ID) associated with the used account.
 ---
 
 # Data Source: aws_canonical_user_id
 
-Provides the canonical user ID (S3 User ID) associated with the used account
+Provides information about the canonical user ID (S3 User ID) associated with the used account.
 
 ~> **Note** To use this data source, you must have the `s3:ListAllMyBuckets` permission.
 

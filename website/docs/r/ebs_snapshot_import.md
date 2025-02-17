@@ -3,7 +3,7 @@ subcategory: "EBS (EC2)"
 layout: "aws"
 page_title: "aws_ebs_snapshot_import"
 description: |-
-  Provides an elastic block storage snapshot import resource.
+  Imports a disk image from S3 as a snapshot.
 ---
 
 [timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts

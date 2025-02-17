@@ -3,12 +3,12 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_vpc_dhcp_options"
 description: |-
-  Retrieve information about an EC2 DHCP Options configuration
+  Provides information about an EC2 DHCP Options configuration
 ---
 
 # Data Source: aws_vpc_dhcp_options
 
-Retrieve information about an EC2 DHCP options configuration.
+Provides information about an EC2 DHCP options configuration.
 
 ## Example Usage
 
