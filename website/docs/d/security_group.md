@@ -39,21 +39,14 @@ security group in the current region. The given filters must match exactly one
 security group whose data will be exported as attributes.
 
 
-* `filter` - (Optional) Custom filter block as described below.
+* `filter` - (Optional) One or more name/value pairs to use as filters.
+  A Security Group will be selected if any one of the given values matches.
+	Valid names and values can be found in the [EC2 API documentation][describe-security-groups].
 * `id` - (Optional) ID of the specific security group to retrieve.
 * `name` - (Optional) The name that the desired security group must have.
 * `tags` - (Optional) Map of tags, each pair of which must exactly match
   a pair on the desired security group.
 * `vpc_id` - (Optional) The id of the VPC that the desired security group belongs to.
-
-More complex filters can be expressed using one or more `filter` sub-blocks,
-which take the following arguments:
-
-* `name` - (Required) The name of the field to filter by it.
-* `values` - (Required) Set of values that are accepted for the given field.
-  A Security Group will be selected if any one of the given values matches.
-
-For more information about filtering, see the [EC2 API documentation][describe-security-groups].
 
 ## Attributes Reference
 

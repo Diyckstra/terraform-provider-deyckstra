@@ -26,14 +26,8 @@ output "tgw-rtb-ids" {
 
 The following arguments are supported:
 
-* `filter` - (Optional) One or more configuration blocks containing name-values filters.
-  The structure of this block is [described below](#filter).
-
-### filter
-
-* `name` - (Required) The name of the field to filter by it.
-  Valid values can be found in the [EC2 API documentation][describe-tgw-rtb].
-* `values` - (Required) List of one or more values for the filter.
+* `filter` - (Optional) One or more name/value pairs to use as filters.
+  Valid names and values can be found in the [EC2 API documentation][describe-tgw-rtb].
 
 ## Attribute Reference
 

@@ -33,17 +33,8 @@ data "aws_ebs_volume" "ebs_volume" {
 The following arguments are supported:
 
 * `most_recent` - (Optional) If more than one result is returned, use the most recent Volume.
-* `filter` - (Optional) One or more configuration blocks containing name-values filters.
-  The structure of this block is [described below](#filter)
-
-### `filter` Configuration Block
-
-The following arguments are supported by the `filter` configuration block:
-
-* `name` - (Required) The name of the field to filter by it.
-* `values` - (Required) List of one or more values for the filter.
-
-Valid names and values can be found in the [EC2 API documentation][describe-volumes].
+* `filter` - (Optional) One or more name/value pairs to use as filters.
+   Valid names and values can be found in the [EC2 API documentation][describe-volumes].
 
 ## Attributes Reference
 

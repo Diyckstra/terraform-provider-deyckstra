@@ -14,7 +14,7 @@ Provides information about the attachment of an EC2 transit gateway to a Direct 
 
 ## Example Usage
 
-### Using EC2 transit gateway and Direct Connect gateway identifiers to get information on the attachment
+Using EC2 transit gateway and Direct Connect gateway identifiers to get information on the attachment
 
 ```terraform
 resource "aws_dx_gateway" "example" {
@@ -37,14 +37,8 @@ The following arguments are supported:
 
 * `transit_gateway_id` - (Optional) The ID of the EC2 transit gateway.
 * `dx_gateway_id` - (Optional) The ID of the Direct Connect gateway.
-* `filter` - (Optional) One or more configuration blocks with name-value filters. The structure of a block is [described below](#filter-configuration-block).
-
-### filter Configuration Block
-
-The following arguments are supported by a `filter` configuration block:
-
-* `name` - (Required) The name of the filter. Valid values can be found in [EC2 DescribeTransitGatewayAttachments API Reference][describe-transit-gateway-attachments].
-* `values` - (Required) Set of valid values for a given filter field. Results will be selected if any given value matches a filter.
+* `filter` - (Optional) One or more name/value pairs to use as filters.
+  Valid names and values can be found in [EC2 DescribeTransitGatewayAttachments API Reference][describe-transit-gateway-attachments].
 
 ## Attribute Reference
 

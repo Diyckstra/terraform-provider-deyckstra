@@ -31,20 +31,12 @@ The arguments of this data source act as filters for querying the available
 availability zones. The given filters must match exactly one availability
 zone whose data will be exported as attributes.
 
-* `filter` - (Optional) Configuration block(s) for filtering. Detailed below.
+* `filter` - (Optional) One or more name/value pairs to use as filters.
+  Valid names and values can be found in the [EC2 API documentation][describe-azs].
 * `name` - (Optional) The full name of the availability zone to select.
 * `state` - (Optional) A specific availability zone state to require. May be any of `"available"`, `"information"` or `"impaired"`.
 
-### filter Configuration Block
-
-The following arguments are supported by the `filter` configuration block:
-
-* `name` - (Required) The name of the filter field.
-* `values` - (Required) Set of values that are accepted for the given filter field. Results will be selected if any given value matches.
-
-For more information about filtering, see the [EC2 API documentation][describe-azs].
-
-[describe-azs]: https://docs.k2.cloud/en/api/ec2/placements/DescribeAvailabilityZones.html
+[describe-azs]: https://docs.cloud.croc.ru/en/api/ec2/placements/DescribeAvailabilityZones.html
 
 ## Attributes Reference
 

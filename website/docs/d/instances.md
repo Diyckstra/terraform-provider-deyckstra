@@ -50,8 +50,7 @@ resource "aws_eip" "example" {
 * `instance_state_names` - (Optional) A list of instance states that should be applicable to the desired instances.
   Valid values are `pending, running, shutting-down, stopped, stopping, terminated`.
 * `filter` - (Optional) One or more name/value pairs to use as filters.
-
-For more information about filtering, see the [EC2 API documentation][describe-instances].
+	Valid names and values can be found in the [EC2 API documentation][describe-instances].
 
 ## Attributes Reference
 

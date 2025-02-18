@@ -43,8 +43,7 @@ data "aws_instance" "selected" {
 * `instance_tags` - (Optional) Map of tags, each pair of which must exactly match a pair on the desired instance.
 
 * `filter` - (Optional) One or more name/value pairs to use as filters.
-
-For more information about filtering, see the [EC2 API documentation][describe-instances].
+	Valid names and values can be found in the [EC2 API documentation][describe-instances].
 
 ~> **Note** At least one of `filter`, `instance_tags`, or `instance_id` must be specified.
 

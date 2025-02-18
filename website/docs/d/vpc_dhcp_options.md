@@ -41,14 +41,8 @@ data "aws_vpc_dhcp_options" "example" {
 ## Argument Reference
 
 * `dhcp_options_id` - (Optional) The EC2 DHCP options ID.
-* `filter` - (Optional) List of custom filters as described below.
-
-### filter
-
-For more information about filtering, see the [EC2 API documentation][describe-dhcp-options].
-
-* `name` - (Required) The name of the field to filter.
-* `values` - (Required) Set of values for filtering.
+* `filter` - (Optional) One or more name/value pairs to use as filters.
+  Valid names and values can be found in the  [EC2 API documentation][describe-dhcp-options].
 
 ## Attributes Reference
 

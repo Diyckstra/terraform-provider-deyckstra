@@ -44,16 +44,8 @@ whose data will be exported as attributes.
 
 * `key_pair_id` - (Optional) The Key Pair ID.
 * `key_name` - (Optional) The Key Pair name.
-* `filter` -  (Optional) Custom filter block as described below.
-
-### filter Configuration Block
-
-The following arguments are supported by the `filter` configuration block:
-
-* `name` - (Required) The name of the filter field.
-* `values` - (Required) Set of values that are accepted for the given filter field. Results will be selected if any given value matches.
-
-For more information about filtering, see the [EC2 API documentation][describe-key-pairs].
+* `filter` -  (Optional) One or more name/value pairs to use as filters.
+  Valid names and values can be found in the [EC2 API documentation][describe-key-pairs].
 
 [describe-key-pairs]: https://docs.k2.cloud/en/api/ec2/key_pairs/DescribeKeyPairs.html
 

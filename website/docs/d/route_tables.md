@@ -27,19 +27,12 @@ data "aws_route_tables" "rts" {
 
 ## Argument Reference
 
-* `filter` - (Optional) Custom filter block as described below.
+* `filter` - (Optional) One or more name/value pairs to use as filters.
+  A Route Table will be selected if any one of the given values matches.
+	Valid names and values can be found in the [EC2 API documentation][describe-route-tables].
 * `vpc_id` - (Optional) The VPC ID that you want to filter from.
 * `tags` - (Optional) Map of tags, each pair of which must exactly match
   a pair on the desired route tables.
-
-More complex filters can be expressed using one or more `filter` sub-blocks,
-which take the following arguments:
-
-* `name` - (Required) The name of the field to filter by it.
-* `values` - (Required) Set of values that are accepted for the given field.
-  A Route Table will be selected if any one of the given values matches.
-
-For more information about filtering, see the [EC2 API documentation][describe-route-tables].
 
 ## Attributes Reference
 

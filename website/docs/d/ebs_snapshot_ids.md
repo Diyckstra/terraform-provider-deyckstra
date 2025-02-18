@@ -37,9 +37,8 @@ The following arguments are supported:
 * `owners` - (Optional) List of the snapshot owners. Valid items are the project ID (`project@customer`) or `self`.
 * `restorable_by_user_ids` - (Optional) List of the project IDs (`project@customer`).
   that can create volumes from the snapshot.
-* `filter` - (Optional) One or more name/value pairs to filter.
-
-For more information about filtering, see the [EC2 API documentation][describe-snapshots].
+* `filter` - (Optional) One or more name/value pairs to use as filters.
+	Valid names and values can be found in the [EC2 API documentation][describe-snapshots].
 
 ## Attributes Reference
 

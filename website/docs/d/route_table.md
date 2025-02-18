@@ -37,21 +37,11 @@ The arguments of this data source act as filters for querying the available Rout
 
 The following arguments are optional:
 
-* `filter` - (Optional) Configuration block. Detailed below.
+* `filter` - (Optional) One or more name/value pairs to use as filters.
+  Valid names and values can be found in the [EC2 API documentation][describe-route-tables].
 * `subnet_id` - (Optional) ID of a Subnet which is associated with the Route Table (not exported if not passed as a parameter).
 * `tags` - (Optional) Map of tags, each pair of which must exactly match a pair on the desired Route Table.
 * `vpc_id` - (Optional) ID of the VPC that the desired Route Table belongs to.
-
-### filter
-
-Complex filters can be expressed using one or more `filter` blocks.
-
-The following arguments are required:
-
-* `name` - (Required) Name of the field to filter by it.
-* `values` - (Required) Set of values that are accepted for the given field. A Route Table will be selected if any one of the given values matches.
-
-For more information about filtering, see the [EC2 API documentation][describe-route-tables].
 
 ## Attributes Reference
 

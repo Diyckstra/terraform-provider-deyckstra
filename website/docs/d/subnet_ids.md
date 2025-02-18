@@ -60,18 +60,7 @@ resource "aws_instance" "app" {
 }
 ```
 
-## Argument Reference
-
-* `vpc_id` - (Required) The VPC ID that you want to filter from.
-* `filter` - (Optional) Custom filter block as described below.
-* `tags` - (Optional) Map of tags, each pair of which must exactly match
-  a pair on the desired subnets.
-
-More complex filters can be expressed using one or more `filter` sub-blocks,
-which take the following arguments:
-
-* `name` - (Required) The name of the field to filter by it.
-  For example, if matching against tag `Name`, use:
+Fort matching against tag `Name`, use:
 
 ```terraform
 data "aws_subnet_ids" "selected" {
@@ -82,10 +71,14 @@ data "aws_subnet_ids" "selected" {
 }
 ```
 
-* `values` - (Required) Set of values that are accepted for the given field.
-  Subnet IDs will be selected if any one of the given values match.
+## Argument Reference
 
-For more information about filtering, see the [EC2 API documentation][describe-subnets].
+* `vpc_id` - (Required) The VPC ID that you want to filter from.
+* `filter` - (Optional) One or more name/value pairs to use as filters.
+  Subnet IDs will be selected if any one of the given values match.
+	Valid names and values can be found in the [EC2 API documentation][describe-subnets].
+* `tags` - (Optional) Map of tags, each pair of which must exactly match
+  a pair on the desired subnets.
 
 ## Attributes Reference
 

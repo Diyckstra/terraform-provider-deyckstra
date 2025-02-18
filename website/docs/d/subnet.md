@@ -56,22 +56,12 @@ The following arguments are optional:
 
 * `availability_zone` - (Optional) Availability zone where the subnet must reside.
 * `default_for_az` - (Optional) Whether the desired subnet must be the default subnet for its associated availability zone.
-* `filter` - (Optional) Configuration block. Detailed below.
+* `filter` - (Optional) One or more name/value pairs to use as filters.
+  Valid names and values can be found in the [EC2 API documentation][describe-subnets].
 * `id` - (Optional) ID of the specific subnet to retrieve.
 * `state` - (Optional) State that the desired subnet must have.
 * `tags` - (Optional) Map of tags, each pair of which must exactly match a pair on the desired subnet.
 * `vpc_id` - (Optional) ID of the VPC that the desired subnet belongs to.
-
-### filter
-
-This block allows for complex filters. You can use one or more `filter` blocks.
-
-The following arguments are required:
-
-* `name` - (Required) The name of the field to filter by it.
-* `values` - (Required) Set of values that are accepted for the given field. A subnet will be selected if any one of the given values matches.
-
-For more information about filtering, see the [EC2 API documentation][describe-subnets].
 
 ## Attributes Reference
 

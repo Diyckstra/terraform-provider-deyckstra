@@ -39,9 +39,8 @@ resource "aws_vpn_connection" "transit" {
 The following arguments are supported:
 
 * `id` - (Optional) The ID of the gateway.
-* `filter` - (Optional) One or more name/value pairs to filter.
-
-For more information about filtering, see the [EC2 API documentation][describe-customer-gateways].
+* `filter` - (Optional) One or more name/value pairs to use as filters.
+	Valid names and values can be found in the [EC2 API documentation][describe-customer-gateways].
 
 ## Attribute Reference
 

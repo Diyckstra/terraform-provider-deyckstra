@@ -23,9 +23,8 @@ data "aws_network_interface" "example" {
 The following arguments are supported:
 
 * `id` – (Optional) The identifier for the network interface.
-* `filter` – (Optional) One or more name/value pairs to filter.
-
-For more information about filtering, see the [EC2 API documentation][describe-network-interfaces].
+* `filter` – (Optional) One or more name/value pairs to use as filters.
+	Valid names and values can be found in the [EC2 API documentation][describe-network-interfaces].
 
 ## Attributes Reference
 

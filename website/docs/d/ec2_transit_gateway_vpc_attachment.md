@@ -37,15 +37,9 @@ data "aws_ec2_transit_gateway_vpc_attachment" "selected" {
 
 The following arguments are supported:
 
-* `filter` - (Optional) One or more configuration blocks containing name-values filters.
-  The structure of this block is [described below](#filter).
+* `filter` - (Optional) One or more name/value pairs to use as filters.
+  Valid names and values can be found in the [EC2 API documentation][describe-tgw-vpc-attachments].
 * `id` - (Optional) The ID of the transit gateway VPC attachment.
-
-### filter
-
-* `name` - (Required) The name of the field to filter by it.
-  Valid values can be found in the [EC2 API documentation][describe-tgw-vpc-attachments].
-* `values` - (Required) List of one or more values for the filter.
 
 ## Attribute Reference
 

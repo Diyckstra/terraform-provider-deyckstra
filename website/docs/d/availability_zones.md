@@ -28,21 +28,13 @@ data "aws_availability_zones" "available" {
 
 The following arguments are supported:
 
-* `filter` - (Optional) Configuration block(s) for filtering. Detailed below.
+* `filter` - (Optional) One or more name/value pairs to use as filters.
+  Valid names and values can be found in the [EC2 API documentation][describe-azs].
 * `state` - (Optional) Allows to filter list of availability zones based on their
 current state. Can be either `"available"`, `"information"`, `"impaired"` or
 `"unavailable"`.
 
-### filter Configuration Block
-
-The following arguments are supported by the `filter` configuration block:
-
-* `name` - (Required) The name of the filter field.
-* `values` - (Required) Set of values that are accepted for the given filter field. Results will be selected if any given value matches.
-
-For more information about filtering, see the [EC2 API documentation][describe-azs].
-
-[describe-azs]: https://docs.k2.cloud/en/api/ec2/placements/DescribeAvailabilityZones.html
+[describe-azs]: https://docs.cloud.croc.ru/en/api/ec2/placements/DescribeAvailabilityZones.html
 
 ## Attributes Reference
 
