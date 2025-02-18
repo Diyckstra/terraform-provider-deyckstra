@@ -64,4 +64,4 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the Key Pair.
 * `arn` - The ARN of the Key Pair.
 * `fingerprint` - The SHA-1 digest of the DER encoded private key.
-* `tags` - Any tags assigned to the Key Pair.
+* `tags` - Map of tags assigned to the Key Pair.

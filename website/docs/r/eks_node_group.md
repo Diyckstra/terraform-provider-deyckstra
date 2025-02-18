@@ -96,7 +96,7 @@ The following arguments are optional:
 * `node_group_name` – (Optional) Name of the EKS node group. If omitted, Terraform will assign a random, unique name. Conflicts with `node_group_name_prefix`.
 * `node_group_name_prefix` – (Optional) Creates a unique name beginning with the specified prefix. Conflicts with `node_group_name`.
 * `remote_access` - (Optional) Configuration block with remote access settings. Detailed below.
-* `tags` - (Optional) Key-value map of resource tags. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
+* `tags` - (Optional) Map of tags to assign to the resource. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 * `taint` - (Optional) The Kubernetes taints to be applied to the nodes in the node group. Maximum of 50 taints per node group. Detailed below.
 
 ### remote_access Configuration Block
@@ -137,7 +137,7 @@ In addition to all arguments above, the following attributes are exported:
 * `resources` - List of objects containing information about underlying resources.
     * `autoscaling_groups` - List of objects containing information about autoscaling groups.
         * `name` - Name of the autoscaling group.
-* `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` -Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 * `status` - Status of the EKS node group. One of `CREATING`, `ACTIVE`, `PENDING`, `UPDATING`, `DELETING`, `CREATE_FAILED`, `DELETE_FAILED`, `DEGRADED`.
 * `version` – Kubernetes version.
 

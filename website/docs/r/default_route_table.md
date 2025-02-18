@@ -75,7 +75,7 @@ The following arguments are optional:
 
 * `propagating_vgws` - (Optional) List of virtual gateways for propagation.
 * `route` - (Optional) Configuration block of routes. Detailed below. This argument is processed in [attribute-as-blocks mode](https://www.terraform.io/docs/configuration/attr-as-blocks.html). This means that omitting this argument is interpreted as ignoring any existing routes. To remove all managed routes an empty list should be specified. See the example above.
-* `tags` - (Optional) Map of tags to assign to the resource. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
+* `tags` - (Optional) Map of tags to assign to the resource. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
 ### route
 
@@ -100,7 +100,7 @@ In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the route table.
 * `arn` - The Amazon Resource Name (ARN) of the route table.
-* `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` -Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 * `vpc_id` - ID of the VPC.
 
 ### Unsupported attributes

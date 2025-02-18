@@ -36,7 +36,7 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - The ID of the connection.
 * `location` - The physical site, where the connection terminates.
 * `owner_account_id` - The ID of the project that owns the connection.
-* `tags` - Tags assigned to the connection.
+* `tags` - Map of tags assigned to the connection.
 
 ### Unsupported attributes
 

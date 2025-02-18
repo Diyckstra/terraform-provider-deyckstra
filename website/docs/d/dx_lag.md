@@ -36,7 +36,7 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - The ID of the LAG.
 * `location` - The physical site, where the connection terminates.
 * `owner_account_id` - The ID of the project that owns the LAG.
-* `tags` - Tags assigned to the LAG.
+* `tags` - Map of tags assigned to the LAG.
 
 ### Unsupported attributes
 

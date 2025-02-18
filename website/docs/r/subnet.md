@@ -41,7 +41,7 @@ The following arguments are supported:
 * `availability_zone` - (Optional) AZ for the subnet.
 * `cidr_block` - (Required) The IPv4 CIDR block for the subnet.
 * `map_public_ip_on_launch` - (Optional) Indicates whether public IP addresses will be associated with instances created in this subnet. Addresses are associated only if there are available allocated Elastic IP addresses. Default is `false`.
-* `tags` - (Optional) A map of tags to assign to the resource. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
+* `tags` - (Optional) Map of tags to assign to the resource. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 * `vpc_id` - (Required) The VPC ID.
 
 ## Attributes Reference
@@ -51,7 +51,7 @@ The following arguments are supported:
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - The ID of the subnet
-* `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` -Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 

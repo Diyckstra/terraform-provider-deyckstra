@@ -33,9 +33,17 @@ data "aws_ebs_volume" "ebs_volume" {
 The following arguments are supported:
 
 * `most_recent` - (Optional) If more than one result is returned, use the most recent Volume.
-* `filter` - (Optional) One or more name/value pairs to filter.
+* `filter` - (Optional) One or more configuration blocks containing name-values filters.
+  The structure of this block is [described below](#filter)
 
-For more information about filtering, see the [EC2 API documentation][describe-volumes].
+### `filter` Configuration Block
+
+The following arguments are supported by the `filter` configuration block:
+
+* `name` - (Required) The name of the field to filter by it.
+* `values` - (Required) List of one or more values for the filter.
+
+Valid names and values can be found in the [EC2 API documentation][describe-volumes].
 
 ## Attributes Reference
 
@@ -51,7 +59,7 @@ In addition to all arguments above, the following attributes are exported:
 * `size` - The size of the drive in GiB.
 * `snapshot_id` - The snapshot_id the EBS volume is based off.
 * `volume_type` - The type of EBS volume.
-* `tags` - A map of tags for the resource.
+* `tags` - Map of tags assigned to the resource.
 * `throughput` - The throughput that the volume supports, in MiB/s.
 
 ### Unsupported attributes

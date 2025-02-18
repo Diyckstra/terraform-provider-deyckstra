@@ -57,7 +57,7 @@ In addition to all arguments above, the following attributes are exported:
 * `volume_id` - The volume ID (e.g., vol-12345678).
 * `volume_size` - The size of the drive in GiB.
 * `state` - The snapshot state.
-* `tags` - A map of tags for the resource.
+* `tags` - Map of tags assigned to the resource.
 
 ### Unsupported attributes
 

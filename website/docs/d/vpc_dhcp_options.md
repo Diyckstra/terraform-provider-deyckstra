@@ -62,7 +62,7 @@ For more information about filtering, see the [EC2 API documentation][describe-d
 * `netbios_name_servers` - List of NETBIOS name servers.
 * `netbios_node_type` - The NetBIOS node type (1, 2, 4, or 8). For more information about these node types, see [RFC 2132](http://www.ietf.org/rfc/rfc2132.txt).
 * `ntp_servers` - List of NTP servers.
-* `tags` - A map of tags assigned to the resource.
+* `tags` - Map of tags assigned to the resource.
 
 ### Unsupported attributes
 

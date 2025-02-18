@@ -89,7 +89,7 @@ The following arguments are optional:
 * `kubernetes_network_config` - (Optional) Configuration block with kubernetes network configuration for the cluster. Detailed below. If removed, Terraform will only perform drift detection if a configuration value is provided.
 * `legacy_cluster_params` - (Optional) The parameters for fine-tuning the Kubernetes cluster.
   The structure of this block is [described below](#legacy_cluster_params).
-* `tags` - (Optional) Key-value map of resource tags. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
+* `tags` - (Optional) Map of tags to assign to the resource. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
 ### vpc_config Arguments
 
@@ -139,7 +139,7 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - The name of the cluster.
 * `platform_version` - The platform version for the cluster.
 * `status` - The status of the EKS cluster. One of `CLAIMED`, `CREATING`, `DELETED`, `DELETING`, `ERROR`, `MODIFYING`, `PENDING`, `PROVISIONING`, `READY`, `REPAIRING`.
-* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` -Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 * `vpc_config` -  Nested list containing VPC configuration for the cluster.
     * `cluster_security_group_id` - The cluster security group that was created by the cloud for the cluster.
     * `vpc_id` - The VPC associated with your cluster.

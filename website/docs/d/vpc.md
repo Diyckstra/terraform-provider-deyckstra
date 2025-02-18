@@ -46,7 +46,7 @@ VPC whose data will be exported as attributes.
 * `id` - (Optional) The id of the specific VPC to retrieve.
 * `state` - (Optional) The current state of the desired VPC.
   Can be either `"pending"` or `"available"`.
-* `tags` - (Optional) A map of tags, each pair of which must exactly match
+* `tags` - (Optional) Map of tags, each pair of which must exactly match
   a pair on the desired VPC.
 
 More complex filters can be expressed using one or more `filter` sub-blocks,

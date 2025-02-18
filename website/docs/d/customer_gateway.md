@@ -52,7 +52,7 @@ In addition to the arguments above, the following attributes are exported:
 * `arn` - The ARN of the customer gateway.
 * `bgp_asn` - The gateway's Border Gateway Protocol (BGP) Autonomous System Number (ASN).
 * `ip_address` - The IP address of the gateway's Internet-routable external interface.
-* `tags` - Map of key-value pairs assigned to the gateway.
+* `tags` - Map of tags assigned to the gateway.
 * `type` - The type of customer gateway. Possible values: `ipsec.1`, `ipsec.legacy`.
 
 ### Unsupported attributes

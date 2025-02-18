@@ -52,7 +52,7 @@ The following arguments are supported:
   attached to created instances. The structure of this block is described below.
 * `ephemeral_block_device` - (Optional) Nested block describing an ephemeral block device that
   should be attached to created instances. The structure of this block is described below.
-* `tags` - (Optional) A map of tags to assign to the resource. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
+* `tags` - (Optional) Map of tags to assign to the resource. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
 Nested `ebs_block_device` blocks have the following structure:
 
@@ -96,7 +96,7 @@ In addition to the [arguments above](#argument-reference), the following attribu
 * `owner_id` - The project ID.
 * `platform` - This value is set to windows for Windows images; otherwise, it is blank.
 * `public` - Indicates whether the image has public launch permissions.
-* `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` -Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 

@@ -43,7 +43,7 @@ The following arguments are supported:
 
 * `name` - (Required) A region-unique name for the image.
 * `source_instance_id` - (Required) The id of the instance to use as the basis of the image.
-* `tags` - (Optional) A map of tags to assign to the resource. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
+* `tags` - (Optional) Map of tags to assign to the resource. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
 ### Timeouts
 

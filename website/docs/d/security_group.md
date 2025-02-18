@@ -42,7 +42,7 @@ security group whose data will be exported as attributes.
 * `filter` - (Optional) Custom filter block as described below.
 * `id` - (Optional) ID of the specific security group to retrieve.
 * `name` - (Optional) The name that the desired security group must have.
-* `tags` - (Optional) A map of tags, each pair of which must exactly match
+* `tags` - (Optional) Map of tags, each pair of which must exactly match
   a pair on the desired security group.
 * `vpc_id` - (Optional) The id of the VPC that the desired security group belongs to.
 

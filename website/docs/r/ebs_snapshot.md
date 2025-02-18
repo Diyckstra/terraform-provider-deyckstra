@@ -40,7 +40,7 @@ The following arguments are supported:
 
 * `volume_id` - (Required) The volume ID of which to make a snapshot.
 * `description` - (Optional) A description of what the snapshot is.
-* `tags` - (Optional) A map of tags to assign to the snapshot. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
+* `tags` - (Optional) Map of tags to assign to the snapshot. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
 ### Timeouts
 
@@ -60,7 +60,7 @@ In addition to all arguments above, the following attributes are exported:
 * `owner_id` - The project ID.
 * `owner_alias` - The alias of the EBS snapshot owner.
 * `volume_size` - The size of the drive in GiB.
-* `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` -Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 

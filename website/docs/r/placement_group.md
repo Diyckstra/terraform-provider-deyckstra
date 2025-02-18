@@ -28,7 +28,7 @@ The following arguments are supported:
 
 * `name` - (Required) The name of the placement group.
 * `strategy` - (Required) The placement strategy. Possible values: `"spread"`.
-* `tags` - (Optional) Key-value map of resource tags. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
+* `tags` - (Optional) Map of tags to assign to the resource. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
 ## Attributes Reference
 
@@ -39,7 +39,7 @@ In addition to all arguments above, the following attributes are exported:
 * `arn` - Amazon Resource Name (ARN) of the placement group.
 * `id` - The name of the placement group.
 * `placement_group_id` - The ID of the placement group.
-* `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` -Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 

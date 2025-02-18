@@ -47,7 +47,7 @@ The following arguments are supported:
 * `customer_address` - (Optional) The IPv4 CIDR address of the connection endpoint on the client side.
 * `dx_gateway_id` - (Required) The ID of the Direct Connect gateway that the virtual interface must be connected to.
 * `name` - (Required) The name for the virtual interface.
-* `tags` - (Optional, Editable) Tags assigned to the resource. If there is a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider level.
+* `tags` - (Optional, Editable) Map of tags to assign to the resource. If there is a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider level.
 * `vlan` - (Required) The VLAN ID.
 
 ## Attributes Reference
@@ -60,7 +60,7 @@ In addition to all arguments above, the following attributes are exported:
 * `arn` - The ARN of the virtual interface.
 * `aws_device` - The ID of the device to which the connection (or LAG) is attached.
 * `id` - The ID of the virtual interface.
-* `tags_all` - Tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` -Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 

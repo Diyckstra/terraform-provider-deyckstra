@@ -57,7 +57,7 @@ The given filters must match exactly one Elastic IP whose data will be exported 
 * `filter` - (Optional) One or more name/value pairs to use as filters.
 * `id` - (Optional) The allocation id of the specific VPC EIP to retrieve.
 * `public_ip` - (Optional) The public IP of the specific EIP to retrieve.
-* `tags` - (Optional) A map of tags, each pair of which must exactly match a pair on the desired Elastic IP.
+* `tags` - (Optional) Map of tags, each pair of which must exactly match a pair on the desired Elastic IP.
 
 For more information about filtering, see the [EC2 API documentation][describe-addresses].
 
@@ -78,7 +78,7 @@ In addition to all arguments above, the following attributes are exported:
 * `private_ip` - The private IP address associated with the Elastic IP address.
 * `public_ip` - Public IP address of Elastic IP.
 * `public_ipv4_pool` - The ID of an address pool.
-* `tags` - Key-value map of tags associated with Elastic IP.
+* `tags` - Map of tags assigned to the Elastic IP.
 
 ### Unsupported attributes
 

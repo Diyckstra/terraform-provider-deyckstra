@@ -39,7 +39,7 @@ data "aws_security_groups" "test" {
 
 ## Argument Reference
 
-* `tags` - (Optional) A map of tags, each pair of which must exactly match for desired security groups.
+* `tags` - (Optional) Map of tags, each pair of which must exactly match for desired security groups.
 * `filter` - (Optional) One or more name/value pairs to use as filters.
 
 For more information about filtering, see the [EC2 API documentation][describe-security-groups].

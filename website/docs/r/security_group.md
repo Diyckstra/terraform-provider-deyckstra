@@ -101,7 +101,7 @@ The following arguments are supported:
 * `name_prefix` - (Optional, Forces new resource) Creates a unique name beginning with the specified prefix. Conflicts with `name`.
 * `name` - (Optional, Forces new resource) Name of the security group. If omitted, Terraform will assign a random, unique name.
 * `revoke_rules_on_delete` - (Optional) Instruct Terraform to revoke all the security groups attached ingress and egress rules before deleting the rule itself. Default `false`.
-* `tags` - (Optional) Map of tags to assign to the resource. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
+* `tags` - (Optional) Map of tags to assign to the resource. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 * `vpc_id` - (Optional, Forces new resource) VPC ID.
 
 ### ingress
@@ -149,7 +149,7 @@ In addition to all arguments above, the following attributes are exported:
 * `arn` - ARN of the security group.
 * `id` - ID of the security group.
 * `owner_id` - The project ID.
-* `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` -Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 

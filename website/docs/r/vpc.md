@@ -42,7 +42,7 @@ The following arguments are supported:
 
 * `cidr_block` - (Optional) The IPv4 CIDR block for the VPC.
 * `enable_dns_support` - (Optional) A boolean flag to enable/disable DNS support in the VPC. Defaults true.
-* `tags` - (Optional) A map of tags to assign to the resource. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
+* `tags` - (Optional) Map of tags to assign to the resource. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
 ## Attributes Reference
 
@@ -58,7 +58,7 @@ In addition to all arguments above, the following attributes are exported:
 * `default_network_acl_id` - ID of the network ACL created by default on VPC creation
 * `default_security_group_id` - ID of the security group created by default on VPC creation
 * `default_route_table_id` - ID of the route table created by default on VPC creation
-* `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` -Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 

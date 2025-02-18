@@ -84,7 +84,7 @@ In addition, the following attributes are exported:
   (only applies to `ebs` root devices).
 * `state` - The current state of the image. If the state is `available`, the image
   is successfully registered and can be used to launch an instance.
-* `tags` - Any tags assigned to the image.
+* `tags` - Map of tags assigned to the image.
 * `virtualization_type` - The type of virtualization of the image (ie: `hvm`).
 
 ### Unsupported attributes

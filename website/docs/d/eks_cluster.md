@@ -50,7 +50,7 @@ data "aws_eks_cluster" "example" {
     * `security_group_ids` – List of security group IDs.
     * `subnet_ids` – List of subnet IDs.
     * `vpc_id` – The VPC associated with your cluster.
-* `tags` - Key-value map of resource tags.
+* `tags` - Map of tags assigned to the resource.
 
 ### Unsupported attributes
 

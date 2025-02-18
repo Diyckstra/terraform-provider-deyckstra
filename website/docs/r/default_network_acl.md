@@ -130,7 +130,7 @@ The following arguments are optional:
 * `egress` - (Optional) Configuration block for an egress rule. Detailed below.
 * `ingress` - (Optional) Configuration block for an ingress rule. Detailed below.
 * `subnet_ids` - (Optional) List of Subnet IDs to apply the ACL to. See the notes below on managing Subnets in the Default Network ACL.
-* `tags` - (Optional) Map of tags to assign to the resource. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
+* `tags` - (Optional) Map of tags to assign to the resource. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
 ### egress and ingress
 
@@ -160,7 +160,7 @@ In addition to all arguments above, the following attributes are exported:
 
 * `arn` - The ARN of the default network ACL
 * `id` - ID of the default network ACL
-* `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` -Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 * `vpc_id` -  ID of the associated VPC
 
 ### Unsupported attributes

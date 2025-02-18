@@ -46,7 +46,7 @@ Additionally, the following attributes are exported:
 * `private_ips` - The private IPv4 addresses associated with the network interface.
 * `security_groups` - The list of security groups for the network interface.
 * `subnet_id` - The ID of the subnet.
-* `tags` - Any tags assigned to the network interface.
+* `tags` - Map of tags assigned to the network interface.
 * `vpc_id` - The ID of the VPC.
 
 #### `association`

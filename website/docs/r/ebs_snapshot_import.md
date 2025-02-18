@@ -36,7 +36,7 @@ The following arguments are supported:
 
 * `description` - (Optional) The description string for the import snapshot task.
 * `disk_container` - (Required) Information about the disk container. Detailed below.
-* `tags` - (Optional) A map of tags to assign to the snapshot.
+* `tags` - (Optional) Map of tags to assign to the snapshot.
 
 ### disk_container Configuration Block
 
@@ -67,7 +67,7 @@ In addition to all arguments above, the following attributes are exported:
 * `owner_id` - The project ID.
 * `owner_alias` - The alias of the EBS snapshot owner.
 * `volume_size` - The size of the drive in GiB.
-* `tags_all` - A map of tags assigned to the resource.
+* `tags_all` -Map of tags to assign to the resource.
 
 ### Unsupported attributes
 

@@ -73,7 +73,7 @@ The following arguments are supported:
   See [Network Interfaces](#network-interfaces) below for more details.
 * `placement` - (Optional) The placement of the instance. See [Placement](#placement) below for more details.
 * `tag_specifications` - (Optional) The tags to apply to the resources during launch. See [Tag Specifications](#tag-specifications) below for more details.
-* `tags` - (Optional) A map of tags to assign to the launch template. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
+* `tags` - (Optional) Map of tags to assign to the launch template. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 * `update_default_version` - (Optional, Conflicts with `default_version`) Whether to update default version each update.
 * `user_data` - (Optional) The base64-encoded user data to provide when launching the instance. The text length must not exceed 16 KB.
 * `vpc_security_group_ids` - (Optional) A list of security group IDs to associate with.
@@ -144,7 +144,7 @@ The tags to apply to the resources during launch. You can tag instances and volu
 Each `tag_specifications` block supports the following:
 
 * `resource_type` - (Optional) The type of resource to tag. Valid values are `instance`, `volume`.
-* `tags` - (Optional) A map of tags to assign to the resource.
+* `tags` - (Optional) Map of tags to assign to the resource.
 
 ## Attributes Reference
 
@@ -155,7 +155,7 @@ In addition to all arguments above, the following attributes are exported:
 * `arn` - The ARN of the launch template.
 * `id` - The ID of the launch template.
 * `latest_version` - The latest version of the launch template.
-* `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` -Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 

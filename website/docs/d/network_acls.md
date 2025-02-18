@@ -61,7 +61,7 @@ data "aws_network_acls" "example" {
 ## Argument Reference
 
 * `vpc_id` - (Optional) The VPC ID that you want to filter from.
-* `tags` - (Optional) A map of tags, each pair of which must exactly match
+* `tags` - (Optional) Map of tags, each pair of which must exactly match
   a pair on the desired network ACLs.
 * `filter` - (Optional) Custom filter block as described below.
 

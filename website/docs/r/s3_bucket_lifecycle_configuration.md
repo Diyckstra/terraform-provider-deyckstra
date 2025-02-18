@@ -290,7 +290,7 @@ The `noncurrent_version_expiration` configuration block supports the following a
 
 The `and` configuration block supports the following arguments:
 
-* `tags` - (Required) Key-value map of resource tags. All of these tags must exist in the object's tag set in order for the rule to apply.
+* `tags` - (Required) Map of tags to assign to the resource. All of these tags must exist in the object's tag set in order for the rule to apply.
 
 ### tag
 

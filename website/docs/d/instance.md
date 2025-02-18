@@ -40,7 +40,7 @@ data "aws_instance" "selected" {
 * `get_user_data` - (Optional) Retrieve Base64 encoded user data contents into the `user_data_base64` attribute.
   A SHA-1 hash of the user data contents will always be present in the `user_data` attribute. Defaults to `false`.
 * `instance_id` - (Optional) Specify the exact instance ID with which to populate the data source.
-* `instance_tags` - (Optional) A map of tags, each pair of which must exactly match a pair on the desired instance.
+* `instance_tags` - (Optional) Map of tags, each pair of which must exactly match a pair on the desired instance.
 
 * `filter` - (Optional) One or more name/value pairs to use as filters.
 
@@ -98,7 +98,7 @@ are exported:
 * `subnet_id` - The VPC subnet ID.
 * `user_data` - SHA-1 hash of user data supplied to the instance.
 * `user_data_base64` - Base64 encoded contents of User Data supplied to the instance. Valid UTF-8 contents can be decoded with the [`base64decode` function][base64decode-function]. This attribute is only exported if `get_user_data` is true.
-* `tags` - A map of tags assigned to the instance.
+* `tags` - Map of tags assigned to the instance.
 * `tenancy` - The placement type.
 * `vpc_security_group_ids` - The associated security groups in a non-default VPC.
 

@@ -51,4 +51,4 @@ The following arguments are supported by a `filter` configuration block:
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - The ID of the EC2 transit gateway attachment.
-* `tags` - Tags assigned to the EC2 transit gateway attachment.
+* `tags` - Map of tags assigned to the EC2 transit gateway attachment.

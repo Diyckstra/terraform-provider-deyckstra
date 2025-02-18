@@ -72,7 +72,7 @@ The following arguments are supported:
 * `instance` - (Optional) EC2 instance ID.
 * `network_interface` - (Optional) Network interface ID to associate with.
 * `public_ipv4_pool` - (Optional) EC2 IPv4 address pool identifier. This option is only available for VPC EIPs.
-* `tags` - (Optional) Map of tags to assign to the resource. Tags can only be applied to EIPs in a VPC. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
+* `tags` - (Optional) Map of tags to assign to the resource. Tags can only be applied to EIPs in a VPC. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 * `vpc` - (Optional) Boolean if the EIP is in a VPC or not.
 
 ~> **Note** You can specify either the `instance` ID or the `network_interface` ID, but not both.
@@ -92,7 +92,7 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - Contains the EIP allocation ID.
 * `private_ip` - Contains the private IP address. Can be `""` if `associate_with_private_ip` is specified.
 * `public_ip` - Contains the public IP address.
-* `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` -Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 

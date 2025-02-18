@@ -44,7 +44,7 @@ data "aws_eks_node_group" "example" {
     * `min_size` - Minimum number of worker nodes.
 * `status` - Status of the EKS node group. One of `CREATING`, `ACTIVE`, `PENDING`, `UPDATING`, `DELETING`, `CREATE_FAILED`, `DELETE_FAILED`, `DEGRADED`.
 * `subnet_ids` – Identifiers of EC2 Subnets to associate with the EKS node group.
-* `tags` - Key-value map of resource tags.
+* `tags` - Map of tags assigned to the resource.
 * `taints` - List of objects containing information about taints applied to the nodes in the EKS node group.
     * `key` - The key of the taint.
     * `value` - The value of the taint.

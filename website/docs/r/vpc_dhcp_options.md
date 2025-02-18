@@ -49,7 +49,7 @@ The following arguments are supported:
 * `ntp_servers` - (Optional) List of NTP servers to configure. You can specify up to four IP addresses.
 * `netbios_name_servers` - (Optional) List of NETBIOS name servers. You can specify up to four IP addresses.
 * `netbios_node_type` - (Optional) The NetBIOS node type (1, 2, 4, or 8). For more information about these node types, see [RFC 2132](http://www.ietf.org/rfc/rfc2132.txt).
-* `tags` - (Optional) A map of tags to assign to the resource. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
+* `tags` - (Optional) Map of tags to assign to the resource. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
 ## Remarks
 
@@ -67,7 +67,7 @@ In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the DHCP options Set.
 * `arn` - ARN of the DHCP options Set.
-* `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` -Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 

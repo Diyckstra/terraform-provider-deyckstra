@@ -258,7 +258,7 @@ The following arguments are supported:
 * `versioning` - (Optional, **Deprecated**) A configuration of the [S3 bucket versioning state][s3-versioning]. See [Versioning](#versioning) below for details. Terraform will only perform drift detection if a configuration value is provided. Use the resource [`aws_s3_bucket_versioning`](s3_bucket_versioning.md) instead.
 * `website` - (Optional, **Deprecated**) A configuration of the [S3 bucket website][hosting-website]. See [Website](#website) below for details. Terraform will only perform drift detection if a configuration value is provided.
   Use the resource [`aws_s3_bucket_website_configuration`](s3_bucket_website_configuration.md) instead.
-* `tags` - (Optional) A map of tags to assign to the bucket. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
+* `tags` - (Optional) Map of tags to assign to the bucket. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
 ### CORS Rule
 
@@ -339,7 +339,7 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - The name of the bucket.
 * `arn` - The ARN of the bucket. Will be of format `arn:aws:s3:::bucketname`.
 * `region` - The region this bucket resides in.
-* `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` -Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 

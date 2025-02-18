@@ -114,7 +114,7 @@ The following arguments are supported:
 * `secondary_private_ips` - (Optional, Conflicts with `network_interface`) A list of secondary private IPv4 addresses to assign to the instance's primary network interface in a VPC. Currently, only specifying the primary private IP address is supported.
 * `source_dest_check` - (Optional) Controls if traffic is routed to the instance when the destination address does not match the instance. Defaults to `true`.
 * `subnet_id` - (Optional) VPC subnet ID to launch in.
-* `tags` - (Optional) A map of tags to assign to the resource. Note that these tags apply to the instance and not block storage devices. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
+* `tags` - (Optional) Map of tags to assign to the resource. Note that these tags apply to the instance and not block storage devices. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 * `tenancy` - (Optional) The placement type. Valid values are `default`, `host`.
 
 ~> **Note** If you use the `host` value, you may encounter the `NotEnoughResourcesForInstanceType` error when running an instance. To avoid this, it is recommended to provide either the `subnet_id` argument or the `availability_zone` argument.
@@ -122,7 +122,7 @@ The following arguments are supported:
 * `user_data` - (Optional, Conflicts with `user_data_base64`) User data to provide when launching the instance. Do not pass gzip-compressed data via this argument; see `user_data_base64` instead. Updates to this field will trigger a stop/start of the EC2 instance by default. If the `user_data_replace_on_change` is set then updates to this field will trigger a destroy and recreate.
 * `user_data_base64` - (Optional, Conflicts with `user_data`) Can be used instead of `user_data` to pass base64-encoded binary data directly. Use this instead of `user_data` whenever the value is not a valid UTF-8 string. For example, gzip-encoded user data must be base64-encoded and passed via this argument to avoid corruption. Updates to this field will trigger a stop/start of the EC2 instance by default. If the `user_data_replace_on_change` is set then updates to this field will trigger a destroy and recreate.
 * `user_data_replace_on_change` - (Optional) When used in combination with `user_data` or `user_data_base64` will trigger a destroy and recreate when set to `true`. Defaults to `false`.
-* `volume_tags` - (Optional) A map of tags to assign, at instance-creation time, to root and EBS volumes.
+* `volume_tags` - (Optional) Map of tags to assign, at instance-creation time, to root and EBS volumes.
 
 ~> **Note** Do not use `volume_tags` if you plan to manage block device tags outside the `aws_instance` configuration, such as using `tags` in an [`aws_ebs_volume`](ebs_volume.md) resource attached via [`aws_volume_attachment`](volume_attachment.md). Doing so will result in resource cycling and inconsistent behavior.
 
@@ -136,7 +136,7 @@ The `root_block_device` block supports the following:
 
 * `delete_on_termination` - (Optional) Whether the volume should be destroyed on instance termination. Defaults to `true`.
 * `iops` - (Optional) Amount of provisioned IOPS. Only valid for volume_type of `io2`.
-* `tags` - (Optional) A map of tags to assign to the device.
+* `tags` - (Optional) Map of tags to assign to the device.
 * `volume_size` - (Optional) Size of the volume in GiB.
 * `volume_type` - (Optional) Type of volume. Valid values are `st2`, `gp2`, `io2`.
 
@@ -146,7 +146,7 @@ Each `ebs_block_device` block supports the following:
 * `device_name` - (Required) Name of the device to mount.
 * `iops` - (Optional) Amount of provisioned IOPS. Only valid for volume_type of `io2`.
 * `snapshot_id` - (Optional) Snapshot ID to mount.
-* `tags` - (Optional) A map of tags to assign to the device.
+* `tags` - (Optional) Map of tags to assign to the device.
 * `volume_size` - (Optional) Size of the volume in gibibytes (GiB).
 * `volume_type` - (Optional) Type of volume. Valid values are `st2`, `gp2`, `io2`.
 
@@ -202,7 +202,7 @@ In addition to all arguments above, the following attributes are exported:
 * `public_dns` - The public DNS name assigned to the instance. For EC2-VPC, this is only available if you've enabled DNS hostnames for your VPC.
 * `public_ip` - The public IP address assigned to the instance, if applicable. **NOTE**: If you are using an [`aws_eip`](eip.md) with your instance, you should refer to the EIP's address directly and not use `public_ip` as this field will change after the EIP is attached.
 * `security_groups` - The list of security group names associated with the instance.
-* `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` -Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 For `ebs_block_device`, in addition to the arguments above, the following attribute is exported:
 

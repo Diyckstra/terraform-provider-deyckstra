@@ -37,7 +37,7 @@ The given filters must match exactly one VPN gateway whose data will be exported
 * `availability_zone` - (Optional) The availability zone of the specific VPN gateway to retrieve.
 * `attached_vpc_id` - (Optional) ID of a VPC attached to the specific VPN gateway to retrieve.
 * `filter` - (Optional) Custom filter block as described below.
-* `tags` - (Optional) A map of tags, each pair of which must exactly match
+* `tags` - (Optional) Map of tags, each pair of which must exactly match
   a pair on the desired VPN gateway.
 
 More complex filters can be expressed using one or more `filter` sub-blocks,
