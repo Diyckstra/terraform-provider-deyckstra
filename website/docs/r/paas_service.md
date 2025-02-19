@@ -385,7 +385,7 @@ resource "aws_paas_service" "rabbitmq" {
 }
 ```
 
-### Redis Service with Enabled Logging
+### Redis Service with Logging Enabled
 
 ~> **Note** This example uses the VPC and subnet defined in the [Elasticsearch Service example](#elasticsearch-service).
 

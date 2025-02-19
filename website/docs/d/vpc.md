@@ -70,7 +70,7 @@ The following attributes are additionally exported:
 
 * `association_id` - The association ID for the IPv4 CIDR block.
 * `cidr_block` - The CIDR block for the association.
-* `state` - The State of the association.
+* `state` - The state of the association.
 
 ### Unsupported attributes
 

@@ -57,7 +57,7 @@ The following attributes are not currently supported: `gateway_id`.
 
 ## Import
 
-EC2 Route Table Associations can be imported using the associated resource ID and route table ID
+EC2 route table associations can be imported using the associated resource ID and route table ID
 separated by a forward slash (`/`).
 
 For example with EC2 subnets:

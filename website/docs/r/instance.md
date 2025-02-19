@@ -104,7 +104,7 @@ The following arguments are supported:
 * `instance_initiated_shutdown_behavior` - (Optional) Shutdown behavior for the instance. Valid values are `stop`, `terminate`.
 * `instance_type` - (Optional) The instance type to use for the instance. Updates to this field will trigger a stop/start of the EC2 instance.
 * `key_name` - (Optional) Key name of the key pair to use for the instance; which can be managed using [the `aws_key_pair` resource](key_pair.md).
-* `launch_template` - (Optional) Specifies a launch template to configure the instance. Parameters configured on this resource will override the corresponding parameters in the Launch Template.
+* `launch_template` - (Optional) Specifies a launch template to configure the instance. Parameters configured on this resource will override the corresponding parameters in the launch template.
   See [Launch Template Specification](#launch-template-specification) below for more details.
 * `monitoring` - (Optional) If `true`, the launched EC2 instance will have detailed monitoring enabled.
 * `network_interface` - (Optional, Conflicts with `associate_public_ip_address`, `private_ip`, `secondary_private_ips`, `subnet_id`, `vpc_security_group_ids`) Customize network interfaces to be attached at instance boot time. See [Network Interfaces](#network-interfaces) below for more details.
@@ -122,7 +122,7 @@ The following arguments are supported:
 * `user_data` - (Optional, Conflicts with `user_data_base64`) User data to provide when launching the instance. Do not pass gzip-compressed data via this argument; see `user_data_base64` instead. Updates to this field will trigger a stop/start of the EC2 instance by default. If the `user_data_replace_on_change` is set then updates to this field will trigger a destroy and recreate.
 * `user_data_base64` - (Optional, Conflicts with `user_data`) Can be used instead of `user_data` to pass base64-encoded binary data directly. Use this instead of `user_data` whenever the value is not a valid UTF-8 string. For example, gzip-encoded user data must be base64-encoded and passed via this argument to avoid corruption. Updates to this field will trigger a stop/start of the EC2 instance by default. If the `user_data_replace_on_change` is set then updates to this field will trigger a destroy and recreate.
 * `user_data_replace_on_change` - (Optional) When used in combination with `user_data` or `user_data_base64` will trigger a destroy and recreate when set to `true`. Defaults to `false`.
-* `volume_tags` - (Optional) Map of tags to assign, at instance-creation time, to root and EBS volumes.
+* `volume_tags` - (Optional) A map of tags to assign, at instance-creation time, to root and EBS volumes.
 
 ~> **Note** Do not use `volume_tags` if you plan to manage block device tags outside the `aws_instance` configuration, such as using `tags` in an [`aws_ebs_volume`](ebs_volume.md) resource attached via [`aws_volume_attachment`](volume_attachment.md). Doing so will result in resource cycling and inconsistent behavior.
 
@@ -136,7 +136,7 @@ The `root_block_device` block supports the following:
 
 * `delete_on_termination` - (Optional) Whether the volume should be destroyed on instance termination. Defaults to `true`.
 * `iops` - (Optional) Amount of provisioned IOPS. Only valid for volume_type of `io2`.
-* `tags` - (Optional) Map of tags to assign to the device.
+* `tags` - (Optional) A map of tags to assign to the device.
 * `volume_size` - (Optional) Size of the volume in GiB.
 * `volume_type` - (Optional) Type of volume. Valid values are `st2`, `gp2`, `io2`.
 
@@ -146,7 +146,7 @@ Each `ebs_block_device` block supports the following:
 * `device_name` - (Required) Name of the device to mount.
 * `iops` - (Optional) Amount of provisioned IOPS. Only valid for volume_type of `io2`.
 * `snapshot_id` - (Optional) Snapshot ID to mount.
-* `tags` - (Optional) Map of tags to assign to the device.
+* `tags` - (Optional) A map of tags to assign to the device.
 * `volume_size` - (Optional) Size of the volume in gibibytes (GiB).
 * `volume_type` - (Optional) Type of volume. Valid values are `st2`, `gp2`, `io2`.
 
@@ -164,7 +164,7 @@ Each `ephemeral_block_device` block supports the following:
 ### Network Interfaces
 
 Each of the `network_interface` blocks attach a network interface to an EC2 instance during boot time.
-However, because the network interface is attached at boot-time, replacing/modifying the network interface **WILL** trigger a recreation of the EC2 Instance.
+However, because the network interface is attached at boot-time, replacing/modifying the network interface **WILL** trigger a recreation of the EC2 instance.
 If you should need at any point to detach/modify/re-attach a network interface to the instance, use the [`aws_network_interface`](network_interface.md) or [`aws_network_interface_attachment`](network_interface_attachment.md) resources instead.
 
 The `network_interface` configuration block _does_, however, allow users to supply their own network interface to be used as the default network interface on an EC2 instance, attached at `eth0`.
@@ -179,7 +179,7 @@ Each `network_interface` block supports the following:
 ### Launch Template Specification
 
 -> **Note** Launch template parameters will be used only once during instance creation. If you want to update existing instance you need to change parameters
-directly. Updating Launch Template Specification will force a new instance.
+directly. Updating launch template specification will force a new instance.
 
 Any other instance parameters that you specify will override the same parameters in the launch template.
 
@@ -202,7 +202,7 @@ In addition to all arguments above, the following attributes are exported:
 * `public_dns` - The public DNS name assigned to the instance. For EC2-VPC, this is only available if you've enabled DNS hostnames for your VPC.
 * `public_ip` - The public IP address assigned to the instance, if applicable. **NOTE**: If you are using an [`aws_eip`](eip.md) with your instance, you should refer to the EIP's address directly and not use `public_ip` as this field will change after the EIP is attached.
 * `security_groups` - The list of security group names associated with the instance.
-* `tags_all` -Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 For `ebs_block_device`, in addition to the arguments above, the following attribute is exported:
 

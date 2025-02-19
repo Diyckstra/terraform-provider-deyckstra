@@ -3,12 +3,12 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_default_vpc_dhcp_options"
 description: |-
-  Manage the default DHCP Options resource.
+  Manage the default DHCP options resource.
 ---
 
 # Resource: aws_default_vpc_dhcp_options
 
-Manages the default DHCP Options Set in the current region.
+Manages the default DHCP options set in the current region.
 
 Each AWS region comes with a default set of DHCP options.
 **This is an advanced resource**, and has special caveats to be aware of when
@@ -43,21 +43,21 @@ The following arguments are still supported:
 
 ### Removing `aws_default_vpc_dhcp_options` from your configuration
 
-The `aws_default_vpc_dhcp_options` resource allows you to manage a region's default DHCP Options Set,
+The `aws_default_vpc_dhcp_options` resource allows you to manage a region's default DHCP options set,
 but Terraform cannot destroy it. Removing this resource from your configuration
-will remove it from your statefile and management, but will not destroy the DHCP Options Set.
-You can resume managing the DHCP Options Set via the cloud console.
+will remove it from your statefile and management, but will not destroy the DHCP options set.
+You can resume managing the DHCP options set via the cloud console.
 
 ## Attributes Reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `id` - ID of the DHCP Options Set.
-* `arn` - ARN of the DHCP Options Set.
+* `id` - ID of the DHCP options set.
+* `arn` - ARN of the DHCP options set.
 
 ## Import
 
-VPC DHCP Options can be imported using the `dhcp options id`, e.g.,
+VPC DHCP options can be imported using the `dhcp options id`, e.g.,
 
 ```
 $ terraform import aws_default_vpc_dhcp_options.default_options dopt-d9070ebb

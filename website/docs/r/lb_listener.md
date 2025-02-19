@@ -3,14 +3,14 @@ subcategory: "ELB (Elastic Load Balancing)"
 layout: "aws"
 page_title: "aws_lb_listener"
 description: |-
-  Manages a Listener for a Load Balancer.
+  Manages a listener for a load balancer.
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 
 # Resource: aws_lb_listener
 
-Manages a Listener for a Load Balancer.
+Manages a listener for a load balancer.
 
 ~> **Note** `aws_alb_listener` is known as `aws_lb_listener`. The functionality is identical.
 
@@ -41,7 +41,7 @@ resource "aws_lb_listener" "front_end" {
 }
 ```
 
-To a NLB:
+To an NLB:
 
 ```hcl
 resource "aws_lb_listener" "front_end" {
@@ -226,18 +226,18 @@ resource "aws_lb_listener" "example" {
 The following arguments are required:
 
 * `default_action` - (Required) Configuration block for default actions. Detailed below.
-* `load_balancer_arn` - (Required, Forces New Resource) ARN of the load balancer.
+* `load_balancer_arn` - (Required, forces new resource) ARN of the load balancer.
 
 The following arguments are optional:
 
 * `alpn_policy` - (Optional)  Name of the Application-Layer Protocol Negotiation (ALPN) policy. Can be set if `protocol` is `TLS`. Valid values are `HTTP1Only`, `HTTP2Only`, `HTTP2Optional`, `HTTP2Preferred`, and `None`.
 * `certificate_arn` - (Optional) ARN of the default SSL server certificate. Exactly one certificate is required if the protocol is HTTPS.
-* `port` - (Optional) Port on which the load balancer is listening. Not valid for Gateway Load Balancers.
-* `protocol` - (Optional) Protocol for connections from clients to the load balancer. For Application Load Balancers, valid values are `HTTP` and `HTTPS`, with a default of `HTTP`. For Network Load Balancers, valid values are `TCP`, `TLS`, `UDP`, and `TCP_UDP`. Not valid to use `UDP` or `TCP_UDP` if dual-stack mode is enabled. Not valid for Gateway Load Balancers.
+* `port` - (Optional) Port on which the load balancer is listening. Not valid for gateway load balancers.
+* `protocol` - (Optional) Protocol for connections from clients to the load balancer. For application load balancers, valid values are `HTTP` and `HTTPS`, with a default of `HTTP`. For network load balancers, valid values are `TCP`, `TLS`, `UDP`, and `TCP_UDP`. Not valid to use `UDP` or `TCP_UDP` if dual-stack mode is enabled. Not valid for gateway load balancers.
 * `ssl_policy` - (Optional) Name of the SSL Policy for the listener. Required if `protocol` is `HTTPS` or `TLS`.
 * `tags` - (Optional) A map of tags to assign to the resource. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
 
-~> **Note::** Please note that listeners that are attached to Application Load Balancers must use either `HTTP` or `HTTPS` protocols while listeners that are attached to Network Load Balancers must use the `TCP` protocol.
+~> **Note::** Please note that listeners that are attached to application load balancers must use either `HTTP` or `HTTPS` protocols while listeners that are attached to network load balancers must use the `TCP` protocol.
 
 ### default_action
 
@@ -253,7 +253,7 @@ The following arguments are optional:
 * `forward` - (Optional) Configuration block for creating an action that distributes requests among one or more target groups. Specify only if `type` is `forward`. If you specify both `forward` block and `target_group_arn` attribute, you can specify only one target group using `forward` and it must be the same target group specified in `target_group_arn`. Detailed below.
 * `order` - (Optional) Order for the action. This value is required for rules with multiple actions. The action with the lowest value for order is performed first. Valid values are between `1` and `50000`.
 * `redirect` - (Optional) Configuration block for creating a redirect action. Required if `type` is `redirect`. Detailed below.
-* `target_group_arn` - (Optional) ARN of the Target Group to which to route traffic. Specify only if `type` is `forward` and you want to route to a single target group. To route to one or more target groups, use a `forward` block instead.
+* `target_group_arn` - (Optional) ARN of the target group to which to route traffic. Specify only if `type` is `forward` and you want to route to a single target group. To route to one or more target groups, use a `forward` block instead.
 
 #### authenticate_cognito
 

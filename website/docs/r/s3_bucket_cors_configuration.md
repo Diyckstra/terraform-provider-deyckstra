@@ -1,5 +1,5 @@
 ---
-subcategory: "S3 (Simple Storage)"
+subcategory: "S3 (Simple Storage Service)"
 layout: "aws"
 page_title: "aws_s3_bucket_cors_configuration"
 description: |-
@@ -12,7 +12,7 @@ description: |-
 
 Manages an S3 bucket CORS configuration. For more information about CORS, go to [Cross-Origin Resource Sharing][cors].
 
-~> **Note** S3 Buckets only support a single CORS configuration. Declaring multiple `aws_s3_bucket_cors_configuration` resources to the same S3 Bucket will cause a perpetual difference in configuration.
+~> **Note** S3 buckets only support a single CORS configuration. Declaring multiple `aws_s3_bucket_cors_configuration` resources to the same S3 bucket will cause a perpetual difference in configuration.
 
 ## Example Usage
 
@@ -54,7 +54,7 @@ The following arguments are supported:
 
 The `cors_rule` configuration block supports the following arguments:
 
-* `allowed_headers` - (Optional) Set of Headers that are specified in the `Access-Control-Request-Headers` header.
+* `allowed_headers` - (Optional) Set of headers that are specified in the `Access-Control-Request-Headers` header.
 * `allowed_methods` - (Required) Set of HTTP methods that you allow the origin to execute. Valid values are `GET`, `PUT`, `HEAD`, `POST`, and `DELETE`.
 * `allowed_origins` - (Required) Set of origins you want customers to be able to access the bucket from.
 * `expose_headers` - (Optional) Set of headers in the response that you want customers to be able to access from their applications (for example, from a JavaScript `XMLHttpRequest` object).

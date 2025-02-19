@@ -1,5 +1,5 @@
 ---
-subcategory: "S3 (Simple Storage)"
+subcategory: "S3 (Simple Storage Service)"
 layout: "aws"
 page_title: "aws_s3_bucket_lifecycle_configuration"
 description: |-
@@ -20,7 +20,7 @@ An S3 lifecycle configuration consists of one or more lifecycle rules. Each rule
 * [Filter](#filter) identifying objects to which the rule applies
 * One or more expiration actions
 
-~> **Note** S3 Buckets only support a single lifecycle configuration. Declaring multiple `aws_s3_bucket_lifecycle_configuration` resources to the same S3 bucket will cause a perpetual difference in configuration.
+~> **Note** S3 buckets only support a single lifecycle configuration. Declaring multiple `aws_s3_bucket_lifecycle_configuration` resources to the same S3 bucket will cause a perpetual difference in configuration.
 
 ## Example Usage
 
@@ -246,7 +246,7 @@ The following arguments are supported:
 
 ### rule
 
-~> **Note** The `filter` argument, while Optional, is required if the `rule` configuration block does not contain a `prefix` **and** you intend to override the default behavior of setting the rule to filter objects with the empty string prefix (`""`).
+~> **Note** The `filter` argument, while optional, is required if the `rule` configuration block does not contain a `prefix` **and** you intend to override the default behavior of setting the rule to filter objects with the empty string prefix (`""`).
 Since `prefix` is deprecated by Amazon S3 , we recommend users either specify `filter` or leave both `filter` and `prefix` unspecified.
 
 ~> **Note** A rule cannot be updated from having a filter (via either the `rule.filter` parameter or when neither `rule.filter` and `rule.prefix` are specified) to only having a prefix via the `rule.prefix` parameter.
@@ -256,7 +256,7 @@ Since `prefix` is deprecated by Amazon S3 , we recommend users either specify `f
 The `rule` configuration block supports the following arguments:
 
 * `expiration` - (Optional) Configuration block that specifies the expiration for the lifecycle of the object in the form of days [documented below](#expiration).
-* `filter` - (Optional) Configuration block used to identify objects that a Lifecycle Rule applies to [documented below](#filter). If not specified, the `rule` will default to using `prefix`.
+* `filter` - (Optional) Configuration block used to identify objects that a lifecycle rule applies to [documented below](#filter). If not specified, the `rule` will default to using `prefix`.
 * `id` - (Required) Unique identifier for the rule. The value cannot be longer than 255 characters.
 * `noncurrent_version_expiration` - (Optional) Configuration block that specifies when noncurrent object versions expire [documented below](#noncurrent_version_expiration).
 * `prefix` - (Optional) **DEPRECATED** Use `filter` instead. This has been deprecated by Amazon S3. Prefix identifying one or more objects to which the rule applies. Defaults to an empty string (`""`) if `filter` is not specified.

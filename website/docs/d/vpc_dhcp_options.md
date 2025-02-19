@@ -3,7 +3,7 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_vpc_dhcp_options"
 description: |-
-  Provides information about an EC2 DHCP Options configuration
+  Provides information about an EC2 DHCP options configuration.
 ---
 
 # Data Source: aws_vpc_dhcp_options
@@ -48,9 +48,9 @@ data "aws_vpc_dhcp_options" "example" {
 
 ### Supported attributes
 
-* `arn` - The ARN of the DHCP options Set.
+* `arn` - The ARN of the DHCP options set.
 * `dhcp_options_id` - EC2 DHCP options ID.
-* `domain_name` - The suffix domain name to used when resolving non Fully Qualified Domain Names e.g., the `search` value in the `/etc/resolv.conf` file.
+* `domain_name` - The suffix domain name to used when resolving non fully qualified domain names e.g., the `search` value in the `/etc/resolv.conf` file.
 * `domain_name_servers` - List of name servers.
 * `id` - EC2 DHCP options ID.
 * `netbios_name_servers` - List of NETBIOS name servers.

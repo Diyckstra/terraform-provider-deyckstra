@@ -3,14 +3,14 @@ subcategory: "Route 53"
 layout: "aws"
 page_title: "aws_route53_zone"
 description: |-
-  Manages a Route53 Hosted Zone.
+  Manages a Route53 hosted zone.
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 
 # Resource: aws_route53_zone
 
-Manages a Route53 Hosted Zone.
+Manages a Route53 hosted zone.
 
 ## Example Usage
 
@@ -84,8 +84,8 @@ The following arguments are supported:
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` - The Amazon Resource Name (ARN) of the Hosted Zone.
-* `zone_id` - The Hosted Zone ID. This can be referenced by zone records.
+* `arn` - The Amazon Resource Name (ARN) of the hosted zone.
+* `zone_id` - The hosted zone ID. This can be referenced by zone records.
 * `name_servers` - A list of name servers in associated (or default) delegation set.
   Find more about delegation sets in [AWS docs](https://docs.aws.amazon.com/Route53/latest/APIReference/actions-on-reusable-delegation-sets.html).
 * `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
@@ -100,7 +100,7 @@ The following attributes are not currently supported:
 
 ## Import
 
-Route53 Zones can be imported using the `zone id`, e.g.,
+Route53 zones can be imported using the `zone id`, e.g.,
 
 ```
 $ terraform import aws_route53_zone.myzone z-xxxxxxxx

@@ -1,5 +1,5 @@
 ---
-subcategory: "S3 (Simple Storage)"
+subcategory: "S3 (Simple Storage Service)"
 layout: "aws"
 page_title: "aws_s3_bucket_policy"
 description: |-
@@ -54,10 +54,10 @@ The following arguments are supported:
 * `bucket` - (Required) The name of the bucket to which to apply the policy.
 * `policy` - (Required) The text of the policy. Bucket policies are limited to 20 KB in size.
 
-~> **Note** The S3 API supports Bucket Policy with some limitations.
-In particular, you cannot specify a user as Principal, but only the project that owns the bucket.
+~> **Note** The S3 API supports bucket policy with some limitations.
+In particular, you cannot specify a user as principal, but only the project that owns the bucket.
 Accordingly, all project users will be granted the same permissions.
-For more information about Bucket Policy restrictions, see [user documentation][policy-restrictions].
+For more information about bucket policy restrictions, see [user documentation][policy-restrictions].
 
 ## Attributes Reference
 

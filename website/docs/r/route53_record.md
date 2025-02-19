@@ -77,7 +77,7 @@ The following attributes are not currently supported:
 
 ## Import
 
-Route53 Records can be imported using ID of the record, which is the zone identifier, record name, and record type, separated by underscores (`_`)E.g.,
+Route53 records can be imported using ID of the record, which is the zone identifier, record name, and record type, separated by underscores (`_`)E.g.,
 
 ```
 $ terraform import aws_route53_record.myrecord z-xxxxxxxx_dev.example.com_NS

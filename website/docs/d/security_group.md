@@ -3,20 +3,20 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_security_group"
 description: |-
-    Provides information about a specific Security Group.
+    Provides information about a specific security group.
 ---
 
 # Data Source: aws_security_group
 
-Provides information about a specific Security Group.
+Provides information about a specific security group.
 
-This resource can be used when a module accepts a Security Group id as
+This resource can be used when a module accepts a security group id as
 an input variable and needs to, for example, determine the id of the
 VPC that the security group belongs to.
 
 ## Example Usage
 
-The following example shows how one might accept a Security Group id as a variable
+The following example shows how one might accept a security group id as a variable
 and use this data source to obtain the data necessary to create a subnet.
 
 ```terraform
@@ -40,7 +40,7 @@ security group whose data will be exported as attributes.
 
 
 * `filter` - (Optional) One or more name/value pairs to use as filters.
-  A Security Group will be selected if any one of the given values matches.
+  A security group will be selected if any one of the given values matches.
 	Valid names and values can be found in the [EC2 API documentation][describe-security-groups].
 * `id` - (Optional) ID of the specific security group to retrieve.
 * `name` - (Optional) The name that the desired security group must have.
@@ -53,7 +53,7 @@ security group whose data will be exported as attributes.
 All argument attributes except `filter` blocks are also exported as
 result attributes. This data source will complete the data by populating
 any fields that are not included in the configuration with the data for
-the selected Security Group.
+the selected security group.
 
 The following fields are also exported:
 

@@ -31,7 +31,7 @@ data "aws_eks_cluster" "example" {
     * `data` - The base64 encoded certificate data required to communicate with your cluster. Add this to the `certificate-authority-data` section of the `kubeconfig` file for your cluster.
 * `created_at` - The Unix epoch time stamp in seconds for when the cluster was created.
 * `id` - The name of the cluster.
-* `kubernetes_network_config` - Nested list containing Kubernetes Network Configuration.
+* `kubernetes_network_config` - Nested list containing Kubernetes network configuration.
     * `ip_family` - The IP family used to assign Kubernetes pod and service addresses.
     * `service_ipv4_cidr` - The CIDR block to assign Kubernetes service IP addresses from.
 * `legacy_cluster_params` - The parameters for fine-tuning the Kubernetes cluster.

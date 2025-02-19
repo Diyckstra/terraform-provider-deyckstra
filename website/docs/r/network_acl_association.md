@@ -42,7 +42,7 @@ resource "aws_network_acl_association" "example" {
 The following arguments are supported:
 
 * `network_acl_id` - (Required) ID of the network ACL.
-* `subnet_id` - (Required) ID of the associated Subnet.
+* `subnet_id` - (Required) ID of the associated subnet.
 
 ## Attributes Reference
 

@@ -32,7 +32,7 @@ data "aws_ebs_volume" "ebs_volume" {
 
 The following arguments are supported:
 
-* `most_recent` - (Optional) If more than one result is returned, use the most recent Volume.
+* `most_recent` - (Optional) If more than one result is returned, use the most recent volume.
 * `filter` - (Optional) One or more name/value pairs to use as filters.
    Valid names and values can be found in the [EC2 API documentation][describe-volumes].
 

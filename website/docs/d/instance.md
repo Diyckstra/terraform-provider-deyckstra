@@ -96,7 +96,7 @@ are exported:
 * `source_dest_check` - Whether the network interface performs source/destination checking.
 * `subnet_id` - The VPC subnet ID.
 * `user_data` - SHA-1 hash of user data supplied to the instance.
-* `user_data_base64` - Base64 encoded contents of User Data supplied to the instance. Valid UTF-8 contents can be decoded with the [`base64decode` function][base64decode-function]. This attribute is only exported if `get_user_data` is true.
+* `user_data_base64` - Base64 encoded contents of user data supplied to the instance. Valid UTF-8 contents can be decoded with the [`base64decode` function][base64decode-function]. This attribute is only exported if `get_user_data` is true.
 * `tags` - Map of tags assigned to the instance.
 * `tenancy` - The placement type.
 * `vpc_security_group_ids` - The associated security groups in a non-default VPC.

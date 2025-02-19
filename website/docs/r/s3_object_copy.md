@@ -1,5 +1,5 @@
 ---
-subcategory: "S3 (Simple Storage)"
+subcategory: "S3 (Simple Storage Service)"
 layout: "aws"
 page_title: "aws_s3_object_copy"
 description: |-
@@ -40,7 +40,7 @@ The following arguments are required:
 The following arguments are optional:
 
 * `acl` - (Optional, Conflicts with `grant`) [Canned ACL][canned-acl] to apply. Valid values are `private`, `public-read`, `public-read-write`, `authenticated-read`. Defaults to `private`.
-* `content_type` - (Optional) Standard MIME type describing the format of the object data, e.g., `application/octet-stream`. All Valid MIME Types are valid for this input.
+* `content_type` - (Optional) Standard MIME type describing the format of the object data, e.g., `application/octet-stream`. All valid MIME types are valid for this input.
 * `grant` - (Optional, Conflicts with `acl`) Configuration block for header grants [documented below](#grant).
 
 ### grant
@@ -52,7 +52,7 @@ This configuration block has the following required arguments:
 
 This configuration block has the following optional arguments (one of the three is required):
 
-* `email` - (Optional) Email address of the grantee (S3 Project email). Used only when `type` is `AmazonCustomerByEmail`.
+* `email` - (Optional) Email address of the grantee (S3 project email). Used only when `type` is `AmazonCustomerByEmail`.
 * `id` - (Optional) The canonical user ID of the grantee (S3 User ID). Used only when `type` is `CanonicalUser`.
 * `uri` - (Optional) URI of the grantee group. Supported groups are `http://acs.amazonaws.com/groups/global/AllUsers` and `http://acs.amazonaws.com/groups/global/AuthenticatedUsers`. Used only when `type` is `Group`.
 
@@ -64,7 +64,7 @@ This configuration block has the following optional arguments (one of the three 
 
 In addition to all arguments above, the following attributes are exported:
 
-* `etag` - ETag generated for the object (an MD5 sum of the object content). For plaintext objects the hash is an MD5 digest of the object data. For objects created by either the Multipart Upload or Part Copy operation, the hash is not an MD5 digest, regardless of the method of encryption.
+* `etag` - ETag generated for the object (an MD5 sum of the object content). For plaintext objects the hash is an MD5 digest of the object data. For objects created by either the multipart upload or part copy operation, the hash is not an MD5 digest, regardless of the method of encryption.
 * `id` - The `key` of the resource supplied above.
 * `last_modified` - Returns the date that the object was last modified, in [RFC3339 format].
 * `version_id` - Version ID of the newly created copy.

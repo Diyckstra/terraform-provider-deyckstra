@@ -90,7 +90,7 @@ In addition to the [arguments above](#argument-reference), the following attribu
 
 * `arn` - The ARN of the image.
 * `id` - The ID of the created image.
-* `root_snapshot_id` - The Snapshot ID for the root volume (for EBS-backed images)
+* `root_snapshot_id` - The snapshot ID for the root volume (for EBS-backed images)
 * `image_owner_alias` - The owner alias (for example, `self`) or the project ID.
 * `image_type` - The type of image.
 * `owner_id` - The project ID.

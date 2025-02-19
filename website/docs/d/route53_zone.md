@@ -3,18 +3,18 @@ subcategory: "Route 53"
 layout: "aws"
 page_title: "aws_route53_zone"
 description: |-
-    Provides information about a specific Route 53 Hosted Zone
+    Provides information about a specific Route 53 hosted zone
 ---
 
 # Data Source: aws_route53_zone
 
-`Provides information about a specific Route 53 Hosted Zone.
+`Provides information about a specific Route 53 hosted zone.
 
-This data source allows to find a Hosted Zone ID given Hosted Zone name and certain search criteria.
+This data source allows to find a hosted zone ID given hosted zone name and certain search criteria.
 
 ## Example Usage
 
-The following example shows how to get a Hosted Zone from its name and from this data how to create a Record Set.
+The following example shows how to get a hosted zone from its name and from this data how to create a record set.
 
 
 ```terraform
@@ -35,15 +35,15 @@ resource "aws_route53_record" "www" {
 ## Argument Reference
 
 The arguments of this data source act as filters for querying the available
-Hosted Zone. You have to use `zone_id` or `name`, not both of them. The given filter must match exactly one
-Hosted Zone. If you use `name` field for private Hosted Zone, you need to add `private_zone` field to `true`
+hosted zone. You have to use `zone_id` or `name`, not both of them. The given filter must match exactly one
+hosted zone. If you use `name` field for private hosted zone, you need to add `private_zone` field to `true`
 
-* `zone_id` - (Optional) The Hosted Zone id of the desired Hosted Zone.
+* `zone_id` - (Optional) The hosted zone id of the desired hosted zone.
 
-* `name` - (Optional) The Hosted Zone name of the desired Hosted Zone.
-* `private_zone` - (Optional) Used with `name` field to get a private Hosted Zone.
-* `vpc_id` - (Optional) Used with `name` field to get a private Hosted Zone associated with the vpc_id (in this case, private_zone is not mandatory).
-* `tags` - (Optional) Used with `name` field. Map of tags, each pair of which must exactly match a pair on the desired Hosted Zone.
+* `name` - (Optional) The hosted zone name of the desired hosted zone.
+* `private_zone` - (Optional) Used with `name` field to get a private hosted zone.
+* `vpc_id` - (Optional) Used with `name` field to get a private hosted zone associated with the vpc_id (in this case, private_zone is not mandatory).
+* `tags` - (Optional) Used with `name` field. Map of tags, each pair of which must exactly match a pair on the desired hosted zone.
 
 ## Attributes Reference
 
@@ -52,15 +52,15 @@ Hosted Zone. If you use `name` field for private Hosted Zone, you need to add `p
 All of the argument attributes are also exported as
 result attributes. This data source will complete the data by populating
 any fields that are not included in the configuration with the data for
-the selected Hosted Zone.
+the selected hosted zone.
 
 The following attribute is additionally exported:
 
-* `arn` - The Amazon Resource Name (ARN) of the Hosted Zone.
-* `caller_reference` - Caller Reference of the Hosted Zone.
-* `comment` - The comment field of the Hosted Zone.
-* `name_servers` - The list of DNS name servers for the Hosted Zone.
-* `resource_record_set_count` - The number of Record Set in the Hosted Zone.
+* `arn` - The Amazon Resource Name (ARN) of the hosted zone.
+* `caller_reference` - Caller Reference of the hosted zone.
+* `comment` - The comment field of the hosted zone.
+* `name_servers` - The list of DNS name servers for the hosted zone.
+* `resource_record_set_count` - The number of record sets in the hosted zone.
 
 ### Unsupported attributes
 

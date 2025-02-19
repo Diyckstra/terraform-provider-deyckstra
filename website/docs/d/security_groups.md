@@ -3,12 +3,12 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_security_groups"
 description: |-
-  Provides information about a set of Security Groups.
+  Provides information about a set of security groups.
 ---
 
 # Data Source: aws_security_groups
 
-Provides information about IDs and VPC membership of Security Groups that are created outside of Terraform.
+Provides information about IDs and VPC membership of security groups that are created outside of Terraform.
 
 ## Example Usage
 

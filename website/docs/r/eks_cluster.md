@@ -54,7 +54,7 @@ resource "aws_eks_cluster" "example" {
 ### EKS Cluster with High-Availability Disabled
 
 ~> **Note**
-This example uses the same VPC and subnet as in the [EKS High-Availability Cluster example](#eks-high-availability-cluster).
+This example uses the same VPC and subnet as in the [EKS high-availability cluster example](#eks-high-availability-cluster).
 
 ```terraform
 resource "aws_eks_cluster" "example" {

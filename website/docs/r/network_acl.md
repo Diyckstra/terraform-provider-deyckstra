@@ -15,9 +15,9 @@ Creates a network ACL. You might set up network ACLs with rules similar
 to your security groups in order to add an additional layer of security to your VPC.
 
 ~> **Note on Network ACLs and Network ACL Rules:** Terraform currently
-provides both a standalone [`aws_network_acl_rule`](network_acl_rule.md) resource and a Network ACL resource with rules
-defined in-line. At this time you cannot use a Network ACL with in-line rules
-in conjunction with any Network ACL Rule resources. Doing so will cause
+provides both a standalone [`aws_network_acl_rule`][tf-network-acl-rule] resource and a network ACL resource with rules
+defined in-line. At this time you cannot use a network ACL with in-line rules
+in conjunction with any network ACL rule resources. Doing so will cause
 a conflict of rule settings and will overwrite rules.
 
 ~> **Note on Network ACLs and Network ACL Associations:** Terraform provides both a standalone [aws_network_acl_association](network_acl_association.md)

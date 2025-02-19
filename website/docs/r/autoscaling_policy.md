@@ -33,7 +33,7 @@ resource "aws_autoscaling_policy" "example" {
 * `policy_type` - (Optional) The policy type. Valid value is `SimpleScaling`.
 * `min_adjustment_magnitude` - (Optional) Minimum value to scale by when `adjustment_type` is set to `PercentChangeInCapacity`.
 * `cooldown` - (Optional) The amount of time, in seconds, after a scaling activity completes and before the next scaling activity can start.
-* `scaling_adjustment` - (Optional) The amount by which the Auto Scaling Group is scaled when the scaling policy is executed
+* `scaling_adjustment` - (Optional) The amount by which the Auto Scaling group is scaled when the scaling policy is executed
 
 ## Attributes Reference
 

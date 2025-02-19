@@ -76,7 +76,7 @@ The following attributes are not currently supported:
 
 ## Import
 
-Network Interfaces can be imported using the `id`, e.g.,
+Network interfaces can be imported using the `id`, e.g.,
 
 ```
 $ terraform import aws_network_interface.test eni-12345678

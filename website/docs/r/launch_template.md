@@ -167,7 +167,7 @@ The following attributes are not currently supported:
 
 ## Import
 
-Launch Templates can be imported using the `id`, e.g.,
+Launch templates can be imported using the `id`, e.g.,
 
 ```
 $ terraform import aws_launch_template.web lt-12345678

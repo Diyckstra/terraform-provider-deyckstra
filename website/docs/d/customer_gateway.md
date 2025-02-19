@@ -3,7 +3,7 @@ subcategory: "VPN (Site-to-Site)"
 layout: "aws"
 page_title: "aws_customer_gateway"
 description: |-
-  Provides information about an existing Customer Gateway.
+  Provides information about an existing customer gateway.
 ---
 
 # Data Source: aws_customer_gateway

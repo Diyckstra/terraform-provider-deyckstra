@@ -1,5 +1,5 @@
 ---
-subcategory: "S3 (Simple Storage)"
+subcategory: "S3 (Simple Storage Service)"
 layout: "aws"
 page_title: "aws_s3_object"
 description: |-
@@ -45,14 +45,14 @@ The following arguments are required:
 The following arguments are optional:
 
 * `acl` - (Optional) [Canned ACL][canned-acl] to apply. Valid values are `private`, `public-read`, `public-read-write`, `authenticated-read`. Defaults to `private`.
-* `cache_control` - (Optional) Caching behavior along the request/reply chain Read [w3c cache_control] for further details.
+* `cache_control` - (Optional) Caching behavior along the request/reply chain. Read [w3c cache_control] for further details.
 * `content_base64` - (Optional, Conflicts with `source` and `content`) Base64-encoded data that will be decoded and uploaded as raw bytes for the object content. This allows safely uploading non-UTF8 binary data, but is recommended only for small content such as the result of the `gzipbase64` function with small text strings. For larger objects, use `source` to stream the content from a disk file.
 * `content_disposition` - (Optional) Presentational information for the object. Read [w3c content_disposition] for further information.
-* `content_encoding` - (Optional) Content encodings that have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field. Read [w3c content_encoding] for further information.
+* `content_encoding` - (Optional) Content encodings that have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the content-type header field. Read [w3c content_encoding] for further information.
 * `content_language` - (Optional) Language the content is in e.g., en-US or en-GB.
-* `content_type` - (Optional) Standard MIME type describing the format of the object data, e.g., application/octet-stream. All Valid MIME Types are valid for this input.
+* `content_type` - (Optional) Standard MIME type describing the format of the object data, e.g., application/octet-stream. All valid MIME types are valid for this input.
 * `content` - (Optional, Conflicts with `source` and `content_base64`) Literal string value to use as the object content, which will be uploaded as UTF-8-encoded text.
-* `etag` - (Optional) Triggers updates when the value changes. The only meaningful value is `filemd5("path/to/file")` (Terraform 0.11.12 or later) or `${md5(file("path/to/file"))}` (Terraform 0.11.11 or earlier). If an object is larger than 5 MB, it will be uploaded as a Multipart Upload, and therefore the ETag will not be an MD5 digest (see `source_hash` instead).
+* `etag` - (Optional) Triggers updates when the value changes. The only meaningful value is `filemd5("path/to/file")` (Terraform 0.11.12 or later) or `${md5(file("path/to/file"))}` (Terraform 0.11.11 or earlier). If an object is larger than 5 MB, it will be uploaded as a multipart upload, and therefore the ETag will not be an MD5 digest (see `source_hash` instead).
 * `metadata` - (Optional) Map of keys/values to provision metadata (will be automatically prefixed by `x-amz-meta-`, note that only lowercase label are currently supported by the AWS Go API).
 * `source_hash` - (Optional) Triggers updates like `etag` but useful to address `etag` encryption limitations. Set using `filemd5("path/to/source")` (Terraform 0.11.12 or later). (The value is only stored in state and not saved by AWS.)
 * `source` - (Optional, Conflicts with `content` and `content_base64`) Path to a file that will be read and uploaded as raw bytes for the object content.
@@ -69,7 +69,7 @@ If no content is provided through `source`, `content` or `content_base64`, then 
 
 In addition to all arguments above, the following attributes are exported:
 
-* `etag` - ETag generated for the object (an MD5 sum of the object content). For plaintext objects the hash is an MD5 digest of the object data. For objects created by either the Multipart Upload or Part Copy operation, the hash is not an MD5 digest, regardless of the method of encryption.
+* `etag` - ETag generated for the object (an MD5 sum of the object content). For plaintext objects the hash is an MD5 digest of the object data. For objects created by either the multipart upload or part copy operation, the hash is not an MD5 digest, regardless of the method of encryption.
 * `id` - `key` of the resource supplied above.
 * `tags_all` -Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 * `version_id` - Unique version ID value for the object, if bucket versioning is enabled.

@@ -14,8 +14,8 @@ description: |-
 
 Manages a security group.
 
-~> **Note on Security Groups and Security Group Rules:** Terraform currently
-provides both a standalone [`aws_security_group_rule`](security_group_rule.md) (a single `ingress` or
+~> **Note on security groups and security group rules:** Terraform currently
+provides both a standalone [`aws_security_group_rule`][tf-security-group-rule] (a single `ingress` or
 `egress` rule), and a security group resource with `ingress` and `egress` rules
 defined in-line. At this time you cannot use a security group with in-line rules
 in conjunction with any security group rule resources. Doing so will cause
@@ -58,7 +58,7 @@ resource "aws_security_group" "allow_tls" {
 }
 ```
 
-~> **Note on Egress rules:** By default, the cloud creates an `ALLOW ALL` egress rule when creating a new security group inside a VPC. When creating a new Security Group inside a VPC, **Terraform will remove this default rule**, and require you specifically re-create it if you desire that rule. We feel this leads to fewer surprises in terms of controlling your egress rules. If you desire this rule to be in place, you can use this `egress` block:
+~> **Note on Egress Rules:** By default, the cloud creates an `ALLOW ALL` egress rule when creating a new security group inside a VPC. When creating a new security group inside a VPC, **Terraform will remove this default rule**, and require you specifically re-create it if you desire that rule. We feel this leads to fewer surprises in terms of controlling your egress rules. If you desire this rule to be in place, you can use this `egress` block:
 
 ```terraform
 resource "aws_security_group" "example" {
@@ -75,9 +75,9 @@ resource "aws_security_group" "example" {
 
 ### Change of name or name-prefix value
 
-Security Group's Name cannot be edited after the resource is created. In fact, the `name` and `name-prefix` arguments force the creation of a new security group resource when they change value. In that case, Terraform first deletes the existing Security Group resource and then it creates a new one. If the existing Security Group is associated to a Network Interface resource, the deletion cannot complete. The reason is that Network Interface resources cannot be left with no Security Group attached and the new one is not yet available at that point.
+Security group's name cannot be edited after the resource is created. In fact, the `name` and `name-prefix` arguments force the creation of a new security group resource when they change value. In that case, Terraform first deletes the existing security group resource and then it creates a new one. If the existing security group is associated to a network interface resource, the deletion cannot complete. The reason is that network interface resources cannot be left with no security group attached and the new one is not yet available at that point.
 
-It is required to invert the default behavior of Terraform. That is, first the new security group resource must be created, then associated to possible network interface resources and finally the old Security Group can be detached and deleted. To force this behavior, you must set the [create_before_destroy](https://www.terraform.io/language/meta-arguments/lifecycle#create_before_destroy) property:
+It is required to invert the default behavior of Terraform. That is, first the new security group resource must be created, then associated to possible network interface resources and finally the old security group can be detached and deleted. To force this behavior, you must set the [create_before_destroy](https://www.terraform.io/language/meta-arguments/lifecycle#create_before_destroy) property:
 
 ```terraform
 resource "aws_security_group" "sg_with_changeable_name" {
@@ -166,7 +166,7 @@ The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 ## Import
 
-Security Groups can be imported using the `security group id`, e.g.,
+Security groups can be imported using the `security group id`, e.g.,
 
 ```
 $ terraform import aws_security_group.elb_sg sg-12345678

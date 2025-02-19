@@ -3,12 +3,12 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_vpc_dhcp_options_association"
 description: |-
-  Manages a VPC DHCP Options Association.
+  Manages a VPC DHCP options association.
 ---
 
 # Resource: aws_vpc_dhcp_options_association
 
-Manages a VPC DHCP Options Association.
+Manages a VPC DHCP options association.
 
 ## Example Usage
 
@@ -31,19 +31,19 @@ resource "aws_vpc_dhcp_options_association" "example" {
 
 The following arguments are supported:
 
-* `vpc_id` - (Required) ID of the VPC to which we would like to associate a DHCP Options Set.
-* `dhcp_options_id` - (Required) ID of the DHCP Options Set to associate to the VPC.
+* `vpc_id` - (Required) ID of the VPC to which we would like to associate a DHCP options set.
+* `dhcp_options_id` - (Required) ID of the DHCP options set to associate to the VPC.
 
 ## Remarks
 
-* You can only associate one DHCP Options Set to a given VPC ID.
-* Removing the DHCP Options Association automatically sets `default` DHCP Options Set to the VPC.
+* You can only associate one DHCP options set to a given VPC ID.
+* Removing the DHCP options association automatically sets `default` DHCP options set to the VPC.
 
 ## Attributes Reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `id` - ID of the DHCP Options Set Association.
+* `id` - ID of the DHCP options set association.
 
 ## Import
 

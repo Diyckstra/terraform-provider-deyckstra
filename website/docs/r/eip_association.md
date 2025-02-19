@@ -3,13 +3,13 @@ subcategory: "EC2 (Elastic Compute Cloud)"
 layout: "aws"
 page_title: "aws_eip_association"
 description: |-
-  Manages an EIP Association.
+  Manages an EIP association.
 ---
 
 # Resource: aws_eip_association
 
-Manages an EIP Association as a top level resource, to associate and
-disassociate Elastic IPs from Instances and Network Interfaces.
+Manages an EIP association as a top level resource, to associate and
+disassociate Elastic IPs from instances and network interfaces.
 
 ~> **Note** `aws_eip_association` is useful in scenarios where EIPs are either
 pre-existing or distributed to customers or users and therefore cannot be changed.
@@ -61,7 +61,7 @@ In addition to all arguments above, the following attributes are exported:
 
 ## Import
 
-EIP Associations can be imported using their association ID.
+EIP associations can be imported using their association ID.
 
 ```
 $ terraform import aws_eip_association.test eipassoc-12345678

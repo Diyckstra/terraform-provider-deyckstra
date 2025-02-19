@@ -11,7 +11,7 @@ description: |-
 Manages a security group rule.
 Represents a single `ingress` or `egress` group rule, which can be added to external security groups.
 
-~> **Note on Security Groups and Security Group Rules:** Terraform currently
+~> **Note on security groups and security group rules:** Terraform currently
 provides both a standalone security group rule resource (a single `ingress` or
 `egress` rule), and a [`aws_security_group`](security_group.md) with `ingress` and `egress` rules
 defined in-line. At this time you cannot use a security group with in-line rules

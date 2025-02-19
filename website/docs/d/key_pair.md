@@ -3,16 +3,16 @@ subcategory: "EC2 (Elastic Compute Cloud)"
 layout: "aws"
 page_title: "aws_key_pair"
 description: |-
-    Provides information about a specific EC2 Key Pair.
+    Provides information about a specific EC2 key pair.
 ---
 
 # Data Source: aws_key_pair
 
-Provides information about a specific EC2 Key Pair.
+Provides information about a specific EC2 key pair.
 
 ## Example Usage
 
-The following example shows how to get a EC2 Key Pair from its name.
+The following example shows how to get a EC2 key pair from its name.
 
 ```terraform
 data "aws_key_pair" "example" {
@@ -38,12 +38,12 @@ output "id" {
 
 ## Argument Reference
 
-The arguments of this data source act as filters for querying the available
-Key Pairs. The given filters must match exactly one Key Pair
+The arguments of this data source act as filters for querying the available key pairs.
+The given filters must match exactly one key pair
 whose data will be exported as attributes.
 
-* `key_pair_id` - (Optional) The Key Pair ID.
-* `key_name` - (Optional) The Key Pair name.
+* `key_pair_id` - (Optional) The key pair ID.
+* `key_name` - (Optional) The key pair name.
 * `filter` -  (Optional) One or more name/value pairs to use as filters.
   Valid names and values can be found in the [EC2 API documentation][describe-key-pairs].
 
@@ -53,7 +53,7 @@ whose data will be exported as attributes.
 
 In addition to all arguments above, the following attributes are exported:
 
-* `id` - ID of the Key Pair.
-* `arn` - The ARN of the Key Pair.
+* `id` - ID of the key pair.
+* `arn` - The ARN of the key pair.
 * `fingerprint` - The SHA-1 digest of the DER encoded private key.
-* `tags` - Map of tags assigned to the Key Pair.
+* `tags` - Map of tags assigned to the key pair.

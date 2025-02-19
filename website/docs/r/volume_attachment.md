@@ -3,7 +3,7 @@ subcategory: "EBS (EC2)"
 layout: "aws"
 page_title: "aws_volume_attachment"
 description: |-
-  Manages an EBS Volume Attachment
+  Manages an EBS volume attachment
 ---
 
 # Resource: aws_volume_attachment

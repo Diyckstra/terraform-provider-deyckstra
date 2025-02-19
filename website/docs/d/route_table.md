@@ -3,18 +3,18 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_route_table"
 description: |-
-    Provides information about a specific Route Table.
+    Provides information about a specific route table.
 ---
 
 # Data Source: aws_route_table
 
-Provides information about a specific Route Table.
+Provides information about a specific route table.
 
-This resource can be used when a module accepts a Subnet ID as an input variable and needs to, for example, add a route in the Route Table.
+This resource can be used when a module accepts a subnet ID as an input variable and needs to, for example, add a route in the route table.
 
 ## Example Usage
 
-The following example shows how one might accept a Route Table ID as a variable and use this data source to obtain the data necessary to create a route.
+The following example shows how one might accept a route table ID as a variable and use this data source to obtain the data necessary to create a route.
 
 ```terraform
 variable "vpc_id" {}
@@ -33,15 +33,15 @@ resource "aws_route" "example" {
 
 ## Argument Reference
 
-The arguments of this data source act as filters for querying the available Route Table in the current region. The given filters must match exactly one Route Table whose data will be exported as attributes.
+The arguments of this data source act as filters for querying the available route table in the current region. The given filters must match exactly one route table whose data will be exported as attributes.
 
 The following arguments are optional:
 
 * `filter` - (Optional) One or more name/value pairs to use as filters.
   Valid names and values can be found in the [EC2 API documentation][describe-route-tables].
-* `subnet_id` - (Optional) ID of a Subnet which is associated with the Route Table (not exported if not passed as a parameter).
-* `tags` - (Optional) Map of tags, each pair of which must exactly match a pair on the desired Route Table.
-* `vpc_id` - (Optional) ID of the VPC that the desired Route Table belongs to.
+* `subnet_id` - (Optional) ID of a subnet which is associated with the route table (not exported if not passed as a parameter).
+* `tags` - (Optional) Map of tags, each pair of which must exactly match a pair on the desired route table.
+* `vpc_id` - (Optional) ID of the VPC that the desired route table belongs to.
 
 ## Attributes Reference
 
@@ -75,7 +75,7 @@ Associations are also exported with the following attributes:
 * `gateway_id` - ID of the Internet Gateway or Virtual Private Gateway.
 * `main` - Whether the association is due to the main route table.
 * `route_table_association_id` - Association ID.
-* `route_table_id` - Route Table ID.
+* `route_table_id` - ID of the route table.
 * `subnet_id` - Subnet ID. Only set when associated with a subnet.
 
 ### Unsupported attributes

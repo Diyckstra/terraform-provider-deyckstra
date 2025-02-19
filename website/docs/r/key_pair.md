@@ -3,7 +3,7 @@ subcategory: "EC2 (Elastic Compute Cloud)"
 layout: "aws"
 page_title: "aws_key_pair"
 description: |-
-  Manages a Key Pair.
+  Manages a key pair.
 ---
 
 # Resource: aws_key_pair
@@ -51,7 +51,7 @@ In addition to all arguments above, the following attributes are exported:
 
 ## Import
 
-Key Pairs can be imported using the `key_name`, e.g.,
+Key pairs can be imported using the `key_name`, e.g.,
 
 ```
 $ terraform import aws_key_pair.deployer deployer-key

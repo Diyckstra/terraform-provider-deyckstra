@@ -15,11 +15,11 @@ Manages the default security group of a VPC. This resource can manage the defaul
 
 ~> **Note** This is an advanced resource with special caveats. Please read this document in its entirety before using this resource. The `aws_default_security_group` resource behaves differently from normal resources. Terraform does not _create_ this resource but instead attempts to "adopt" it into management.
 
-When Terraform first adopts the default security group, it **immediately removes all ingress and egress rules in the Security Group**. It then creates any rules specified in the configuration. This way only the rules specified in the configuration are created.
+When Terraform first adopts the default security group, it **immediately removes all ingress and egress rules in the security group**. It then creates any rules specified in the configuration. This way only the rules specified in the configuration are created.
 
 This resource treats its inline rules as absolute; only the rules defined inline are created, and any additions/removals external to this resource will result in diff shown. For these reasons, this resource is incompatible with the [`aws_security_group_rule`](security_group_rule.md) resource.
 
-For more information about default security groups, see the documentation on [Default Security Groups][default-security-groups]. To manage normal security groups, see the [`aws_security_group`](security_group.md) resource.
+For more information about default security groups, see the documentation on [default security groups][default-security-groups]. To manage normal security groups, see the [`aws_security_group`][tf-security-group] resource.
 
 ## Example Usage
 
@@ -51,7 +51,7 @@ resource "aws_default_security_group" "example" {
 
 ### Example Config To Deny All Egress Traffic, Allowing Ingress
 
-The following denies all Egress traffic by omitting any `egress` rules, while including the default `ingress` rule to allow all traffic.
+The following denies all egress traffic by omitting any `egress` rules, while including the default `ingress` rule to allow all traffic.
 
 ```terraform
 resource "aws_vpc" "mainvpc" {
@@ -120,7 +120,7 @@ The following attributes are not currently supported: `prefix_list_ids`.
 
 ## Import
 
-Security Groups can be imported using the `security group id`, e.g.,
+Security groups can be imported using the `security group id`, e.g.,
 
 ```
 $ terraform import aws_default_security_group.default_sg sg-12345678

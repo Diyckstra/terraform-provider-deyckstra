@@ -28,7 +28,7 @@ data "aws_route_tables" "rts" {
 ## Argument Reference
 
 * `filter` - (Optional) One or more name/value pairs to use as filters.
-  A Route Table will be selected if any one of the given values matches.
+  A route table will be selected if any one of the given values matches.
 	Valid names and values can be found in the [EC2 API documentation][describe-route-tables].
 * `vpc_id` - (Optional) The VPC ID that you want to filter from.
 * `tags` - (Optional) Map of tags, each pair of which must exactly match

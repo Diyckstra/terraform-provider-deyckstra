@@ -3,7 +3,7 @@ subcategory: "EKS (Elastic Kubernetes)"
 layout: "aws"
 page_title: "aws_eks_cluster_auth"
 description: |-
-  Provides information about an authentication token to communicate with an EKS Cluster.
+  Provides information about an authentication token to communicate with an EKS cluster.
 ---
 
 # Data Source: aws_eks_cluster_auth

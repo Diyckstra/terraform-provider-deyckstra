@@ -3,14 +3,14 @@ subcategory: "ELB (Elastic Load Balancing)"
 layout: "aws"
 page_title: "aws_lb"
 description: |-
-  Provides information about a Load Balancer.
+  Provides information about a load balancer.
 ---
 
 # Data Source: aws_lb
 
 ~> **Note** `aws_alb` is known as `aws_lb`. The functionality is identical.
 
-Provides information about a Load Balancer.
+Provides information about a load balancer.
 
 This data source can prove useful when a module accepts an LB as an input
 variable and needs to, for example, determine the security groups associated

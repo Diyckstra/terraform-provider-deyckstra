@@ -39,7 +39,7 @@ resource "aws_dx_gateway_association" "example" {
 The following arguments are supported:
 
 * `allowed_prefixes` - (Required, Editable) VPC prefixes (CIDRs) to advertise to the Direct Connect gateway.
-* `associated_gateway_id` - (Required) The ID of the transit gateway that the Direct Connection gateway must be associated with.
+* `associated_gateway_id` - (Required) The ID of the transit gateway that the Direct Connect gateway must be associated with.
 * `dx_gateway_id` - (Required) The ID of the Direct Connect gateway.
 
 ## Attributes Reference
