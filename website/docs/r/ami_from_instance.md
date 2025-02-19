@@ -64,9 +64,9 @@ In addition to all arguments above, the following attributes are exported:
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** This attribute may be present in the `terraform.tfstate` file but it has a preset value and cannot be specified in configuration files.
 
-The following attributes are not currently supported: `snapshot_without_reboot`.
+The following attribute is not currently supported: `snapshot_without_reboot`.
 
 This resource also exports a full set of attributes corresponding to the arguments of the
 [`aws_ami`](ami.md) resource, allowing the properties of the created image to be used elsewhere in the

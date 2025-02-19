@@ -51,17 +51,11 @@ The following arguments are optional:
 
 ### Unsupported arguments
 
-These arguments are currently unsupported:
+~> **Note** These arguments may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
 
-* `carrier_gateway_id` - ID of a carrier gateway. Always `""`.
-* `core_network_arn` - ARN of a core network. Always `""`.
-* `destination_ipv6_cidr_block` - The destination IPv6 CIDR block. Always `""`.
-* `destination_prefix_list_id` - ID of a managed prefix list destination of the route. Always `""`.
-* `egress_only_gateway_id` - ID of a VPC Egress Only Internet Gateway. Always `""`.
-* `local_gateway_id` - ID of an Outpost local gateway. Always `""`.
-* `nat_gateway_id` - ID of a VPC NAT gateway. Always `""`.
-* `vpc_endpoint_id` - ID of a VPC endpoint. Always `""`.
-* `vpc_peering_connection_id` - ID of a VPC peering connection. Always `""`.
+The following arguments are not currently supported:
+
+`carrier_gateway_id`,`core_network_arn`, `destination_ipv6_cidr_block`, `destination_prefix_list_id`, `egress_only_gateway_id`, `local_gateway_id`, `nat_gateway_id`, `vpc_endpoint_id`, `vpc_peering_connection_id`.
 
 ## Attributes Reference
 

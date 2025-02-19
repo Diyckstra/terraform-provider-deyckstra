@@ -44,6 +44,6 @@ The following arguments are supported:
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** This attribute may be present in the `terraform.tfstate` file but it has a preset value and cannot be specified in configuration files.
 
-The following attributes are not currently supported: `path_prefix`.
+The following attribute is not currently supported: `path_prefix`.
