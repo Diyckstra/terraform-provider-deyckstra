@@ -53,7 +53,7 @@ The following attributes are not currently supported:
 
 ## Import
 
-Customer Gateways can be imported using the `id`, e.g.,
+Customer Gateways can be imported using `id`, e.g.,
 
 ```
 $ terraform import aws_customer_gateway.main cgw-12345678

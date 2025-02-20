@@ -173,7 +173,7 @@ The following attributes are not currently supported:
 
 ## Import
 
-Default network ACLs can be imported using the `id`, e.g.,
+Default network ACLs can be imported using `id`, e.g.,
 
 ```
 $ terraform import aws_default_network_acl.sample acl-12345678

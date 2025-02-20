@@ -35,16 +35,16 @@ data "aws_launch_template" "example" {
 
 The following arguments are supported:
 
-* `filter` - (Optional) One or more name/value pairs to use as filters.
-  Valid names and values can be found in the [EC2 API documentation][describe-lts].
-* `id` - (Optional) The ID of the specific launch template to retrieve.
-* `name` - (Optional) The name of the launch template.
-* `tags` - (Optional) Map of tags, each pair of which must exactly match a pair on the desired launch template.
+* `filter` – (Optional) One or more name/value pairs to use as filters.
+    * _Valid values_: See valid names and values in [EC2 API documentation][describe-lts].
+* `id` – (Optional) The ID of the specific launch template to retrieve.
+* `name` – (Optional) The name of the launch template.
+* `tags` – (Optional) Map of tags, each pair of which must exactly match a pair on the desired launch template.
 
 ## Attributes Reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `id` - The ID of the launch template.
+* `id` – The ID of the launch template.
 
 This resource also exports a full set of attributes corresponding to the arguments of the [`aws_launch_template`](../r/launch_template.md) resource.

@@ -86,7 +86,7 @@ The following attributes are not currently supported:
 
 ## Import
 
-Objects can be imported using the `id`. The `id` is the bucket name and the key together e.g.,
+Objects can be imported using `id`. The `id` is the bucket name and the key together e.g.,
 
 ```
 $ terraform import aws_s3_bucket_object.example some-bucket-name/some/key.txt

@@ -36,9 +36,10 @@ resource "aws_ami_launch_permission" "example" {
 
 The following arguments are supported:
 
-* `account_id` - (Optional) The project ID (`project@customer`) for the launch permission.
-* `group` - (Optional) The name of the group for the launch permission. Valid values: `"all"`.
-* `image_id` - (Required) The ID of the image.
+* `image_id` – (Required) The ID of the image.
+* `account_id` – (Optional) The ID of the project (`project@customer`) for the launch permission.
+* `group` – (Optional) The name of the group for the launch permission.
+    * _Valid values_: `"all"`.
 
 ## Attributes Reference
 
@@ -46,7 +47,7 @@ The following arguments are supported:
 
 In addition to all arguments above, the following attributes are exported:
 
-* `id` - Launch permission ID.
+* `id` – The ID of the launch permission.
 
 ### Unsupported attributes
 

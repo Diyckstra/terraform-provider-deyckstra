@@ -6,9 +6,8 @@ description: |-
   Manages an elastic network interface (ENI).
 ---
 
-
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[network-interfaces]: https://docs.k2.cloud/en/services/networking/interfaces/operations.html
+[network-interfaces]: https://docs.k2.cloud/en/services/networks/interfaces/operations.html
 
 # Resource: aws_network_interface
 
@@ -38,22 +37,25 @@ The following arguments are required:
 
 The following arguments are optional:
 
-* `attachment` - (Optional) Configuration block to define the attachment of the ENI. See [Attachment](#attachment) below for more details!
+* `attachment` - (Optional) Configuration block to define the attachment of the ENI. See [Attachment](#attachment) below for more details.
 * `description` - (Optional) Description for the network interface.
 * `private_ip_list` - (Optional) List of private IPs to assign to the ENI in sequential order. One value only.
 * `private_ips` - (Optional) List of private IPs to assign to the ENI without regard to order. One value only.
 * `security_groups` - (Optional) List of security group IDs to assign to the ENI.
-* `source_dest_check` - (Optional) Whether to enable source destination checking for the ENI. Default true.
+* `source_dest_check` - (Optional) Whether to enable source destination checking for the ENI.
+    * _Default value:_ `true`.
 * `tags` - (Optional) Map of tags to assign to the resource. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
 ### Attachment
 
-The `attachment` block supports the following:
+The `attachment` block has the following structure:
 
 * `instance` - (Required) ID of the instance to attach to.
 * `device_index` - (Required) Integer to define the devices index.
 
 ## Attributes Reference
+
+### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
@@ -62,11 +64,9 @@ In addition to all arguments above, the following attributes are exported:
 * `mac_address` - MAC address of the network interface.
 * `owner_id` - The project ID.
 * `private_dns_name` - Private DNS name of the network interface (IPv4).
-* `tags_all` -Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
-
-### Supported attributes
 
 ~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
 
@@ -76,7 +76,7 @@ The following attributes are not currently supported:
 
 ## Import
 
-Network interfaces can be imported using the `id`, e.g.,
+Network interfaces can be imported using `id`, e.g.,
 
 ```
 $ terraform import aws_network_interface.test eni-12345678

@@ -40,21 +40,21 @@ data "aws_ec2_host" "selected" {
 
 The following arguments are supported:
 
-* `filter` - (Optional) One or more name/value pairs to use as filters.
+* `filter` – (Optional) One or more name/value pairs to use as filters.
   Valid names and values can be found in the [EC2 API documentation][describe-hosts].
-* `host_id` - (Optional) The ID of the dedicated host.
+* `host_id` – (Optional) The ID of the dedicated host.
 
 ## Attribute Reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` - ARN of the dedicated host.
-* `auto_placement` - Indicates whether automated placement is on or off.
-* `availability_zone` - Availability zone of the dedicated host.
-* `cores` - Number of cores on the dedicated host.
-* `host_recovery` - Indicates whether host recovery is enabled or disabled for the dedicated host.
-* `id` - The ID of the dedicated host.
-* `instance_family` - Instance family supported by the dedicated host.
-* `owner_id` - The ID of the project that owns the dedicated host.
-* `sockets` - Number of sockets on the dedicated host.
-* `total_vcpus` - Total number of vCPUs on the dedicated host.
+* `arn` – ARN of the dedicated host.
+* `auto_placement` – Indicates whether automated placement is on or off.
+* `availability_zone` – Availability zone of the dedicated host.
+* `cores` – Number of cores on the dedicated host.
+* `host_recovery` – Indicates whether host recovery is enabled or disabled for the dedicated host.
+* `id` – The ID of the dedicated host.
+* `instance_family` – Instance family supported by the dedicated host.
+* `owner_id` – The ID of the project that owns the dedicated host.
+* `sockets` – Number of sockets on the dedicated host.
+* `total_vcpus` – Total number of vCPUs on the dedicated host.

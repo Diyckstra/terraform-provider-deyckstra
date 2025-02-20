@@ -41,27 +41,31 @@ resource "aws_eip" "example" {
 
 The following arguments are supported:
 
-* `allocation_id` - (Optional) The allocation ID. Required, if `public_ip` is not supplied.
-* `allow_reassociation` - (Optional, Boolean) Whether to allow an Elastic IP to
-be re-associated. Defaults to `true`.
-* `instance_id` - (Optional) The ID of the instance. Required, if `network_interface_id` is not supplied.
-* `network_interface_id` - (Optional) The ID of the network interface. Required, if `instance_id` is not supplied.
-* `public_ip` - (Optional) The Elastic IP address. Required, if `allocation_id` is not supplied.
+* `allocation_id` – (Optional) The allocation ID. Required, if `public_ip` is not supplied.
+* `allow_reassociation` – (Optional, Boolean) Whether to allow an Elastic IP to
+be re-associated.
+    * Default value: `true`
+* `instance_id` – (Optional) The ID of the instance.
+    * _Constraints_ Required, if `network_interface_id` is not supplied
+* `network_interface_id` – (Optional) The ID of the network interface.
+    * _Constraints_ Required, if `instance_id` is not supplied
+* `public_ip` – (Optional) The Elastic IP address.
+    * _Constraints_ Required, if `allocation_id` is not supplied
 
 ## Attributes Reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `association_id` - The ID that represents the association of the Elastic IP address with an instance.
-* `allocation_id` - The allocation ID.
-* `instance_id` - The ID of the instance that the address is associated with.
-* `network_interface_id` - The ID of the network interface.
-* `private_ip_address` - The private IP address associated with the Elastic IP address.
-* `public_ip` - Public IP address of Elastic IP.
+* `association_id` – The ID that represents the association of the Elastic IP address with an instance.
+* `allocation_id` – The allocation ID.
+* `instance_id` – The ID of the instance that the address is associated with.
+* `network_interface_id` – The ID of the network interface.
+* `private_ip_address` – The private IP address associated with the Elastic IP address.
+* `public_ip` – Public IP address of Elastic IP.
 
 ## Import
 
-EIP associations can be imported using their association ID.
+EIP associations can be imported using their association IDs.
 
 ```
 $ terraform import aws_eip_association.test eipassoc-12345678

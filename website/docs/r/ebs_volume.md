@@ -68,7 +68,7 @@ The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 ## Import
 
-EBS volumes can be imported using the `id`, e.g.,
+EBS volumes can be imported using `id`, e.g.,
 
 ```
 $ terraform import aws_ebs_volume.id vol-12345678

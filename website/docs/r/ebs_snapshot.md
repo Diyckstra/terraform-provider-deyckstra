@@ -72,7 +72,7 @@ The following attributes are not currently supported:
 
 ## Import
 
-EBS snapshot can be imported using the `id`, e.g.,
+EBS snapshot can be imported using `id`, e.g.,
 
 ```
 $ terraform import aws_ebs_snapshot.id snap-12345678

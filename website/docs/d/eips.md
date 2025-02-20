@@ -6,6 +6,8 @@ description: |-
     Provides a list of Elastic IPs in a region.
 ---
 
+[describe-addresses]: https://docs.cloud.croc.ru/en/api/ec2/addresses/DescribeAddresses.html
+
 # Data Source: aws_eips
 
 Provides a list of Elastic IPs in a region.
@@ -29,18 +31,15 @@ output "public_ips" {
   value = data.aws_eips.example.public_ips
 }
 ```
-
 ## Argument Reference
 
-* `filter` - (Optional) One or more name/value pairs to use as filters.
-  A Elastic IP will be selected if any one of the given values matches.
-	Valid names and values can be found in the [EC2 API documentation][describe-addresses].
-* `tags` - (Optional) Map of tags, each pair of which must exactly match a pair on the desired Elastic IPs.
-
-[describe-addresses]: https://docs.k2.cloud/en/api/ec2/addresses/DescribeAddresses.html
+* `filter` – (Optional) One or more name/value pairs to use as filters.
+  An Elastic IP will be selected if any of the given values match.
+    * _Valid values_: See names and values in [EC2 API documentation][describe-addresses].
+* `tags` – (Optional) Map of tags, each pair of which must exactly match a pair on the desired Elastic IPs.
 
 ## Attributes Reference
 
-* `id` - The region.
-* `allocation_ids` - A list of all the allocation IDs.
-* `public_ips` - A list of all the Elastic IP addresses.
+* `id` – The region (e.g., `region-1`).
+* `allocation_ids` – A list of all the allocation IDs.
+* `public_ips` – A list of all the Elastic IP addresses.

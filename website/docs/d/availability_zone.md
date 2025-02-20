@@ -6,12 +6,13 @@ description: |-
     Provides information about a specific availability zone.
 ---
 
+[describe-azs]: https://docs.cloud.croc.ru/en/api/ec2/placements/DescribeAvailabilityZones.html
+[tf-availability-zones]: availability_zones.html
+
 # Data Source: aws_availability_zone
 
 Provides information about a specific availability zone (AZ).
-
-This is different from the [`aws_availability_zones`](availability_zones.md) (plural) data source,
-which provides a list of the available zones.
+To get a list of the available zones, use the [`aws_availability_zones`][tf-availability-zones] (plural) data source.
 
 ## Example Usage
 
@@ -31,12 +32,11 @@ The arguments of this data source act as filters for querying the available
 availability zones. The given filters must match exactly one availability
 zone whose data will be exported as attributes.
 
-* `filter` - (Optional) One or more name/value pairs to use as filters.
-  Valid names and values can be found in the [EC2 API documentation][describe-azs].
-* `name` - (Optional) The full name of the availability zone to select.
-* `state` - (Optional) A specific availability zone state to require. May be any of `"available"`, `"information"` or `"impaired"`.
-
-[describe-azs]: https://docs.cloud.croc.ru/en/api/ec2/placements/DescribeAvailabilityZones.html
+* `filter` – (Optional) One or more name/value pairs to use as filters.
+    * _Valid values_: See names and values in [EC2 API documentation][describe-azs].
+* `name` – (Optional) The full name of the availability zone to select.
+* `state` – (Optional) A specific availability zone state to require.
+    * _Valid values_: `"available"`, `"information"`, `"impaired"`
 
 ## Attributes Reference
 
@@ -44,8 +44,9 @@ zone whose data will be exported as attributes.
 
 In addition to all arguments above, the following attributes are exported:
 
-* `region` - The region where the selected availability zone resides.
-* `state` - A specific availability zone state to require. Possible values: `"available"`, `"information"`, `"impaired"`, `"unavailable"`.
+* `region` – The region where the selected availability zone resides.
+* `state` – A specific availability zone state to require.
+    * _Valid values_: `"available"`, `"information"`, `"impaired"`, `"unavailable"`
 
 ### Unsupported attributes
 

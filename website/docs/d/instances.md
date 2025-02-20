@@ -20,7 +20,7 @@ and **use [`terraform_remote_state`][terraform_remote_state] data source instead
 
 ~> **Note** It's strongly discouraged to use this data source for querying ephemeral
 instances (e.g., managed via autoscaling group), as the output may change at any time
-and you'd need to re-run `apply` every time an instance comes up or dies.
+and you would need to re-run `apply` every time as an instance comes up or dies.
 
 ## Example Usage
 
@@ -46,15 +46,15 @@ resource "aws_eip" "example" {
 
 ## Argument Reference
 
-* `instance_tags` - (Optional) Map of tags, each pair of which must exactly match a pair on desired instances.
-* `instance_state_names` - (Optional) A list of instance states that should be applicable to the desired instances.
-  Valid values are `pending, running, shutting-down, stopped, stopping, terminated`.
-* `filter` - (Optional) One or more name/value pairs to use as filters.
-	Valid names and values can be found in the [EC2 API documentation][describe-instances].
+* `filter` – (Optional) One or more name/value pairs to use as filters.
+    * _Valid values_: See valid names and values in [EC2 API documentation][describe-instances]
+* `instance_tags` – (Optional) Map of tags, each pair of which must exactly match a pair on desired instances.
+* `instance_state_names` – (Optional) A list of instance states that should be applicable to the desired instances.
+    * _Valid values_: `pending`, `running`, `shutting-down`, `stopped`, `stopping`, `terminated`
 
 ## Attributes Reference
 
-* `id` - The region.
-* `ids` - IDs of instances found through the filter.
-* `private_ips` - Private IP addresses of instances found through the filter.
-* `public_ips` - Public IP addresses of instances found through the filter.
+* `id` – The region (e.g., `region-1`).
+* `ids` – IDs of instances found through the filter.
+* `private_ips` – Private IP addresses of instances found through the filter.
+* `public_ips` – Public IP addresses of instances found through the filter.
