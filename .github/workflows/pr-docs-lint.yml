@@ -1,12 +1,12 @@
 name: Run linters for the documentation
 
 on:
-  pull_request_target:
+  pull_request:
     branches: 'develop'
     paths: 'docs/**'
 
 jobs:
-    code-linter:
+    doc-linter:
         runs-on: ubuntu-22.04
         steps:
         - name: Setup Go

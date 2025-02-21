@@ -2,11 +2,8 @@
 
 # Path of the directory with the documentation
 SOURCE_DIR="website/site/"
-
-if [[ -z $S3_DOCS_BUCKET_NAME ]]; then
-  echo "Define S3_DOCS_BUCKET_NAME environment variable."
-  exit 1
-fi
+S3_CMD_CFG_LOCATION=${S3_CMD_CFG_LOCATION:-"$HOME/.s3cfg"}
+S3_DOCS_BUCKET_NAME=${S3_DOCS_BUCKET_NAME:-"docs.tf.k2.cloud"}
 
 # Copying of configuration for the documentatiion to the website folder
 cp -r docs/c2/mkdocs/assets docs/c2/mkdocs/images website/docs/
@@ -19,20 +16,20 @@ mkdocs build --clean
 
 # Funtion to upload the documentation files to the bucket
 upload_other_files () {
-    s3cmd sync "$SOURCE_DIR" "s3://$S3_DOCS_BUCKET_NAME" --acl-public
+    s3cmd sync --config=$S3_CMD_CFG_LOCATION "$SOURCE_DIR" "s3://$S3_DOCS_BUCKET_NAME" --acl-public
 }
 
 # Funtion to upload .css files to the bucket with specified Content-Type
 upload_css_files () {
     find "$SOURCE_DIR" -type f -name "*.css" | while read -r file; do
-    s3cmd modify "s3://$S3_DOCS_BUCKET_NAME/${file#$SOURCE_DIR}" --add-header='Content-Type:text/css'
+    s3cmd modify --config=$S3_CMD_CFG_LOCATION "s3://$S3_DOCS_BUCKET_NAME/${file#$SOURCE_DIR}" --add-header='Content-Type:text/css'
 done
 }
 
 # Funtion to upload .js files to the bucket with specified Content-Type
 upload_js_files () {
     find "$SOURCE_DIR" -type f -name "*.js" | while read -r file; do
-    s3cmd modify "s3://$S3_DOCS_BUCKET_NAME/${file#$SOURCE_DIR}" --add-header='Content-Type:application/javascript'
+    s3cmd modify --config=$S3_CMD_CFG_LOCATION "s3://$S3_DOCS_BUCKET_NAME/${file#$SOURCE_DIR}" --add-header='Content-Type:application/javascript'
 done
 }
 

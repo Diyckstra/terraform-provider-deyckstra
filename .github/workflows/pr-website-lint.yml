@@ -1,12 +1,12 @@
 name: Run linters for the website
 
 on:
-  pull_request_target:
+  pull_request:
     branches: 'develop'
     paths: 'website/**'
 
 jobs:
-    code-linter:
+    website-linter:
         runs-on: ubuntu-22.04
         steps:
         - name: Setup Go
