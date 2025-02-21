@@ -1,0 +1,20 @@
+name: Validate go.mod
+
+on:
+  pull_request:
+    branches: 'develop'
+
+jobs:
+    check-go-mod:
+        runs-on: ubuntu-22.04
+       
+        steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+
+        - name: Validate go.mod
+          run: |
+             if ! grep -q 'replace github.com/aws/aws-sdk-go => github.com/vamping111/aws-sdk-go v1.44.10-ROCKIT' go.mod; then
+               echo "Invalid version in go.mod. The version must match 'v1.44.10-ROCKIT*'."
+               exit 1
+             fi

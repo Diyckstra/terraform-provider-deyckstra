@@ -1,7 +1,7 @@
 name: Run linters for the code
 
 on:
-  pull_request_target:
+  pull_request:
     branches: 'develop'
     paths: 'internal/**'
 
@@ -23,6 +23,10 @@ jobs:
 
         - name: Install Docker
           uses: crazy-max/ghaction-setup-docker@v3
+
+        - name: Bump aws-sdk-go version if it's changed
+          if: contains(github.event.pull_request.labels.*.name, 'NeedSDK')
+          run: go mod tidy
 
         - name: Run linters for the code
           run: make lint

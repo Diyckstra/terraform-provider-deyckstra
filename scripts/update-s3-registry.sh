@@ -6,15 +6,16 @@
 set -euo pipefail
 
 TF_REGISTRY_URL=${TF_REGISTRY_URL:-"https://registry.terraform.io/"}
-S3_REGISTRY_URL=${S3_REGISTRY_URL:-}
-S3_BUCKET_NAME=${S3_BUCKET_NAME:-}
+S3_REGISTRY_URL=${S3_REGISTRY_URL:-"https://hc-registry.website.k2.cloud/"}
+S3_BUCKET_NAME=${S3_BUCKET_NAME:-"hc-registry"}
 PROVIDER_NAME=${PROVIDER_NAME:-"c2devel/rockitcloud"}
 
-S3_BACKUP_DIR=${S3_BACKUP_DIR:-}
+S3_BACKUP_DIR=${S3_BACKUP_DIR:-"./s3_backup"}
 TMP_DIR="/tmp/"
 
 TF_VERSIONS_FILE="${TMP_DIR}/tf-versions.json"
 S3_VERSIONS_FILE="${TMP_DIR}/s3-versions.json"
+S3_CMD_CFG_LOCATION=${S3_CMD_CFG_LOCATION:-"$HOME/.s3cfg"}
 
 function trim_slashes() {
   # $1 - url part
@@ -120,7 +121,7 @@ if [[ -n "${S3_BACKUP_DIR}" ]]; then
 
   mkdir -p "${S3_BACKUP_DIR}"
 
-  s3cmd sync --quiet "s3://${S3_BUCKET_NAME}/" "${S3_BACKUP_DIR}/${S3_BUCKET_NAME}-${timestamp}/"
+  s3cmd sync --config=$S3_CMD_CFG_LOCATION --quiet --no-preserve "s3://${S3_BUCKET_NAME}/" "${S3_BACKUP_DIR}/${S3_BUCKET_NAME}-${timestamp}/"
 
   echo "Finish backup"
 fi
@@ -153,7 +154,7 @@ for version in $tf_provider_versions; do
 
     sed -i 's|https://releases.hashicorp.com|https://hc-releases.website.k2.cloud|g' "${TMP_DIR}/${version}_${os}_${arch}.json"
 
-    s3cmd put --quiet --acl-public --content-type=application/json "${TMP_DIR}/${version}_${os}_${arch}.json" \
+    s3cmd put --config=$S3_CMD_CFG_LOCATION --quiet --acl-public --content-type=application/json "${TMP_DIR}/${version}_${os}_${arch}.json" \
       "s3://${S3_BUCKET_NAME}/${s3_provider_prefix}/${PROVIDER_NAME}/${version}/download/${os}/${arch}/index.json"
 
     rm -f "${TMP_DIR}/${version}_${os}_${arch}.json"
@@ -170,7 +171,7 @@ if [[ $new_versions_count -gt 0 ]]; then
 
   echo "Update versions meta in s3 registry"
 
-  s3cmd put --quiet --acl-public --content-type=application/json "${TF_VERSIONS_FILE}" \
+  s3cmd put --config=$S3_CMD_CFG_LOCATION --quiet --acl-public --content-type=application/json "${TF_VERSIONS_FILE}" \
     "s3://${S3_BUCKET_NAME}/${s3_provider_prefix}/${PROVIDER_NAME}/versions/index.json"
 
   echo "Finish versions meta update"
