@@ -28,10 +28,10 @@ data "aws_paas_backup" "backups" {
 The following arguments are supported:
 
 * `service_class` - (Optional) The class of the PaaS service.
-  Valid values are `cacher`, `database`, `message_broker`, `search`.
+    * _Valid values_: `cacher`, `database`, `message_broker`, `search`
 * `service_id` - (Optional) The ID of the PaaS service (e.g. `fm-cluster-12345678`).
 * `service_type` - (Optional) The type of the PaaS service.
-  Valid values are `elasticsearch`, `memcached`, `mongodb`, `mysql`, `pgsql`, `rabbitmq`, `redis`.
+    * _Valid values_: `elasticsearch`, `memcached`, `mongodb`, `mysql`, `pgsql`, `rabbitmq`, `redis`
 
 ## Attribute Reference
 

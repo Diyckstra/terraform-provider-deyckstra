@@ -52,7 +52,7 @@ The following arguments are supported:
 ~> **Note** User names are not case-sensitive. For example, you cannot create user names "TESTUSER" and "testuser" at the same time.
 
 * `otp_required` - (Optional) Indicates whether the user is required to use two-factor authentication to log in to the web interface.
-  Defaults to `false`.
+    * _Default value_: `false`
 * `password` - (Optional, Editable) The password of the user.
   If no value is specified, the password will be generated automatically.
 * `phone` - (Optional, Editable) The phone number of the user.

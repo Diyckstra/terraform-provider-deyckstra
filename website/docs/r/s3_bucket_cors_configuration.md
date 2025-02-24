@@ -55,7 +55,8 @@ The following arguments are supported:
 The `cors_rule` configuration block supports the following arguments:
 
 * `allowed_headers` - (Optional) Set of headers that are specified in the `Access-Control-Request-Headers` header.
-* `allowed_methods` - (Required) Set of HTTP methods that you allow the origin to execute. Valid values are `GET`, `PUT`, `HEAD`, `POST`, and `DELETE`.
+* `allowed_methods` - (Required) Set of HTTP methods that you allow the origin to execute.
+    * _Valid values_: `GET`, `PUT`, `HEAD`, `POST`, and `DELETE`
 * `allowed_origins` - (Required) Set of origins you want customers to be able to access the bucket from.
 * `expose_headers` - (Optional) Set of headers in the response that you want customers to be able to access from their applications (for example, from a JavaScript `XMLHttpRequest` object).
 * `id` - (Optional) Unique identifier for the rule. The value cannot be longer than 255 characters.

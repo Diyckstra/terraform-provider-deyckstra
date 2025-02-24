@@ -44,8 +44,10 @@ The following arguments are supported:
 
 * `bucket` - (Required, Forces new resource) The name of the bucket.
 * `error_document` - (Optional, Conflicts with `redirect_all_requests_to`) The name of the error document for the website [detailed below](#error_document).
-* `index_document` - (Optional, Required if `redirect_all_requests_to` is not specified) The name of the index document for the website [detailed below](#index_document).
-* `redirect_all_requests_to` - (Optional, Required if `index_document` is not specified) The redirect behavior for every request to this bucket's website endpoint [detailed below](#redirect_all_requests_to). Conflicts with `error_document`, `index_document`, and `routing_rule`.
+* `index_document` - (Optional) The name of the index document for the website [detailed below](#index_document).
+    * _Constraints_: Required if `redirect_all_requests_to` is not specified
+* `redirect_all_requests_to` - (Optional) The redirect behavior for every request to this bucket's website endpoint [detailed below](#redirect_all_requests_to).
+    * _Constraints_: Required if `index_document` is not specified. Conflicts with `error_document`, `index_document`, and `routing_rule`.
 * `routing_rule` - (Optional, Conflicts with `redirect_all_requests_to`) List of rules that define when a redirect is applied and the redirect behavior [detailed below](#routing_rule).
 
 ### error_document
@@ -67,7 +69,8 @@ The suffix must not be empty and must not include a slash character.
 The `redirect_all_requests_to` configuration block supports the following arguments:
 
 * `host_name` - (Required) Name of the host where requests are redirected.
-* `protocol` - (Optional) Protocol to use when redirecting requests. The default is the protocol that is used in the original request. Valid values: `http`, `https`.
+* `protocol` - (Optional) Protocol to use when redirecting requests. The default is the protocol that is used in the original request.
+    * _Valid values_:  `http`, `https`
 
 ### routing_rule
 
@@ -80,15 +83,18 @@ The `routing_rule` configuration block supports the following arguments:
 
 The `condition` configuration block supports the following arguments:
 
-* `http_error_code_returned_equals` - (Optional, Required if `key_prefix_equals` is not specified) The HTTP error code when the redirect is applied. If specified with `key_prefix_equals`, then both must be true for the redirect to be applied.
-* `key_prefix_equals` - (Optional, Required if `http_error_code_returned_equals` is not specified) The object key name prefix when the redirect is applied. If specified with `http_error_code_returned_equals`, then both must be true for the redirect to be applied.
+* `http_error_code_returned_equals` - (Optional) The HTTP error code when the redirect is applied. If specified with `key_prefix_equals`, then both must be true for the redirect to be applied.
+    * _Constraints_: Required if `key_prefix_equals` is not specified
+* `key_prefix_equals` - (Optional) The object key name prefix when the redirect is applied. If specified with `http_error_code_returned_equals`, then both must be true for the redirect to be applied.
+    * _Constraints_: Required if `http_error_code_returned_equals` is not specified
 
 ### redirect
 
 The `redirect` configuration block supports the following arguments:
 
 * `host_name` - (Optional) The host name to use in the redirect request.
-* `protocol` - (Optional) Protocol to use when redirecting requests. The default is the protocol that is used in the original request. Valid values: `http`, `https`.
+* `protocol` - (Optional) Protocol to use when redirecting requests. The default is the protocol that is used in the original request.
+    * _Valid values_:  `http`, `https`
 * `replace_key_prefix_with` - (Optional, Conflicts with `replace_key_with`) The object key prefix to use in the redirect request. For example, to redirect requests for all pages with prefix `docs/` (objects in the `docs/` folder) to `documents/`, you can set a `condition` block with `key_prefix_equals` set to `docs/` and in the `redirect` set `replace_key_prefix_with` to `/documents`.
 * `replace_key_with` - (Optional, Conflicts with `replace_key_prefix_with`) The specific object key to use in the redirect request. For example, redirect request to `error.html`.
 

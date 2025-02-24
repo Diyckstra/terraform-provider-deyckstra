@@ -29,8 +29,10 @@ resource "aws_autoscaling_policy" "example" {
 
 * `name` - (Required) The name of the policy.
 * `autoscaling_group_name` - (Required) The name of the autoscaling group.
-* `adjustment_type` - (Optional) Specifies whether the adjustment is an absolute number or a percentage of the current capacity. Valid values are `ChangeInCapacity`, `ExactCapacity`, and `PercentChangeInCapacity`.
-* `policy_type` - (Optional) The policy type. Valid value is `SimpleScaling`.
+* `adjustment_type` - (Optional) Specifies whether the adjustment is an absolute number or a percentage of the current capacity.
+    * _Valid values_: `ChangeInCapacity`, `ExactCapacity`, `PercentChangeInCapacity`
+* `policy_type` - (Optional) The policy type.
+    * _Valid values_: `SimpleScaling`
 * `min_adjustment_magnitude` - (Optional) Minimum value to scale by when `adjustment_type` is set to `PercentChangeInCapacity`.
 * `cooldown` - (Optional) The amount of time, in seconds, after a scaling activity completes and before the next scaling activity can start.
 * `scaling_adjustment` - (Optional) The amount by which the Auto Scaling group is scaled when the scaling policy is executed

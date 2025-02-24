@@ -39,7 +39,9 @@ resource "aws_dx_transit_virtual_interface" "example" {
 
 The following arguments are supported:
 
-* `address_family` - (Optional) The address family for the BGP peer. Valid value is `ipv4 `. Defaults to `ipv4`.
+* `address_family` - (Optional) The address family for the BGP peer.
+    * _Valid values_: `ipv4 `
+    * _Default value_: `ipv4`
 * `amazon_address` - (Optional) The IPv4 CIDR address of the connection endpoint on the cloud side.
 * `bgp_asn` - (Required) The BGP ASN on the client side.
 * `bgp_auth_key` - (Optional, Sensitive) The authentication key for BGP configuration.

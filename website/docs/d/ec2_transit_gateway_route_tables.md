@@ -27,7 +27,7 @@ output "tgw-rtb-ids" {
 The following arguments are supported:
 
 * `filter` - (Optional) One or more name/value pairs to use as filters.
-  Valid names and values can be found in the [EC2 API documentation][describe-tgw-rtb].
+    * _Valid values:_ See supported names and values in [EC2 API documentation][describe-tgw-rtb]
 
 ## Attribute Reference
 

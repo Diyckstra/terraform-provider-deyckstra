@@ -42,7 +42,7 @@ data "aws_vpc_dhcp_options" "example" {
 
 * `dhcp_options_id` - (Optional) The EC2 DHCP options ID.
 * `filter` - (Optional) One or more name/value pairs to use as filters.
-  Valid names and values can be found in the  [EC2 API documentation][describe-dhcp-options].
+    * _Valid values:_ See  [EC2 API documentation][describe-dhcp-options].
 
 ## Attributes Reference
 

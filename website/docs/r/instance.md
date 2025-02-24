@@ -136,7 +136,8 @@ The following arguments are supported:
     * _Constraints:_ Conflicts with `user_data_base64`
 * `user_data_base64` – (Optional) Can be used instead of `user_data` to pass base64-encoded binary data directly. Use this instead of `user_data` whenever the value is not a valid UTF-8 string. For example, gzip-encoded user data must be base64-encoded and passed via this argument to avoid corruption. Updates to this field will trigger a stop/start of the EC2 instance by default. If the `user_data_replace_on_change` is set then updates to this field will trigger a destroy and recreate.
     * _Constraints:_ Conflicts with `user_data`
-* `user_data_replace_on_change` – (Optional) When used in combination with `user_data` or `user_data_base64` will trigger a destroy and recreate when set to `true`. Defaults to `false`.
+* `user_data_replace_on_change` – (Optional) When used in combination with `user_data` or `user_data_base64` will trigger a destroy and recreate when set to `true`.
+    * _Default value_: `false`
 * `volume_tags` – (Optional) A map of tags to assign, at instance-creation time, to root and EBS volumes.
 
 ~> **Note** Do not use `volume_tags` if you plan to manage block device tags outside the `aws_instance` configuration, such as using `tags` in an [`aws_ebs_volume`](ebs_volume.md) resource attached via [`aws_volume_attachment`](volume_attachment.md). Doing so will result in resource cycling and inconsistent behavior.

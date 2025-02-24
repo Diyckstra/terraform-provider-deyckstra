@@ -34,11 +34,12 @@ data "aws_ebs_snapshot_ids" "ebs_snapshot_ids" {
 
 The following arguments are supported:
 
-* `owners` - (Optional) List of the snapshot owners. Valid items are the project ID (`project@customer`) or `self`.
+* `owners` - (Optional) List of the snapshot owners.
+    * _Valid values_: The project ID (`project@customer`) or `self`
 * `restorable_by_user_ids` - (Optional) List of the project IDs (`project@customer`).
   that can create volumes from the snapshot.
 * `filter` - (Optional) One or more name/value pairs to use as filters.
-	Valid names and values can be found in the [EC2 API documentation][describe-snapshots].
+    * _Valid values:_ See supported names and values in [EC2 API documentation][describe-snapshots]
 
 ## Attributes Reference
 

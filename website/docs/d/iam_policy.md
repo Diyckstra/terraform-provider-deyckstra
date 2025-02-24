@@ -32,9 +32,10 @@ data "aws_iam_policy" "selected" {
 
 ## Argument Reference
 
-* `arn` - (Required if `name` is not specified) The Amazon Resource Name (ARN) of the policy
-  (e.g. `arn:c2:iam::<customer-name>:policy/<policy-name>`).
-* `name` - (Required if `arn` is not specified) The name of the policy.
+* `arn` - The Amazon Resource Name (ARN) of the policy (e.g. `arn:c2:iam::<customer-name>:policy/<policy-name>`).
+    _Constraints_: Required if `name` is not specified
+* `name` - The name of the policy.
+    _Constraints_: Required if `arn` is not specified
 
 ~> **Note** Filtering by `name` is performed locally and can affect performance when the list of policies is large.
 

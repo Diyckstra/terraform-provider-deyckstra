@@ -31,14 +31,15 @@ output "most-recent-database-backup" {
 The following arguments are supported:
 
 * `age_days` - (Optional) The age of the backup in days.
-* `ready_only` - (Optional) Indicates whether to filter only completed backups. Defaults to `true`.
+* `ready_only` - (Optional) Indicates whether to filter only completed backups.
+    * _Default value_: `true`
 * `database_name` - (Optional) The database name.
 * `id` - (Optional) The ID of the PaaS service backup (e.g. `paas-backup-12345678`).
 * `service_class` - (Optional) The class of the PaaS service.
-  Valid values are `cacher`, `database`, `message_broker`, `search`.
+    * _Valid values_: `cacher`, `database`, `message_broker`, `search`
 * `service_id` - (Optional) The ID of the PaaS service (e.g. `fm-cluster-12345678`).
 * `service_type` - (Optional) The type of the PaaS service.
-  Valid values are `elasticsearch`, `memcached`, `mongodb`, `mysql`, `pgsql`, `rabbitmq`, `redis`.
+    * _Valid values_: `elasticsearch`, `memcached`, `mongodb`, `mysql`, `pgsql`, `rabbitmq`, `redis`
 
 ~> **Note** `id` cannot be specified together with the other parameters.
 

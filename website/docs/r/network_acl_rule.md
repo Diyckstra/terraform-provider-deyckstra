@@ -47,15 +47,19 @@ The following arguments are supported:
 
 * `network_acl_id` - (Required) ID of the network ACL.
 * `rule_number` - (Required) The rule number for the entry (for example, 100). ACL entries are processed in ascending order by rule number.
-* `egress` - (Optional, bool) Indicates whether this is an egress rule (rule is applied to traffic leaving the subnet). Default `false`.
+* `egress` - (Optional, bool) Indicates whether this is an egress rule (rule is applied to traffic leaving the subnet).
+    * _Default value:_ `false`
 * `protocol` - (Required) The protocol. A value of -1 means all protocols.
-* `rule_action` - (Required) Indicates whether to allow or deny the traffic that matches the rule. Accepted values: `allow` | `deny`
+* `rule_action` - (Required) Indicates whether to allow or deny the traffic that matches the rule.
+    * _Valid values:_ `allow` or `deny`
 * `cidr_block` - (Optional) The network range to allow or deny, in CIDR notation (for example 172.16.0.0/24).
 * `ipv6_cidr_block` - (Optional) The IPv6 CIDR block to allow or deny.
 * `from_port` - (Optional) The from port to match.
 * `to_port` - (Optional) The to port to match.
-* `icmp_type` - (Optional) ICMP protocol: The ICMP type. Required if specifying ICMP for the protocolE.g., -1
-* `icmp_code` - (Optional) ICMP protocol: The ICMP code. Required if specifying ICMP for the protocolE.g., -1
+* `icmp_type` - (Optional) ICMP protocol: The ICMP type, e.g., -1
+    * _Constraints_: Required if specifying ICMP for the protocol
+* `icmp_code` - (Optional) ICMP protocol: The ICMP code, e.g., -1
+    * _Constraints_: Required if specifying ICMP for the protocol
 
 ~> **Note** If the value of `protocol` is `-1` or `all`, the `from_port` and `to_port` values will be ignored and the rule will apply to all ports.
 

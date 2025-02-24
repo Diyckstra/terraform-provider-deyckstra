@@ -81,8 +81,10 @@ resource "aws_ec2_transit_gateway_route" "example" {
 The following arguments are supported:
 
 * `destination_cidr_block` - (Required) The CIDR address block used for the destination match.
-* `transit_gateway_attachment_id` - (Required if `blackhole` is `false`) The ID of the transit gateway attachment.
-* `blackhole` - (Optional) Indicates whether to drop traffic that matches this route. Defaults to `false`.
+* `transit_gateway_attachment_id` - The ID of the transit gateway attachment.
+    _Constraints_: Required if `blackhole` is `false`
+* `blackhole` - (Optional) Indicates whether to drop traffic that matches this route.
+    * _Default value_: `false`
 * `transit_gateway_route_table_id` - (Required) The ID of the transit gateway route table.
 
 ## Attribute Reference

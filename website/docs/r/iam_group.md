@@ -36,7 +36,8 @@ The following arguments are supported:
 * `name` - (Required) The name of the group. The value can only contain Latin letters, numbers, underscores (_),
   plus (+) and equal (=) signs, commas (,), periods (.), at symbols (@) and hyphens (-) (`^[\w+=,.@-]*$`).
   The value must be 1 to 128 characters long.
-* `type` - (Required) The type of the group. Valid values are `global`, `project`.
+* `type` - (Required) The type of the group.
+    * _Valid values_: `global`, `project`
 
 ## Attribute Reference
 

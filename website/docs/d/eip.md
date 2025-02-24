@@ -58,12 +58,10 @@ The arguments of this data source act as filters for querying the available Elas
 The given filters must match exactly one Elastic IP whose data will be exported as attributes.
 
 * `filter` – (Optional) One or more name/value pairs to use as filters.
-	Valid names and values can be found in the [EC2 API documentation][describe-addresses].
-* `id` - (Optional) The allocation id of the specific VPC EIP to retrieve.
-* `public_ip` - (Optional) The public IP of the specific EIP to retrieve.
-* `tags` - (Optional) Map of tags, each pair of which must exactly match a pair on the desired Elastic IP.
-
-[describe-addresses]: https://docs.k2.cloud/en/api/ec2/addresses/DescribeAddresses.html
+    * _Valid values:_ See supported names and values in [EC2 API documentation][describe-addresses]
+* `id` – (Optional) The ID of the allocation of the specific VPC EIP to retrieve.
+* `public_ip` – (Optional) The public IP of the specific EIP to retrieve.
+* `tags` – (Optional) Map of tags, each pair of which must exactly match a pair on the desired Elastic IP.
 
 ## Attributes Reference
 

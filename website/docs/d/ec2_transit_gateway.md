@@ -38,7 +38,7 @@ data "aws_ec2_transit_gateway" "selected" {
 The following arguments are supported:
 
 * `filter` - (Optional) One or more name/value pairs to use as filters.
-  Valid names and values can be found in the [EC2 API documentation][describe-tgw].
+    * _Valid values:_ See supported names and values in [EC2 API documentation][describe-tgw]
 * `id` - (Optional) The ID of the transit gateway.
 
 ## Attribute Reference

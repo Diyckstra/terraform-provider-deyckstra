@@ -31,6 +31,7 @@ output "public_ips" {
   value = data.aws_eips.example.public_ips
 }
 ```
+
 ## Argument Reference
 
 * `filter` – (Optional) One or more name/value pairs to use as filters.

@@ -65,7 +65,7 @@ data "aws_network_acls" "example" {
   a pair on the desired network ACLs.
 * `filter` - (Optional) One or more name/value pairs to use as filters.
   A network ACL will be selected if any one of the given values matches.
-	Valid names and values can be found in the [EC2 API documentation][describe-network-acls].
+    * _Valid values:_ See supported names and values in [EC2 API documentation][describe-network-acls]
 
 ## Attributes Reference
 

@@ -54,7 +54,7 @@ output "example2" {
 * `tags` - (Optional) Map of tags, each pair of which must exactly match
   a pair on the desired network interfaces.
 * `filter` - (Optional) One or more name/value pairs to use as filters.
-	Valid names and values can be found in the [EC2 API documentation][describe-network-interfaces].
+    * _Valid values:_ See supported names and values in [EC2 API documentation][describe-network-interfaces]
 
 ## Attributes Reference
 

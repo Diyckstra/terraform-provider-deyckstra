@@ -33,7 +33,7 @@ data "aws_ami" "example" {
 * `owners` – (Required) List of image owners to limit search. At least one value must be specified.
     * _Valid values_: Project ID (`project@customer`) or `self`
 * `executable_users` – (Optional) Limit search to project with _explicit_ launch permission on the image.
-	  * _Valid values_: Project ID (`project@customer`), `all` or `self`
+    * _Valid values_: Project ID (`project@customer`), `all` or `self`
 * `filter` – (Optional) One or more name/value pairs to use as filters.
     * _Valid values_: See supported names and values in [EC2 API documentation][describe-images].
 * `most_recent` – (Optional) If more than one result is returned, use the most recent image.

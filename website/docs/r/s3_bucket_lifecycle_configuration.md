@@ -259,8 +259,10 @@ The `rule` configuration block supports the following arguments:
 * `filter` - (Optional) Configuration block used to identify objects that a lifecycle rule applies to [documented below](#filter). If not specified, the `rule` will default to using `prefix`.
 * `id` - (Required) Unique identifier for the rule. The value cannot be longer than 255 characters.
 * `noncurrent_version_expiration` - (Optional) Configuration block that specifies when noncurrent object versions expire [documented below](#noncurrent_version_expiration).
-* `prefix` - (Optional) **DEPRECATED** Use `filter` instead. This has been deprecated by Amazon S3. Prefix identifying one or more objects to which the rule applies. Defaults to an empty string (`""`) if `filter` is not specified.
-* `status` - (Required) Whether the rule is currently being applied. Valid values: `Enabled` or `Disabled`.
+* `prefix` - (Optional) **DEPRECATED** Use `filter` instead. This has been deprecated by Amazon S3. Prefix identifying one or more objects to which the rule applies.
+    * _Default value_: An empty string (`""`) if `filter` is not specified
+* `status` - (Required) Whether the rule is currently being applied.
+    * _Valid values_:  `Enabled` or `Disabled`
 
 ### expiration
 
@@ -277,7 +279,8 @@ The `expiration` configuration block supports the following arguments:
 The `filter` configuration block supports the following arguments:
 
 * `and`- (Optional) Configuration block used to apply a logical `AND` to two or more predicates [documented below](#and). The lifecycle rule will apply to any object matching all the predicates configured inside the `and` block.
-* `prefix` - (Optional) Prefix identifying one or more objects to which the rule applies. Defaults to an empty string (`""`) if not specified.
+* `prefix` - (Optional) Prefix identifying one or more objects to which the rule applies.
+    * _Default value_: An empty string (`""`) if not specified
 * `tag` - (Optional) A configuration block for specifying a tag key and value [documented below](#tag).
 
 ### noncurrent_version_expiration

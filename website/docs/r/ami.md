@@ -52,7 +52,7 @@ The following arguments are supported:
   should be attached to created instances. The structure of this block is [described below](#ephemeral_block_device).
 * `root_device_name` – (Optional) The name of the root device.
     * _Valid values_: `disk<N>`, `cdrom<N>`, `floppy<N>`, `menu`, where `<N>` is a disk number
-    *  _Default value_: `disk1`
+    * _Default value_: `disk1`
 * `virtualization_type` – (Optional) Keyword to choose what virtualization mode created instances will use.
     * _Valid values_: `hvm`, `hvm-legacy`
     * _Default value_: `hvm`
@@ -67,14 +67,15 @@ The `ebs_block_device` blocks has the following structure:
 * `delete_on_termination` – (Optional) Boolean controlling whether the EBS volumes created to
   support each created instance will be deleted once that instance is terminated.
     * _Default value_: `true`
-* `iops` – (Required only when `volume_type` is `io2`) Number of I/O operations per second the
+* `iops` – (Optional) Number of I/O operations per second the
   created volumes will support.
+    * _Constraints_: Required only when `volume_type` is `io2`
 * `snapshot_id` – (Optional) The ID of an EBS snapshot that will be used to initialize the created
   EBS volumes.
     * _Constraints_:  If set, the `volume_size` attribute must be at least as large as the referenced
   snapshot
-* `volume_size` – (Required unless `snapshot_id` is set) The size of created volumes in GiB.
-    * _Constraints_:  If `snapshot_id` is set and `volume_size` is omitted then the volume will have the same size as the selected snapshot.
+* `volume_size` – (Optional) The size of created volumes in GiB.
+    * _Constraints_: Required unless `snapshot_id` is set. If `snapshot_id` is set and `volume_size` is omitted then the volume will have the same size as the selected snapshot.
 * `volume_type` – (Optional) The type of EBS volume to create.
     * _Valid values_: `st2`, `gp2`, `io2`
     * _Default value_: `st2`

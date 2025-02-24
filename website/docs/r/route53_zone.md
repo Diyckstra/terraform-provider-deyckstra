@@ -69,7 +69,8 @@ resource "aws_route53_zone" "private" {
 The following arguments are supported:
 
 * `name` - (Required) This is the name of the hosted zone.
-* `comment` - (Optional) A comment for the hosted zone. Defaults to 'Managed by Terraform'.
+* `comment` - (Optional) A comment for the hosted zone.
+    * _Default value_: 'Managed by Terraform'
 * `force_destroy` - (Optional) Whether to destroy all records (possibly managed outside of Terraform) in the zone when destroying the zone.
 * `tags` - (Optional) A map of tags to assign to the zone. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
 * `vpc` - (Optional) Configuration block(s) specifying VPC to associate with a private hosted zone.

@@ -43,9 +43,12 @@ data "aws_lb_listener" "selected443" {
 
 The following arguments are supported:
 
-* `arn` - (Optional) ARN of the listener. Required if `load_balancer_arn` and `port` is not set.
-* `load_balancer_arn` - (Optional) ARN of the load balancer. Required if `arn` is not set.
-* `port` - (Optional) Port of the listener. Required if `arn` is not set.
+* `arn` - (Optional) ARN of the listener.
+    * _Constraints_: Required if `load_balancer_arn` and `port` are not set.
+* `load_balancer_arn` - (Optional) ARN of the load balancer.
+    * _Constraints_: Required if `arn` is not set.
+* `port` - (Optional) Port of the listener.
+    * _Constraints_: Required if `arn` is not set.
 
 ## Attributes Reference
 

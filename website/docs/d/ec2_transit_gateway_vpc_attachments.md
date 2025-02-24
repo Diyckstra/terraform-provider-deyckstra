@@ -35,7 +35,7 @@ data "aws_ec2_transit_gateway_vpc_attachment" "vpc-attachments" {
 The following arguments are supported:
 
 * `filter` - (Optional) One or more name/value pairs to use as filters.
-  Valid names and values can be found in the [EC2 API documentation][describe-tgw-vpc-attachments].
+    * _Valid values:_ See supported names and values in [EC2 API documentation][describe-tgw-vpc-attachments]
 * `id` - (Optional) The ID of the transit gateway VPC attachment.
 
 ## Attribute Reference

@@ -100,7 +100,8 @@ The following arguments are optional:
 
 The following arguments are supported in the `kubernetes_network_config` configuration block:
 
-* `ip_family` - (Optional) The IP family used to assign Kubernetes pod and service addresses. Valid values: `ipv4`.
+* `ip_family` - (Optional) The IP family used to assign Kubernetes pod and service addresses.
+    * _Valid values_:  `ipv4`
 * `service_ipv4_cidr` - (Optional) The CIDR block to assign Kubernetes service IP addresses from. If you don't specify a block, Kubernetes assigns addresses from 10.96.0.0/12 CIDR block.
 The block must meet the following requirements:
     * Within one of the following private IP address blocks: 10.0.0.0/8, 172.16.0.0/12, or 192.168.0.0/16.
@@ -124,7 +125,8 @@ The `master_config` block has the following structure:
 * `volume_iops` - (Optional) The number of read/write operations per second for the master node volume.
   The parameter must be set if `volume_type` is `io2`.
 * `volume_size` - (Required) The size of the master node volume in GiB.
-* `volume_type` - (Required) The type of the master node volume. Valid values are `st2`, `gp2`, `io2`.
+* `volume_type` - (Required) The type of the master node volume.
+    * _Valid values_: `st2`, `gp2`, `io2`
 
 ## Attribute Reference
 

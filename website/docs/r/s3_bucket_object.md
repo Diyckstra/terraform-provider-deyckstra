@@ -46,7 +46,9 @@ The following arguments are required:
 
 The following arguments are optional:
 
-* `acl` - (Optional) [Canned ACL][canned-acl] to apply. Valid values are `private`, `public-read`, `public-read-write`, `authenticated-read`. Defaults to `private`.
+* `acl` - (Optional) [Canned ACL][canned-acl] to apply.
+    * _Valid values_: `private`, `public-read`, `public-read-write`, `authenticated-read`
+    * _Default value_: `private`
 * `cache_control` - (Optional) Caching behavior along the request/reply chain. Read [w3c cache_control] for further details.
 * `content_base64` - (Optional, Conflicts with `source` and `content`) Base64-encoded data that will be decoded and uploaded as raw bytes for the object content. This allows safely uploading non-UTF8 binary data, but is recommended only for small content such as the result of the `gzipbase64` function with small text strings. For larger objects, use `source` to stream the content from a disk file.
 * `content_disposition` - (Optional) Presentational information for the object. Read [w3c content_disposition] for further information.

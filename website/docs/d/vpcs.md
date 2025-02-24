@@ -34,7 +34,7 @@ output "foo" {
   a pair on the desired VPCs.
 * `filter` - (Optional) One or more name/value pairs to use as filters.
   A VPC will be selected if any one of the given values matches.
-	Valid names and values can be found in the [EC2 API documentation][describe-vpcs].
+    * _Valid values:_ See supported names and values in [EC2 API documentation][describe-vpcs]
 
 ## Attributes Reference
 

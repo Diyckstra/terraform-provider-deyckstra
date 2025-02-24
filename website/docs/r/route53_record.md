@@ -53,7 +53,8 @@ The following arguments are supported:
 
 * `zone_id` - (Required) The ID of the hosted zone to contain this record.
 * `name` - (Required) The name of the record.
-* `type` - (Required) The record type. Valid values are `A`, `AAAA`, `CNAME`, `MX`, `NS`, `PTR`, `SRV` and `TXT`.
+* `type` - (Required) The record type.
+    * _Valid values_: `A`, `AAAA`, `CNAME`, `MX`, `NS`, `PTR`, `SRV` and `TXT`
 * `ttl` - (Required) The TTL of the record.
 * `records` - (Required) A string list of records. To specify a single record value longer than 255 characters such as a TXT record for DKIM, add `\" \"` inside the Terraform configuration string to split characters into multiple text strings (e.g., `"first255characters\" \"next255characters"`).
 * `allow_overwrite` - (Optional) Allow creation of this record in Terraform to overwrite an existing record, if any. This does not affect the ability to update the record in Terraform and does not prevent other resources within Terraform or manual Route 53 changes outside Terraform from overwriting this record. `false` by default. This configuration is not recommended for most environments.

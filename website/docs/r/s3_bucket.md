@@ -246,10 +246,13 @@ The following arguments are supported:
 
 * `bucket` - (Optional, Forces new resource) The name of the bucket. If omitted, Terraform will assign a random, unique name. Must be lowercase and less than or equal to 63 characters in length. A full list of bucket naming rules may be found in [user documentation][bucket-naming].
 * `bucket_prefix` - (Optional, Conflicts with `bucket`, Forces new resource) Creates a unique bucket name beginning with the specified prefix. Must be lowercase and less than or equal to 37 characters in length. A full list of bucket naming rules may be found in [user documentation][bucket-naming].
-* `acl` - (Optional, **Deprecated**, Conflicts with `grant`) The [canned ACL][canned-acl] to apply. Valid values are `private`, `public-read`, `public-read-write`, `authenticated-read`. Defaults to `private`. Terraform will only perform drift detection if a configuration value is provided. Use the resource [`aws_s3_bucket_acl`](s3_bucket_acl.md) instead.
+* `acl` - (Optional, **Deprecated**, Conflicts with `grant`) The [canned ACL][canned-acl] to apply.  Terraform will only perform drift detection if a configuration value is provided. Use the resource [`aws_s3_bucket_acl`](s3_bucket_acl.md) instead.
+    * _Valid values_: `private`, `public-read`, `public-read-write`, `authenticated-read`
+    * _Default value_: `private`
 * `grant` - (Optional, **Deprecated**, Conflicts with `acl`) An ACL policy grant. See [Grant](#grant) below for details. Terraform will only perform drift detection if a configuration value is provided. Use the resource [`aws_s3_bucket_acl`](s3_bucket_acl.md) instead.
 * `cors_rule` - (Optional, **Deprecated**) A rule of [Cross-Origin Resource Sharing][cors]. See [CORS rule](#cors-rule) below for details. Terraform will only perform drift detection if a configuration value is provided. Use the resource [`aws_s3_bucket_cors_configuration`](s3_bucket_cors_configuration.md) instead.
-* `force_destroy` - (Optional) A boolean that indicates all objects should be deleted from the bucket so that the bucket can be destroyed without error. Defaults to `false`.
+* `force_destroy` - (Optional) A boolean that indicates all objects should be deleted from the bucket so that the bucket can be destroyed without error.
+    * _Default value_: `false`
 * `lifecycle_rule` - (Optional, **Deprecated**) A configuration of [object lifecycle management][lifecycle-management]. See [Lifecycle Rule](#lifecycle-rule) below for details. Terraform will only perform drift detection if a configuration value is provided.
   Use the resource [`aws_s3_bucket_lifecycle_configuration`](s3_bucket_lifecycle_configuration.md) instead.
 * `policy` - (Optional, **Deprecated**) A valid bucket policy JSON document. Note that if the policy document is not specific enough (but still valid), Terraform may view the policy as constantly changing in a `terraform plan`. In this case, please make sure you use the verbose/specific version of the policy.
@@ -279,8 +282,10 @@ The `cors_rule` configuration block supports the following arguments:
 The `grant` configuration block supports the following arguments:
 
 * `id` - (Optional) Canonical user ID to grant for (S3 User ID). Used only when `type` is `CanonicalUser`.
-* `type` - (Required) Type of grantee to apply for. Valid values are `CanonicalUser` and `Group`. `AmazonCustomerByEmail` is not supported.
-* `permissions` - (Required) List of permissions to apply for grantee. Valid values are `READ`, `WRITE`, `READ_ACP`, `WRITE_ACP`, `FULL_CONTROL`.
+* `type` - (Required) Type of grantee to apply for.  `AmazonCustomerByEmail` is not supported.
+    * _Valid values_: `CanonicalUser` and `Group`
+* `permissions` - (Required) List of permissions to apply for grantee.
+    * _Valid values_: `READ`, `WRITE`, `READ_ACP`, `WRITE_ACP`, `FULL_CONTROL`
 * `uri` - (Optional) Uri address to grant for. Supported groups are `http://acs.amazonaws.com/groups/global/AllUsers` and `http://acs.amazonaws.com/groups/global/AuthenticatedUsers`. Used only when `type` is `Group`.
 
 ### Lifecycle Rule

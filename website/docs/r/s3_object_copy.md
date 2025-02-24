@@ -39,7 +39,9 @@ The following arguments are required:
 
 The following arguments are optional:
 
-* `acl` - (Optional, Conflicts with `grant`) [Canned ACL][canned-acl] to apply. Valid values are `private`, `public-read`, `public-read-write`, `authenticated-read`. Defaults to `private`.
+* `acl` - (Optional, Conflicts with `grant`) [Canned ACL][canned-acl] to apply.
+    * _Valid values_: `private`, `public-read`, `public-read-write`, `authenticated-read`
+    * _Default value_: `private`
 * `content_type` - (Optional) Standard MIME type describing the format of the object data, e.g., `application/octet-stream`. All valid MIME types are valid for this input.
 * `grant` - (Optional, Conflicts with `acl`) Configuration block for header grants [documented below](#grant).
 
@@ -47,8 +49,10 @@ The following arguments are optional:
 
 This configuration block has the following required arguments:
 
-* `permissions` - (Required) List of permissions to grant to grantee. Valid values are `READ`, `READ_ACP`, `WRITE_ACP`, `FULL_CONTROL`.
-* `type` - (Required) - Type of grantee. Valid values are `CanonicalUser`, `Group`, and `AmazonCustomerByEmail`.
+* `permissions` - (Required) List of permissions to grant to grantee.
+    * _Valid values_: `READ`, `READ_ACP`, `WRITE_ACP`, `FULL_CONTROL`
+* `type` - (Required) - Type of grantee.
+    * _Valid values_: `CanonicalUser`, `Group`, and `AmazonCustomerByEmail`
 
 This configuration block has the following optional arguments (one of the three is required):
 

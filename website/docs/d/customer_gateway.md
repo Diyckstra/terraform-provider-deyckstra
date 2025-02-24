@@ -40,7 +40,7 @@ The following arguments are supported:
 
 * `id` - (Optional) The ID of the gateway.
 * `filter` - (Optional) One or more name/value pairs to use as filters.
-	Valid names and values can be found in the [EC2 API documentation][describe-customer-gateways].
+    * _Valid values:_ See supported names and values in [EC2 API documentation][describe-customer-gateways]
 
 ## Attribute Reference
 

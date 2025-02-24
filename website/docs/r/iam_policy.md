@@ -80,7 +80,8 @@ The following arguments are supported:
 ~> **Note** If `name` and `name_prefix` are omitted, Terraform will assign a random unique name with the `terraform-` prefix.
 
 * `policy` - (Required, Editable) A string with policy-defined access rules in JSON format.
-* `type` - (Required) The type of the policy. Valid values are `global`, `project`.
+* `type` - (Required) The type of the policy.
+    * _Valid values_: `global`, `project`
 
 ## Attribute Reference
 

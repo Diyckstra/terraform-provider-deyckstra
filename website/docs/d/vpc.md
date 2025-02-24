@@ -44,7 +44,7 @@ VPC whose data will be exported as attributes.
 * `dhcp_options_id` - (Optional) The DHCP options id of the desired VPC.
 * `filter` - (Optional) One or more name/value pairs to use as filters.
   A VPC will be selected if any one of the given values matches.
-	Valid names and values can be found in the [EC2 API documentation][describe-vpcs].
+    * _Valid values:_ See supported names and values in [EC2 API documentation][describe-vpcs]
 * `id` - (Optional) The id of the specific VPC to retrieve.
 * `state` - (Optional) The current state of the desired VPC.
   Can be either `"pending"` or `"available"`.
