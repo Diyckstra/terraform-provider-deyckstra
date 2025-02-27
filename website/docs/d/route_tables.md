@@ -3,12 +3,15 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_route_tables"
 description: |-
-    Provides information about route tables.
+    Provides a list of route table IDs.
 ---
+
+[describe-route-tables]: https://docs.k2.cloud/en/api/ec2/routes/DescribeRouteTables.html
+[tf-route-table]: route_table.html
 
 # Data Source: aws_route_tables
 
-Provides information about route tables.
+Provides the list of route table IDs matching the specified criteria.
 
 ## Example Usage
 
@@ -34,9 +37,7 @@ data "aws_route_tables" "rts" {
 * `tags` - (Optional) Map of tags, each pair of which must exactly match
   a pair on the desired route tables.
 
-## Attributes Reference
+## Attribute Reference
 
 * `id` - The region.
 * `ids` - A list of all the route table ids found.
-
-[describe-route-tables]: https://docs.k2.cloud/en/api/ec2/routes/DescribeRouteTables.html

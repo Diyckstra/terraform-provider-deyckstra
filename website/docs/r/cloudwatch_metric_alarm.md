@@ -63,7 +63,7 @@ The following arguments are supported:
 * `unit` - (Optional) The unit of the metric associated with the alarm.
     * _Valid values_: `Percent`, `Bytes`, `Count`
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
@@ -73,7 +73,7 @@ In addition to all arguments above, the following attributes are exported:
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 

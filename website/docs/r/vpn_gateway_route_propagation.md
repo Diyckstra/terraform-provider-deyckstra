@@ -46,7 +46,7 @@ The following arguments are required:
 * `vpn_gateway_id` - ID of the VPN gateway to propagate routes from.
 * `route_table_id` - ID of the route table to propagate routes into.
 
-## Attributes Reference
+## Attribute Reference
 
 No additional attributes are exported.
 

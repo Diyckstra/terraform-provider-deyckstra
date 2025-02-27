@@ -45,11 +45,11 @@ The following arguments are supported:
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` - The ARN of the transit gateway route table.
+* `arn` - The Amazon Resource Name (ARN) of the transit gateway route table.
 * `default_association_route_table` - Indicates whether this is the default association route table for the transit gateway.
 * `default_propagation_route_table` - Indicates whether this is the default propagation route table for the transit gateway.
 * `id` - The ID of the transit gateway route table.
-* `tags_all` -Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ## Import
 

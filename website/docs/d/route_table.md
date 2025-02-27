@@ -3,12 +3,14 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_route_table"
 description: |-
-    Provides information about a specific route table.
+    Provides information about a route table.
 ---
+
+[describe-route-tables]: https://docs.k2.cloud/en/api/ec2/routes/DescribeRouteTables.html
 
 # Data Source: aws_route_table
 
-Provides information about a specific route table.
+Provides information about a route table.
 
 This resource can be used when a module accepts a subnet ID as an input variable and needs to, for example, add a route in the route table.
 
@@ -43,13 +45,13 @@ The following arguments are optional:
 * `tags` - (Optional) Map of tags, each pair of which must exactly match a pair on the desired route table.
 * `vpc_id` - (Optional) ID of the VPC that the desired route table belongs to.
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
-In addition to the arguments above, the following attributes are exported:
+In addition to all arguments above, the following attributes are exported:
 
-* `arn` - ARN of the route table.
+* `arn` - The Amazon Resource Name (ARN) of the route table.
 * `associations` - List of associations with attributes detailed below.
 * `routes` - List of routes with attributes detailed below.
 
@@ -63,27 +65,25 @@ For destinations:
 
 For targets:
 
-* `gateway_id` - ID of the Internet Gateway or Virtual Private Gateway.
-* `instance_id` - ID of the EC2 instance.
-* `network_interface_id` - ID of the EC2 network interface.
+* `gateway_id` - The ID of the Internet Gateway or Virtual Private Gateway.
+* `instance_id` - The ID of the instance.
+* `network_interface_id` - The ID of the network interface.
 * `transit_gateway_id` - The ID of the transit gateway.
 
 #### associations
 
 Associations are also exported with the following attributes:
 
-* `gateway_id` - ID of the Internet Gateway or Virtual Private Gateway.
+* `gateway_id` - The ID of the Internet Gateway or Virtual Private Gateway.
 * `main` - Whether the association is due to the main route table.
-* `route_table_association_id` - Association ID.
-* `route_table_id` - ID of the route table.
-* `subnet_id` - Subnet ID. Only set when associated with a subnet.
+* `route_table_association_id` - The ID of the association.
+* `route_table_id` - The ID of the route table.
+* `subnet_id` - The ID of the subnet. Only set when associated with a subnet.
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 
 `owner_id`, `routes.carrier_gateway_id`, `routes.core_network_arn`, `routes.destination_prefix_list_id`, `routes.egress_only_gateway_id`, `routes.ipv6_cidr_block`, `routes.local_gateway_id`, `routes.nat_gateway_id`, `routes.vpc_endpoint_id`, `routes.vpc_peering_connection_id`.
-
-[describe-route-tables]: https://docs.k2.cloud/en/api/ec2/routes/DescribeRouteTables.html

@@ -95,19 +95,19 @@ valid network mask.
 
 ~> **Note** For more information on ICMP types and codes, see [ICMP Parameters][icmp-parameters]
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the network ACL.
-* `arn` - ARN of the network ACL.
-* `tags_all` - Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `arn` - The Amazon Resource Name (ARN) of the network ACL.
+* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 

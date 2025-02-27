@@ -52,21 +52,21 @@ The following arguments are supported:
 * `tags` - (Optional, Editable) Map of tags to assign to the resource. If there is a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider level.
 * `vlan` - (Required) The VLAN ID.
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
 * `amazon_side_asn` - The ASN for the cloud side of the connection.
-* `arn` - The ARN of the virtual interface.
+* `arn` - The Amazon Resource Name (ARN) of the virtual interface.
 * `aws_device` - The ID of the device to which the connection (or LAG) is attached.
 * `id` - The ID of the virtual interface.
-* `tags_all` -Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 

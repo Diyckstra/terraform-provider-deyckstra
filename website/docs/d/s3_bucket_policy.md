@@ -1,5 +1,5 @@
 ---
-subcategory: "S3 (Simple Storage Service)"
+subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_s3_bucket_policy"
 description: |-
@@ -30,7 +30,7 @@ The following arguments are supported:
 
 * `bucket` - (Required) The bucket name.
 
-## Attributes Reference
+## Attribute Reference
 
 In addition to all arguments above, the following attributes are exported:
 

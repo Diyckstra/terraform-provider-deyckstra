@@ -3,7 +3,7 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_default_vpc"
 description: |-
-  Manage the default VPC.
+  Manages the default VPC.
 ---
 
 # Resource: aws_default_vpc
@@ -36,7 +36,7 @@ The arguments of an `aws_default_vpc` differ slightly from those of [`aws_vpc`](
 * The `cidr_block` and `instance_tenancy` arguments become computed attributes
 * The default value for `enable_dns_hostnames` is `true`
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
@@ -47,7 +47,7 @@ In addition to all arguments above, the following attributes are exported:
 
 ### Unsupported attributes
 
-~> **Note** This attribute may be present in the `terraform.tfstate` file but it has a preset value and cannot be specified in configuration files.
+~> **Note** This attribute may be present in the `terraform.tfstate` file, but it has a preset value and cannot be specified in configuration files.
 
 The following attribute is not currently supported: `force_destroy`.
 

@@ -48,12 +48,12 @@ In addition to all arguments above, the following attributes are exported:
 * `arn` - The Amazon Resource Name (ARN) of the group.
 * `create_date` - The time in [RFC3339 format] when the group was created.
 * `group_id` - The ID of the group.
-* `id` - The ARN of the group.
+* `id` - The Amazon Resource Name (ARN) of the group.
 * `owner` - The owner of the group.
 
 ### Unsupported attributes
 
-~> **Note** This attribute may be present in the `terraform.tfstate` file but it has a preset value and cannot be specified in configuration files.
+~> **Note** This attribute may be present in the `terraform.tfstate` file, but it has a preset value and cannot be specified in configuration files.
 
 The following attribute is not currently supported: `path`.
 

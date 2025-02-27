@@ -1,5 +1,5 @@
 ---
-subcategory: "S3 (Simple Storage Service)"
+subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_s3_bucket_object"
 description: |-
@@ -67,7 +67,7 @@ If no content is provided through `source`, `content` or `content_base64`, then 
 
 -> **Note** Terraform ignores all leading `/`s in the object's `key` and treats multiple `/`s in the rest of the object's `key` as a single `/`, so values of `/index.html` and `index.html` correspond to the same S3 object as do `first//second///third//` and `first/second/third/`.
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
@@ -75,12 +75,12 @@ In addition to all arguments above, the following attributes are exported:
 
 * `etag` - ETag generated for the object (an MD5 sum of the object content). For plaintext objects the hash is an MD5 digest of the object data. For objects created by either the multipart upload or part copy operation, the hash is not an MD5 digest, regardless of the method of encryption.
 * `id` - `key` of the resource supplied above.
-* `tags_all` -Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 * `version_id` - Unique version ID value for the object, if bucket versioning is enabled.
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 

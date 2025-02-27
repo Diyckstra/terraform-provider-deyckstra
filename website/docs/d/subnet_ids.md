@@ -3,16 +3,19 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_subnet_ids"
 description: |-
-    Provides information about subnet IDs for a VPC.
+    Provides a list of subnet IDs for a VPC.
 ---
+
+[describe-subnets]: https://docs.k2.cloud/en/api/ec2/subnets/DescribeSubnets.html
+[tf-subnets]: subnets.html
 
 # Data Source: aws_subnet_ids
 
-Provides information about IDs for a vpc_id.
+Provides a list of subnet IDs for a VPC.
 
 ## Example Usage
 
-The following shows all cidr blocks for every subnet id in a vpc.
+The following shows all CIDR blocks for every subnet ID in a VPC.
 
 ```terraform
 variable vpc_id {}
@@ -60,7 +63,7 @@ resource "aws_instance" "app" {
 }
 ```
 
-Fort matching against tag `Name`, use:
+For matching against tag `Name`, use:
 
 ```terraform
 data "aws_subnet_ids" "selected" {
@@ -80,8 +83,6 @@ data "aws_subnet_ids" "selected" {
 * `tags` - (Optional) Map of tags, each pair of which must exactly match
   a pair on the desired subnets.
 
-## Attributes Reference
+## Attribute Reference
 
 * `ids` - A set of all the subnet ids found.
-
-[describe-subnets]: https://docs.k2.cloud/en/api/ec2/subnets/DescribeSubnets.html

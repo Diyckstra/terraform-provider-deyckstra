@@ -1,5 +1,5 @@
 ---
-subcategory: "S3 (Simple Storage Service)"
+subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_s3_bucket_cors_configuration"
 description: |-
@@ -62,7 +62,7 @@ The `cors_rule` configuration block supports the following arguments:
 * `id` - (Optional) Unique identifier for the rule. The value cannot be longer than 255 characters.
 * `max_age_seconds` - (Optional) The time in seconds that your browser is to cache the preflight response for the specified resource.
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
@@ -72,7 +72,7 @@ In addition to all arguments above, the following attributes are exported:
 
 ### Unsupported attributes
 
-~> **Note** This attribute may be present in the `terraform.tfstate` file but it has a preset value and cannot be specified in configuration files.
+~> **Note** This attribute may be present in the `terraform.tfstate` file, but it has a preset value and cannot be specified in configuration files.
 
 The following attribute is not currently supported: `expected_bucket_owner`.
 

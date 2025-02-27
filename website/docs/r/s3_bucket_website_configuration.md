@@ -1,5 +1,5 @@
 ---
-subcategory: "S3 (Simple Storage Service)"
+subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_s3_bucket_website_configuration"
 description: |-
@@ -98,7 +98,7 @@ The `redirect` configuration block supports the following arguments:
 * `replace_key_prefix_with` - (Optional, Conflicts with `replace_key_with`) The object key prefix to use in the redirect request. For example, to redirect requests for all pages with prefix `docs/` (objects in the `docs/` folder) to `documents/`, you can set a `condition` block with `key_prefix_equals` set to `docs/` and in the `redirect` set `replace_key_prefix_with` to `/documents`.
 * `replace_key_with` - (Optional, Conflicts with `replace_key_prefix_with`) The specific object key to use in the redirect request. For example, redirect request to `error.html`.
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
@@ -108,7 +108,7 @@ In addition to all arguments above, the following attributes are exported:
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 

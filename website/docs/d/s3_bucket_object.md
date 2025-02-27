@@ -1,5 +1,5 @@
 ---
-subcategory: "S3 (Simple Storage Service)"
+subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_s3_bucket_object"
 description: |-
@@ -34,7 +34,7 @@ The following arguments are supported:
 * `key` - (Required) The full path to the object inside the bucket
 * `version_id` - (Optional) Specific version ID of the object returned (defaults to latest version).
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
@@ -52,15 +52,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - The full path to the object inside the bucket.
 * `last_modified` - Last modified date of the object in RFC1123 format (e.g., `Mon, 02 Jan 2006 15:04:05 MST`)
 * `metadata` - A map of metadata stored with the object in S3.
+* `tags` - Map of tags assigned to the object.
 * `version_id` - The latest version ID of the object returned.
 * `website_redirect_location` - If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. S3 stores the value of this header in the object metadata.
-* `tags` - Map of tags assigned to the object.
 
 -> **Note:** Terraform ignores all leading `/`s in the object's `key` and treats multiple `/`s in the rest of the object's `key` as a single `/`, so values of `/index.html` and `index.html` correspond to the same S3 object as do `first//second///third//` and `first/second/third/`.
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 

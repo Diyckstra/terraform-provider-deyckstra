@@ -8,7 +8,7 @@ description: |-
 
 # Data Source: aws_autoscaling_group
 
-Provides information about an existing Auto Scaling group.
+Provides information about an Auto Scaling group.
 
 ## Example Usage
 
@@ -22,7 +22,7 @@ data "aws_autoscaling_group" "example" {
 
 * `name` - Specify the exact name of the desired Auto Scaling group.
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
@@ -36,12 +36,12 @@ data "aws_autoscaling_group" "example" {
 * `min_size` - The minimum size of the group.
 * `name` - Name of the Auto Scaling group.
 * `new_instances_protected_from_scale_in` - Indicates whether new instances are protected from deletion when Auto Scaling group is scaled in.
-* `status` -  The status of the Auto Scaling group when it is deleted.
+* `status` - The status of the Auto Scaling group when it is deleted.
 * `vpc_zone_identifier` - The IDs of the subnets in which instances are created.
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 

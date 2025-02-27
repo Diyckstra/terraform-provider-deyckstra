@@ -3,7 +3,7 @@ subcategory: "EC2 (Elastic Compute Cloud)"
 layout: "aws"
 page_title: "aws_instances"
 description: |-
-  Provides information about EC2 instances.
+  Provides lists of instance IDs, private IPs, and public IPs.
 ---
 
 [describe-instances]: https://docs.k2.cloud/en/api/ec2/instances/DescribeInstances.html
@@ -13,7 +13,7 @@ description: |-
 
 # Data Source: aws_instances
 
-Provides information about EC2 instances. This data source can be used to get IDs or IPs of EC2 instances to be referenced elsewhere.
+Provides lists of instance IDs, private IPs, and public IPs.
 
 -> **Note:** It's a best practice to expose instance details via [outputs], and [remote state],
 and **use [`terraform_remote_state`][terraform_remote_state] data source instead** if you manage referenced instances via Terraform.
@@ -46,15 +46,15 @@ resource "aws_eip" "example" {
 
 ## Argument Reference
 
-* `filter` – (Optional) One or more name/value pairs to use as filters.
-    * _Valid values_: See valid names and values in [EC2 API documentation][describe-instances]
-* `instance_tags` – (Optional) Map of tags, each pair of which must exactly match a pair on desired instances.
-* `instance_state_names` – (Optional) A list of instance states that should be applicable to the desired instances.
+* `filter` - (Optional) One or more name/value pairs to use as filters.
+    * _Valid values_: See supported names and values in [EC2 API documentation][describe-instances]
+* `instance_state_names` - (Optional) A list of instance states that should be applicable to the desired instances.
     * _Valid values_: `pending`, `running`, `shutting-down`, `stopped`, `stopping`, `terminated`
+* `instance_tags` - (Optional) Map of tags, each pair of which must exactly match a pair on desired instances.
 
-## Attributes Reference
+## Attribute Reference
 
-* `id` – The region (e.g., `region-1`).
-* `ids` – IDs of instances found through the filter.
-* `private_ips` – Private IP addresses of instances found through the filter.
-* `public_ips` – Public IP addresses of instances found through the filter.
+* `id` - The region (e.g., `region-1`).
+* `ids` - IDs of instances found through the filter.
+* `private_ips` - Private IP addresses of instances found through the filter.
+* `public_ips` - Public IP addresses of instances found through the filter.

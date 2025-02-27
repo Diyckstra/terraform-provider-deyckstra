@@ -57,57 +57,59 @@ resource "aws_launch_template" "example" {
 
 The following arguments are supported:
 
-* `block_device_mappings` – (Optional) Specify volumes to attach to the instance besides the volumes specified by the image.
-  See [Block Devices](#block-devices) below for details.
-* `default_version` – (Optional) Default version of the launch template.
+* `block_device_mappings` - (Optional) Specify volumes to attach to the instance besides the volumes specified by the image.
+  The structure of this block is [described below](#block-devices).
+* `default_version` - (Optional) Default version of the launch template.
     * _Constraints:_ Conflicts with `update_default_version`
-* `description` – (Optional) Description of the launch template version.
-* `disable_api_termination` – (Optional) If `true`, disables the possibility to terminate an instance via API.
-* `image_id` – (Required) The ID of the image from which to launch the instance.
-* `instance_initiated_shutdown_behavior` – (Optional) Shutdown behavior for the instance.
+* `description` - (Optional) Description of the launch template version.
+* `disable_api_termination` - (Optional) If `true`, disables the possibility to terminate an instance via API.
+* `image_id` - (Required) The ID of the image from which to launch the instance.
+* `instance_initiated_shutdown_behavior` - (Optional) Shutdown behavior for the instance.
     * _Valid values_: `stop`, `terminate`
-* `instance_type` – (Optional) The type of the instance.
-* `key_name` – (Optional) The key name to use for the instance.
-* `monitoring` – (Optional) The monitoring option for the instance. See [Monitoring](#monitoring) below for more details.
-* `name` – (Optional, Conflicts with `name_prefix`) The name of the launch template. If you leave this blank, Terraform will auto-generate a unique name.
-* `name_prefix` – (Optional, Conflicts with `name`) Creates a unique name beginning with the specified prefix.
-* `network_interfaces` – (Optional) Customize network interfaces to be attached at instance boot time.
-  See [Network Interfaces](#network-interfaces) below for more details.
-* `placement` – (Optional) The placement of the instance. See [Placement](#placement) below for more details.
-* `tag_specifications` – (Optional) The tags to apply to the resources during launch. See [Tag Specifications](#tag-specifications) below for more details.
-* `tags` – (Optional) Map of tags to assign to the launch template. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
-* `update_default_version` – (Optional) Whether to update default version each update.
+* `instance_type` - (Optional) The type of the instance.
+* `key_name` - (Optional) The key name to use for the instance.
+* `monitoring` - (Optional) The monitoring option for the instance. The structure of this block is [described below](#monitoring).
+* `name` - (Optional) The name of the launch template. If you leave this blank, Terraform will auto-generate a unique name.
+    _Constraints:_ Conflicts with `name_prefix`
+* `name_prefix` - (Optional) Creates a unique name beginning with the specified prefix.
+    _Constraints:_  Conflicts with `name`
+* `network_interfaces` - (Optional) Customize network interfaces to be attached at instance boot time.
+  The structure of this block is [described below](#network-interfaces).
+* `placement` - (Optional) The placement of the instance. The structure of this block is [described below](#placement).
+* `tag_specifications` - (Optional) The tags to apply to the resources during launch. The structure of this block is [described below](#tag-specifications).
+* `tags` - (Optional) Map of tags to assign to the launch template. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
+* `update_default_version` - (Optional) Whether to update default version each update.
     * Constraints:_ Conflicts with `default_version`
-* `user_data` – (Optional) The base64-encoded user data to provide when launching the instance. The text length must not exceed 16 KB.
-* `vpc_security_group_ids` – (Optional) A list of security group IDs to associate with.
+* `user_data` - (Optional) The base64-encoded user data to provide when launching the instance. The text length must not exceed 16 KB.
+* `vpc_security_group_ids` - (Optional) A list of security group IDs to associate with.
 
 ### Block devices
 
-Configure additional volumes of the instance besides specified by the image.
+Configures additional volumes of the instance besides specified by the image.
 
 To find out more information for an existing image to override the configuration, such as `device_name`, use the [EC2 API][describe-images].
 
 The `block_device_mappings` block has the following structure:
 
-* `device_name` – (Optional) The name of the device to mount.
-* `ebs` – (Optional) Configure EBS volume properties.
-* `no_device` – (Optional) Suppresses the specified device included in the block device mapping.
+* `device_name` - (Optional) The name of the device to mount.
+* `ebs` - (Optional) Configures EBS volume properties.
+* `no_device` - (Optional) Suppresses the specified device included in the block device mapping.
 
 The `ebs` block has the following structure:
 
-* `delete_on_termination` – (Optional) Whether the volume should be destroyed on instance termination.
-* `iops` – (Optional) The amount of provisioned IOPS.
-    * _Constraints:_ This must be set with a volume_type of `io2`
-* `snapshot_id` – (Optional) The snapshot ID to mount.
-* `volume_size` – (Optional) The size of the volume in gigabytes.
-* `volume_type` – (Optional) Type of volume.
+* `delete_on_termination` - (Optional) Indicates whether the volume should be destroyed on instance termination.
+* `iops` - (Optional) The amount of provisioned IOPS.
+    * _Constraints:_ This must be set with the volume_type of `io2`
+* `snapshot_id` - (Optional) The ID of the snapshot to mount.
+* `volume_size` - (Optional) The size of the volume, in GiB.
+* `volume_type` - (Optional) The type of the volume.
     * _Valid values_: `st2`, `gp2`, `io2`
 
 ### Monitoring
 
 The `monitoring` block has the following structure:
 
-* `enabled` – If `true`, the launched EC2 instance will have detailed monitoring enabled.
+* `enabled` - If `true`, the launched EC2 instance will have detailed monitoring enabled.
 
 ### Network Interfaces
 
@@ -117,16 +119,16 @@ For the details about configuring network interfaces when creating an auto scali
 
 The `network_interfaces` block has the following structure:
 
-* `associate_public_ip_address` – (Optional) Whether a public IP address should be associated with the network interface.
+* `associate_public_ip_address` - (Optional) Whether a public IP address should be associated with the network interface.
     * _Constraints:_ The address will be assigned to the `eth0` interface if there are free allocated external addresses.
       This operation is available only for instances running in the VPC and for new network interfaces.
-* `delete_on_termination` – (Optional) Whether the network interface should be destroyed on instance termination.
-* `description` – (Optional) Description of the network interface.
-* `device_index` – (Optional) The integer index of the network interface attachment.
-* `network_interface_id` – (Optional) The ID of the network interface to attach.
-* `private_ip_address` – (Optional) The primary private IPv4 address.
-* `security_groups` – (Optional) A list of security group IDs to associate.
-* `subnet_id` – (Optional) The VPC subnet ID to associate.
+* `delete_on_termination` - (Optional) Whether the network interface should be destroyed on instance termination.
+* `description` - (Optional) Description of the network interface.
+* `device_index` - (Optional) The integer index of the network interface attachment.
+* `network_interface_id` - (Optional) The ID of the network interface to attach.
+* `private_ip_address` - (Optional) The primary private IPv4 address.
+* `security_groups` - (Optional) A list of security group IDs to associate.
+* `subnet_id` - (Optional) The ID of the subnet to associate.
 
 ### Placement
 
@@ -134,12 +136,12 @@ The placement group of the instance.
 
 The `placement` block has the following structure:
 
-* `affinity` – (Optional) The affinity setting for an instance on a dedicated host.
+* `affinity` - (Optional) The affinity setting for an instance on a dedicated host.
     * _Constraints:_ The parameter could be set to `host` only if `tenancy` is `host`.
-* `availability_zone` – (Optional) The availability zone for the instance.
-* `group_name` – (Optional) The name of the placement group for the instance.
-* `host_id` – (Optional) The ID of the dedicated host for the instance.
-* `tenancy` – (Optional) The tenancy of the instance (if the instance is running in a VPC).
+* `availability_zone` - (Optional) The availability zone for the instance.
+* `group_name` - (Optional) The name of the placement group for the instance.
+* `host_id` - (Optional) The ID of the dedicated host for the instance.
+* `tenancy` - (Optional) The tenancy of the instance (if the instance is running in a VPC).
     * _Valid values_: `default`, `host`
     * _Default value:_ `default`
 
@@ -151,24 +153,24 @@ The tags to apply to the resources during launch. You can tag instances and volu
 
 Each `tag_specifications` block has the following structure:
 
-* `resource_type` – (Optional) The type of resource to tag.
+* `resource_type` - (Optional) The type of resource to tag.
     * _Valid values_: `instance`, `volume`
-* `tags` – (Optional) Map of tags to assign to the resource.
+* `tags` - (Optional) Map of tags to assign to the resource.
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` – The ARN of the launch template.
-* `id` – The ID of the launch template.
-* `latest_version` – The latest version of the launch template.
-* `tags_all` – Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `arn` - The Amazon Resource Name (ARN) of the launch template.
+* `id` - The ID of the launch template.
+* `latest_version` - The latest version of the launch template.
+* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 

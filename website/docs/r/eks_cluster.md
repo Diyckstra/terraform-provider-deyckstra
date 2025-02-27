@@ -80,8 +80,8 @@ resource "aws_eks_cluster" "example" {
 
 The following arguments are required:
 
-* `name` – (Required) The name of the cluster. Must be between 1-100 characters in length. Must begin with an alphanumeric character, and must only contain alphanumeric characters, dashes and underscores (`^[0-9A-Za-z][A-Za-z0-9\-_]+$`).
-* `version` – (Required) The Kubernetes server version for the cluster.
+* `name` - (Required) The name of the cluster. Must be between 1-100 characters in length. Must begin with an alphanumeric character, and must only contain alphanumeric characters, dashes and underscores (`^[0-9A-Za-z][A-Za-z0-9\-_]+$`).
+* `version` - (Required) The Kubernetes server version for the cluster.
 * `vpc_config` - (Required) Configuration block for the VPC associated with your cluster. Detailed below. Also contains attributes detailed in the Attributes section.
 
 The following arguments are optional:
@@ -93,8 +93,8 @@ The following arguments are optional:
 
 ### vpc_config Arguments
 
-* `security_group_ids` – (Optional) List of security group IDs.
-* `subnet_ids` – (Required) List of subnet IDs.
+* `security_group_ids` - (Optional) List of security group IDs.
+* `subnet_ids` - (Required) List of subnet IDs.
 
 ### kubernetes_network_config
 
@@ -112,7 +112,7 @@ The block must meet the following requirements:
 
 The `legacy_cluster_params` block has the following structure:
 
-* `master_config` – (Optional) The configuration of the master node of the cluster.
+* `master_config` - (Optional) The configuration of the master node of the cluster.
   The structure of this block is [described below](#master_config).
 
 #### master_config
@@ -141,14 +141,14 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - The name of the cluster.
 * `platform_version` - The platform version for the cluster.
 * `status` - The status of the EKS cluster. One of `CLAIMED`, `CREATING`, `DELETED`, `DELETING`, `ERROR`, `MODIFYING`, `PENDING`, `PROVISIONING`, `READY`, `REPAIRING`.
-* `tags_all` -Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 * `vpc_config` -  Nested list containing VPC configuration for the cluster.
     * `cluster_security_group_id` - The cluster security group that was created by the cloud for the cluster.
     * `vpc_id` - The VPC associated with your cluster.
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 

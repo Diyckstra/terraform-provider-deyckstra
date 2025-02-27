@@ -40,7 +40,7 @@ The following arguments are supported:
 * `route_table_id` - (Required) ID of the route table to set as the new
   main route table for the target VPC
 
-## Attributes Reference
+## Attribute Reference
 
 In addition to all arguments above, the following attributes are exported:
 

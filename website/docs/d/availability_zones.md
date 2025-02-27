@@ -3,15 +3,15 @@ subcategory: "EC2 (Elastic Compute Cloud)"
 layout: "aws"
 page_title: "aws_availability_zones"
 description: |-
-    Provides a list of availability zones.
+    Provides a list of availability zone names.
 ---
 
-[describe-azs]: https://docs.cloud.croc.ru/en/api/ec2/placements/DescribeAvailabilityZones.html
+[describe-azs]: https://docs.k2.cloud/en/api/ec2/placements/DescribeAvailabilityZones.html
 [tf-availability-zone]: availability_zone.html
 
 # Data Source: aws_availability_zones
 
-Provides a list of availability zones.
+Provides the list of availability zone names matching the specified criteria.
 To get information about a specific availability zone, use the [`aws_availability_zone`][tf-availability-zone] (singular) data source.
 
 ## Example Usage
@@ -29,24 +29,24 @@ data "aws_availability_zones" "available" {
 
 The following arguments are supported:
 
-* `filter` – (Optional) One or more name/value pairs to use as filters.
-    * _Valid values_: See names and values in [EC2 API documentation][describe-azs].
-* `state` – (Optional) Allows to filter list of availability zones based on their
+* `filter` - (Optional) One or more name/value pairs to use as filters.
+    * _Valid values_: See supported names and values in [EC2 API documentation][describe-azs].
+* `state` - (Optional) Filters the list of availability zones based on their
 current state.
-    * _Valid values_:  `"available"`, `"information"`, `"impaired"`, `"unavailable"`
+    * _Valid values_:  `available`, `information`, `impaired`, `unavailable`
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
-* `id` – Region of the availability zones.
-* `names` – A list of the availability zone names available to the account.
+* `id` - Region of the availability zones.
+* `names` - A list of the availability zone names available to the account.
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 

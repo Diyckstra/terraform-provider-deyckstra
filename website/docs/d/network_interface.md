@@ -6,6 +6,9 @@ description: |-
   Provides information about a network interface.
 ---
 
+[describe-network-interfaces]: https://docs.k2.cloud/en/api/ec2/network_interfaces/DescribeNetworkInterfaces.html
+[tf-network-interface]: network_interface.html
+
 # aws_network_interface
 
 Provides information about a network interface.
@@ -22,11 +25,11 @@ data "aws_network_interface" "example" {
 
 The following arguments are supported:
 
-* `id` – (Optional) The identifier for the network interface.
-* `filter` – (Optional) One or more name/value pairs to use as filters.
+* `filter` - (Optional) One or more name/value pairs to use as filters.
     * _Valid values:_ See supported names and values in [EC2 API documentation][describe-network-interfaces]
+* `id` - (Optional) The identifier for the network interface.
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
@@ -34,7 +37,7 @@ See the [`aws_network_interface`](network_interface.md) for details on the retur
 
 Additionally, the following attributes are exported:
 
-* `arn` - The ARN of the network interface.
+* `arn` - The Amazon Resource Name (ARN) of the network interface.
 * `association` - The association information for an Elastic IP address (IPv4) associated with the network interface. See supported fields below.
 * `availability_zone` - The availability zone.
 * `description` - Description of the network interface.
@@ -48,7 +51,7 @@ Additionally, the following attributes are exported:
 * `tags` - Map of tags assigned to the network interface.
 * `vpc_id` - The ID of the VPC.
 
-#### `association`
+#### association
 
 * `allocation_id` - The allocation ID.
 * `association_id` - The association ID.
@@ -59,18 +62,8 @@ Additionally, the following attributes are exported:
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 
 `interface_type`, `ipv6_addresses`, `requester_id`, `outpost_arn`, `association.carrier_ip`.
-
-## Import
-
-Elastic network interfaces can be imported using `id`, e.g.,
-
-```
-$ terraform import aws_network_interface.test eni-12345678
-```
-
-[describe-network-interfaces]: https://docs.k2.cloud/en/api/ec2/network_interfaces/DescribeNetworkInterfaces.html

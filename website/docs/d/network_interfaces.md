@@ -6,7 +6,11 @@ description: |-
     Provides a list of network interface IDs.
 ---
 
+[describe-network-interfaces]: https://docs.k2.cloud/en/api/ec2/network_interfaces/DescribeNetworkInterfaces.html
+
 # Data Source: aws_network_interfaces
+
+Provides the list of network interface IDs matching the specified criteria.
 
 ## Example Usage
 
@@ -51,14 +55,12 @@ output "example2" {
 
 ## Argument Reference
 
-* `tags` - (Optional) Map of tags, each pair of which must exactly match
-  a pair on the desired network interfaces.
 * `filter` - (Optional) One or more name/value pairs to use as filters.
     * _Valid values:_ See supported names and values in [EC2 API documentation][describe-network-interfaces]
+* `tags` - (Optional) Map of tags, each pair of which must exactly match
+  a pair on the desired network interfaces.
 
-## Attributes Reference
+## Attribute Reference
 
 * `id` - The region.
 * `ids` - A list of all the network interface IDs found.
-
-[describe-network-interfaces]: https://docs.k2.cloud/en/api/ec2/network_interfaces/DescribeNetworkInterfaces.html

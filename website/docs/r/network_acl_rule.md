@@ -67,7 +67,7 @@ The following arguments are supported:
 
 ~> **Note** For more information on ICMP types and codes, see here: https://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
@@ -77,7 +77,7 @@ In addition to all arguments above, the following attributes are exported:
 
 ### Unsupported attributes
 
-~> **Note** This attribute may be present in the `terraform.tfstate` file but it has a preset value and cannot be specified in configuration files.
+~> **Note** This attribute may be present in the `terraform.tfstate` file, but it has a preset value and cannot be specified in configuration files.
 
 The following attribute is not currently supported: `ipv6_cidr_block`.
 

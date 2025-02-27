@@ -49,7 +49,7 @@ The `timeouts` block allows you to specify [timeouts] for certain actions:
 - `create` - (Default `10 minutes`) Used for creating the ebs snapshot
 - `delete` - (Default `10 minutes`) Used for deleting the ebs snapshot
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
@@ -60,11 +60,11 @@ In addition to all arguments above, the following attributes are exported:
 * `owner_id` - The project ID.
 * `owner_alias` - The alias of the EBS snapshot owner.
 * `volume_size` - The size of the drive in GiB.
-* `tags_all` -Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 

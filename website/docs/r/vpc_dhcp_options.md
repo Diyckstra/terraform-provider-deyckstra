@@ -59,19 +59,19 @@ The following arguments are supported:
 * If you delete a DHCP options set, all VPCs using it will be associated to `default` DHCP options set.
 * In most cases unless you're configuring your own DNS you'll want to set `domain_name_servers` to `AmazonProvidedDNS`.
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the DHCP options set.
-* `arn` - ARN of the DHCP options set.
-* `tags_all` -Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `arn` - The Amazon Resource Name (ARN) of the DHCP options set.
+* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 
-~> **Note** This attribute may be present in the `terraform.tfstate` file but it has a preset value and cannot be specified in configuration files.
+~> **Note** This attribute may be present in the `terraform.tfstate` file, but it has a preset value and cannot be specified in configuration files.
 
 The following attribute is not currently supported: `owner_id` .
 

@@ -1,5 +1,5 @@
 ---
-subcategory: "S3 (Simple Storage Service)"
+subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_s3_bucket_request_payment_configuration"
 description: |-
@@ -33,7 +33,7 @@ The following arguments are supported:
 * `payer` - (Required) Specifies who pays for the download and request fees.
     * _Valid values_:  `BucketOwner`, `Requester`
 
-## Attributes Reference
+## Attribute Reference
 
 In addition to all arguments above, the following attributes are exported:
 

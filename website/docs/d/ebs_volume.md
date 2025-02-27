@@ -6,9 +6,11 @@ description: |-
   Provides information about an EBS volume.
 ---
 
+[describe-volumes]: https://docs.k2.cloud/en/api/ec2/volumes/DescribeVolumes.html
+
 # Data Source: aws_ebs_volume
 
-Provides information about an EBS volume for use in other resources.
+Provides information about an EBS volume.
 
 ## Example Usage
 
@@ -32,11 +34,11 @@ data "aws_ebs_volume" "ebs_volume" {
 
 The following arguments are supported:
 
-* `most_recent` - (Optional) If more than one result is returned, use the most recent volume.
 * `filter` - (Optional) One or more name/value pairs to use as filters.
     * _Valid values:_ See supported names and values in [EC2 API documentation][describe-volumes]
+* `most_recent` - (Optional) If more than one result is returned, use the most recent volume.
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
@@ -55,10 +57,8 @@ In addition to all arguments above, the following attributes are exported:
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 
 `encrypted`, `kms_key_id`, `multi_attach_enabled`, `outpost_arn`.
-
-[describe-volumes]: https://docs.k2.cloud/en/api/ec2/volumes/DescribeVolumes.html

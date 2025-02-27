@@ -22,7 +22,7 @@ data "aws_eks_cluster_auth" "example" {
 
 * `name` - (Required) The name of the cluster
 
-## Attributes Reference
+## Attribute Reference
 
 * `id` - Name of the cluster.
 * `token` - The token to use to authenticate with the cluster.

@@ -35,7 +35,7 @@ The following arguments are supported:
 * `snapshot_id` - (required) A snapshot ID.
 * `account_id` - (required) The project ID (`project@customer`).
 
-## Attributes Reference
+## Attribute Reference
 
 In addition to all arguments above, the following attributes are exported:
 

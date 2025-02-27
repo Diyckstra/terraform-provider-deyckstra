@@ -61,12 +61,12 @@ resource "aws_lb_target_group_attachment" "test" {
 
 The following arguments are supported:
 
-* `target_group_arn` - (Required) The ARN of the target group with which to register targets
+* `target_group_arn` - (Required) The Amazon Resource Name (ARN) of the target group with which to register targets
 * `target_id` (Required) The ID of the target. This is the instance ID for an instance, or the container ID for an ECS container. If the target type is ip, specify an IP address. If the target type is lambda, specify the arn of lambda. If the target type is alb, specify the arn of alb.
 * `port` - (Optional) The port on which targets receive traffic.
 * `availability_zone` - (Optional) The availability zone where the IP address of the target is to be registered. If the private ip address is outside of the VPC scope, this value must be set to 'all'.
 
-## Attributes Reference
+## Attribute Reference
 
 In addition to all arguments above, the following attributes are exported:
 

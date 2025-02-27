@@ -3,20 +3,21 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_vpc"
 description: |-
-    Provides information about a specific VPC.
+    Provides information about a VPC.
 ---
+
+[describe-vpcs]: https://docs.k2.cloud/en/api/ec2/vpcs/DescribeVpcs.html
 
 # Data Source: aws_vpc
 
-Provides information about a specific VPC.
+Provides information about a VPC.
 
-This resource can be useful when a module accepts a vpc id as
-an input variable and needs to, for example, determine the CIDR block of that
-VPC.
+This resource can be useful when a module accepts the ID of a VPC as
+an input variable and needs to, for example, determine the CIDR block of that VPC.
 
 ## Example Usage
 
-The following example shows how one might accept a VPC id as a variable
+The following example shows how one might accept the ID of a VPC as a variable
 and use this data source to obtain the data necessary to create a subnet
 within it.
 
@@ -40,18 +41,18 @@ The arguments of this data source act as filters for querying the available
 VPCs in the current region. The given filters must match exactly one
 VPC whose data will be exported as attributes.
 
-* `cidr_block` - (Optional) The cidr block of the desired VPC.
-* `dhcp_options_id` - (Optional) The DHCP options id of the desired VPC.
+* `cidr_block` - (Optional) The CIDR block of the desired VPC.
+* `dhcp_options_id` - (Optional) The ID of the DHCP options for the desired VPC.
 * `filter` - (Optional) One or more name/value pairs to use as filters.
   A VPC will be selected if any one of the given values matches.
     * _Valid values:_ See supported names and values in [EC2 API documentation][describe-vpcs]
-* `id` - (Optional) The id of the specific VPC to retrieve.
+* `id` - (Optional) The ID of the specific VPC to retrieve.
 * `state` - (Optional) The current state of the desired VPC.
-  Can be either `"pending"` or `"available"`.
+  Can be either `pending` or `available`.
 * `tags` - (Optional) Map of tags, each pair of which must exactly match
   a pair on the desired VPC.
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
@@ -74,10 +75,8 @@ The following attributes are additionally exported:
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 
 `enable_dns_hostnames`, `instance_tenancy`, `ipv6_association_id`, `ipv6_cidr_block`, `owner_id`.
-
-[describe-vpcs]: https://docs.k2.cloud/en/api/ec2/vpcs/DescribeVpcs.html

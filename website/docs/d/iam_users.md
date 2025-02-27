@@ -3,12 +3,12 @@ subcategory: "IAM (Identity & Access Management)"
 layout: "aws"
 page_title: "aws_iam_users"
 description: |-
-  Provides information about the ARNs and names of selected IAM users.
+  Provides the lists of the ARNs and names of selected IAM users.
 ---
 
 # Data Source: aws_iam_users
 
-Provides information about the ARNs (Amazon Resource Names) and names of selected IAM users.
+Provides the lists of the ARNs (Amazon Resource Names) and names of selected IAM users.
 
 ## Example Usage
 
@@ -44,6 +44,6 @@ The following arguments are supported:
 
 ### Unsupported attributes
 
-~> **Note** This attribute may be present in the `terraform.tfstate` file but it has a preset value and cannot be specified in configuration files.
+~> **Note** This attribute may be present in the `terraform.tfstate` file, but it has a preset value and cannot be specified in configuration files.
 
 The following attribute is not currently supported: `path_prefix`.

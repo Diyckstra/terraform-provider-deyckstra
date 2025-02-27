@@ -41,7 +41,7 @@ The following arguments are supported:
 * `subnet_id` - (Required) Subnet ID to create an association.
 * `route_table_id` - (Required) ID of the routing table to associate with.
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
@@ -51,7 +51,7 @@ In addition to all arguments above, the following attributes are exported:
 
 ### Unsupported attributes
 
-~> **Note** This attribute may be present in the `terraform.tfstate` file but it has a preset value and cannot be specified in configuration files.
+~> **Note** This attribute may be present in the `terraform.tfstate` file, but it has a preset value and cannot be specified in configuration files.
 
 The following attribute is not currently supported: `gateway_id`.
 

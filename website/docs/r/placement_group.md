@@ -27,25 +27,25 @@ resource "aws_placement_group" "example" {
 
 The following arguments are supported:
 
-* `name` – (Required) The name of the placement group.
-* `strategy` – (Required) The placement strategy.
+* `name` - (Required) The name of the placement group.
+* `strategy` - (Required) The placement strategy.
     * _Valid values_: `"spread"`
-* `tags` – (Optional) Map of tags to assign to the resource. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
+* `tags` - (Optional) Map of tags to assign to the resource. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` – Amazon Resource Name (ARN) of the placement group.
-* `id` – The name of the placement group.
-* `placement_group_id` – The ID of the placement group.
-* `tags_all` – Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `arn` - Amazon Resource Name (ARN) of the placement group.
+* `id` - The name of the placement group.
+* `placement_group_id` - The ID of the placement group.
+* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 
-~> **Note** This attribute may be present in the `terraform.tfstate` file but it has a preset value and cannot be specified in configuration files.
+~> **Note** This attribute may be present in the `terraform.tfstate` file, but it has a preset value and cannot be specified in configuration files.
 
 The following attribute is not currently supported: `partition_count`.
 

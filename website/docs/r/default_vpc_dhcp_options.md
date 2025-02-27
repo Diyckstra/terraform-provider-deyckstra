@@ -3,7 +3,7 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_default_vpc_dhcp_options"
 description: |-
-  Manage the default DHCP options resource.
+  Manages the default DHCP options resource.
 ---
 
 # Resource: aws_default_vpc_dhcp_options
@@ -48,12 +48,12 @@ but Terraform cannot destroy it. Removing this resource from your configuration
 will remove it from your statefile and management, but will not destroy the DHCP options set.
 You can resume managing the DHCP options set via the cloud console.
 
-## Attributes Reference
+## Attribute Reference
 
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the DHCP options set.
-* `arn` - ARN of the DHCP options set.
+* `arn` - The Amazon Resource Name (ARN) of the DHCP options set.
 
 ## Import
 

@@ -6,9 +6,12 @@ description: |-
   Provides information about a set of security groups.
 ---
 
+[tf-security-group]: security_group.html
+[describe-security-groups]: https://docs.k2.cloud/en/api/ec2/security_groups/DescribeSecurityGroups.html
+
 # Data Source: aws_security_groups
 
-Provides information about IDs and VPC membership of security groups that are created outside of Terraform.
+Provides information about IDs and VPC membership of security groups.
 
 ## Example Usage
 
@@ -43,11 +46,9 @@ data "aws_security_groups" "test" {
 * `filter` - (Optional) One or more name/value pairs to use as filters.
     * _Valid values:_ See supported names and values in [EC2 API documentation][describe-security-groups]
 
-## Attributes Reference
+## Attribute Reference
 
-* `arns` - ARNs of the matched security groups.
-* `id` - The region.
-* `ids` - IDs of the matches security groups.
+* `arns` - The Amazon Resource Names (ARNs) of the matched security groups.
+* `id` - The region (e.g., `region-1`).
+* `ids` - IDs of the matched security groups.
 * `vpc_ids` - The VPC IDs of the matched security groups. The data source's tag or filter *will span VPCs* unless the `vpc-id` filter is also used.
-
-[describe-security-groups]: https://docs.k2.cloud/en/api/ec2/security_groups/DescribeSecurityGroups.html

@@ -45,20 +45,20 @@ data "aws_iam_group" "selected" {
 
 * `create_date` - The time in [RFC3339 format] when the group was created.
 * `group_id` - The ID of the group.
-* `id` - The ARN of the group.
+* `id` - The Amazon Resource Name (ARN) of the group.
 * `owner` - The owner of the group.
 * `type` - The type of the group.
 * `users` - List of group members. The structure of this block is [described below](#users).
 
 #### users
 
-* `arn` - The ARN of a user.
+* `arn` - The Amazon Resource Name (ARN) of a user.
 * `user_id` - The ID of a user.
 * `user_name` - The name of a user.
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 

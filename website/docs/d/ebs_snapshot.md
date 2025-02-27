@@ -6,9 +6,11 @@ description: |-
   Provides information about an EBS snapshot.
 ---
 
+[describe-snapshots]: https://docs.k2.cloud/en/api/ec2/snapshots/DescribeSnapshots.html
+
 # Data Source: aws_ebs_snapshot
 
-Provides information about an EBS snapshot for use when provisioning EBS volumes.
+Provides information about an EBS snapshot.
 
 ## Example Usage
 
@@ -33,16 +35,16 @@ data "aws_ebs_snapshot" "ebs_snapshot" {
 
 The following arguments are supported:
 
-* `most_recent` - (Optional) If more than one result is returned, use the most recent snapshot.
-* `owners` - (Optional) List of the snapshot owners.
-    * _Valid values_: The project ID (`project@customer`) or `self`
-* `snapshot_ids` - (Optional) Returns information on a specific snapshot ID.
-* `restorable_by_user_ids` - (Optional) List of the project IDs (`project@customer`).
-  that can create volumes from the snapshot.
 * `filter` - (Optional) One or more name/value pairs to use as filters.
     * _Valid values:_ See supported names and values in [EC2 API documentation][describe-snapshots]
+* `most_recent` - (Optional) If more than one result is returned, use the most recent snapshot.
+* `owners` - (Optional) List of the snapshot owners.
+    * _Valid values_: Project ID (`project@customer`) or `self`
+* `restorable_by_user_ids` - (Optional) List of the project IDs (`project@customer`).
+  that can create volumes from the snapshot.
+* `snapshot_ids` - (Optional) Returns information on a snapshot ID.
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
@@ -61,10 +63,8 @@ In addition to all arguments above, the following attributes are exported:
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 
 `data_encryption_key_id`, `encrypted`, `kms_key_id`, `outpost_arn`, `storage_tier`.
-
-[describe-snapshots]: https://docs.k2.cloud/en/api/ec2/snapshots/DescribeSnapshots.html

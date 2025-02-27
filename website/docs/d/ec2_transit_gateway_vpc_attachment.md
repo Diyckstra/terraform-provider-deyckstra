@@ -49,14 +49,14 @@ In addition to all arguments above, the following attributes are exported:
 
 * `id` - The ID of the transit gateway attachment.
 * `subnet_ids` - List of subnet IDs.
-* `transit_gateway_id` - The ID of the transit gateway.
 * `tags` - Map of tags assigned to the transit gateway VPC attachment.
+* `transit_gateway_id` - The ID of the transit gateway.
 * `vpc_id` - The ID of the VPC.
 * `vpc_owner_id` - The ID of the project that owns the VPC.
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 

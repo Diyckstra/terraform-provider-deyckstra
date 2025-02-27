@@ -1,5 +1,5 @@
 ---
-subcategory: "S3 (Simple Storage Service)"
+subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_s3_object_copy"
 description: |-
@@ -52,7 +52,7 @@ This configuration block has the following required arguments:
 * `permissions` - (Required) List of permissions to grant to grantee.
     * _Valid values_: `READ`, `READ_ACP`, `WRITE_ACP`, `FULL_CONTROL`
 * `type` - (Required) - Type of grantee.
-    * _Valid values_: `CanonicalUser`, `Group`, and `AmazonCustomerByEmail`
+    * _Valid values_: `CanonicalUser`, `Group`, or `AmazonCustomerByEmail`
 
 This configuration block has the following optional arguments (one of the three is required):
 
@@ -62,7 +62,7 @@ This configuration block has the following optional arguments (one of the three 
 
 -> **Note** Terraform ignores all leading `/`s in the object's `key` and treats multiple `/`s in the rest of the object's `key` as a single `/`, so values of `/index.html` and `index.html` correspond to the same S3 object as do `first//second///third//` and `first/second/third/`.
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
@@ -75,7 +75,7 @@ In addition to all arguments above, the following attributes are exported:
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 

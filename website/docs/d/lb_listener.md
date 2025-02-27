@@ -43,13 +43,13 @@ data "aws_lb_listener" "selected443" {
 
 The following arguments are supported:
 
-* `arn` - (Optional) ARN of the listener.
+* `arn` - (Optional) The Amazon Resource Name (ARN) of the listener.
     * _Constraints_: Required if `load_balancer_arn` and `port` are not set.
-* `load_balancer_arn` - (Optional) ARN of the load balancer.
+* `load_balancer_arn` - (Optional) The Amazon Resource Name (ARN) of the load balancer.
     * _Constraints_: Required if `arn` is not set.
 * `port` - (Optional) Port of the listener.
     * _Constraints_: Required if `arn` is not set.
 
-## Attributes Reference
+## Attribute Reference
 
 See the [LB Listener Resource](../r/lb_listener.md) for details on the returned attributes - they are identical.

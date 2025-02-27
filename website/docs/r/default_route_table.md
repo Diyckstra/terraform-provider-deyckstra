@@ -3,7 +3,7 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_default_route_table"
 description: |-
-  Manage the default route table of a VPC.
+  Manages the default route table of a VPC.
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
@@ -92,7 +92,7 @@ One of the following target arguments must be supplied:
 * `network_interface_id` - (Optional) ID of an EC2 network interface.
 * `transit_gateway_id` - (Optional) The ID of the transit gateway.
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
@@ -100,12 +100,12 @@ In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the route table.
 * `arn` - The Amazon Resource Name (ARN) of the route table.
-* `tags_all` -Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 * `vpc_id` - ID of the VPC.
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 

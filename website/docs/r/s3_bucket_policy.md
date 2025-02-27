@@ -1,5 +1,5 @@
 ---
-subcategory: "S3 (Simple Storage Service)"
+subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_s3_bucket_policy"
 description: |-
@@ -59,7 +59,7 @@ In particular, you cannot specify a user as principal, but only the project that
 Accordingly, all project users will be granted the same permissions.
 For more information about bucket policy restrictions, see [user documentation][policy-restrictions].
 
-## Attributes Reference
+## Attribute Reference
 
 No additional attributes are exported.
 

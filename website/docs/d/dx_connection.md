@@ -24,13 +24,13 @@ The following arguments are supported:
 
 * `name` - (Required) The name of the connection.
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` - The ARN of the connection.
+* `arn` - The Amazon Resource Name (ARN) of the connection.
 * `aws_device` - The ID of the device to which the connection is attached.
 * `bandwidth` - The bandwidth of the connection.
 * `id` - The ID of the connection.
@@ -40,6 +40,6 @@ In addition to all arguments above, the following attributes are exported:
 
 ### Unsupported attributes
 
-~> **Note** This attribute may be present in the `terraform.tfstate` file but it has a preset value and cannot be specified in configuration files.
+~> **Note** This attribute may be present in the `terraform.tfstate` file, but it has a preset value and cannot be specified in configuration files.
 
 The following attribute is not currently supported: `provider_name`.

@@ -10,7 +10,7 @@ description: |-
 
 # Data Source: aws_ebs_snapshot_ids
 
-Provides a list of EBS snapshot IDs matching the specified criteria.
+Provides the list of EBS snapshot IDs matching the specified criteria.
 
 ## Example Usage
 
@@ -34,14 +34,14 @@ data "aws_ebs_snapshot_ids" "ebs_snapshot_ids" {
 
 The following arguments are supported:
 
-* `owners` - (Optional) List of the snapshot owners.
-    * _Valid values_: The project ID (`project@customer`) or `self`
-* `restorable_by_user_ids` - (Optional) List of the project IDs (`project@customer`).
-  that can create volumes from the snapshot.
 * `filter` - (Optional) One or more name/value pairs to use as filters.
     * _Valid values:_ See supported names and values in [EC2 API documentation][describe-snapshots]
+* `owners` - (Optional) List of the snapshot owners.
+    * _Valid values_: Project ID (`project@customer`) or `self`
+* `restorable_by_user_ids` - (Optional) List of the project IDs (`project@customer`).
+  that can create volumes from the snapshot.
 
-## Attributes Reference
+## Attribute Reference
 
 * `id` - The region.
 * `ids` - Set of EBS snapshot IDs, sorted by creation time in descending order.

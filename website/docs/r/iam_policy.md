@@ -91,14 +91,14 @@ In addition to all arguments above, the following attributes are exported:
 
 * `arn` - The Amazon Resource Name (ARN) of the policy.
 * `create_date` - The time in [RFC3339 format] when the policy was created.
-* `id` - The ARN of the policy.
+* `id` - The Amazon Resource Name (ARN) of the policy.
 * `owner` - The owner of the policy.
 * `policy_id` - The ID of the policy.
 * `update_date` - The time in [RFC3339 format] when the policy was last updated.
 
 ### Unsupported attributes
 
-~> **Note** This attribute may be present in the `terraform.tfstate` file but it has a preset value and cannot be specified in configuration files.
+~> **Note** This attribute may be present in the `terraform.tfstate` file, but it has a preset value and cannot be specified in configuration files.
 
 The following attribute is not currently supported: `path`.
 

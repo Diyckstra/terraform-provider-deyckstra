@@ -3,12 +3,12 @@ subcategory: "Auto Scaling"
 layout: "aws"
 page_title: "aws_autoscaling_policy"
 description: |-
-  Manages an Auto Scaling policy resource.
+  Manages an Auto Scaling policy.
 ---
 
 # Resource: aws_autoscaling_policy
 
-Manages an Auto Scaling policy resource.
+Manages an Auto Scaling policy.
 
 ~> **Note** You may want to omit `desired_capacity` attribute from attached `aws_autoscaling_group`
 when using autoscaling policies. It's good practice to pick either manual or dynamic (policy-based) scaling.
@@ -37,7 +37,7 @@ resource "aws_autoscaling_policy" "example" {
 * `cooldown` - (Optional) The amount of time, in seconds, after a scaling activity completes and before the next scaling activity can start.
 * `scaling_adjustment` - (Optional) The amount by which the Auto Scaling group is scaled when the scaling policy is executed
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
@@ -52,7 +52,7 @@ In addition to all arguments above, the following attributes are exported:
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 

@@ -28,7 +28,7 @@ The following arguments are supported:
 * `name` - (Required) The name of the Direct Connect gateway.
 * `amazon_side_asn` - (Required) The ASN to be configured on the cloud side of the connection. The ASN must be in the private range of 64,512 to 65,534 or 4,200,000,000 to 4,294,967,294.
 
-## Attributes Reference
+## Attribute Reference
 
 In addition to all arguments above, the following attributes are exported:
 

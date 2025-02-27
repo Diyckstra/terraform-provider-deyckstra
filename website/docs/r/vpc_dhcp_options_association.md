@@ -39,7 +39,7 @@ The following arguments are supported:
 * You can only associate one DHCP options set to a given VPC ID.
 * Removing the DHCP options association automatically sets `default` DHCP options set to the VPC.
 
-## Attributes Reference
+## Attribute Reference
 
 In addition to all arguments above, the following attributes are exported:
 

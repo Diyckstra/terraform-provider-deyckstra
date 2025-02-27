@@ -44,7 +44,7 @@ The following arguments are supported:
 * `network_acl_id` - (Required) ID of the network ACL.
 * `subnet_id` - (Required) ID of the associated subnet.
 
-## Attributes Reference
+## Attribute Reference
 
 In addition to all arguments above, the following attributes are exported:
 

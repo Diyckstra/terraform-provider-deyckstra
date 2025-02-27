@@ -226,13 +226,13 @@ resource "aws_lb_listener" "example" {
 The following arguments are required:
 
 * `default_action` - (Required) Configuration block for default actions. Detailed below.
-* `load_balancer_arn` - (Required, forces new resource) ARN of the load balancer.
+* `load_balancer_arn` - (Required, forces new resource) The Amazon Resource Name (ARN) of the load balancer.
 
 The following arguments are optional:
 
 * `alpn_policy` - (Optional)  Name of the Application-Layer Protocol Negotiation (ALPN) policy. Can be set if `protocol` is `TLS`.
     * _Valid values_: `HTTP1Only`, `HTTP2Only`, `HTTP2Optional`, `HTTP2Preferred`, and `None`
-* `certificate_arn` - (Optional) ARN of the default SSL server certificate. Exactly one certificate is required if the protocol is HTTPS.
+* `certificate_arn` - (Optional) The Amazon Resource Name (ARN) of the default SSL server certificate. Exactly one certificate is required if the protocol is HTTPS.
 * `port` - (Optional) Port on which the load balancer is listening. Not valid for gateway load balancers.
 * `protocol` - (Optional) Protocol for connections from clients to the load balancer. For application load balancers, valid values are `HTTP` and `HTTPS`, with a default of `HTTP`. For network load balancers, valid values are `TCP`, `TLS`, `UDP`, and `TCP_UDP`. Not valid to use `UDP` or `TCP_UDP` if dual-stack mode is enabled. Not valid for gateway load balancers.
 * `ssl_policy` - (Optional) Name of the SSL policy for the listener.
@@ -259,13 +259,13 @@ The following arguments are optional:
     * _Valid values_: between `1` and `50000`
 * `redirect` - (Optional) Configuration block for creating a redirect action. Detailed below.
     * _Constraints_: Required if `type` is `redirect`.
-* `target_group_arn` - (Optional) ARN of the target group to which to route traffic. Specify only if `type` is `forward` and you want to route to a single target group. To route to one or more target groups, use a `forward` block instead.
+* `target_group_arn` - (Optional) The Amazon Resource Name (ARN) of the target group to which to route traffic. Specify only if `type` is `forward` and you want to route to a single target group. To route to one or more target groups, use a `forward` block instead.
 
 #### authenticate_cognito
 
 The following arguments are required:
 
-* `user_pool_arn` - (Required) ARN of the Cognito user pool.
+* `user_pool_arn` - (Required) The Amazon Resource Name (ARN) of the Cognito user pool.
 * `user_pool_client_id` - (Required) ID of the Cognito user pool client.
 * `user_pool_domain` - (Required) Domain prefix or fully-qualified domain name of the Cognito user pool.
 
@@ -330,7 +330,7 @@ The following arguments are optional:
 
 The following arguments are required:
 
-* `arn` - (Required) ARN of the target group.
+* `arn` - (Required) The Amazon Resource Name (ARN) of the target group.
 
 The following arguments are optional:
 
@@ -368,17 +368,17 @@ The following arguments are optional:
 * `query` - (Optional) Query parameters, URL-encoded when necessary, but not percent-encoded. Do not include the leading "?".
     * _Default value_: `#{query}`
 
-## Attributes Reference
+## Attribute Reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` - ARN of the listener (matches `id`).
-* `id` - ARN of the listener (matches `arn`).
+* `arn` - The Amazon Resource Name (ARN) of the listener (matches `id`).
+* `id` - The Amazon Resource Name (ARN) of the listener (matches `arn`).
 * `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ## Import
 
-Listeners can be imported using their ARN, e.g.,
+Listeners can be imported using their ARNs, e.g.,
 
 ```
 $ terraform import aws_lb_listener.front_end arn:aws:elasticloadbalancing:us-west-2:187416307283:listener/app/front-end-alb/8e4497da625e2d8a/9ab28ade35828f96

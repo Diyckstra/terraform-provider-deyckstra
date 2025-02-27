@@ -132,19 +132,19 @@ The following arguments are supported:
 * `enabled` - (Optional) Boolean to enable / disable `stickiness`. Default is `true`.
 * `type` - (Required) The type of sticky sessions. The only current possible values are `lb_cookie`, `app_cookie` for ALBs, and `source_ip` for NLBs.
 
-## Attributes Reference
+## Attribute Reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn_suffix` - ARN suffix for use with CloudWatch metrics.
-* `arn` - ARN of the target group (matches `id`).
-* `id` - ARN of the target group (matches `arn`).
+* `arn_suffix` - The Amazon Resource Name (ARN) suffix for use with CloudWatch metrics.
+* `arn` - The Amazon Resource Name (ARN) of the target group (matches `id`).
+* `id` - The Amazon Resource Name (ARN) of the target group (matches `arn`).
 * `name` - Name of the target group.
-* `tags_all` -Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ## Import
 
-Target groups can be imported using their ARN, e.g.,
+Target groups can be imported using their ARNs, e.g.,
 
 ```
 $ terraform import aws_lb_target_group.app_front_end arn:aws:elasticloadbalancing:us-west-2:187416307283:targetgroup/app-front-end/20cfe21448b66314

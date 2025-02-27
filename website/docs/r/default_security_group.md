@@ -3,7 +3,7 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_default_security_group"
 description: |-
-  Manage the default security group resource of a VPC.
+  Manages the default security group resource of a VPC.
 ---
 
 [default-security-groups]: https://docs.k2.cloud/en/services/security/securitygroups.html#id3
@@ -99,22 +99,22 @@ Both `egress` and `ingress` objects have the same arguments.
 * `self` - (Optional) Whether the security group itself will be added as a source to this egress rule.
 * `to_port` - (Required) End range port (or ICMP code if protocol is `icmp`).
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` - ARN of the security group.
+* `arn` - The Amazon Resource Name (ARN) of the security group.
 * `description` - Description of the security group.
 * `id` - ID of the security group.
 * `name` - Name of the security group.
 * `owner_id` - The project ID.
-* `tags_all` -Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 
-~> **Note** This attribute may be present in the `terraform.tfstate` file but it has a preset value and cannot be specified in configuration files.
+~> **Note** This attribute may be present in the `terraform.tfstate` file, but it has a preset value and cannot be specified in configuration files.
 
 The following attribute is not currently supported: `prefix_list_ids`.
 

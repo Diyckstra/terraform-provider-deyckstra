@@ -6,6 +6,8 @@ description: |-
   Provides information about an existing customer gateway.
 ---
 
+[describe-customer-gateways]: https://docs.k2.cloud/en/api/ec2/customer_gateways/DescribeCustomerGateways.html
+
 # Data Source: aws_customer_gateway
 
 Provides information about an existing customer gateway.
@@ -38,17 +40,17 @@ resource "aws_vpn_connection" "transit" {
 
 The following arguments are supported:
 
-* `id` - (Optional) The ID of the gateway.
 * `filter` - (Optional) One or more name/value pairs to use as filters.
     * _Valid values:_ See supported names and values in [EC2 API documentation][describe-customer-gateways]
+* `id` - (Optional) The ID of the gateway.
 
 ## Attribute Reference
 
 ### Supported attributes
 
-In addition to the arguments above, the following attributes are exported:
+In addition to all arguments above, the following attributes are exported:
 
-* `arn` - The ARN of the customer gateway.
+* `arn` - The Amazon Resource Name (ARN) of the customer gateway.
 * `bgp_asn` - The gateway's Border Gateway Protocol (BGP) Autonomous System Number (ASN).
 * `ip_address` - The IP address of the gateway's Internet-routable external interface.
 * `tags` - Map of tags assigned to the gateway.
@@ -56,10 +58,8 @@ In addition to the arguments above, the following attributes are exported:
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 
 `certificate_arn`, `device_name`.
-
-[describe-customer-gateways]: https://docs.k2.cloud/en/api/ec2/customer_gateways/DescribeCustomerGateways.html

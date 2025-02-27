@@ -3,12 +3,12 @@ subcategory: "PaaS"
 layout: "aws"
 page_title: "aws_paas_backups"
 description: |-
-  Provides list of PaaS service backups IDs.
+  Provides a list of PaaS service backups IDs.
 ---
 
 # Data Source: aws_paas_backups
 
-Provides list of PaaS service backups IDs.
+Provides the list of PaaS service backups IDs matching the specified criteria.
 
 ## Example Usage
 

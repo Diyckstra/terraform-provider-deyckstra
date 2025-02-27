@@ -39,7 +39,7 @@ The following arguments are supported:
 * `type` - (Optional) The type of EBS volume. Can be `st2`, `gp2` or `io2` (Default: `st2`).
 * `tags` - (Optional) Map of tags to assign to the resource. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
@@ -47,12 +47,12 @@ In addition to all arguments above, the following attributes are exported:
 
 * `arn` - Amazon Resource Name (ARN) of the volume.
 * `id` - The volume ID (e.g., vol-12345678).
-* `tags_all` -Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 * `throughput` - The throughput that the volume supports, in MiB/s.
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 

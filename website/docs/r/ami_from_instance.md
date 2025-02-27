@@ -3,7 +3,7 @@ subcategory: "EC2 (Elastic Compute Cloud)"
 layout: "aws"
 page_title: "aws_ami_from_instance"
 description: |-
-  Creates an Amazon Machine Image (AMI) from an EBS-backed EC2 instance.
+  Creates an Amazon Machine Image (AMI) from an instance.
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
@@ -12,9 +12,9 @@ description: |-
 
 # Resource: aws_ami_from_instance
 
-Creates an image from an existing EBS-backed EC2 instance.
+Creates an image from an instance.
 
-The created image will refer to implicitly-created snapshots of the instance's
+The created image will refer to implicitly created snapshots of the instance's
 EBS volumes and mimick its assigned block device configuration at the time
 the resource is created.
 
@@ -42,30 +42,33 @@ resource "aws_ami_from_instance" "example" {
 
 The following arguments are supported:
 
-* `name` – (Required) A region-unique name for the image.
-* `source_instance_id` – (Required) The ID of the instance to use as the basis of the image.
-* `tags` – (Optional) Map of tags to assign to the resource. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
+* `name` - (Required) A region-unique name for the image.
+* `source_instance_id` - (Required) The ID of the instance to use as the basis of the image.
+* `tags` - (Optional) Map of tags to assign to the resource. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
 ### Timeouts
 
 The `timeouts` block allows you to specify [timeouts][operation-timeouts] for certain actions:
 
-* `create` – (Default `40 minutes`) Used when creating the image
-* `update` – (Default `40 minutes`) Used when updating the image
-* `delete` – (Default `90 minutes`) Used when deregistering the image
+* `create` - (Default `40 minutes`) Used when creating the image
+* `update` - (Default `40 minutes`) Used when updating the image
+* `delete` - (Default `90 minutes`) Used when deregistering the image
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` – The ARN of the image.
-* `id` – The ID of the created image.
+* `arn` - The Amazon Resource Name (ARN) of the image.
+* `id` - The ID of the created image.
+
+This resource also exports a full set of attributes corresponding to the arguments of the
+[`aws_ami`][tf-ami] resource, allowing the properties of the created image to be used elsewhere in the configuration.
 
 ### Unsupported attributes
 
-~> **Note** This attribute may be present in the `terraform.tfstate` file but it has a preset value and cannot be specified in configuration files.
+~> **Note** This attribute may be present in the `terraform.tfstate` file, but it has a preset value and cannot be specified in configuration files.
 
 The following attribute is not currently supported: `snapshot_without_reboot`.
 
