@@ -6,6 +6,8 @@ description: |-
   Provides a Load Balancer resource.
 ---
 
+[timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
+
 # Resource: aws_lb
 
 Provides a Load Balancer resource.
@@ -153,8 +155,7 @@ In addition to all arguments above, the following attributes are exported:
 
 ## Timeouts
 
-`aws_lb` provides the following
-[Timeouts](https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts) configuration options:
+`aws_lb` provides the following [Timeouts][timeouts] configuration options:
 
 - `create` - (Default `10 minutes`) Used for Creating LB
 - `update` - (Default `10 minutes`) Used for LB modifications

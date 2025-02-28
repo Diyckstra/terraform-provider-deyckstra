@@ -6,6 +6,12 @@ description: |-
   Provides a resource to manage a default route table of a VPC.
 ---
 
+[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
+[route-tables]: https://docs.cloud.croc.ru/en/services/networks/routetables.html
+[timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
+[tf-main-route-table-association]: main_route_table_association.html
+[tf-route-table]: route_table.html
+
 # Resource: aws_default_route_table
 
 Provides a resource to manage a default route table of a VPC. This resource can manage the default route table of the default or a non-default VPC.
@@ -109,7 +115,7 @@ The following attributes are not currently supported:
 
 ## Timeouts
 
-`aws_default_route_table` provides the following [Timeouts](https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts) configuration options:
+`aws_default_route_table` provides the following [Timeouts][timeouts] configuration options:
 
 - `create` - (Default `2 minutes`) Used for route creation
 - `update` - (Default `2 minutes`) Used for route creation
@@ -122,7 +128,3 @@ Default VPC route tables can be imported using the `vpc_id`, e.g.,
 $ terraform import aws_default_route_table.example vpc-12345678
 ```
 
-[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[route-tables]: https://docs.cloud.croc.ru/en/services/networks/routetables.html
-[tf-main-route-table-association]: main_route_table_association.html
-[tf-route-table]: route_table.html

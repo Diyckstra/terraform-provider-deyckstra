@@ -6,6 +6,12 @@ description: |-
   Provides a resource to create a VPC routing table.
 ---
 
+[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
+[route-tables]: https://docs.cloud.croc.ru/en/services/networks/routetables.html
+[timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
+[tf-route]: route.html
+[tf-vpn-gateway-route-propagation]: vpn_gateway_route_propagation.html
+
 # Resource: aws_route_table
 
 Provides a resource to create a VPC routing table.
@@ -118,7 +124,7 @@ The following attributes are not currently supported:
 
 ## Timeouts
 
-`aws_route_table` provides the following [Timeouts](https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts) configuration options:
+`aws_route_table` provides the following [Timeouts][timeouts] configuration options:
 
 - `create` - (Default `5 minutes`) Used for route creation
 - `update` - (Default `2 minutes`) Used for route creation
@@ -133,7 +139,3 @@ route table `rtb-12345678`, use this command:
 $ terraform import aws_route_table.example rtb-12345678
 ```
 
-[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[route-tables]: https://docs.cloud.croc.ru/en/services/networks/routetables.html
-[tf-route]: route.html
-[tf-vpn-gateway-route-propagation]: vpn_gateway_route_propagation.html

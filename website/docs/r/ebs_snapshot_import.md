@@ -6,6 +6,8 @@ description: |-
   Provides an elastic block storage snapshot import resource.
 ---
 
+[timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
+
 # Resource: aws_ebs_snapshot_import
 
 Imports a disk image from S3 as a snapshot.
@@ -50,7 +52,7 @@ The following arguments are supported:
 ### Timeouts
 
 `aws_ebs_snapshot_import` provides the following
-[Timeouts](/docs/configuration/resources.html#timeouts) configuration options:
+[Timeouts][timeouts]  configuration options:
 
 - `create` - (Default `60 minutes`) Used for importing the EBS snapshot
 - `delete` - (Default `10 minutes`) Used for deleting the EBS snapshot

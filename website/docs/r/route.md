@@ -6,6 +6,8 @@ description: |-
   Provides a resource to create a routing entry in a VPC routing table.
 ---
 
+[timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
+
 # Resource: aws_route
 
 Provides a resource to create a routing table entry (a route) in a VPC routing table.
@@ -65,7 +67,7 @@ The following attributes are not currently supported:
 
 ## Timeouts
 
-`aws_route` provides the following [Timeouts](https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts) configuration options:
+`aws_route` provides the following [Timeouts][timeouts] configuration options:
 
 - `create` - (Default `5 minutes`) Used for route creation
 - `update` - (Default `2 minutes`) Used for route creation
