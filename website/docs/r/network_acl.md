@@ -6,6 +6,11 @@ description: |-
   Provides a network ACL resource.
 ---
 
+[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
+[network-acl]: https://docs.cloud.croc.ru/en/services/networks/networkacl.html
+[tf-network-acl-association]: network_acl_association.html
+[tf-network-acl-rule]: network_acl_rule.html
+
 # Resource: aws_network_acl
 
 Provides a network ACL resource. You might set up network ACLs with rules similar
@@ -114,7 +119,3 @@ Network ACLs can be imported using the `id`, e.g.,
 $ terraform import aws_network_acl.main acl-12345678
 ```
 
-[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[network-acl]: https://docs.cloud.croc.ru/en/services/networks/networkacl.html
-[tf-network-acl-association]: network_acl_association.html
-[tf-network-acl-rule]: network_acl_rule.html

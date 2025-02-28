@@ -6,6 +6,8 @@ description: |-
   Manages a Route53 Hosted Zone
 ---
 
+[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
+
 # Resource: aws_route53_zone
 
 Manages a Route53 Hosted Zone.
@@ -69,7 +71,7 @@ The following arguments are supported:
 * `name` - (Required) This is the name of the hosted zone.
 * `comment` - (Optional) A comment for the hosted zone. Defaults to 'Managed by Terraform'.
 * `force_destroy` - (Optional) Whether to destroy all records (possibly managed outside of Terraform) in the zone when destroying the zone.
-* `tags` - (Optional) A map of tags to assign to the zone. If configured with a provider [`default_tags` configuration block](/docs/providers/aws/index.html#default_tags-configuration-block) present, tags with matching keys will overwrite those defined at the provider-level.
+* `tags` - (Optional) A map of tags to assign to the zone. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
 * `vpc` - (Optional) Configuration block(s) specifying VPC to associate with a private hosted zone.
 
 ### vpc Argument Reference
@@ -86,7 +88,7 @@ In addition to all arguments above, the following attributes are exported:
 * `zone_id` - The Hosted Zone ID. This can be referenced by zone records.
 * `name_servers` - A list of name servers in associated (or default) delegation set.
   Find more about delegation sets in [AWS docs](https://docs.aws.amazon.com/Route53/latest/APIReference/actions-on-reusable-delegation-sets.html).
-* `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block](/docs/providers/aws/index.html#default_tags-configuration-block).
+* `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 
