@@ -6,6 +6,11 @@ description: |-
   Manage a default security group resource.
 ---
 
+[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
+[default-security-groups]: https://docs.k2.cloud/en/services/security/securitygroups.html#id3
+[tf-security-group]: security_group.html
+[tf-security-group-rule]: security_group_rule.html
+
 # Resource: aws_default_security_group
 
 Provides a resource to manage a default security group. This resource can manage the default security group of the default or a non-default VPC.
@@ -122,9 +127,3 @@ Security Groups can be imported using the `security group id`, e.g.,
 ```
 $ terraform import aws_default_security_group.default_sg sg-12345678
 ```
-
-[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[default-security-groups]: https://docs.cloud.croc.ru/en/services/networks/securitygroups.html#id3
-[tf-security-group]: security_group.html
-[tf-security-group-rule]: security_group_rule.html
-

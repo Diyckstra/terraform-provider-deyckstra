@@ -6,6 +6,10 @@ description: |-
   Provides a VPC resource.
 ---
 
+[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
+[tf-main-route-table-association]: main_route_table_association.html
+[vpc]: https://docs.k2.cloud/en/services/networking/privatecloud.html
+
 # Resource: aws_vpc
 
 Provides a VPC resource.
@@ -74,6 +78,3 @@ VPCs can be imported using the `vpc id`, e.g.,
 $ terraform import aws_vpc.test_vpc vpc-12345678
 ```
 
-[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[tf-main-route-table-association]: main_route_table_association.html
-[vpc]: https://docs.cloud.croc.ru/en/services/networks/privatecloud.html

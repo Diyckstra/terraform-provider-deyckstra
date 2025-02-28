@@ -7,7 +7,7 @@ description: |-
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[network-acl]: https://docs.cloud.croc.ru/en/services/networks/networkacl.html
+[network-acl]: https://docs.k2.cloud/en/services/security/networkacl.html
 [tf-network-acl-association]: network_acl_association.html
 [tf-network-acl-rule]: network_acl_rule.html
 

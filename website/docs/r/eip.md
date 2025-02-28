@@ -7,7 +7,7 @@ description: |-
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[elastic-ips]: https://docs.cloud.croc.ru/en/services/networks/addresses/operations.html
+[elastic-ips]: https://docs.k2.cloud/en/services/networking/addresses/operations.html
 [timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
 
 # Resource: aws_eip

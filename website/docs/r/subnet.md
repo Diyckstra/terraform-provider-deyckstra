@@ -7,7 +7,7 @@ description: |-
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[subnets]: https://docs.cloud.croc.ru/en/services/networks/subnets.html
+[subnets]: https://docs.k2.cloud/en/services/networking/subnets.html
 [timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
 
 # Resource: aws_subnet

@@ -7,7 +7,7 @@ description: |-
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[security-groups]: https://docs.cloud.croc.ru/en/services/networks/securitygroups.html
+[security-groups]: https://docs.k2.cloud/en/services/security/securitygroups.html
 [tf-security-group-rule]: security_group_rule.html
 [timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
 

@@ -6,7 +6,7 @@ description: |-
   Provides an EC2 launch template resource. Can be used to create instances or auto scaling groups.
 ---
 
-[asg-create]: https://docs.cloud.croc.ru/en/services/autoscaling.html#createautoscalinggroup
+[asg-create]: https://docs.k2.cloud/en/services/compute/autoscaling.html#createautoscalinggroup
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 [describe-images]: https://docs.cloud.croc.ru/en/api/ec2/images/DescribeImages.html
 

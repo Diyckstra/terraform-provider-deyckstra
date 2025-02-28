@@ -6,6 +6,10 @@ description: |-
   Provides a resource for managing the main routing table of a VPC.
 ---
 
+[route-tables]: https://docs.k2.cloud/en/services/networking/routetables.html
+[tf-route-table]: route_table.html
+[tf-default-route-table]: default_route_table.html
+
 # Resource: aws_main_route_table_association
 
 Provides a resource for managing the main routing table of a VPC.
@@ -54,6 +58,3 @@ this original table as the Main Route Table for the VPC. You'll see this
 additional Route Table in the cloud console; it must remain intact in order for
 the `main_route_table_association` delete to work properly.
 
-[route-tables]: https://docs.cloud.croc.ru/en/services/networks/routetables.html
-[tf-route-table]: route_table.html
-[tf-default-route-table]: default_route_table.html

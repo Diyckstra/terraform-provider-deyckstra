@@ -7,7 +7,7 @@ description: |-
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[route-tables]: https://docs.cloud.croc.ru/en/services/networks/routetables.html
+[route-tables]: https://docs.k2.cloud/en/services/networking/routetables.html
 [timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
 [tf-route]: route.html
 [tf-vpn-gateway-route-propagation]: vpn_gateway_route_propagation.html

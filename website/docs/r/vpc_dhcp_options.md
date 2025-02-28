@@ -6,6 +6,10 @@ description: |-
   Provides a VPC DHCP Options resource.
 ---
 
+[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
+[dhcp-options]: https://docs.k2.cloud/en/services/networking/dhcpattrs.html
+[tf-main-route-table-association]: main_route_table_association.html
+
 # Resource: aws_vpc_dhcp_options
 
 Provides a VPC DHCP options resource.
@@ -81,6 +85,3 @@ VPC DHCP Options can be imported using the `dhcp options id`, e.g.,
 $ terraform import aws_vpc_dhcp_options.my_options dopt-12345678
 ```
 
-[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[dhcp-options]: https://docs.cloud.croc.ru/en/services/networks/dhcpattrs.html
-[tf-main-route-table-association]: main_route_table_association.html

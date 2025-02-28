@@ -8,7 +8,7 @@ description: |-
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 [timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
-[tgw]: https://docs.cloud.croc.ru/en/services/tgw/tgw.html#transitgatewaymanual
+[tgw]: https://docs.k2.cloud/en/services/interconnect/tgw/tgw.html
 
 # Resource: aws_ec2_transit_gateway
 

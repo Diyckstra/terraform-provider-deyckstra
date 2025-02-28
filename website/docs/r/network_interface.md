@@ -6,13 +6,16 @@ description: |-
   Provides an elastic network interface (ENI) resource.
 ---
 
+
+[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
+[network-interfaces]: https://docs.k2.cloud/en/services/networking/interfaces/operations.html
+
 # Resource: aws_network_interface
 
 Provides an elastic network interface (ENI) resource.
 
 For more information, see the documentation on [Network interfaces][network-interfaces].
 
-[network-interfaces]: https://docs.cloud.croc.ru/en/services/networks/interfaces/operations.html
 
 ## Example Usage
 
@@ -80,4 +83,3 @@ Network Interfaces can be imported using the `id`, e.g.,
 $ terraform import aws_network_interface.test eni-12345678
 ```
 
-[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
