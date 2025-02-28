@@ -9,7 +9,7 @@ description: |-
 [aws-tutorials]: https://learn.hashicorp.com/collections/terraform/aws?utm_source=WEBSITE&utm_medium=WEB_IO&utm_offer=ARTICLE_PAGE&utm_content=DOCS
 [c2-tutorials]: https://github.com/C2Devel/terraform-examples
 [aws-configure-files]: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html
-[terraform]: https://docs.cloud.croc.ru/en/api/tools/terraform.html
+[terraform]: https://docs.k2.cloud/en/api/tools/terraform.html
 
 # Rockit Cloud Provider
 

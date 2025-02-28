@@ -6,14 +6,14 @@ description: |-
   Provides a S3 bucket resource.
 ---
 
-[bucket-naming]: https://docs.cloud.croc.ru/en/services/object_storage/operations.html#s3bucketnaming
-[canned-acl]: https://docs.cloud.croc.ru/en/api/s3/acl.html#cannedacl
-[cors]: https://docs.cloud.croc.ru/en/services/object_storage/operations.html#cors
+[bucket-naming]: https://docs.k2.cloud/en/services/object_storage/operations.html#s3bucketnaming
+[canned-acl]: https://docs.k2.cloud/en/api/s3/acl.html#cannedacl
+[cors]: https://docs.k2.cloud/en/services/object_storage/operations.html#cors
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[hosting-website]: https://docs.cloud.croc.ru/en/services/object_storage/operations.html#objectstoragestaticwebsitesmanual
-[lifecycle-management]: https://docs.cloud.croc.ru/en/services/object_storage/operations.html#id24
-[s3-versioning]: https://docs.cloud.croc.ru/en/services/object_storage/operations.html#s3versioningmanual
-[website-redirect-rules]: https://docs.cloud.croc.ru/en/services/object_storage/instructions.html#s3setredirectiontowebsite
+[hosting-website]: https://docs.k2.cloud/en/services/object_storage/operations.html#objectstoragestaticwebsitesmanual
+[lifecycle-management]: https://docs.k2.cloud/en/services/object_storage/operations.html#id24
+[s3-versioning]: https://docs.k2.cloud/en/services/object_storage/operations.html#s3versioningmanual
+[website-redirect-rules]: https://docs.k2.cloud/en/services/object_storage/instructions.html#s3setredirectiontowebsite
 
 # Resource: aws_s3_bucket
 
@@ -56,7 +56,7 @@ resource "aws_s3_bucket" "example" {
   bucket = "tf-example"
 
   # Use the predefined provider configuration to connect to object storage
-  # https://docs.cloud.croc.ru/en/api/tools/terraform.html#providers-tf
+  # https://docs.k2.cloud/en/api/tools/terraform.html#providers-tf
   provider = aws.noregion
 
   tags = {
@@ -82,7 +82,7 @@ resource "aws_s3_bucket" "example" {
   acl    = "public-read"
 
   # Use the predefined provider configuration to connect to object storage
-  # https://docs.cloud.croc.ru/en/api/tools/terraform.html#providers-tf
+  # https://docs.k2.cloud/en/api/tools/terraform.html#providers-tf
   provider = aws.noregion
 
   website {
@@ -114,7 +114,7 @@ resource "aws_s3_bucket" "example" {
   acl    = "public-read"
 
   # Use the predefined provider configuration to connect to object storage
-  # https://docs.cloud.croc.ru/en/api/tools/terraform.html#providers-tf
+  # https://docs.k2.cloud/en/api/tools/terraform.html#providers-tf
   provider = aws.noregion
 
   cors_rule {
@@ -138,7 +138,7 @@ resource "aws_s3_bucket" "example" {
   acl    = "private"
 
   # Use the predefined provider configuration to connect to object storage
-  # https://docs.cloud.croc.ru/en/api/tools/terraform.html#providers-tf
+  # https://docs.k2.cloud/en/api/tools/terraform.html#providers-tf
   provider = aws.noregion
 
   versioning {
@@ -158,7 +158,7 @@ resource "aws_s3_bucket" "bucket" {
   acl    = "private"
 
   # Use the predefined provider configuration to connect to object storage
-  # https://docs.cloud.croc.ru/en/api/tools/terraform.html#providers-tf
+  # https://docs.k2.cloud/en/api/tools/terraform.html#providers-tf
   provider = aws.noregion
 
   lifecycle_rule {
@@ -193,7 +193,7 @@ resource "aws_s3_bucket" "versioning_bucket" {
   acl    = "private"
 
   # Use the predefined provider configuration to connect to object storage
-  # https://docs.cloud.croc.ru/en/api/tools/terraform.html#providers-tf
+  # https://docs.k2.cloud/en/api/tools/terraform.html#providers-tf
   provider = aws.noregion
 
   versioning {
@@ -223,7 +223,7 @@ resource "aws_s3_bucket" "example" {
   bucket = "tf-example"
 
   # Use the predefined provider configuration to connect to object storage
-  # https://docs.cloud.croc.ru/en/api/tools/terraform.html#providers-tf
+  # https://docs.k2.cloud/en/api/tools/terraform.html#providers-tf
   provider = aws.noregion
 
   grant {

@@ -7,8 +7,8 @@ description: |-
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[eks-clusters]: https://docs.cloud.croc.ru/en/services/kubernetes/eks_cluster.html
-[ha-clusters]: https://docs.cloud.croc.ru/en/services/kubernetes/overview.html#ha-control-plane
+[eks-clusters]: https://docs.k2.cloud/en/services/kubernetes/eks_cluster.html
+[ha-clusters]: https://docs.k2.cloud/en/services/kubernetes/overview.html#ha-control-plane
 [timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
 
 # Resource: aws_eks_cluster

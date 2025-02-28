@@ -90,5 +90,5 @@ For more information about filtering, see the [EC2 API documentation][describe-s
 
 * `ids` - A list of all the subnet IDs found.
 
-[describe-subnets]: https://docs.cloud.croc.ru/en/api/ec2/subnets/DescribeSubnets.html
+[describe-subnets]: https://docs.k2.cloud/en/api/ec2/subnets/DescribeSubnets.html
 [tf-subnet]: subnet.html

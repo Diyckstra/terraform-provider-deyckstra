@@ -6,7 +6,7 @@ description: |-
   Provides an S3 bucket CORS configuration resource.
 ---
 
-[cors]: https://docs.cloud.croc.ru/en/services/object_storage/operations.html#cors
+[cors]: https://docs.k2.cloud/en/services/object_storage/operations.html#cors
 
 # Resource: aws_s3_bucket_cors_configuration
 
@@ -21,7 +21,7 @@ resource "aws_s3_bucket" "example" {
   bucket = "tf-example"
 
   # Use the predefined provider configuration to connect to object storage
-  # https://docs.cloud.croc.ru/en/api/tools/terraform.html#providers-tf
+  # https://docs.k2.cloud/en/api/tools/terraform.html#providers-tf
   provider = aws.noregion
 }
 

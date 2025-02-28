@@ -6,7 +6,7 @@ description: |-
   Attaches a policy to an S3 bucket resource.
 ---
 
-[policy-restrictions]: https://docs.cloud.croc.ru/en/api/s3/features.html#bucket-policy
+[policy-restrictions]: https://docs.k2.cloud/en/api/s3/features.html#bucket-policy
 
 # Resource: aws_s3_bucket_policy
 
@@ -21,7 +21,7 @@ resource "aws_s3_bucket" "example" {
   bucket = "tf-example"
 
   # Use the predefined provider configuration to connect to object storage
-  # https://docs.cloud.croc.ru/en/api/tools/terraform.html#providers-tf
+  # https://docs.k2.cloud/en/api/tools/terraform.html#providers-tf
   provider = aws.noregion
 }
 

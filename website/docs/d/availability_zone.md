@@ -46,7 +46,7 @@ The following arguments are supported by the `filter` configuration block:
 
 For more information about filtering, see the [EC2 API documentation][describe-azs].
 
-[describe-azs]: https://docs.cloud.croc.ru/en/api/ec2/placements/DescribeAvailabilityZones.html
+[describe-azs]: https://docs.k2.cloud/en/api/ec2/placements/DescribeAvailabilityZones.html
 
 ## Attributes Reference
 

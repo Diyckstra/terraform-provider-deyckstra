@@ -46,5 +46,5 @@ For more information about filtering, see the [EC2 API documentation][describe-r
 * `id` - The region (e.g., `region-1`).
 * `ids` - A list of all the route table ids found.
 
-[describe-route-tables]: https://docs.cloud.croc.ru/en/api/ec2/routes/DescribeRouteTables.html
+[describe-route-tables]: https://docs.k2.cloud/en/api/ec2/routes/DescribeRouteTables.html
 [tf-route-table]: route_table.html

@@ -6,7 +6,7 @@ description: |-
   Manages an IAM user.
 ---
 
-[iam-users-and-projects]: https://docs.cloud.croc.ru/en/services/iam/iam.html
+[iam-users-and-projects]: https://docs.k2.cloud/en/services/iam/iam.html
 [RFC3339 format]: https://datatracker.ietf.org/doc/html/rfc3339#section-5.8
 
 # Resource: aws_iam_user

@@ -62,4 +62,4 @@ The following attributes are not currently supported:
 
 `encrypted`, `kms_key_id`, `multi_attach_enabled`, `outpost_arn`.
 
-[describe-volumes]: https://docs.cloud.croc.ru/en/api/ec2/volumes/DescribeVolumes.html
+[describe-volumes]: https://docs.k2.cloud/en/api/ec2/volumes/DescribeVolumes.html

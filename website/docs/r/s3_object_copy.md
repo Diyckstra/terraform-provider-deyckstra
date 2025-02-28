@@ -6,7 +6,7 @@ description: |-
   Provides a resource for copying an S3 object.
 ---
 
-[canned-acl]: https://docs.cloud.croc.ru/en/api/s3/acl.html#cannedacl
+[canned-acl]: https://docs.k2.cloud/en/api/s3/acl.html#cannedacl
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 [RFC3339 format]: https://tools.ietf.org/html/rfc3339#section-5.8
 [w3c cache_control]: http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9

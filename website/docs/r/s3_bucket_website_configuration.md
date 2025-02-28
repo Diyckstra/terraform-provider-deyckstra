@@ -6,7 +6,7 @@ description: |-
   Provides an S3 bucket website configuration resource.
 ---
 
-[hosting-website]: https://docs.cloud.croc.ru/en/services/object_storage/operations.html#objectstoragestaticwebsitesmanual
+[hosting-website]: https://docs.k2.cloud/en/services/object_storage/operations.html#objectstoragestaticwebsitesmanual
 
 # Resource: aws_s3_bucket_website_configuration
 

@@ -74,5 +74,5 @@ Elastic network interfaces can be imported using the `id`, e.g.,
 $ terraform import aws_network_interface.test eni-12345678
 ```
 
-[describe-network-interfaces]: https://docs.cloud.croc.ru/en/api/ec2/network_interfaces/DescribeNetworkInterfaces.html
+[describe-network-interfaces]: https://docs.k2.cloud/en/api/ec2/network_interfaces/DescribeNetworkInterfaces.html
 [tf-network-interface]: network_interface.html

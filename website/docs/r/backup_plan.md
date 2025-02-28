@@ -6,7 +6,7 @@ description: |-
   Manages a backup plan.
 ---
 
-[backup-plan]: https://docs.cloud.croc.ru/en/services/backup/operations.html#backupplan
+[backup-plan]: https://docs.k2.cloud/en/services/backup/operations.html#backupplan
 
 # Resource: aws_backup_plan
 

@@ -67,4 +67,4 @@ The following attributes are not currently supported:
 
 `data_encryption_key_id`, `encrypted`, `kms_key_id`, `outpost_arn`, `storage_tier`.
 
-[describe-snapshots]: https://docs.cloud.croc.ru/en/api/ec2/snapshots/DescribeSnapshots.html
+[describe-snapshots]: https://docs.k2.cloud/en/api/ec2/snapshots/DescribeSnapshots.html

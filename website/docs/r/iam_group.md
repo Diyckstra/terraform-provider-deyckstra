@@ -6,7 +6,7 @@ description: |-
   Manages an IAM group.
 ---
 
-[iam-policies-and-groups]: https://docs.cloud.croc.ru/en/services/iam/policies.html
+[iam-policies-and-groups]: https://docs.k2.cloud/en/services/iam/policies.html
 [RFC3339 format]: https://datatracker.ietf.org/doc/html/rfc3339#section-5.8
 [tf-group-membership]: iam_group_membership.html
 [tf-user-group-membership]: iam_user_group_membership.html

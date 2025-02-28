@@ -6,7 +6,7 @@ description: |-
   Provides an EC2 launch template data source.
 ---
 
-[describe-lts]: https://docs.cloud.croc.ru/en/api/ec2/launch_templates/DescribeLaunchTemplates.html
+[describe-lts]: https://docs.k2.cloud/en/api/ec2/launch_templates/DescribeLaunchTemplates.html
 
 # Data Source: aws_launch_template
 

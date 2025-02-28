@@ -6,7 +6,7 @@ description: |-
   Provides a S3 bucket lifecycle configuration resource.
 ---
 
-[lifecycle-management]: https://docs.cloud.croc.ru/en/services/object_storage/operations.html#id24
+[lifecycle-management]: https://docs.k2.cloud/en/services/object_storage/operations.html#id24
 [RFC3339 format]: https://tools.ietf.org/html/rfc3339#section-5.8
 
 # Resource: aws_s3_bucket_lifecycle_configuration
@@ -35,7 +35,7 @@ resource "aws_s3_bucket" "bucket" {
   bucket = "tf-example"
 
   # Use the predefined provider configuration to connect to object storage
-  # https://docs.cloud.croc.ru/en/api/tools/terraform.html#providers-tf
+  # https://docs.k2.cloud/en/api/tools/terraform.html#providers-tf
   provider = aws.noregion
 }
 
@@ -200,7 +200,7 @@ resource "aws_s3_bucket" "versioning_bucket" {
   bucket = "tf-example"
 
   # Use the predefined provider configuration to connect to object storage
-  # https://docs.cloud.croc.ru/en/api/tools/terraform.html#providers-tf
+  # https://docs.k2.cloud/en/api/tools/terraform.html#providers-tf
   provider = aws.noregion
 }
 

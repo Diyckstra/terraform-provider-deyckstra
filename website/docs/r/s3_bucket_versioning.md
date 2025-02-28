@@ -6,7 +6,7 @@ description: |-
   Provides an S3 bucket versioning resource.
 ---
 
-[s3-versioning]: https://docs.cloud.croc.ru/en/services/object_storage/operations.html#s3versioningmanual
+[s3-versioning]: https://docs.k2.cloud/en/services/object_storage/operations.html#s3versioningmanual
 
 # Resource: aws_s3_bucket_versioning
 
@@ -25,7 +25,7 @@ resource "aws_s3_bucket" "example" {
   bucket = "tf-example"
 
   # Use the predefined provider configuration to connect to object storage
-  # https://docs.cloud.croc.ru/en/api/tools/terraform.html#providers-tf
+  # https://docs.k2.cloud/en/api/tools/terraform.html#providers-tf
   provider = aws.noregion
 }
 
@@ -49,7 +49,7 @@ resource "aws_s3_bucket" "example" {
   bucket = "tf-example"
 
   # Use the predefined provider configuration to connect to object storage
-  # https://docs.cloud.croc.ru/en/api/tools/terraform.html#providers-tf
+  # https://docs.k2.cloud/en/api/tools/terraform.html#providers-tf
   provider = aws.noregion
 }
 
@@ -79,7 +79,7 @@ resource "aws_s3_bucket" "example" {
   bucket = "tf-example"
 
   # Use the predefined provider configuration to connect to object storage
-  # https://docs.cloud.croc.ru/en/api/tools/terraform.html#providers-tf
+  # https://docs.k2.cloud/en/api/tools/terraform.html#providers-tf
   provider = aws.noregion
 }
 
