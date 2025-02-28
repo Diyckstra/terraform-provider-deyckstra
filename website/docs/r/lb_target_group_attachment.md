@@ -3,13 +3,13 @@ subcategory: "ELB (Elastic Load Balancing)"
 layout: "aws"
 page_title: "aws_lb_target_group_attachment"
 description: |-
-  Provides the ability to register instances and containers with a LB
+  Provides the ability to register instances and containers with an LB
   target group
 ---
 
 # Resource: aws_lb_target_group_attachment
 
-Provides the ability to register instances and containers with an Application Load Balancer (ALB) or Network Load Balancer (NLB) target group. For attaching resources with Elastic Load Balancer (ELB), see the [`aws_elb_attachment` resource](/docs/providers/aws/r/elb_attachment.html).
+Provides the ability to register instances and containers with an Application Load Balancer (ALB) or Network Load Balancer (NLB) target group.
 
 ~> **Note** `aws_alb_target_group_attachment` is known as `aws_lb_target_group_attachment`. The functionality is identical.
 

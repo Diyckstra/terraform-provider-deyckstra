@@ -55,4 +55,4 @@ In addition to all arguments above, the following attributes are exported:
 
 * `id` - The ID of the launch template.
 
-This resource also exports a full set of attributes corresponding to the arguments of the [`aws_launch_template`](../resources/launch_template.md) resource.
+This resource also exports a full set of attributes corresponding to the arguments of the [`aws_launch_template`](../r/launch_template.md) resource.

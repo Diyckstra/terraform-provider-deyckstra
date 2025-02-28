@@ -84,7 +84,7 @@ The `timeouts` block allows you to specify [timeouts](https://www.terraform.io/d
 
 ### Supported attributes
 
-In addition to the [arguments above](#Argument-Reference), the following attributes are exported:
+In addition to the [arguments above](#argument-reference), the following attributes are exported:
 
 * `arn` - The ARN of the image.
 * `id` - The ID of the created image.
