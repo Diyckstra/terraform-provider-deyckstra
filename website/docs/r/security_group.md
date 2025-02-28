@@ -160,7 +160,7 @@ The following attributes are not currently supported: `prefix_list_ids`.
 
 ## Timeouts
 
-`aws_security_group` provides the following [Timeouts][timeouts] configuration options:
+The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 - `create` - (Default `10m`) How long to wait for a security group to be created.
 - `delete` - (Default `15m`) How long to wait for a security group to be deleted.

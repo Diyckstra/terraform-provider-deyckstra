@@ -154,7 +154,7 @@ The following attributes are not currently supported:
 
 ## Timeouts
 
-`aws_eks_cluster` provides the following [Timeouts][timeouts] configuration options:
+The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 * `create` - (Default `30 minutes`) How long to wait for the EKS cluster to be created.
 * `update` - (Default `60 minutes`) How long to wait for the EKS cluster to be updated.

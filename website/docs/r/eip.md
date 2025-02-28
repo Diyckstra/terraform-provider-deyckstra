@@ -107,7 +107,7 @@ The following attributes are not currently supported:
 
 ## Timeouts
 
-`aws_eip` provides the following [timeouts] configuration options:
+The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 - `read` - (Default `15 minutes`) How long to wait querying for information about EIPs.
 - `update` - (Default `5 minutes`) How long to wait for an EIP to be updated.

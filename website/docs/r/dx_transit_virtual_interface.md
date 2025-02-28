@@ -72,7 +72,7 @@ The following attributes are not currently supported:
 
 ## Timeouts
 
-`aws_dx_transit_virtual_interface` provides the following [Timeouts][timeouts] configuration options:
+The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 - `create` - (Default `10 minutes`) Timeout for creating virtual interface
 - `update` - (Default `10 minutes`) Timeout for virtual interface modifications

@@ -64,7 +64,7 @@ The following attributes are not currently supported:
 
 ## Timeouts
 
-`aws_subnet` provides the following [Timeouts][timeouts] configuration options:
+The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 - `create` - (Default `10m`) How long to wait for a subnet to be created.
 - `delete` - (Default `20m`) How long to wait for a subnet to be deleted.

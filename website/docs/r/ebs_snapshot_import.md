@@ -51,8 +51,7 @@ The following arguments are supported:
 
 ### Timeouts
 
-`aws_ebs_snapshot_import` provides the following
-[Timeouts][timeouts]  configuration options:
+The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 - `create` - (Default `60 minutes`) Used for importing the EBS snapshot
 - `delete` - (Default `10 minutes`) Used for deleting the EBS snapshot

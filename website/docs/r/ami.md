@@ -8,6 +8,8 @@ description: |-
 
 [images]: https://docs.k2.cloud/en/services/storage/images.html
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
+[timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
+
 
 # Resource: aws_ami
 
@@ -74,7 +76,7 @@ Nested `ephemeral_block_device` blocks have the following structure:
 
 ### Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts) for certain actions:
+The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 * `create` - (Default `40 minutes`) Used when creating the image
 * `update` - (Default `40 minutes`) Used when updating the image

@@ -7,7 +7,6 @@ description: |-
 ---
 
 [RFC3339 format]: https://datatracker.ietf.org/doc/html/rfc3339#section-5.8
-[timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
 
 # Resource: aws_paas_backup
 

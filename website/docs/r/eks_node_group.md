@@ -151,7 +151,7 @@ The following attributes are not currently supported:
 
 ## Timeouts
 
-`aws_eks_node_group` provides the following [Timeouts][timeouts] configuration options:
+The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 * `create` - (Default `60 minutes`) How long to wait for the EKS node group to be created.
 * `update` - (Default `60 minutes`) How long to wait for the EKS node group to be updated.

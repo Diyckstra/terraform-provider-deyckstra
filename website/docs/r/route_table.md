@@ -8,9 +8,9 @@ description: |-
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 [route-tables]: https://docs.k2.cloud/en/services/networking/routetables.html
-[timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
 [tf-route]: route.html
 [tf-vpn-gateway-route-propagation]: vpn_gateway_route_propagation.html
+[timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
 
 # Resource: aws_route_table
 
@@ -124,7 +124,7 @@ The following attributes are not currently supported:
 
 ## Timeouts
 
-`aws_route_table` provides the following [Timeouts][timeouts] configuration options:
+The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 - `create` - (Default `5 minutes`) Used for route creation
 - `update` - (Default `2 minutes`) Used for route creation

@@ -52,7 +52,7 @@ No additional attributes are exported.
 
 ## Timeouts
 
-`aws_vpn_gateway_route_propagation` provides the following [Timeouts][timeouts] configuration options:
+The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 - `create` - (Default `2 minutes`) Used for propagation creation.
 - `delete` - (Default `2 minutes`) Used for propagation deletion.

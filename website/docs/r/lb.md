@@ -156,7 +156,7 @@ In addition to all arguments above, the following attributes are exported:
 
 ## Timeouts
 
-`aws_lb` provides the following [Timeouts][timeouts] configuration options:
+The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 - `create` - (Default `10 minutes`) Used for Creating LB
 - `update` - (Default `10 minutes`) Used for LB modifications

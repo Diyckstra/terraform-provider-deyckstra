@@ -61,7 +61,7 @@ The following attributes are not currently supported:
 
 ## Timeouts
 
-`aws_dx_gateway_association` provides the following [Timeouts][timeouts] configuration options:
+The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 - `create` - (Default `30 minutes`) Timeout for creating the association
 - `update` - (Default `30 minutes`) Timeout for updating the association
