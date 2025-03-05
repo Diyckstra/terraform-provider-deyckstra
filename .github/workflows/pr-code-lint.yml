@@ -25,7 +25,6 @@ jobs:
           uses: crazy-max/ghaction-setup-docker@v3
 
         - name: Bump aws-sdk-go version if it's changed
-          if: contains(github.event.pull_request.labels.*.name, 'NeedSDK')
           run: go mod tidy
 
         - name: Run linters for the code
