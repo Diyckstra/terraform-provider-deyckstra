@@ -3,7 +3,7 @@ name: Run unit tests for the code
 on:
   pull_request:
     branches: 'develop'
-    types: [labeled, unlabeled, opened, synchronize]
+    types: [ labeled, unlabeled, opened, synchronize ]
 
 jobs:
     unit-test:
@@ -24,8 +24,33 @@ jobs:
         - name: Install Docker
           uses: crazy-max/ghaction-setup-docker@v3
 
-        - name: Bump aws-sdk-go version if it's changed
+        - name: Define owner
           if: contains(github.event.pull_request.labels.*.name, 'NeedSDK')
+          run: |
+            echo "FORK_OWNER=${{ github.event.pull_request.head.repo.owner.login }}" >> $GITHUB_ENV
+
+        - name: Define aws-sdk-go's branch
+          if: contains(github.event.pull_request.labels.*.name, 'NeedSDK')
+          run: |
+            DESCRIPTION="${{ github.event.pull_request.body }}"
+            if echo "$DESCRIPTION" | grep -qE 'aws-sdk-go=[^\s]+'; then
+              BRANCH=$(echo "$DESCRIPTION" | grep -oE 'aws-sdk-go=[^\s]+' | cut -d '=' -f2 | tr -d '\r')
+            else
+              BRANCH="${{ github.event.pull_request.head.ref }}"
+            fi
+            echo "AWS_SDK_GO_BRANCH=$BRANCH" >> $GITHUB_ENV
+
+        - name: Define last commit of the fork
+          if: contains(github.event.pull_request.labels.*.name, 'NeedSDK')
+          run: |
+            echo "FORK_COMMIT=$(git ls-remote https://github.com/${{ env.FORK_OWNER }}/aws-sdk-go.git ${{ env.AWS_SDK_GO_BRANCH }} | cut -c1-7)">> $GITHUB_ENV
+
+        - name: Bump version in go.mod
+          if: contains(github.event.pull_request.labels.*.name, 'NeedSDK')
+          run: |
+            go mod edit -replace github.com/aws/aws-sdk-go=github.com/${{ env.FORK_OWNER }}/aws-sdk-go@${{ env.FORK_COMMIT }}
+
+        - name: Bump aws-sdk-go version if it's changed
           run: go mod tidy
 
         - name: Run unit tests for the code
