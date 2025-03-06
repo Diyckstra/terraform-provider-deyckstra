@@ -3,6 +3,7 @@ name: Run unit tests for the code
 on:
   pull_request:
     branches: 'develop'
+    types: [labeled, unlabeled, opened, synchronize]
 
 jobs:
     unit-test:
