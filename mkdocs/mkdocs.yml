@@ -5,7 +5,7 @@ use_directory_urls: false
 copyright: Rockit Cloud
 repo_name: C2Devel/terraform-provider-rockitcloud
 repo_url: https://github.com/C2Devel/terraform-provider-rockitcloud
-edit_uri: "https://github.com/C2Devel/terraform-provider-rockitcloud/tree/develop/website/docs"
+edit_uri: "https://github.com/C2Devel/terraform-provider-rockitcloud/tree/develop/website/docs"             
 nav:
   - Welcome: ./index.md
   - Auto Scaling:
@@ -215,11 +215,20 @@ nav:
     - Data Sources:
       - aws_customer_gateway: d/customer_gateway.md
       - aws_vpn_gateway: d/vpn_gateway.md
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+             
+             
+=======
+
+>>>>>>> 19874b2984 (mkdocs: refactor script)
+>>>>>>> 06e6073238 (mkdocs: refactor script)
 theme:
   name: material
-  logo: images/favicon.ico
-  favicon: images/favicon.ico
+  logo: mkdocs_images/favicon.ico
+  favicon: mkdocs_images/favicon.ico
   palette:
     - scheme: hashicorp
       primary: white
@@ -264,7 +273,7 @@ markdown_extensions:
       permalink: "#"
 
 extra_css:
-     - 'assets/stylesheets/extra.css'
+     - 'mkdocs_assets/stylesheets/extra.css'
      - "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
 extra_javascript:
-     - 'assets/stylesheets/extra.js'
+     - 'mkdocs_assets/stylesheets/extra.js'
