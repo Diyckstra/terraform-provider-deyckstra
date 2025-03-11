@@ -43,14 +43,15 @@ jobs:
         - name: Define last commit of the fork
           if: contains(github.event.pull_request.labels.*.name, 'NeedSDK')
           run: |
-            echo "FORK_COMMIT=$(git ls-remote https://github.com/${{ env.FORK_OWNER }}/aws-sdk-go.git ${{ env.AWS_SDK_GO_BRANCH }} | cut -c1-7)">> $GITHUB_ENV
+            echo "FORK_COMMIT=$(git ls-remote https://github.com/${{ env.FORK_OWNER }}/aws-sdk-go.git ${{ env.AWS_SDK_GO_BRANCH }} |\
+            cut -c1-7)">> $GITHUB_ENV
 
         - name: Bump version in go.mod
           if: contains(github.event.pull_request.labels.*.name, 'NeedSDK')
           run: |
             go mod edit -replace github.com/aws/aws-sdk-go=github.com/${{ env.FORK_OWNER }}/aws-sdk-go@${{ env.FORK_COMMIT }}
 
-        - name: Bump aws-sdk-go version if it's changed
+        - name: Apply dependencies
           run: go mod tidy
 
         - name: Run unit tests for the code
