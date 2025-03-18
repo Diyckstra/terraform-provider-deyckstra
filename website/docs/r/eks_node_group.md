@@ -7,7 +7,7 @@ description: |-
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[eks-node-groups]: https://docs.k2.cloud/en/services/kubernetes/eks_cluster.html#id3
+[eks-node-groups]: https://docs.k2.cloud/en/services/kubernetes/eks_cluster.html#id7
 [lifecycle]: https://www.terraform.io/docs/configuration/meta-arguments/lifecycle.html
 [timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
 

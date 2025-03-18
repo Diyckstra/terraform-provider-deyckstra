@@ -7,7 +7,6 @@ description: |-
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[tf-ami]: ami.html
 [timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
 
 # Resource: aws_ami_from_instance
@@ -70,7 +69,7 @@ In addition to all arguments above, the following attributes are exported:
 The following attributes are not currently supported: `snapshot_without_reboot`.
 
 This resource also exports a full set of attributes corresponding to the arguments of the
-[`aws_ami`][tf-ami] resource, allowing the properties of the created image to be used elsewhere in the
+[`aws_ami`](ami.md) resource, allowing the properties of the created image to be used elsewhere in the
 configuration.
 
 

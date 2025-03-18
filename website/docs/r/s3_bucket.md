@@ -11,7 +11,7 @@ description: |-
 [cors]: https://docs.k2.cloud/en/services/object_storage/operations.html#cors
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 [hosting-website]: https://docs.k2.cloud/en/services/object_storage/operations.html#objectstoragestaticwebsitesmanual
-[lifecycle-management]: https://docs.k2.cloud/en/services/object_storage/operations.html#id24
+[lifecycle-management]: https://docs.k2.cloud/en/services/object_storage/operations.html#id28
 [s3-versioning]: https://docs.k2.cloud/en/services/object_storage/operations.html#s3versioningmanual
 [website-redirect-rules]: https://docs.k2.cloud/en/services/object_storage/instructions.html#s3setredirectiontowebsite
 

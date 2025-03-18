@@ -8,7 +8,7 @@ description: |-
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 [sensitive-data]: https://www.terraform.io/docs/state/sensitive-data.html
-[vpn-connections]: https://docs.cloud.croc.ru/en/services/networks/vpn_connections/operations.html
+[vpn-connections]: https://docs.k2.cloud/en/services/interconnect/vpn_connections/operations.html
 
 # Resource: aws_vpn_connection
 

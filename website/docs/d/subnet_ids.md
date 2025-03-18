@@ -94,4 +94,3 @@ For more information about filtering, see the [EC2 API documentation][describe-s
 * `ids` - A set of all the subnet ids found.
 
 [describe-subnets]: https://docs.k2.cloud/en/api/ec2/subnets/DescribeSubnets.html
-[tf-subnets]: subnets.html

@@ -8,7 +8,6 @@ description: |-
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 [dhcp-options]: https://docs.k2.cloud/en/services/networking/dhcpattrs.html
-[tf-main-route-table-association]: main_route_table_association.html
 
 # Resource: aws_vpc_dhcp_options
 
@@ -57,7 +56,7 @@ The following arguments are supported:
 
 * Notice that all arguments are optional, but you have to specify at least one argument.
 * `domain_name_servers`, `netbios_name_servers`, `ntp_servers` are limited to maximum four servers only.
-* To actually use the DHCP options set you need to associate it to a VPC using [`aws_vpc_dhcp_options_association`][tf-main-route-table-association].
+* To actually use the DHCP options set you need to associate it to a VPC using [`aws_vpc_dhcp_options_association`](main_route_table_association.md).
 * If you delete a DHCP options set, all VPCs using it will be associated to `default` DHCP Option Set.
 * In most cases unless you're configuring your own DNS you'll want to set `domain_name_servers` to `AmazonProvidedDNS`.
 

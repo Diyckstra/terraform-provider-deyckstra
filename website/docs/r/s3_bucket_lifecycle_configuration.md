@@ -6,7 +6,7 @@ description: |-
   Provides a S3 bucket lifecycle configuration resource.
 ---
 
-[lifecycle-management]: https://docs.k2.cloud/en/services/object_storage/operations.html#id24
+[lifecycle-management]: https://docs.k2.cloud/en/services/object_storage/operations.html#id28
 [RFC3339 format]: https://tools.ietf.org/html/rfc3339#section-5.8
 
 # Resource: aws_s3_bucket_lifecycle_configuration

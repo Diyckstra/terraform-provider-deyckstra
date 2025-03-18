@@ -12,7 +12,7 @@ description: |-
 # Resource: aws_dx_transit_virtual_interface
 
 Manages a Direct Connect transit virtual interface.
-A transit virtual interface is a VLAN that transports traffic from a [Direct Connect gateway](dx_gateway.html) to one or more [transit gateways](ec2_transit_gateway.html).
+A transit virtual interface is a VLAN that transports traffic from a [Direct Connect gateway](dx_gateway.md) to one or more [transit gateways](ec2_transit_gateway.md).
 
 ## Example Usage
 

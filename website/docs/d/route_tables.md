@@ -47,4 +47,3 @@ For more information about filtering, see the [EC2 API documentation][describe-r
 * `ids` - A list of all the route table ids found.
 
 [describe-route-tables]: https://docs.k2.cloud/en/api/ec2/routes/DescribeRouteTables.html
-[tf-route-table]: route_table.html

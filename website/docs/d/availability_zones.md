@@ -10,10 +10,8 @@ description: |-
 
 Provides a list of availability zones.
 
-This is different from the [`aws_availability_zone`][tf-availability-zone] (singular) data source,
+This is different from the [`aws_availability_zone`](availability_zone.md) (singular) data source,
 which provides some details about a specific availability zone.
-
-[tf-availability-zone]: availability_zone.html
 
 ## Example Usage
 

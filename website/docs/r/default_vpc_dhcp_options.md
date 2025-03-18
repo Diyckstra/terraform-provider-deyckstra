@@ -32,7 +32,7 @@ resource "aws_default_vpc_dhcp_options" "default" {
 
 ## Argument Reference
 
-The arguments of an `aws_default_vpc_dhcp_options` differ slightly from [`aws_vpc_dhcp_options`][tf-vpc-dhcp-options] resources.
+The arguments of an `aws_default_vpc_dhcp_options` differ slightly from [`aws_vpc_dhcp_options`](vpc_dhcp_options.md) resources.
 Namely, the `domain_name`, `domain_name_servers` and `ntp_servers` arguments are computed.
 The following arguments are still supported:
 
@@ -62,5 +62,3 @@ VPC DHCP Options can be imported using the `dhcp options id`, e.g.,
 ```
 $ terraform import aws_default_vpc_dhcp_options.default_options dopt-d9070ebb
 ```
-
-[tf-vpc-dhcp-options]: vpc_dhcp_options.html

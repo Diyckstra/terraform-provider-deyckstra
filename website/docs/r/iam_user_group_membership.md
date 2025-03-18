@@ -6,15 +6,13 @@ description: |-
   Adds an IAM user to IAM groups.
 ---
 
-[tf-group-membership]: iam_group_membership.html
-
 # Resource: aws_iam_user_group_membership
 
 Adds an IAM user to IAM groups.
 
 ~> **Note** This resource can be used multiple times with the same user for non-overlapping groups.
 
-How to manage users in a specific group, see the [`aws_iam_group_membership` resource][tf-group-membership].
+How to manage users in a specific group, see the [`aws_iam_group_membership` resource](iam_group_membership.md).
 
 ## Example Usage
 

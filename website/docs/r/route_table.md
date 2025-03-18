@@ -8,8 +8,6 @@ description: |-
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 [route-tables]: https://docs.k2.cloud/en/services/networking/routetables.html
-[tf-route]: route.html
-[tf-vpn-gateway-route-propagation]: vpn_gateway_route_propagation.html
 [timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
 
 # Resource: aws_route_table
@@ -17,14 +15,14 @@ description: |-
 Provides a resource to create a VPC routing table.
 
 ~> **Note on Route Tables and Routes:** Terraform currently
-provides both a standalone [`aws_route` resource][tf-route] and a Route Table resource with routes
+provides both a standalone [`aws_route` resource](route.md) and a Route Table resource with routes
 defined in-line. At this time you cannot use a route table with in-line routes
 in conjunction with any route resources. Doing so will cause
 a conflict of rule settings and will overwrite rules.
 
 ~> **Note on `propagating_vgws` and the `aws_vpn_gateway_route_propagation` resource:**
 If the `propagating_vgws` argument is present, it's not supported to _also_
-define route propagations using [`aws_vpn_gateway_route_propagation`][tf-vpn-gateway-route-propagation], since
+define route propagations using [`aws_vpn_gateway_route_propagation`](vpn_gateway_route_propagation.md), since
 this resource will delete any propagating gateways not explicitly listed in
 `propagating_vgws`. Omit this argument when defining route propagation using
 the separate resource.

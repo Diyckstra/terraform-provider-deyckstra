@@ -13,7 +13,7 @@ Provides a security group rule resource. Represents a single `ingress` or
 
 ~> **Note on Security Groups and Security Group Rules:** Terraform currently
 provides both a standalone security group rule resource (a single `ingress` or
-`egress` rule), and a [`aws_security_group`][tf-security-group] with `ingress` and `egress` rules
+`egress` rule), and a [`aws_security_group`](security_group.md) with `ingress` and `egress` rules
 defined in-line. At this time you cannot use a security group with in-line rules
 in conjunction with any security group rule resources. Doing so will cause
 a conflict of rule settings and will overwrite rules.
@@ -122,5 +122,3 @@ Import a rule that has itself and an IPv6 CIDR block as sources:
 ```console
 $ terraform import aws_security_group_rule.rule_name sg-12345678_ingress_tcp_80_80_self_2001:db8::/48
 ```
-
-[tf-security-group]: security_group.html

@@ -6,13 +6,13 @@ description: |-
   Provides an EC2 placement group.
 ---
 
+[placement-groups]: https://docs.k2.cloud/en/services/compute/placementgroups.html
+
 # Resource: aws_placement_group
 
 Provides an EC2 placement group.
 
 For more information, see the documentation on [Placement groups][placement-groups].
-
-[placement-groups]: https://docs.k2.cloud/en/services/compute/placementgroups.html
 
 ## Example Usage
 

@@ -47,5 +47,5 @@ The following arguments are supported:
 
 ## Attributes Reference
 
-See the [LB Resource](../r/lb.html) for details on the
+See the [LB Resource](../r/lb.md) for details on the
 returned attributes - they are identical.

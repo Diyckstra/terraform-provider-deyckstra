@@ -53,7 +53,7 @@
 Также создан форк модуля с AWS API: [C2Devel/aws-sdk-go](https://github.com/C2Devel/aws-sdk-go).
 
 Для публикации провайдера в официальном [terraform registry](https://registry.terraform.io/) под новым именем
-(ранее - *aws*) форк переименован в  
+(ранее - *aws*) форк переименован в
 *terraform-provider-rockitcloud*.
 
 Опубликованный провайдер: https://registry.terraform.io/providers/C2Devel/rockitcloud
@@ -110,7 +110,7 @@ $ make semgrep
 Можно запускать линтеры по отдельности и на конкретной директории:
 
 ```
-$ golangci-lint run -v ./internal/service/paas/... 
+$ golangci-lint run -v ./internal/service/paas/...
 
 # в команде нужно будет укзаать все игнорируемые проверки
 $ providerlint -c 1 -XS001=false ./internal/service/paas/...
@@ -146,7 +146,7 @@ replace github.com/aws/aws-sdk-go => <path-to-aws-sdk-go>
    replace github.com/aws/aws-sdk-go => github.com/C2Devel/aws-sdk-go v1.44.10-new
    ```
 
-2. **Опционально.** Если изменилась upstream версия: обновление тега `github.com/aws/aws-sdk-go` в блоке `require`.  
+2. **Опционально.** Если изменилась upstream версия: обновление тега `github.com/aws/aws-sdk-go` в блоке `require`.
    Не влияет на сборку.
 3. Обновление зависимостей: `go mod tidy`
 
@@ -195,7 +195,7 @@ replace github.com/aws/aws-sdk-go => <path-to-aws-sdk-go>
 
 ```
 website/
-|-- docs/ 
+|-- docs/
 |    |-- d/                          # набор описаний для terraform data sources
 |    |    |-- <data source>.md
 |    |    |-- ...
@@ -446,7 +446,7 @@ $ make docscheck
 Terraform registry может быть организован в виде s3 бакета.
 
 **Важно!** У бакета должен быть настроен доступ по https
-([инструкция](https://docs.cloud.croc.ru/en/services/object_storage/instructions.html#filestorage-https-for-website-buckets)).
+([инструкция](https://docs.k2.cloud/ru/services/object_storage/instructions.html#filestorage-https-for-website-buckets)).
 При включении web-доступа в качестве индексной страницы требуется указать `index.json`.
 
 Согласно [описанию](https://www.terraform.io/internals/provider-registry-protocol) протокола,
@@ -469,8 +469,8 @@ providers/
           |         |    |    |-- index.json       # метаинформация для сборки 1.0.0_linux_amd64
           |         |    |-- ...
           |         |-- ...
-          |    
-          |-- versions/         
+          |
+          |-- versions/
                |-- index.json                      # версии провайдера
 ```
 
@@ -532,7 +532,7 @@ providers/
 4. **Опционально.** Если был выполнен шаг 3: обновление ссылок в метаинформации
 5. Обновление s3 бакета:
    - обновление файла с версиями: `version.json` -> `providers/c2devel/rockitcloud/versions/index.json`
-   - загрузка метаинформации для сборок версии:  
+   - загрузка метаинформации для сборок версии:
      `<version>_<os>_<arch>.json` -> `providers/c2devel/rockitcloud/<version>/download/<os>/<arch>/index.json`
    **Важно!** Файлы должны быть загружены с mime-типом "application/json". Для файлов должен быть
    открыт доступ на чтение без аутентификации.
@@ -622,7 +622,7 @@ terraform {
     }
   }
 }
- 
+
 provider "aws" {
   # Configuration options
 }
@@ -632,7 +632,7 @@ provider "aws" {
 именования terraform ресурсов: **aws_***. Если используется другое имя (например, `rockitcloud`),
 **Terraform** автоматически попытается загрузить провайдер **hashicorp/aws**.
 
-Если провайдер опубликован в s3 бакете, в поле `source` добавляется url бакета без схемы. Например,  
+Если провайдер опубликован в s3 бакете, в поле `source` добавляется url бакета без схемы. Например,
 `tf-registry.rockitcloud.ru/c2devel/rockitcloud`.
 
 ### Локальная сборка

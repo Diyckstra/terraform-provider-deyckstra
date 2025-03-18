@@ -6,8 +6,8 @@ description: |-
   Creates and manages a custom Amazon Machine Image (AMI).
 ---
 
-[images]: https://docs.k2.cloud/en/services/storage/images.html
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
+[images]: https://docs.k2.cloud/en/services/storage/images.html
 [timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
 
 

@@ -10,10 +10,8 @@ description: |-
 
 `aws_availability_zone` provides details about a specific availability zone (AZ).
 
-This is different from the [`aws_availability_zones`][tf-availability-zones] (plural) data source,
+This is different from the [`aws_availability_zones`](availability_zones.md) (plural) data source,
 which provides a list of the available zones.
-
-[tf-availability-zones]: availability_zones.html
 
 ## Example Usage
 

@@ -68,4 +68,3 @@ For more information about filtering, see the [EC2 API documentation][describe-v
 * `ids` - A set of all the EBS volume IDs found.
 
 [describe-volumes]: https://docs.k2.cloud/en/api/ec2/volumes/DescribeVolumes.html
-[tf-ebs-volume]: ebs_volume.html
