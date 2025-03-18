@@ -167,25 +167,25 @@ website-link-check-ghrc:
 
 website-lint:
 	@echo "==> Checking website against linters..."
-	@misspell -error -source=text website/ || (echo; \
-		echo "Unexpected mispelling found in website files."; \
+	@misspell -error -source=text docs/ || (echo; \
+		echo "Unexpected mispelling found in docs files."; \
 		echo "To automatically fix the misspelling, run 'make website-lint-fix' and commit the changes."; \
 		exit 1)
-	@docker run --rm -v $(PWD):/markdown 06kellyjac/markdownlint-cli website/docs/ || (echo; \
+	@docker run --rm -v $(PWD):/markdown 06kellyjac/markdownlint-cli docs/ || (echo; \
 		echo "Unexpected issues found in website Markdown files."; \
 		echo "To apply any automatic fixes, run 'make website-lint-fix' and commit the changes."; \
 		exit 1)
-	@terrafmt diff ./website --check --pattern '*.md' --quiet || (echo; \
+	@terrafmt diff ./docs --check --pattern '*.md' --quiet || (echo; \
 		echo "Unexpected differences in website HCL formatting."; \
-		echo "To see the full differences, run: terrafmt diff ./website --pattern '*.md'"; \
+		echo "To see the full differences, run: terrafmt diff ./docs --pattern '*.md'"; \
 		echo "To automatically fix the formatting, run 'make website-lint-fix' and commit the changes."; \
 		exit 1)
 
 website-lint-fix:
 	@echo "==> Applying automatic website linter fixes..."
-	@misspell -w -source=text website/
-	@docker run --rm -v $(PWD):/markdown 06kellyjac/markdownlint-cli --fix website/docs/
-	@terrafmt fmt ./website --pattern '*.md'
+	@misspell -w -source=text docs/
+	@docker run --rm -v $(PWD):/markdown 06kellyjac/markdownlint-cli --fix docs/
+	@terrafmt fmt ./docs --pattern '*.md'
 
 semgrep:
 	@echo "==> Running Semgrep static analysis..."
