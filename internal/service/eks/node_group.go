@@ -597,7 +597,8 @@ func resourceNodeGroupDelete(ctx context.Context, d *schema.ResourceData, meta i
 		NodegroupName: aws.String(nodeGroupName),
 	})
 
-	if tfawserr.ErrCodeEquals(err, eks.ErrCodeResourceNotFoundException) {
+	if tfawserr.ErrCodeEquals(err, ErrCodeNodegroupNotFound) {
+		log.Printf("[WARN] EKS Node Group (%s) not found, removing from state", d.Id())
 		return nil
 	}
 

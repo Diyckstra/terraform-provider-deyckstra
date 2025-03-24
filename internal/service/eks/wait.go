@@ -100,13 +100,18 @@ func waitClusterCreated(conn *eks.EKS, name string, timeout time.Duration) (*eks
 
 func waitClusterDeleted(conn *eks.EKS, name string, timeout time.Duration) (*eks.Cluster, error) {
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{eks.ClusterStatusPending, eks.ClusterStatusClaimed, eks.ClusterStatusDeleting},
-		Target:  []string{eks.ClusterStatusDeleted},
-		Refresh: statusCluster(conn, name),
-		Timeout: timeout,
+		Pending:        []string{eks.ClusterStatusPending, eks.ClusterStatusClaimed, eks.ClusterStatusDeleting},
+		Target:         []string{eks.ClusterStatusDeleted},
+		Refresh:        statusCluster(conn, name),
+		Timeout:        timeout,
+		NotFoundChecks: 1,
 	}
 
 	outputRaw, err := stateConf.WaitForState()
+
+	if tfresource.NotFound(err) {
+		return nil, nil
+	}
 
 	if output, ok := outputRaw.(*eks.Cluster); ok {
 		return output, err
@@ -193,13 +198,18 @@ func waitNodegroupCreated(ctx context.Context, conn *eks.EKS, clusterName, nodeG
 
 func waitNodegroupDeleted(ctx context.Context, conn *eks.EKS, clusterName, nodeGroupName string, timeout time.Duration) (*eks.Nodegroup, error) {
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{eks.NodegroupStatusPending, eks.NodegroupStatusDeleting},
-		Target:  []string{eks.NodegroupStatusDeleted},
-		Refresh: statusNodegroup(conn, clusterName, nodeGroupName),
-		Timeout: timeout,
+		Pending:        []string{eks.NodegroupStatusPending, eks.NodegroupStatusDeleting},
+		Target:         []string{eks.NodegroupStatusDeleted},
+		Refresh:        statusNodegroup(conn, clusterName, nodeGroupName),
+		Timeout:        timeout,
+		NotFoundChecks: 1,
 	}
 
 	outputRaw, err := stateConf.WaitForStateContext(ctx)
+
+	if tfresource.NotFound(err) {
+		return nil, nil
+	}
 
 	if output, ok := outputRaw.(*eks.Nodegroup); ok {
 		if status, health := aws.StringValue(output.Status), output.Health; status == eks.NodegroupStatusDeleteFailed && health != nil {

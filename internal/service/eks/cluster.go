@@ -600,7 +600,8 @@ func resourceClusterDelete(d *schema.ResourceData, meta interface{}) error {
 		_, err = conn.DeleteCluster(input)
 	}
 
-	if tfawserr.ErrCodeEquals(err, eks.ErrCodeResourceNotFoundException) {
+	if tfawserr.ErrCodeEquals(err, ErrCodeClusterNotFound) {
+		log.Printf("[WARN] EKS Cluster (%s) not found, removing from state", d.Id())
 		return nil
 	}
 

@@ -125,9 +125,7 @@ func FindClusterByName(conn *eks.EKS, name string) (*eks.Cluster, error) {
 
 	output, err := conn.DescribeCluster(input)
 
-	// Sometimes the EKS API returns the ResourceNotFound error in this form:
-	// ClientException: No cluster found for name: tf-acc-test-0o1f8
-	if tfawserr.ErrCodeEquals(err, eks.ErrCodeResourceNotFoundException) || tfawserr.ErrMessageContains(err, eks.ErrCodeClientException, "No cluster found for name:") {
+	if tfawserr.ErrCodeEquals(err, ErrCodeClusterNotFound) {
 		return nil, &resource.NotFoundError{
 			LastError:   err,
 			LastRequest: input,
@@ -214,7 +212,7 @@ func FindNodegroupByClusterNameAndNodegroupName(conn *eks.EKS, clusterName, node
 
 	output, err := conn.DescribeNodegroup(input)
 
-	if tfawserr.ErrCodeEquals(err, eks.ErrCodeResourceNotFoundException) {
+	if tfawserr.ErrCodeEquals(err, ErrCodeNodegroupNotFound) {
 		return nil, &resource.NotFoundError{
 			LastError:   err,
 			LastRequest: input,
