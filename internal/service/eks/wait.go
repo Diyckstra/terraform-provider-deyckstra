@@ -175,7 +175,7 @@ func waitFargateProfileDeleted(conn *eks.EKS, clusterName, fargateProfileName st
 
 func waitNodegroupCreated(ctx context.Context, conn *eks.EKS, clusterName, nodeGroupName string, timeout time.Duration) (*eks.Nodegroup, error) {
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{eks.NodegroupStatusPending, eks.NodegroupStatusCreating},
+		Pending: []string{eks.NodegroupStatusClaimed, eks.NodegroupStatusPending, eks.NodegroupStatusCreating},
 		Target:  []string{eks.NodegroupStatusActive},
 		Refresh: statusNodegroup(conn, clusterName, nodeGroupName),
 		Timeout: timeout,
