@@ -83,6 +83,46 @@ provider "aws" {
 }
 ```
 
+#### API Endpoints
+
+The Rockit Cloud Provider manages resources via API calls. To connect the provider to the cloud platform,
+you must specify the platform API endpoints in the `provider.endpoints` block or define the corresponding environment variables.
+
+Usage:
+
+```terraform
+provider "aws" {
+  endpoints {
+    # It is recommended to always specify the `ec2` endpoint,
+    # because the provider uses it for service calls.
+    ec2 = "https://ec2.api.url"
+    s3  = "https://s3.api.url"
+  }
+  # ...
+}
+```
+
+The resulting set of endpoints depends on what resources are used.
+An API endpoint can be set using the corresponding provider parameter.
+
+| Resource Category                  | Provider Parameter | Environment Variable |
+|------------------------------------|--------------------|----------------------|
+| Auto Scaling                       | `autoscaling`      |                      |
+| Backup                             | `backup`           |                      |
+| CloudWatch                         | `cloudwatch`       |                      |
+| Direct Connect                     | `directconnect`    | `DIRECT_CONNECT_URL` |
+| EBS (EC2)                          | `ec2`              | `EC2_URL`            |
+| EC2 (Elastic Compute Cloud)        | `ec2`              | `EC2_URL`            |
+| EKS (Elastic Kubernetes)           | `eks`              |                      |
+| ELB (Elastic Load Balancing)       | `elbv2`            |                      |
+| IAM (Identity & Access Management) | `iam`              |                      |
+| PaaS                               | `paas`             | `PAAS_URL`           |
+| Route53                            | `route53`          |                      |
+| Transit Gateway                    | `ec2`              | `EC2_URL`            |
+| S3 (Simple Storage)                | `s3`               |                      |
+| VPC (Virtual Private Cloud)        | `ec2`              | `EC2_URL`            |
+| VPN (Site-to-Site)                 | `ec2`              | `EC2_URL`            |
+
 ### Environment Variables
 
 Credentials can also be provided by using the `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` environment variables.
@@ -100,6 +140,8 @@ $ export AWS_SECRET_ACCESS_KEY="my-secret-key"
 $ export AWS_REGION="region-1"
 $ terraform plan
 ```
+
+Some API endpoints may also be provided via environment variables (see the [API Endpoints section](#api-endpoints)).
 
 ### Shared Configuration and Credentials Files
 
