@@ -165,6 +165,8 @@ nav:
       - aws_default_security_group: r/default_security_group.md
       - aws_default_vpc: r/default_vpc.md
       - aws_default_vpc_dhcp_options: r/default_vpc_dhcp_options.md
+      - aws_internet_gateway: r/internet_gateway.md
+      - aws_internet_gateway_attachment: r/internet_gateway_attachment.md
       - aws_main_route_table_association: r/main_route_table_association.md
       - aws_network_acl: r/network_acl.md
       - aws_network_acl_association: r/network_acl_association.md
@@ -182,6 +184,7 @@ nav:
       - aws_vpc_dhcp_options: r/vpc_dhcp_options.md
       - aws_vpc_dhcp_options_association: r/vpc_dhcp_options_association.md
     - Data Sources:
+      - aws_internet_gateway: d/internet_gateway.md
       - aws_network_acls: d/network_acls.md
       - aws_network_interface: d/network_interface.md
       - aws_network_interfaces: d/network_interfaces.md
