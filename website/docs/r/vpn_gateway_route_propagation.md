@@ -16,7 +16,7 @@ propagation not explicitly listed in its value will be removed.
 
 ## Example Usage
 
--> The terms VPC, Internet Gateway, VPN Gateway are equivalent
+-> **Note** For convenience, the ID of the VPN gateway is the same as the ID of the VPC, to which it belongs (`vpc-ABCD1234`/`vgw-ABCD1234`).
 
 ```terraform
 resource "aws_vpc" "example" {
