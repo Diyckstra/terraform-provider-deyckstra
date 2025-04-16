@@ -1,3 +1,19 @@
+## 25.1.0
+
+NOTES:
+
+* Add script to upload other providers to the mirror
+
+FEATURES:
+
+* **New Data Source:** `aws_internet_gateway`
+* **New Resource:** `aws_internet_gateway`
+* **New Resource:** `aws_internet_gateway_attachment`
+
+DOCUMENTATION FIXES:
+
+* Fix broken links
+
 ## 25.0.0
 
 NOTES:
