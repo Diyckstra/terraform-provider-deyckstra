@@ -6,6 +6,8 @@ description: |-
   Requests automatic route propagation between a VPN gateway and a route table.
 ---
 
+[timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
+
 # Resource: aws_vpn_gateway_route_propagation
 
 Requests automatic route propagation between a VPN gateway and a route table.
@@ -50,7 +52,7 @@ No additional attributes are exported.
 
 ## Timeouts
 
-`aws_vpn_gateway_route_propagation` provides the following [Timeouts](https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts) configuration options:
+The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 - `create` - (Default `2 minutes`) Used for propagation creation.
 - `delete` - (Default `2 minutes`) Used for propagation deletion.

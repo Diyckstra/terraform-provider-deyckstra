@@ -96,4 +96,4 @@ The following attributes are not currently supported:
 
 `owner_id`, `routes.carrier_gateway_id`, `routes.core_network_arn`, `routes.destination_prefix_list_id`, `routes.egress_only_gateway_id`, `routes.ipv6_cidr_block`, `routes.local_gateway_id`, `routes.nat_gateway_id`, `routes.vpc_endpoint_id`, `routes.vpc_peering_connection_id`.
 
-[describe-route-tables]: https://docs.cloud.croc.ru/en/api/ec2/routes/DescribeRouteTables.html
+[describe-route-tables]: https://docs.k2.cloud/en/api/ec2/routes/DescribeRouteTables.html

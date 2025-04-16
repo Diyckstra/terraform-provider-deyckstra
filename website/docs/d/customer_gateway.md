@@ -63,4 +63,4 @@ The following attributes are not currently supported:
 
 `certificate_arn`, `device_name`.
 
-[describe-customer-gateways]: https://docs.cloud.croc.ru/en/api/ec2/customer_gateways/DescribeCustomerGateways.html
+[describe-customer-gateways]: https://docs.k2.cloud/en/api/ec2/customer_gateways/DescribeCustomerGateways.html

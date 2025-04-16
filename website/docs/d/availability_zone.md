@@ -10,10 +10,8 @@ description: |-
 
 `aws_availability_zone` provides details about a specific availability zone (AZ).
 
-This is different from the [`aws_availability_zones`][tf-availability-zones] (plural) data source,
+This is different from the [`aws_availability_zones`](availability_zones.md) (plural) data source,
 which provides a list of the available zones.
-
-[tf-availability-zones]: availability_zones.html
 
 ## Example Usage
 
@@ -46,7 +44,7 @@ The following arguments are supported by the `filter` configuration block:
 
 For more information about filtering, see the [EC2 API documentation][describe-azs].
 
-[describe-azs]: https://docs.cloud.croc.ru/en/api/ec2/placements/DescribeAvailabilityZones.html
+[describe-azs]: https://docs.k2.cloud/en/api/ec2/placements/DescribeAvailabilityZones.html
 
 ## Attributes Reference
 

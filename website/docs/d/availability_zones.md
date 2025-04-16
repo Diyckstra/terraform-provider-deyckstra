@@ -10,10 +10,8 @@ description: |-
 
 Provides a list of availability zones.
 
-This is different from the [`aws_availability_zone`][tf-availability-zone] (singular) data source,
+This is different from the [`aws_availability_zone`](availability_zone.md) (singular) data source,
 which provides some details about a specific availability zone.
-
-[tf-availability-zone]: availability_zone.html
 
 ## Example Usage
 
@@ -44,7 +42,7 @@ The following arguments are supported by the `filter` configuration block:
 
 For more information about filtering, see the [EC2 API documentation][describe-azs].
 
-[describe-azs]: https://docs.cloud.croc.ru/en/api/ec2/placements/DescribeAvailabilityZones.html
+[describe-azs]: https://docs.k2.cloud/en/api/ec2/placements/DescribeAvailabilityZones.html
 
 ## Attributes Reference
 

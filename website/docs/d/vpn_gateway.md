@@ -54,4 +54,4 @@ For more information about filtering, see the [EC2 API documentation][describe-v
 
 All the argument attributes are also exported as result attributes.
 
-[describe-vpn-gateways]: https://docs.cloud.croc.ru/en/api/ec2/vpn_gateways/DescribeVpnGateways.html
+[describe-vpn-gateways]: https://docs.k2.cloud/en/api/ec2/vpn_gateways/DescribeVpnGateways.html

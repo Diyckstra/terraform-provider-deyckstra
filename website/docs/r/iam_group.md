@@ -6,10 +6,8 @@ description: |-
   Manages an IAM group.
 ---
 
-[iam-policies-and-groups]: https://docs.cloud.croc.ru/en/services/iam/policies.html
+[iam-policies-and-groups]: https://docs.k2.cloud/en/services/iam/policies.html
 [RFC3339 format]: https://datatracker.ietf.org/doc/html/rfc3339#section-5.8
-[tf-group-membership]: iam_group_membership.html
-[tf-user-group-membership]: iam_user_group_membership.html
 
 # Resource: aws_iam_group
 
@@ -18,8 +16,8 @@ Manages an IAM group. For details about IAM groups, see the [user documentation]
 ~> **User management in groups**
 
 Manually managing user/group membership via the cloud console alongside using
-the [`aws_iam_group_membership`][tf-group-membership] or
-[`aws_iam_user_group_membership`][tf-user-group-membership] resources may result in configuration drift or conflicts.
+the [`aws_iam_group_membership`](iam_group_membership.md) or
+[`aws_iam_user_group_membership`](iam_user_group_membership.md) resources may result in configuration drift or conflicts.
 For this reason, it's recommended to manage membership either entirely using Terraform or entirely in the cloud console.
 
 ## Example Usage

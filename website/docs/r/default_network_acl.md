@@ -6,6 +6,9 @@ description: |-
   Manage a default network ACL.
 ---
 
+[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
+[network-acl]: https://docs.k2.cloud/en/services/security/networkacl.html
+
 # Resource: aws_default_network_acl
 
 Provides a resource to manage a VPC's default network ACL. This resource can manage the default network ACL of the default or a non-default VPC.
@@ -176,5 +179,3 @@ Default network ACLs can be imported using the `id`, e.g.,
 $ terraform import aws_default_network_acl.sample acl-12345678
 ```
 
-[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[network-acl]: https://docs.cloud.croc.ru/en/services/networks/networkacl.html

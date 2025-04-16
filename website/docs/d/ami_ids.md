@@ -39,4 +39,4 @@ For more information about filtering, see the [EC2 API documentation][describe-i
 
 `ids` is set to the list of image IDs, sorted by creation time according to `sort_ascending`.
 
-[describe-images]: https://docs.cloud.croc.ru/en/api/ec2/images/DescribeImages.html
+[describe-images]: https://docs.k2.cloud/en/api/ec2/images/DescribeImages.html

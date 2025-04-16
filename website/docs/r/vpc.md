@@ -6,6 +6,9 @@ description: |-
   Provides a VPC resource.
 ---
 
+[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
+[vpc]: https://docs.k2.cloud/en/services/networking/privatecloud.html
+
 # Resource: aws_vpc
 
 Provides a VPC resource.
@@ -52,7 +55,7 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the VPC
 * `main_route_table_id` - ID of the main route table associated with
      this VPC. Note that you can change a VPC's main route table by using an
-     [`aws_main_route_table_association`][tf-main-route-table-association].
+     [`aws_main_route_table_association`](main_route_table_association.md).
 * `default_network_acl_id` - ID of the network ACL created by default on VPC creation
 * `default_security_group_id` - ID of the security group created by default on VPC creation
 * `default_route_table_id` - ID of the route table created by default on VPC creation
@@ -74,6 +77,3 @@ VPCs can be imported using the `vpc id`, e.g.,
 $ terraform import aws_vpc.test_vpc vpc-12345678
 ```
 
-[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[tf-main-route-table-association]: main_route_table_association.html
-[vpc]: https://docs.cloud.croc.ru/en/services/networks/privatecloud.html

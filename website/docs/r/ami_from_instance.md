@@ -6,6 +6,9 @@ description: |-
   Creates an Amazon Machine Image (AMI) from an EBS-backed EC2 instance
 ---
 
+[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
+[timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
+
 # Resource: aws_ami_from_instance
 
 Resource allows the creation of image from existing EBS-backed EC2 instance.
@@ -44,7 +47,7 @@ The following arguments are supported:
 
 ### Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts) for certain actions:
+The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 * `create` - (Default `40 minutes`) Used when creating the image
 * `update` - (Default `40 minutes`) Used when updating the image
@@ -66,8 +69,7 @@ In addition to all arguments above, the following attributes are exported:
 The following attributes are not currently supported: `snapshot_without_reboot`.
 
 This resource also exports a full set of attributes corresponding to the arguments of the
-[`aws_ami`][tf-ami] resource, allowing the properties of the created image to be used elsewhere in the
+[`aws_ami`](ami.md) resource, allowing the properties of the created image to be used elsewhere in the
 configuration.
 
-[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[tf-ami]: ami.html
+

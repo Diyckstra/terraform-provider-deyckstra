@@ -6,11 +6,13 @@ description: |-
   Provides a resource to create a routing entry in a VPC routing table.
 ---
 
+[timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
+
 # Resource: aws_route
 
 Provides a resource to create a routing table entry (a route) in a VPC routing table.
 
-~> **Note on Route Tables and Routes:** Terraform currently provides both a standalone Route resource and a [`aws_route_table`][tf-route-table] resource with routes defined in-line. At this time you cannot use a Route Table with in-line routes in conjunction with any Route resources. Doing so will cause a conflict of rule settings and will overwrite rules.
+~> **Note on Route Tables and Routes:** Terraform currently provides both a standalone Route resource and a [`aws_route_table`](route_table.md) resource with routes defined in-line. At this time you cannot use a Route Table with in-line routes in conjunction with any Route resources. Doing so will cause a conflict of rule settings and will overwrite rules.
 
 ## Example Usage
 
@@ -65,7 +67,7 @@ The following attributes are not currently supported:
 
 ## Timeouts
 
-`aws_route` provides the following [Timeouts](https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts) configuration options:
+The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 - `create` - (Default `5 minutes`) Used for route creation
 - `update` - (Default `2 minutes`) Used for route creation
@@ -80,5 +82,3 @@ For example, import a route in route table `rtb-12345678` with an IPv4 destinati
 ```console
 $ terraform import aws_route.my_route rtb-12345678_10.1.0.0/16
 ```
-
-[tf-route-table]: route_table.html

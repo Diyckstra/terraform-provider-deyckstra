@@ -6,6 +6,9 @@ description: |-
   Provides an elastic block storage resource.
 ---
 
+[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
+[timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
+
 # Resource: aws_ebs_volume
 
 Manages a single EBS volume.
@@ -57,7 +60,7 @@ The following attributes are not currently supported:
 
 ## Timeouts
 
-`aws_ebs_volume` provides the following [Timeouts](https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts) configuration options:
+The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 - `create` - (Default `5 minutes`) Used for creating volumes. This includes the time required for the volume to become available
 - `update` - (Default `5 minutes`) Used for `size`, `type`, or `iops` volume changes
@@ -70,5 +73,3 @@ EBS Volumes can be imported using the `id`, e.g.,
 ```
 $ terraform import aws_ebs_volume.id vol-12345678
 ```
-
-[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block

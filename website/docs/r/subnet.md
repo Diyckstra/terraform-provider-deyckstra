@@ -6,6 +6,10 @@ description: |-
   Provides an VPC subnet resource.
 ---
 
+[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
+[subnets]: https://docs.k2.cloud/en/services/networking/subnets.html
+[timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
+
 # Resource: aws_subnet
 
 Provides an VPC subnet resource.
@@ -60,8 +64,7 @@ The following attributes are not currently supported:
 
 ## Timeouts
 
-`aws_subnet` provides the following [Timeouts](https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts)
-configuration options:
+The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 - `create` - (Default `10m`) How long to wait for a subnet to be created.
 - `delete` - (Default `20m`) How long to wait for a subnet to be deleted.
@@ -73,6 +76,3 @@ Subnets can be imported using the `subnet id`, e.g.,
 ```
 $ terraform import aws_subnet.public_subnet subnet-12345678
 ```
-
-[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[subnets]: https://docs.cloud.croc.ru/en/services/networks/subnets.html

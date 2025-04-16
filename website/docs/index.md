@@ -5,11 +5,11 @@ description: |-
   Use the Terraform Rockit Cloud Provider to manage resources in public and private clouds based on K2 Cloud and Rockit Cloud platforms. You must configure the provider with the proper credentials before you can use it.
 ---
 
-[hashicorp-tutorials]: https://learn.hashicorp.com/tutorials/terraform/infrastructure-as-code?in=terraform/aws-get-started&utm_source=WEBSITE&utm_medium=WEB_IO&utm_offer=ARTICLE_PAGE&utm_content=DOCS
+[aws-configure-files]: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html
 [aws-tutorials]: https://learn.hashicorp.com/collections/terraform/aws?utm_source=WEBSITE&utm_medium=WEB_IO&utm_offer=ARTICLE_PAGE&utm_content=DOCS
 [c2-tutorials]: https://github.com/C2Devel/terraform-examples
-[aws-configure-files]: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html
-[terraform]: https://docs.cloud.croc.ru/en/api/tools/terraform.html
+[hashicorp-tutorials]: https://learn.hashicorp.com/tutorials/terraform/infrastructure-as-code?in=terraform/aws-get-started&utm_source=WEBSITE&utm_medium=WEB_IO&utm_offer=ARTICLE_PAGE&utm_content=DOCS
+[terraform]: https://docs.k2.cloud/en/api/tools/terraform.html
 
 # Rockit Cloud Provider
 

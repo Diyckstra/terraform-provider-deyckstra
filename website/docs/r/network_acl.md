@@ -6,18 +6,21 @@ description: |-
   Provides a network ACL resource.
 ---
 
+[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
+[network-acl]: https://docs.k2.cloud/en/services/security/networkacl.html
+
 # Resource: aws_network_acl
 
 Provides a network ACL resource. You might set up network ACLs with rules similar
 to your security groups in order to add an additional layer of security to your VPC.
 
 ~> **Note on Network ACLs and Network ACL Rules:** Terraform currently
-provides both a standalone [`aws_network_acl_rule`][tf-network-acl-rule] resource and a Network ACL resource with rules
+provides both a standalone [`aws_network_acl_rule`](network_acl_rule.md) resource and a Network ACL resource with rules
 defined in-line. At this time you cannot use a Network ACL with in-line rules
 in conjunction with any Network ACL Rule resources. Doing so will cause
 a conflict of rule settings and will overwrite rules.
 
-~> **Note on Network ACLs and Network ACL Associations:** Terraform provides both a standalone [aws_network_acl_association][tf-network-acl-association]
+~> **Note on Network ACLs and Network ACL Associations:** Terraform provides both a standalone [aws_network_acl_association](network_acl_association.md)
 resource and a network ACL resource with a `subnet_ids` attribute. Do not use the same subnet ID in both a network ACL
 resource and a network ACL association resource. Doing so will cause a conflict of associations and will overwrite the association.
 
@@ -114,7 +117,3 @@ Network ACLs can be imported using the `id`, e.g.,
 $ terraform import aws_network_acl.main acl-12345678
 ```
 
-[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[network-acl]: https://docs.cloud.croc.ru/en/services/networks/networkacl.html
-[tf-network-acl-association]: network_acl_association.html
-[tf-network-acl-rule]: network_acl_rule.html

@@ -69,4 +69,4 @@ The following fields are also exported:
 
 ~> **Note** The default security group for a VPC has the name `default`.
 
-[describe-security-groups]: https://docs.cloud.croc.ru/en/api/ec2/security_groups/DescribeSecurityGroups.html
+[describe-security-groups]: https://docs.k2.cloud/en/api/ec2/security_groups/DescribeSecurityGroups.html

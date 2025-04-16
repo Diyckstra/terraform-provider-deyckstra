@@ -7,8 +7,8 @@ description: |-
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[eks-clusters]: https://docs.cloud.croc.ru/en/services/kubernetes/eks_cluster.html
-[ha-clusters]: https://docs.cloud.croc.ru/en/services/kubernetes/overview.html#ha-control-plane
+[eks-clusters]: https://docs.k2.cloud/en/services/kubernetes/eks_cluster.html
+[ha-clusters]: https://docs.k2.cloud/en/services/kubernetes/overview.html#ha-control-plane
 [timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
 
 # Resource: aws_eks_cluster
@@ -154,7 +154,7 @@ The following attributes are not currently supported:
 
 ## Timeouts
 
-`aws_eks_cluster` provides the following [Timeouts][timeouts] configuration options:
+The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 * `create` - (Default `30 minutes`) How long to wait for the EKS cluster to be created.
 * `update` - (Default `60 minutes`) How long to wait for the EKS cluster to be updated.

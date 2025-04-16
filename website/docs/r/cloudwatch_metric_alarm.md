@@ -6,8 +6,8 @@ description: |-
   Manages a CloudWatch metric alarm.
 ---
 
-[metrics]: https://docs.cloud.croc.ru/en/services/monitoring/metrics.html
-[dimensions]: https://docs.cloud.croc.ru/en/services/monitoring/metrics.html#dimensions
+[dimensions]: https://docs.k2.cloud/en/services/monitoring/metrics.html#dimensions
+[metrics]: https://docs.k2.cloud/en/services/monitoring/metrics.html
 
 # Resource: aws_cloudwatch_metric_alarm
 

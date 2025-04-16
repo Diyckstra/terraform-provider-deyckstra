@@ -6,6 +6,9 @@ description: |-
   Manage a default security group resource.
 ---
 
+[default-security-groups]: https://docs.k2.cloud/en/services/security/securitygroups.html#id3
+[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
+
 # Resource: aws_default_security_group
 
 Provides a resource to manage a default security group. This resource can manage the default security group of the default or a non-default VPC.
@@ -14,9 +17,9 @@ Provides a resource to manage a default security group. This resource can manage
 
 When Terraform first adopts the default security group, it **immediately removes all ingress and egress rules in the Security Group**. It then creates any rules specified in the configuration. This way only the rules specified in the configuration are created.
 
-This resource treats its inline rules as absolute; only the rules defined inline are created, and any additions/removals external to this resource will result in diff shown. For these reasons, this resource is incompatible with the `aws_security_group_rule`[tf-security-group-rule] resource.
+This resource treats its inline rules as absolute; only the rules defined inline are created, and any additions/removals external to this resource will result in diff shown. For these reasons, this resource is incompatible with the [`aws_security_group_rule`](security_group_rule.md) resource.
 
-For more information about default security groups, see the documentation on [Default Security Groups][default-security-groups]. To manage normal security groups, see the [`aws_security_group`][tf-security-group] resource.
+For more information about default security groups, see the documentation on [Default Security Groups][default-security-groups]. To manage normal security groups, see the [`aws_security_group`](security_group.md) resource.
 
 ## Example Usage
 
@@ -122,9 +125,3 @@ Security Groups can be imported using the `security group id`, e.g.,
 ```
 $ terraform import aws_default_security_group.default_sg sg-12345678
 ```
-
-[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[default-security-groups]: https://docs.cloud.croc.ru/en/services/networks/securitygroups.html#id3
-[tf-security-group]: security_group.html
-[tf-security-group-rule]: security_group_rule.html
-

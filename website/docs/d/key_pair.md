@@ -55,7 +55,7 @@ The following arguments are supported by the `filter` configuration block:
 
 For more information about filtering, see the [EC2 API documentation][describe-key-pairs].
 
-[describe-key-pairs]: https://docs.cloud.croc.ru/en/api/ec2/key_pairs/DescribeKeyPairs.html
+[describe-key-pairs]: https://docs.k2.cloud/en/api/ec2/key_pairs/DescribeKeyPairs.html
 
 ## Attributes Reference
 

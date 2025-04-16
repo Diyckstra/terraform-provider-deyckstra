@@ -7,7 +7,7 @@ description: |-
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[eks-node-groups]: https://docs.cloud.croc.ru/en/services/kubernetes/eks_cluster.html#id3
+[eks-node-groups]: https://docs.k2.cloud/en/services/kubernetes/eks_cluster.html#id7
 [lifecycle]: https://www.terraform.io/docs/configuration/meta-arguments/lifecycle.html
 [timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
 
@@ -151,7 +151,7 @@ The following attributes are not currently supported:
 
 ## Timeouts
 
-`aws_eks_node_group` provides the following [Timeouts][timeouts] configuration options:
+The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 * `create` - (Default `60 minutes`) How long to wait for the EKS node group to be created.
 * `update` - (Default `60 minutes`) How long to wait for the EKS node group to be updated.

@@ -6,12 +6,14 @@ description: |-
   Provides a resource for managing the main routing table of a VPC.
 ---
 
+[route-tables]: https://docs.k2.cloud/en/services/networking/routetables.html
+
 # Resource: aws_main_route_table_association
 
 Provides a resource for managing the main routing table of a VPC.
 
-~> **Note** **Do not** use both `aws_default_route_table` to manage a default route table **and** `aws_main_route_table_association` with the same VPC due to possible route conflicts. See [aws_default_route_table][tf-default-route-table] documentation for more details.
-For more information, see the documentation on [Route Tables][route-tables]. For information about managing normal route tables in Terraform, see [`aws_route_table`][tf-route-table].
+~> **Note** **Do not** use both `aws_default_route_table` to manage a default route table **and** `aws_main_route_table_association` with the same VPC due to possible route conflicts. See [aws_default_route_table](default_route_table.md) documentation for more details.
+For more information, see the documentation on [Route Tables][route-tables]. For information about managing normal route tables in Terraform, see [`aws_route_table`](route_table.md).
 
 ## Example Usage
 
@@ -54,6 +56,3 @@ this original table as the Main Route Table for the VPC. You'll see this
 additional Route Table in the cloud console; it must remain intact in order for
 the `main_route_table_association` delete to work properly.
 
-[route-tables]: https://docs.cloud.croc.ru/en/services/networks/routetables.html
-[tf-route-table]: route_table.html
-[tf-default-route-table]: default_route_table.html

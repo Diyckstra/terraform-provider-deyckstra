@@ -18,7 +18,7 @@ description: |-
 [elasticsearch-version]: https://docs.k2.cloud/en/api/paas/parameters/elasticsearch.html#version
 [mongodb-version]: https://docs.k2.cloud/en/api/paas/parameters/mongodb.html#version
 [mysql-version]: https://docs.k2.cloud/en/api/paas/parameters/mysql.html#version
-[paas]: https://docs.cloud.croc.ru/en/services/paas/index.html
+[paas]: https://docs.k2.cloud/en/services/paas/index.html
 [pgsql-version]: https://docs.k2.cloud/en/api/paas/parameters/pgsql.html#version
 [rabbitmq-version]: https://docs.k2.cloud/en/api/paas/parameters/rabbitmq.html#version
 [redis-version]: https://docs.k2.cloud/en/api/paas/parameters/redis.html#version
@@ -281,7 +281,7 @@ resource "aws_s3_bucket" "example" {
   bucket = "tf-paas-backup"
 
   # Use the predefined provider configuration to connect to object storage
-  # https://docs.cloud.croc.ru/en/api/tools/terraform.html#providers-tf
+  # https://docs.k2.cloud/en/api/tools/terraform.html#providers-tf
   provider = aws.noregion
 }
 
@@ -971,7 +971,7 @@ The `endpoints` block has the following structure:
 
 ## Timeouts
 
-`aws_paas_service` provides the following [Timeouts][timeouts] configuration options:
+The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 * `create` - (Default `30 minutes`) How long to wait for the service to be created.
 * `update` - (Default `60 minutes`) How long to wait for the service to be updated.

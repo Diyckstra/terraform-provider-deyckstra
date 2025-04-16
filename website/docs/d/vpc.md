@@ -87,4 +87,4 @@ The following attributes are not currently supported:
 
 `enable_dns_hostnames`, `instance_tenancy`, `ipv6_association_id`, `ipv6_cidr_block`, `owner_id`.
 
-[describe-vpcs]: https://docs.cloud.croc.ru/en/api/ec2/vpcs/DescribeVpcs.html
+[describe-vpcs]: https://docs.k2.cloud/en/api/ec2/vpcs/DescribeVpcs.html

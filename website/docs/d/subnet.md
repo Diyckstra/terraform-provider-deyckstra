@@ -89,4 +89,4 @@ The following attributes are not currently supported:
 
 `arn`, `assign_ipv6_address_on_creation`, `availability_zone_id`, `customer_owned_ipv4_pool`, `enable_dns64`, `enable_resource_name_dns_aaaa_record_on_launch`, `enable_resource_name_dns_a_record_on_launch`, `ipv6_cidr_block_association_id`, `ipv6_native`, `map_customer_owned_ip_on_launch`, `outpost_arn`, `owner_id`, `private_dns_hostname_type_on_launch`.
 
-[describe-subnets]: https://docs.cloud.croc.ru/en/api/ec2/subnets/DescribeSubnets.html
+[describe-subnets]: https://docs.k2.cloud/en/api/ec2/subnets/DescribeSubnets.html

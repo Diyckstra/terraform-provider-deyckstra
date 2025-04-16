@@ -11,7 +11,7 @@ description: |-
 Creates an entry (a rule) in a network ACL with the specified rule number.
 
 ~> **Note on Network ACLs and Network ACL Rules:** Terraform currently
-provides both a standalone network ACL rule resource and an [aws_network_acl][tf-network-acl] resource with rules
+provides both a standalone network ACL rule resource and an [aws_network_acl](network_acl.md) resource with rules
 defined in-line. At this time you cannot use a Network ACL with in-line rules
 in conjunction with any network ACL rule resources. Doing so will cause
 a conflict of rule settings and will overwrite rules.
@@ -94,5 +94,3 @@ Or by the protocol's decimal value:
 ```console
 $ terraform import aws_network_acl_rule.my_rule acl-12345678:100:6:false
 ```
-
-[tf-network-acl]: network_acl.html

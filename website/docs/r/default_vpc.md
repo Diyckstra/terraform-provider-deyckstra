@@ -31,7 +31,7 @@ resource "aws_default_vpc" "default" {
 
 ## Argument Reference
 
-The arguments of an `aws_default_vpc` differ slightly from those of [`aws_vpc`][tf-vpc]:
+The arguments of an `aws_default_vpc` differ slightly from those of [`aws_vpc`](vpc.md):
 
 * The `cidr_block` and `instance_tenancy` arguments become computed attributes
 * The default value for `enable_dns_hostnames` is `true`
@@ -58,5 +58,3 @@ Default VPCs can be imported using the `vpc id`, e.g.,
 ```
 $ terraform import aws_default_vpc.default vpc-12345678
 ```
-
-[tf-vpc]: vpc.html

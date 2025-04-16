@@ -70,4 +70,4 @@ For more information about filtering, see the [EC2 API documentation][describe-d
 
 The following attributes are not currently supported: `owner_id`.
 
-[describe-dhcp-options]: https://docs.cloud.croc.ru/en/api/ec2/dhcp_options/DescribeDhcpOptions.html
+[describe-dhcp-options]: https://docs.k2.cloud/en/api/ec2/dhcp_options/DescribeDhcpOptions.html

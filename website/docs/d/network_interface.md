@@ -31,7 +31,7 @@ For more information about filtering, see the [EC2 API documentation][describe-n
 
 ### Supported attributes
 
-See the [`aws_network_interface`][tf-network-interface] for details on the returned attributes.
+See the [`aws_network_interface`](network_interface.md) for details on the returned attributes.
 
 Additionally, the following attributes are exported:
 
@@ -74,5 +74,4 @@ Elastic network interfaces can be imported using the `id`, e.g.,
 $ terraform import aws_network_interface.test eni-12345678
 ```
 
-[describe-network-interfaces]: https://docs.cloud.croc.ru/en/api/ec2/network_interfaces/DescribeNetworkInterfaces.html
-[tf-network-interface]: network_interface.html
+[describe-network-interfaces]: https://docs.k2.cloud/en/api/ec2/network_interfaces/DescribeNetworkInterfaces.html

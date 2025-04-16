@@ -61,7 +61,7 @@ The given filters must match exactly one Elastic IP whose data will be exported 
 
 For more information about filtering, see the [EC2 API documentation][describe-addresses].
 
-[describe-addresses]: https://docs.cloud.croc.ru/en/api/ec2/addresses/DescribeAddresses.html
+[describe-addresses]: https://docs.k2.cloud/en/api/ec2/addresses/DescribeAddresses.html
 
 ## Attributes Reference
 

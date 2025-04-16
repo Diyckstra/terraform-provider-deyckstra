@@ -7,7 +7,7 @@ description: |-
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[tgw]: https://docs.cloud.croc.ru/en/services/tgw/tgw.html#transitgatewaymanual
+[tgw]: https://docs.k2.cloud/en/services/interconnect/tgw/tgw.html
 [timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
 
 # Resource: aws_ec2_transit_gateway
@@ -62,7 +62,7 @@ The following attributes are not currently supported:
 
 ## Timeouts
 
-`aws_ec2_transit_gateway` provides the following [Timeouts][timeouts] configuration options:
+The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 * `create` - (Default `10 minutes`) How long to wait for the transit gateway to be created.
 * `update` - (Default `10 minutes`) How long to wait for the transit gateway to be updated.

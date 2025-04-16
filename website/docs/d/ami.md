@@ -6,7 +6,7 @@ description: |-
   Get information on an Amazon Machine Image (AMI).
 ---
 
-[describe-images]: https://docs.cloud.croc.ru/en/api/ec2/images/DescribeImages.html
+[describe-images]: https://docs.k2.cloud/en/api/ec2/images/DescribeImages.html
 
 # Data Source: aws_ami
 

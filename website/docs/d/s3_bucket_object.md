@@ -7,7 +7,7 @@ description: |-
 ---
 
 [ETag]: https://en.wikipedia.org/wiki/HTTP_ETag
-[set-lifecycle]: https://docs.cloud.croc.ru/en/services/object_storage/instructions.html#s3setlifecycle
+[set-lifecycle]: https://docs.k2.cloud/en/services/object_storage/instructions.html#s3setlifecycle
 
 # Data Source: aws_s3_bucket_object
 

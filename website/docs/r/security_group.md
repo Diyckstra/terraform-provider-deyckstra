@@ -6,12 +6,16 @@ description: |-
   Provides a security group resource.
 ---
 
+[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
+[security-groups]: https://docs.k2.cloud/en/services/security/securitygroups.html
+[timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
+
 # Resource: aws_security_group
 
 Provides a security group resource.
 
 ~> **Note on Security Groups and Security Group Rules:** Terraform currently
-provides both a standalone [`aws_security_group_rule`][tf-security-group-rule] (a single `ingress` or
+provides both a standalone [`aws_security_group_rule`](security_group_rule.md) (a single `ingress` or
 `egress` rule), and a security group resource with `ingress` and `egress` rules
 defined in-line. At this time you cannot use a security group with in-line rules
 in conjunction with any security group rule resources. Doing so will cause
@@ -155,8 +159,7 @@ The following attributes are not currently supported: `prefix_list_ids`.
 
 ## Timeouts
 
-`aws_security_group` provides the following [Timeouts](https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts)
-configuration options:
+The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 - `create` - (Default `10m`) How long to wait for a security group to be created.
 - `delete` - (Default `15m`) How long to wait for a security group to be deleted.
@@ -169,6 +172,4 @@ Security Groups can be imported using the `security group id`, e.g.,
 $ terraform import aws_security_group.elb_sg sg-12345678
 ```
 
-[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[security-groups]: https://docs.cloud.croc.ru/en/services/networks/securitygroups.html
-[tf-security-group-rule]: security_group_rule.html
+

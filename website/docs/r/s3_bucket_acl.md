@@ -6,8 +6,8 @@ description: |-
   Provides an S3 bucket ACL resource.
 ---
 
-[access-rights]: https://docs.cloud.croc.ru/en/services/object_storage/operations.html#s3accessrules
-[canned-acl]: https://docs.cloud.croc.ru/en/api/s3/acl.html#cannedacl
+[access-rights]: https://docs.k2.cloud/en/services/object_storage/operations.html#s3accessrules
+[canned-acl]: https://docs.k2.cloud/en/api/s3/acl.html#cannedacl
 
 # Resource: aws_s3_bucket_acl
 
@@ -26,7 +26,7 @@ resource "aws_s3_bucket" "example" {
   bucket = "tf-example"
 
   # Use the predefined provider configuration to connect to object storage
-  # https://docs.cloud.croc.ru/en/api/tools/terraform.html#providers-tf
+  # https://docs.k2.cloud/en/api/tools/terraform.html#providers-tf
   provider = aws.noregion
 }
 
@@ -45,7 +45,7 @@ resource "aws_s3_bucket" "example" {
   bucket = "tf-example"
 
   # Use the predefined provider configuration to connect to object storage
-  # https://docs.cloud.croc.ru/en/api/tools/terraform.html#providers-tf
+  # https://docs.k2.cloud/en/api/tools/terraform.html#providers-tf
   provider = aws.noregion
 }
 

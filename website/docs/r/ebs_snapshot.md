@@ -6,6 +6,9 @@ description: |-
   Provides an elastic block storage snapshot resource.
 ---
 
+[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
+[timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
+
 # Resource: aws_ebs_snapshot
 
 Creates a snapshot of an EBS volume.
@@ -41,8 +44,7 @@ The following arguments are supported:
 
 ### Timeouts
 
-`aws_ebs_snapshot` provides the following
-[Timeouts](https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts) configuration options:
+The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 - `create` - (Default `10 minutes`) Used for creating the ebs snapshot
 - `delete` - (Default `10 minutes`) Used for deleting the ebs snapshot
@@ -75,5 +77,3 @@ EBS Snapshot can be imported using the `id`, e.g.,
 ```
 $ terraform import aws_ebs_snapshot.id snap-12345678
 ```
-
-[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
