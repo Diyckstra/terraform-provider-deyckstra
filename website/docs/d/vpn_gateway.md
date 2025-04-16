@@ -11,7 +11,7 @@ description: |-
 The VPN Gateway data source provides details about
 a specific VPN gateway.
 
--> The terms VPC, Internet Gateway, VPN Gateway are equivalent
+-> **Note** For convenience, the ID of the VPN gateway is the same as the ID of the VPC, to which it belongs (`vpc-ABCD1234`/`vgw-ABCD1234`).
 
 ## Example Usage
 

@@ -12,7 +12,7 @@ Get an existing customer gateway.
 
 ## Example Usage
 
--> The terms VPC, Internet Gateway, VPN Gateway are equivalent.
+-> **Note** For convenience, the ID of the VPN gateway is the same as the ID of the VPC, to which it belongs (`vpc-ABCD1234`/`vgw-ABCD1234`).
 
 ```terraform
 data "aws_customer_gateway" "selected" {
