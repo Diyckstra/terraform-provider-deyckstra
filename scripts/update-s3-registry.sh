@@ -151,6 +151,8 @@ for version in $tf_provider_versions; do
       "${TF_REGISTRY_URL}/${tf_provider_prefix}/${PROVIDER_NAME}/${version}/download/${os}/${arch}" \
       "${TMP_DIR}/${version}_${os}_${arch}.json"
 
+    sed -i 's|https://releases.hashicorp.com|https://hc-releases.website.k2.cloud|g' "${TMP_DIR}/${version}_${os}_${arch}.json"
+
     s3cmd put --quiet --acl-public --content-type=application/json "${TMP_DIR}/${version}_${os}_${arch}.json" \
       "s3://${S3_BUCKET_NAME}/${s3_provider_prefix}/${PROVIDER_NAME}/${version}/download/${os}/${arch}/index.json"
 
