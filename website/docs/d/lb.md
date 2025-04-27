@@ -8,30 +8,13 @@ description: |-
 
 # Data Source: aws_lb
 
-~> **Note** `aws_alb` is known as `aws_lb`. The functionality is identical.
-
 Provides information about a load balancer.
-
-This data source can prove useful when a module accepts an LB as an input
-variable and needs to, for example, determine the security groups associated
-with it, etc.
 
 ## Example Usage
 
 ```terraform
-variable "lb_arn" {
-  type    = string
-  default = ""
-}
-
-variable "lb_name" {
-  type    = string
-  default = ""
-}
-
-data "aws_lb" "test" {
-  arn  = var.lb_arn
-  name = var.lb_name
+data "aws_lb" "selected" {
+  name = "lb-name"
 }
 ```
 
@@ -40,12 +23,40 @@ data "aws_lb" "test" {
 The following arguments are supported:
 
 * `arn` - (Optional) The Amazon Resource Name (ARN) of the load balancer.
-* `name` - (Optional) The unique name of the load balancer.
-* `tags` - (Optional) Map of tags, each pair of which must exactly match a pair on the desired load balancer.
+    * _ARN Format:_ `arn:c2:elasticloadbalancing::<project-name>@<customer-name>:loadbalancer/<app|net>/lb-12345678`
+* `name` - (Optional) The name of the load balancer.
+* `tags` - (Optional) Map of tags. All specified tags must match tags on the desired load balancer.
 
-~> **Note**: When both `arn` and `name` are specified, `arn` takes precedence. `tags` has lowest precedence.
+~> **Note** When both `arn` and `name` are specified, `arn` takes precedence.
 
 ## Attribute Reference
 
-See the [LB resource](../r/lb.md) for details on the
-returned attributes - they are identical.
+### Supported attributes
+
+In addition to all arguments above, the following attributes are exported:
+
+* `dns_name` - The DNS name of the load balancer.
+* `id` - The ARN of the load balancer.
+* `internal` - Indicates whether the load balancer is internal or internet-facing.
+* `load_balancer_type` - The type of the load balancer.
+* `subnet_mapping` - List of subnet-ID-to-IP-address mappings.
+  The structure of this block is [described below](#subnet_mapping).
+* `subnets` - List of subnet IDs.
+* `vpc_id` - The ID of the VPC.
+* `zone_id` - The ID of the Route53 hosted zone associated with the load balancer.
+
+#### subnet_mapping
+
+The `subnet_mapping` block has the following structure:
+
+* `subnet_id` - The ID of the subnet.
+* `allocation_id` - The ID of the Elastic IP address allocation.
+* `private_ipv4_address` - The private IP address.
+
+### Unsupported attributes
+
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
+
+The following attributes are not currently supported:
+
+`access_logs`, `arn_suffix`, `customer_owned_ipv4_pool`, `desync_mitigation_mode`, `drop_invalid_header_fields`, `enable_cross_zone_load_balancing`, `enable_deletion_protection`, `enable_http2`, `enable_waf_fail_open`, `idle_timeout`, `ip_address_type`, `security_groups`, `subnet_mapping.ipv6_address`, `subnet_mapping.outpost_id`.
