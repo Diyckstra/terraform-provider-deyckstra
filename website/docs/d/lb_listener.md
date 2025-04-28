@@ -3,37 +3,31 @@ subcategory: "ELB (Elastic Load Balancing)"
 layout: "aws"
 page_title: "aws_lb_listener"
 description: |-
-  Provides information about a load balancer listener.
+  Provides information about a listener.
 ---
 
 # Data Source: aws_lb_listener
 
-~> **Note** `aws_alb_listener` is known as `aws_lb_listener`. The functionality is identical.
-
-Provides information about a load balancer listener.
-
-This data source can prove useful when a module accepts an LB listener as an input variable and needs to know the LB it is attached to, or other information specific to the listener in question.
+Provides information about a listener.
 
 ## Example Usage
 
+### Get Listener by ARN
+
 ```terraform
-# get listener from listener arn
-
-variable "listener_arn" {
-  type = string
+data "aws_lb_listener" "selected" {
+  arn = "arn:c2:elasticloadbalancing::project-name@customer-name:listener/app/lb-12345678/li-12345678"
 }
+```
 
-data "aws_lb_listener" "listener" {
-  arn = var.listener_arn
-}
+### Get Listener by Load Balancer ARN and Port
 
-# get listener from load_balancer_arn and port
-
+```terraform
 data "aws_lb" "selected" {
-  name = "default-public"
+  name = "lb-name"
 }
 
-data "aws_lb_listener" "selected443" {
+data "aws_lb_listener" "selected" {
   load_balancer_arn = data.aws_lb.selected.arn
   port              = 443
 }
@@ -44,12 +38,57 @@ data "aws_lb_listener" "selected443" {
 The following arguments are supported:
 
 * `arn` - (Optional) The Amazon Resource Name (ARN) of the listener.
-    * _Constraints:_ Required if `load_balancer_arn` and `port` are not set
+    * _ARN Format:_ `arn:c2:elasticloadbalancing::<project-name>@<customer-name>:listener/<app|net>/lb-12345678/li-12345678`
+    * _Constraints:_ `arn` is required if `load_balancer_arn` and `port` are not specified
 * `load_balancer_arn` - (Optional) The ARN of the load balancer.
-    * _Constraints:_ Required if `arn` is not set
-* `port` - (Optional) Port of the listener.
-    * _Constraints:_ Required if `arn` is not set
+    * _ARN Format:_ `arn:c2:elasticloadbalancing::<project-name>@<customer-name>:loadbalancer/<app|net>/lb-12345678`
+    * _Constraints:_ `load_balancer_arn` is required if `arn` is not specified
+* `port` - (Optional) The port of the listener.
+    * _Constraints:_ `port` is required if `arn` is not specified
 
 ## Attribute Reference
 
-See the [LB listener resource](../r/lb_listener.md) for details on the returned attributes - they are identical.
+### Supported attributes
+
+In addition to all arguments above, the following attributes are exported:
+
+* `certificate_arn` - The ARN of the IAM server certificate.
+* `default_action` - The default action that is applied to incoming requests.
+  The structure of this block is [described below](#default_action).
+* `id` - The ARN of the listener.
+* `load_balancer_arn` - The ARN of the load balancer.
+* `port` - The port on which the listener receives requests.
+* `protocol` - The protocol for a client connection to the load balancer.
+* `tags` - Map of tags assigned to the listener.
+
+#### default_action
+
+The following arguments are required:
+
+* `forward` - The block with information about forwarding requests to target groups.
+  The structure of this block is [described below](#forward).
+* `order` - The sequential number of the action.
+* `target_group_arn` - The ARN of the target group to forward traffic to.
+* `type` - The type of the routing action.
+
+##### forward
+
+The `forward` block has the following structure:
+
+* `target_group` - List of target groups to forward traffic to.
+  The structure of this block is [described below](#target_group).
+
+###### target_group
+
+The `target_group` block has the following structure:
+
+* `arn` - The ARN of the target group to forward traffic to.
+* `weight` - The weight of the target group.
+
+### Unsupported attributes
+
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
+
+The following attributes are not currently supported:
+
+`alpn_policy`, `default_action.authenticate_cognito`, `default_action.authenticate_oidc`, `default_action.fixed_response`, `default_action.redirect`, `forward.stickiness`, `ssl_policy`.
