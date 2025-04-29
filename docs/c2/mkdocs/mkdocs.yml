@@ -84,6 +84,8 @@ nav:
     - Resources:
       - aws_lb: r/lb.md
       - aws_lb_listener: r/lb_listener.md
+      - aws_lb_listener_certificate: r/lb_listener_certificate.md
+      - aws_lb_listener_rule: r/lb_listener_rule.md
       - aws_lb_target_group: r/lb_target_group.md
       - aws_lb_target_group_attachment: r/lb_target_group_attachment.md
     - Data Sources:
