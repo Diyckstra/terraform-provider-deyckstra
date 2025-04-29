@@ -38,4 +38,4 @@ The following arguments are supported:
 In addition to all arguments above, the following attributes are exported:
 
 * `backup_ids` - List of backup IDs.
-* `id` - The region (e.g., `region-1`).
+* `id` - The region.

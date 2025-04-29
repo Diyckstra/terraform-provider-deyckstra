@@ -45,7 +45,7 @@ For more information about filtering, see the [EC2 API documentation][describe-v
 
 ## Attributes Reference
 
-* `id` - The region (e.g., `region-1`).
+* `id` - The region.
 * `ids` - A list of all the VPC IDs found.
 
 [describe-vpcs]: https://docs.k2.cloud/en/api/ec2/vpcs/DescribeVpcs.html
