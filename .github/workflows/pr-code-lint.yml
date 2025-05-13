@@ -6,26 +6,26 @@ on:
     paths: 'internal/**'
 
 jobs:
-    code-linter:
-        runs-on: ubuntu-22.04
-        steps:
-        - name: Setup Go
-          uses: actions/setup-go@v2
-          with:
-            go-version: 1.21.x
+  code-linter:
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Setup Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.21.x
 
-        - uses: actions/checkout@v3
-          with:
-            ref: ${{ github.event.pull_request.head.sha }}
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
 
-        - name: Install tools
-          run: make tools
+    - name: Install tools
+      run: make tools
 
-        - name: Install Docker
-          uses: crazy-max/ghaction-setup-docker@v3
+    - name: Install Docker
+      uses: crazy-max/ghaction-setup-docker@v3
 
-        - name: Bump aws-sdk-go version if it's changed
-          run: go mod tidy
+    - name: Bump aws-sdk-go version if it's changed
+      run: go mod tidy
 
-        - name: Run linters for the code
-          run: make lint
+    - name: Run linters for the code
+      run: make lint
