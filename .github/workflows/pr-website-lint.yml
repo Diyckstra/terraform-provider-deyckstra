@@ -6,23 +6,23 @@ on:
     paths: 'website/**'
 
 jobs:
-    website-linter:
-        runs-on: ubuntu-22.04
-        steps:
-        - name: Setup Go
-          uses: actions/setup-go@v2
-          with:
-            go-version: 1.21.x
+  website-linter:
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Setup Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.21.x
 
-        - uses: actions/checkout@v3
-          with:
-            ref: ${{ github.event.pull_request.head.sha }}
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
 
-        - name: Install tools
-          run: make tools
+    - name: Install tools
+      run: make tools
 
-        - name: Install Docker
-          uses: crazy-max/ghaction-setup-docker@v3
+    - name: Install Docker
+      uses: crazy-max/ghaction-setup-docker@v3
 
-        - name: Run linters for the website
-          run: make website-lint
+    - name: Run linters for the website
+      run: make website-lint
