@@ -13,6 +13,11 @@ func DataSourceService() *schema.Resource {
 		ReadContext: dataSourceServiceRead,
 
 		Schema: map[string]*schema.Schema{
+			"available_environment_versions": {
+				Type:     schema.TypeSet,
+				Computed: true,
+				Elem:     &schema.Schema{Type: schema.TypeString},
+			},
 			"auto_created_security_group_ids": {
 				Type:     schema.TypeSet,
 				Computed: true,
@@ -90,6 +95,10 @@ func DataSourceService() *schema.Resource {
 						},
 					},
 				},
+			},
+			"environment_version": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"error_code": {
 				Type:     schema.TypeString,

@@ -49,6 +49,7 @@ func TestAccPaaSServiceElasticSearch_basic(t *testing.T) {
 				Config: testAccServiceConfig(randServiceName, randKeyName, publicKey),
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckServiceExists(resourceName),
+					resource.TestCheckResourceAttrSet(resourceName, "available_environment_versions.#"),
 					resource.TestCheckResourceAttr(resourceName, "arbitrator_required", "false"),
 					resource.TestCheckResourceAttr(resourceName, "auto_created_security_group_ids.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "backup_settings.#", "1"),
@@ -68,6 +69,7 @@ func TestAccPaaSServiceElasticSearch_basic(t *testing.T) {
 						"version":      "8.12",
 					}),
 					resource.TestCheckResourceAttr(resourceName, "endpoints.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "environment_version"),
 					resource.TestCheckResourceAttr(resourceName, "error_code", ""),
 					resource.TestCheckResourceAttr(resourceName, "error_description", ""),
 					resource.TestCheckResourceAttr(resourceName, "high_availability", "false"),

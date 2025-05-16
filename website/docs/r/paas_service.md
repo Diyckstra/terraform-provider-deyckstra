@@ -918,8 +918,10 @@ The `monitoring` block has the following structure:
 
 In addition to all arguments above, the following attributes are exported:
 
+* `available_environment_versions` - The environment versions to which the current version can be updated.
 * `auto_created_security_group_ids` - List of security group IDs that the cloud created for the service.
 * `endpoints` - List of endpoints for connecting to the service. The structure of this block is [described below](#endpoints).
+* `environment_version` - The current version of the service environment.
 * `error_code` - The service error code.
 * `error_description` - The detailed description of the service error.
 * `id` - The ID of the PaaS service.

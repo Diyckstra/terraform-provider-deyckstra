@@ -41,6 +41,11 @@ func ResourceService() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
+			"available_environment_versions": {
+				Type:     schema.TypeSet,
+				Computed: true,
+				Elem:     &schema.Schema{Type: schema.TypeString},
+			},
 			"arbitrator_required": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -143,6 +148,10 @@ func ResourceService() *schema.Resource {
 						},
 					},
 				},
+			},
+			"environment_version": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"error_code": {
 				Type:     schema.TypeString,
@@ -448,9 +457,13 @@ func resourceServiceRead(ctx context.Context, d *schema.ResourceData, meta inter
 			"iops": aws.Int64Value(service.DataVolumeIops),
 		},
 	}
+	d.Set("available_environment_versions", service.AvailableEnvironmentVersions)
+
 	d.Set("data_volume", dataVolumeMap)
 
 	d.Set("endpoints", flattenServiceEndpoints(service.Endpoints))
+
+	d.Set("environment_version", service.EnvironmentVersion)
 
 	d.Set("error_code", service.ErrorCode)
 	d.Set("error_description", service.ErrorDescription)
