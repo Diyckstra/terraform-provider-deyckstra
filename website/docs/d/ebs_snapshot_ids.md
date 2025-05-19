@@ -43,5 +43,5 @@ For more information about filtering, see the [EC2 API documentation][describe-s
 
 ## Attributes Reference
 
-* `id` - The region (e.g., `region-1`).
+* `id` - The region.
 * `ids` - Set of EBS snapshot IDs, sorted by creation time in descending order.

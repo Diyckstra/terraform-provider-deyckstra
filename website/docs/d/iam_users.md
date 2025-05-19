@@ -39,7 +39,7 @@ The following arguments are supported:
 ### Supported attributes
 
 * `arns` - List of ARNs of the users.
-* `id` - The region (e.g., `region-1`).
+* `id` - The region.
 * `names` - List of user names.
 
 ### Unsupported attributes

@@ -47,7 +47,7 @@ The following arguments are supported:
 In addition to all arguments above, the following attributes are exported:
 
 * `databases` - List of databases. The structure of this block is [described below](#databases).
-* `id` - The region (e.g., `region-1`) if `id` is not specified as an argument.
+* `id` - The region if `id` is not specified as an argument.
 * `protected` - Indicates whether the backup is protected from automatic scheduled deletion.
 * `service_deleted` - Indicates whether the service is deleted.
 * `service_name` - The service name.

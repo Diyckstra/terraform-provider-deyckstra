@@ -47,7 +47,7 @@ For more information about filtering, see the [EC2 API documentation][describe-s
 ## Attributes Reference
 
 * `arns` - ARNs of the matched security groups.
-* `id` - The region (e.g., `region-1`).
+* `id` - The region.
 * `ids` - IDs of the matches security groups.
 * `vpc_ids` - The VPC IDs of the matched security groups. The data source's tag or filter *will span VPCs* unless the `vpc-id` filter is also used.
 

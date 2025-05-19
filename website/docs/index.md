@@ -47,7 +47,7 @@ terraform {
 # Configure the rockitcloud provider.
 # The section is named `aws` for backward compatibility.
 provider "aws" {
-  region = "region-1"
+  region = "ru-msk"
 }
 
 # Create a VPC.
@@ -77,7 +77,7 @@ Usage:
 
 ```terraform
 provider "aws" {
-  region     = "region-1"
+  region     = "ru-msk"
   access_key = "my-access-key"
   secret_key = "my-secret-key"
 }
@@ -137,7 +137,7 @@ provider "aws" {}
 ```sh
 $ export AWS_ACCESS_KEY_ID="my-access-key"
 $ export AWS_SECRET_ACCESS_KEY="my-secret-key"
-$ export AWS_REGION="region-1"
+$ export AWS_REGION="ru-msk"
 $ terraform plan
 ```
 

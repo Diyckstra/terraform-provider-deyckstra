@@ -41,7 +41,7 @@ The following arguments are supported:
 
 In addition to all arguments above, the following attributes are exported:
 
-* `id` - The region (e.g., `region-1`).
+* `id` - The region.
 * `ids` - List of transit gateway route table IDs.
 
 ### Unsupported attributes
