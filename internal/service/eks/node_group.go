@@ -22,6 +22,10 @@ import (
 	"github.com/hashicorp/terraform-provider-aws/internal/verify"
 )
 
+const (
+	nodeGroupCreateRetryTimeout = 15 * time.Minute
+)
+
 func ResourceNodeGroup() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: resourceNodeGroupCreate,
@@ -354,7 +358,28 @@ func resourceNodeGroupCreate(ctx context.Context, d *schema.ResourceData, meta i
 		input.Tags = Tags(tags.IgnoreAWS())
 	}
 
-	_, err := conn.CreateNodegroup(input)
+	log.Printf("[DEBUG] Creating EKS Node Group: %s", input)
+	err := resource.Retry(nodeGroupCreateRetryTimeout, func() *resource.RetryError {
+		var err error
+
+		_, err = conn.CreateNodegroup(input)
+
+		nodegroup, _ := FindNodegroupByClusterNameAndNodegroupName(conn, clusterName, nodeGroupName)
+		if nodegroup != nil && aws.StringValue(nodegroup.Status) == eks.NodegroupStatusDeleted {
+			log.Printf("[WARN] EKS Node Group with the same name (%s) found in the DELETED state, waiting for the specified name to become available", nodeGroupName)
+			return resource.RetryableError(err)
+		}
+
+		if err != nil {
+			return resource.NonRetryableError(err)
+		}
+
+		return nil
+	})
+
+	if tfresource.TimedOut(err) {
+		_, err = conn.CreateNodegroup(input)
+	}
 
 	if err != nil {
 		return diag.Errorf("error creating EKS Node Group (%s): %s", id, err)
@@ -597,7 +622,8 @@ func resourceNodeGroupDelete(ctx context.Context, d *schema.ResourceData, meta i
 		NodegroupName: aws.String(nodeGroupName),
 	})
 
-	if tfawserr.ErrCodeEquals(err, eks.ErrCodeResourceNotFoundException) {
+	if tfawserr.ErrCodeEquals(err, ErrCodeNodegroupNotFound) {
+		log.Printf("[WARN] EKS Node Group (%s) not found, removing from state", d.Id())
 		return nil
 	}
 

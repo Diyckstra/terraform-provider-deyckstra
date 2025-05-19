@@ -23,6 +23,11 @@ import (
 	"github.com/hashicorp/terraform-provider-aws/internal/verify"
 )
 
+const (
+	clusterCreateRetryTimeout = 10 * time.Minute
+	clusterDeleteRetryTimeout = 60 * time.Minute
+)
+
 func ResourceCluster() *schema.Resource {
 	return &schema.Resource{
 		Create: resourceClusterCreate,
@@ -331,9 +336,11 @@ func resourceClusterCreate(d *schema.ResourceData, meta interface{}) error {
 		input.Tags = Tags(tags.IgnoreAWS())
 	}
 
+	clusterName := d.Get("name").(string)
+
 	log.Printf("[DEBUG] Creating EKS Cluster: %s", input)
 	var output *eks.CreateClusterOutput
-	err := resource.Retry(propagationTimeout, func() *resource.RetryError {
+	err := resource.Retry(clusterCreateRetryTimeout, func() *resource.RetryError {
 		var err error
 
 		output, err = conn.CreateCluster(input)
@@ -359,6 +366,17 @@ func resourceClusterCreate(d *schema.ResourceData, meta interface{}) error {
 
 		// InvalidParameterException: IAM role's policy must include the `ec2:DescribeSubnets` action
 		if tfawserr.ErrMessageContains(err, eks.ErrCodeInvalidParameterException, "IAM role's policy must include") {
+			return resource.RetryableError(err)
+		}
+
+		if tfawserr.ErrCodeEquals(err, ErrCodeIPAddressInUse) {
+			log.Printf("[WARN] The specified IP address for EKS Cluster (%s) is in use, trying to create EKS Cluster for some time", clusterName)
+			return resource.RetryableError(err)
+		}
+
+		cluster, _ := FindClusterByName(conn, clusterName)
+		if cluster != nil && aws.StringValue(cluster.Status) == eks.ClusterStatusDeleted {
+			log.Printf("[WARN] EKS Cluster with the same name (%s) found in the DELETED state, waiting for the specified name to become available", clusterName)
 			return resource.RetryableError(err)
 		}
 
@@ -600,7 +618,8 @@ func resourceClusterDelete(d *schema.ResourceData, meta interface{}) error {
 		_, err = conn.DeleteCluster(input)
 	}
 
-	if tfawserr.ErrCodeEquals(err, eks.ErrCodeResourceNotFoundException) {
+	if tfawserr.ErrCodeEquals(err, ErrCodeClusterNotFound) {
+		log.Printf("[WARN] EKS Cluster (%s) not found, removing from state", d.Id())
 		return nil
 	}
 

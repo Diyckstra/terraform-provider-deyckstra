@@ -3,6 +3,12 @@ package eks
 import "time"
 
 const (
+	ErrCodeClusterNotFound   = "InvalidKubernetesCluster.NotFound"
+	ErrCodeNodegroupNotFound = "InvalidKubernetesNodegroup.NotFound"
+	ErrCodeIPAddressInUse    = "InvalidIPAddress.InUse"
+)
+
+const (
 	IdentityProviderConfigTypeOIDC = "oidc"
 )
 
