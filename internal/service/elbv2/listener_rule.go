@@ -81,25 +81,16 @@ func ResourceListenerRule() *schema.Resource {
 							ValidateFunc: validation.IntBetween(listenerActionOrderMin, listenerActionOrderMax),
 						},
 
-						"target_group_arn": {
-							Type:             schema.TypeString,
-							Optional:         true,
-							ConflictsWith:    []string{"action.0.forward"},
-							DiffSuppressFunc: suppressIfActionTypeNot(elbv2.ActionTypeEnumForward),
-							ValidateFunc:     verify.ValidARN,
-						},
-
 						"forward": {
 							Type:             schema.TypeList,
 							Optional:         true,
 							MaxItems:         1,
-							ConflictsWith:    []string{"action.0.target_group_arn"},
 							DiffSuppressFunc: suppressIfActionTypeNot(elbv2.ActionTypeEnumForward),
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"target_group": {
 										Type:     schema.TypeSet,
-										MinItems: 2,
+										MinItems: 1,
 										MaxItems: 5,
 										Required: true,
 										Elem: &schema.Resource{
@@ -580,34 +571,30 @@ func resourceListenerRuleRead(d *schema.ResourceData, meta interface{}) error {
 
 		switch actionMap["type"] {
 		case elbv2.ActionTypeEnumForward:
-			if aws.StringValue(action.TargetGroupArn) != "" {
-				actionMap["target_group_arn"] = aws.StringValue(action.TargetGroupArn)
-			} else {
-				targetGroups := make([]map[string]interface{}, 0, len(action.ForwardConfig.TargetGroups))
-				for _, targetGroup := range action.ForwardConfig.TargetGroups {
-					targetGroups = append(targetGroups,
-						map[string]interface{}{
-							"arn":    aws.StringValue(targetGroup.TargetGroupArn),
-							"weight": aws.Int64Value(targetGroup.Weight),
-						},
-					)
-				}
-
-				forwardConfig := map[string]interface{}{
-					"target_group": targetGroups,
-				}
-
-				if action.ForwardConfig.TargetGroupStickinessConfig != nil {
-					forwardConfig["stickiness"] = []map[string]interface{}{
-						{
-							"enabled":  aws.BoolValue(action.ForwardConfig.TargetGroupStickinessConfig.Enabled),
-							"duration": aws.Int64Value(action.ForwardConfig.TargetGroupStickinessConfig.DurationSeconds),
-						},
-					}
-				}
-
-				actionMap["forward"] = []map[string]interface{}{forwardConfig}
+			targetGroups := make([]map[string]interface{}, 0, len(action.ForwardConfig.TargetGroups))
+			for _, targetGroup := range action.ForwardConfig.TargetGroups {
+				targetGroups = append(targetGroups,
+					map[string]interface{}{
+						"arn":    aws.StringValue(targetGroup.TargetGroupArn),
+						"weight": aws.Int64Value(targetGroup.Weight),
+					},
+				)
 			}
+
+			forwardConfig := map[string]interface{}{
+				"target_group": targetGroups,
+			}
+
+			if action.ForwardConfig.TargetGroupStickinessConfig != nil {
+				forwardConfig["stickiness"] = []map[string]interface{}{
+					{
+						"enabled":  aws.BoolValue(action.ForwardConfig.TargetGroupStickinessConfig.Enabled),
+						"duration": aws.Int64Value(action.ForwardConfig.TargetGroupStickinessConfig.DurationSeconds),
+					},
+				}
+			}
+
+			actionMap["forward"] = []map[string]interface{}{forwardConfig}
 
 		case elbv2.ActionTypeEnumRedirect:
 			actionMap["redirect"] = []map[string]interface{}{
