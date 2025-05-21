@@ -327,6 +327,7 @@ func ResourceListener() *schema.Resource {
 							ConflictsWith:    []string{"default_action.0.forward"},
 							DiffSuppressFunc: suppressIfDefaultActionTypeNot(elbv2.ActionTypeEnumForward),
 							ValidateFunc:     verify.ValidARN,
+							Deprecated:       "Use the default_action.forward.target_group argument instead",
 						},
 						"type": {
 							Type:     schema.TypeString,
@@ -736,10 +737,10 @@ func expandLbListenerActions(l []interface{}) ([]*elbv2.Action, error) {
 		case elbv2.ActionTypeEnumForward:
 			if v, ok := tfMap["target_group_arn"].(string); ok && v != "" {
 				action.TargetGroupArn = aws.String(v)
-			} else if v, ok := tfMap["forward"].([]interface{}); ok {
+			} else if v, ok := tfMap["forward"].([]interface{}); ok && len(v) > 0 {
 				action.ForwardConfig = expandLbListenerActionForwardConfig(v)
 			} else {
-				err = errors.New("for actions of type 'forward', you must specify a 'forward' block or 'target_group_arn'")
+				err = errors.New("for actions of type 'forward', you must specify a 'forward' block")
 			}
 
 		case elbv2.ActionTypeEnumRedirect:
@@ -972,7 +973,8 @@ func flattenLbListenerActions(d *schema.ResourceData, Actions []*elbv2.Action) [
 
 		switch aws.StringValue(action.Type) {
 		case elbv2.ActionTypeEnumForward:
-			if aws.StringValue(action.TargetGroupArn) != "" {
+			// Set target_group_arn only if it was specified in the configuration.
+			if _, ok := d.GetOk("default_action.0.target_group_arn"); ok {
 				m["target_group_arn"] = aws.StringValue(action.TargetGroupArn)
 			} else {
 				m["forward"] = flattenLbListenerActionForwardConfig(action.ForwardConfig)

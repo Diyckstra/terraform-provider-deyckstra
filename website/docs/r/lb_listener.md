@@ -65,8 +65,13 @@ resource "aws_lb_listener" "example" {
   protocol = "HTTP"
 
   default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.example.arn
+    type = "forward"
+
+    forward {
+      target_group {
+        arn = aws_lb_target_group.example.arn
+      }
+    }
   }
 
   tags = {
@@ -105,12 +110,11 @@ The `default_action` block has the following structure:
     * _Constraints:_ `forward` can be specified only if `type` is `forward` and `target_group_arn` is not specified
 * `order` - (Optional, Editable) The sequential number of the action.
     * _Valid values:_ From 1 to 50000
-* `target_group_arn` - (Optional, Editable) The ARN of the target group to forward traffic to.
+* `target_group_arn` - (Optional, Editable, **Deprecated**) The ARN of the target group to forward traffic to.
     * _ARN Format:_ `arn:c2:elasticloadbalancing::<project-name>@<customer-name>:targetgroup/tg-12345678`
     * _Constraints:_ `target_group_arn` can be specified only if `type` is `forward` and the `forward` block is not specified
 
--> **Note** Use `target_group_arn` if you want to forward requests to a single target group or the load balancer type is `network`.
-  Otherwise, use the `forward` block.
+~> **Note** The argument `target_group_arn` is marked as deprecated. Use the `forward` block instead.
 
 #### forward
 
