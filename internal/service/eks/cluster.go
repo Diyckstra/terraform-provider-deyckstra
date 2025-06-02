@@ -298,6 +298,34 @@ func ResourceCluster() *schema.Resource {
 								},
 							},
 						},
+						"placement_config": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"affinity": {
+										Type:         schema.TypeString,
+										ForceNew:     true,
+										Computed:     true,
+										Optional:     true,
+										ValidateFunc: validation.StringInSlice(eks.Affinity_Values(), false),
+									},
+									"tenancy": {
+										Type:         schema.TypeString,
+										Optional:     true,
+										ForceNew:     true,
+										Default:      eks.TenancyDefault,
+										ValidateFunc: validation.StringInSlice(eks.Tenancy_Values(), false),
+									},
+									"host_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+								},
+							},
+						},
 					},
 				},
 			},
@@ -885,6 +913,10 @@ func expandLegacyClusterParams(tfList []interface{}) *eks.LegacyClusterParamsReq
 		legacyParams.NlbProviderConfig = expandNlbProviderConfig(nlbProviderConfig)
 	}
 
+	if placementConfig, ok := tfMap["placement_config"].([]interface{}); ok && len(placementConfig) > 0 {
+		legacyParams.PlacementConfig = expandPlacementConfig(placementConfig)
+	}
+
 	return legacyParams
 }
 
@@ -973,6 +1005,32 @@ func expandIngressConfig(tfList []interface{}) *eks.IngressConfig {
 	}
 
 	return ingressConfig
+}
+
+func expandPlacementConfig(tfList []interface{}) *eks.PlacementConfig {
+	if len(tfList) == 0 {
+		return nil
+	}
+
+	tfMap, ok := tfList[0].(map[string]interface{})
+	if !ok || tfMap == nil {
+		return nil
+	}
+	placementConfig := &eks.PlacementConfig{}
+
+	if v, ok := tfMap["affinity"].(string); ok && v != "" {
+		placementConfig.Affinity = aws.String(v)
+	}
+
+	if v, ok := tfMap["tenancy"].(string); ok && v != "" {
+		placementConfig.Tenancy = aws.String(v)
+	}
+
+	if v, ok := tfMap["host_id"].(string); ok && v != "" {
+		placementConfig.HostId = aws.String(v)
+	}
+
+	return placementConfig
 }
 
 func expandMasterConfig(tfList []interface{}) *eks.MasterConfig {
@@ -1160,6 +1218,7 @@ func flattenLegacyClusterParams(legacyParams *eks.LegacyClusterParamsResponse) [
 		"ebs_provider_config":    flattenEbsProviderConfig(legacyParams.EbsProviderConfig),
 		"ingress_config":         flattenIngressConfig(legacyParams.IngressConfig),
 		"master_config":          flattenMasterConfig(legacyParams.MasterConfig),
+		"placement_config":       flattenPlacementConfig(legacyParams.PlacementConfig),
 		"nlb_provider_config":    flattenNlbProviderConfig(legacyParams.NlbProviderConfig),
 	}
 
@@ -1274,6 +1333,20 @@ func flattenNlbProviderConfig(nlbProviderConfig *eks.NlbProviderConfigResponse) 
 
 	if len(tfMap) == 0 {
 		return nil
+	}
+
+	return []interface{}{tfMap}
+}
+
+func flattenPlacementConfig(placementConfig *eks.PlacementConfig) []interface{} {
+	if placementConfig == nil {
+		return nil
+	}
+
+	tfMap := map[string]interface{}{
+		"affinity": aws.StringValue(placementConfig.Affinity),
+		"tenancy":  aws.StringValue(placementConfig.Tenancy),
+		"host_id":  aws.StringValue(placementConfig.HostId),
 	}
 
 	return []interface{}{tfMap}

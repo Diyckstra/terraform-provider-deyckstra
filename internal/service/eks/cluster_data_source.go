@@ -190,6 +190,26 @@ func DataSourceCluster() *schema.Resource {
 								},
 							},
 						},
+						"placement_config": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"affinity": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"tenancy": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"host_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 					},
 				},
 			},

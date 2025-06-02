@@ -112,6 +112,10 @@ resource "aws_eks_cluster" "example" {
     nlb_provider_config {
       nlb_user = "nlb"
     }
+
+    placement_config {
+      tenancy = "host"
+    }
   }
 
   vpc_config {
@@ -162,6 +166,8 @@ The `legacy_cluster_params` block has the following structure:
   The structure of this block is [described below](#master_config).
 * `nlb_provider_config` – (Optional) The configuration of the NLB Provider.
   The structure of this block is [described below](#nlb_provider_config).
+* `placement_config` - (Optional) The placement of the cluster.
+  The structure of this block is [described below](#placement_config).
 
 #### docker_registry_config
 
@@ -214,6 +220,19 @@ The `nlb_provider_config` block has the following structure:
 
 * `subnet_ids` - (Required) List of subnet IDs.
 * `security_group_ids` - (Optional) List of security group IDs.
+
+#### placement_config
+
+The `placement_config` block has the following structure:
+
+* `affinity` - (Optional) The affinity setting for an instance on a dedicated host.
+    * _Constraints:_ The parameter could be set to `host` only if `tenancy` is `host`
+    * _Valid values:_ `default`, `host`
+    * _Default value:_ `default`
+* `host_id` - (Optional) The ID of the dedicated host for the instance.
+* `tenancy` - (Optional) The tenancy of the instance (if the instance is running in a VPC).
+    * _Valid values:_ `default`, `host`
+    * _Default value:_ `default`
 
 ## Attribute Reference
 
