@@ -8,7 +8,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/elbv2"
 	"github.com/hashicorp/aws-sdk-go-base/v2/awsv1shim/v2/tfawserr"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/id"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	"github.com/hashicorp/terraform-provider-aws/internal/conns"
@@ -73,28 +73,21 @@ func resourceAttachmentCreate(d *schema.ResourceData, meta interface{}) error {
 	log.Printf("[INFO] Registering Target %s with Target Group %s", d.Get("target_id").(string),
 		d.Get("target_group_arn").(string))
 
-	err := resource.Retry(10*time.Minute, func() *resource.RetryError {
-		_, err := conn.RegisterTargets(params)
+	const timeout = 10 * time.Minute
+	_, err := tfresource.RetryWhenAWSErrCodeEquals(
+		timeout,
+		func() (interface{}, error) {
+			return conn.RegisterTargets(params)
+		},
+		"InvalidTarget",
+	)
 
-		if tfawserr.ErrCodeEquals(err, "InvalidTarget") {
-			return resource.RetryableError(fmt.Errorf("Error attaching instance to LB, retrying: %s", err))
-		}
-
-		if err != nil {
-			return resource.NonRetryableError(err)
-		}
-
-		return nil
-	})
-	if tfresource.TimedOut(err) {
-		_, err = conn.RegisterTargets(params)
-	}
 	if err != nil {
-		return fmt.Errorf("Error registering targets with target group: %s", err)
+		return fmt.Errorf("error registering targets with target group: %s", err)
 	}
 
 	// lintignore:R016 // Allow legacy unstable ID usage in managed resource
-	d.SetId(resource.PrefixedUniqueId(fmt.Sprintf("%s-", d.Get("target_group_arn"))))
+	d.SetId(id.PrefixedUniqueId(fmt.Sprintf("%s-", d.Get("target_group_arn"))))
 
 	return nil
 }
@@ -119,9 +112,17 @@ func resourceAttachmentDelete(d *schema.ResourceData, meta interface{}) error {
 		Targets:        []*elbv2.TargetDescription{target},
 	}
 
-	_, err := conn.DeregisterTargets(params)
+	const timeout = 10 * time.Minute
+	_, err := tfresource.RetryWhenAWSErrCodeEquals(
+		timeout,
+		func() (interface{}, error) {
+			return conn.DeregisterTargets(params)
+		},
+		"OperationInProgress",
+	)
+
 	if err != nil && !tfawserr.ErrCodeEquals(err, elbv2.ErrCodeTargetGroupNotFoundException) {
-		return fmt.Errorf("Error deregistering Targets: %s", err)
+		return fmt.Errorf("error deregistering Targets: %s", err)
 	}
 
 	return nil
