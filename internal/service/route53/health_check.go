@@ -8,7 +8,6 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/arn"
-	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/service/route53"
 	"github.com/hashicorp/aws-sdk-go-base/v2/awsv1shim/v2/tfawserr"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
@@ -151,19 +150,7 @@ func ResourceHealthCheck() *schema.Resource {
 				Type:     schema.TypeSet,
 				MinItems: 3,
 				MaxItems: 64,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
-					ValidateFunc: validation.StringInSlice([]string{
-						endpoints.UsWest1RegionID,
-						endpoints.UsWest2RegionID,
-						endpoints.UsEast1RegionID,
-						endpoints.EuWest1RegionID,
-						endpoints.SaEast1RegionID,
-						endpoints.ApSoutheast1RegionID,
-						endpoints.ApSoutheast2RegionID,
-						endpoints.ApNortheast1RegionID,
-					}, true),
-				},
+				Elem:     &schema.Schema{Type: schema.TypeString},
 				Optional: true,
 			},
 
@@ -357,7 +344,7 @@ func resourceHealthCheckRead(d *schema.ResourceData, meta interface{}) error {
 
 	tags = tags.IgnoreAWS().IgnoreConfig(ignoreTagsConfig)
 
-	//lintignore:AWSR002
+	// lintignore:AWSR002
 	if err := d.Set("tags", tags.RemoveDefaultConfig(defaultTagsConfig).Map()); err != nil {
 		return fmt.Errorf("error setting tags: %w", err)
 	}
