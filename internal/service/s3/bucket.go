@@ -1378,7 +1378,7 @@ func resourceBucketRead(d *schema.ResourceData, meta interface{}) error {
 
 	tags = tags.IgnoreAWS().IgnoreConfig(ignoreTagsConfig)
 
-	//lintignore:AWSR002
+	// lintignore:AWSR002
 	if err := d.Set("tags", tags.RemoveDefaultConfig(defaultTagsConfig).Map()); err != nil {
 		return fmt.Errorf("error setting tags: %w", err)
 	}
@@ -1450,7 +1450,7 @@ func BucketRegionalDomainName(bucket string, region string) (string, error) {
 	// Return a default AWS Commercial domain name if no region is provided
 	// Otherwise EndpointFor() will return BUCKET.s3..amazonaws.com
 	if region == "" {
-		return fmt.Sprintf("%s.s3.amazonaws.com", bucket), nil //lintignore:AWSR001
+		return fmt.Sprintf("%s.s3.amazonaws.com", bucket), nil // lintignore:AWSR001
 	}
 	endpoint, err := endpoints.DefaultResolver().EndpointFor(endpoints.S3ServiceID, region)
 	if err != nil {
@@ -1475,7 +1475,7 @@ func WebsiteDomainUrl(client *conns.AWSClient, region string) string {
 	// https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteEndpoints.html
 	// https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_website_region_endpoints
 	if isOldRegion(region) {
-		return fmt.Sprintf("s3-website-%s.amazonaws.com", region) //lintignore:AWSR001
+		return fmt.Sprintf("s3-website-%s.amazonaws.com", region) // lintignore:AWSR001
 	}
 	return client.RegionalHostname("s3-website")
 }
@@ -1510,17 +1510,12 @@ func websiteEndpoint(client *conns.AWSClient, d *schema.ResourceData) (*S3Websit
 	return WebsiteEndpoint(client, bucket, region), nil
 }
 
+// FIXME: get rid of using aws regions when fixing bucket attributes:
+//  bucket_domain_name, region, bucket_regional_domain_name, website_endpoint, website_domain.
+
 func isOldRegion(region string) bool {
 	oldRegions := []string{
-		endpoints.ApNortheast1RegionID,
-		endpoints.ApSoutheast1RegionID,
-		endpoints.ApSoutheast2RegionID,
-		endpoints.EuWest1RegionID,
-		endpoints.SaEast1RegionID,
-		endpoints.UsEast1RegionID,
-		endpoints.UsGovWest1RegionID,
-		endpoints.UsWest1RegionID,
-		endpoints.UsWest2RegionID,
+		"us-east-1", // lintignore:AWSAT003
 	}
 	for _, r := range oldRegions {
 		if region == r {
@@ -1534,13 +1529,13 @@ func normalizeRegion(region string) string {
 	// Default to us-east-1 if the bucket doesn't have a region:
 	// http://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketGETlocation.html
 	if region == "" {
-		region = endpoints.UsEast1RegionID
+		region = "us-east-1" // lintignore:AWSAT003
 	}
 
 	return region
 }
 
-////////////////////////////////////////// Argument-Specific Update Functions //////////////////////////////////////////
+// //////////////////////////////////////// Argument-Specific Update Functions //////////////////////////////////////////
 
 func resourceBucketInternalAccelerationUpdate(conn *s3.S3, d *schema.ResourceData) error {
 	input := &s3.PutBucketAccelerateConfigurationInput{
@@ -2117,7 +2112,7 @@ func resourceBucketInternalWebsiteUpdate(conn *s3.S3, d *schema.ResourceData) er
 	return err
 }
 
-///////////////////////////////////////////// Expand and Flatten functions /////////////////////////////////////////////
+// /////////////////////////////////////////// Expand and Flatten functions /////////////////////////////////////////////
 
 // Cors Rule functions
 
