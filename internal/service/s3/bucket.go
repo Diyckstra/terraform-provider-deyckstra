@@ -731,14 +731,6 @@ func resourceBucketCreate(d *schema.ResourceData, meta interface{}) error {
 	awsRegion := meta.(*conns.AWSClient).Region
 	log.Printf("[DEBUG] S3 bucket create: %s, using region: %s", bucket, awsRegion)
 
-	// Special case us-east-1 region and do not set the LocationConstraint.
-	// See "Request Elements: http://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUT.html
-	if awsRegion != endpoints.UsEast1RegionID {
-		req.CreateBucketConfiguration = &s3.CreateBucketConfiguration{
-			LocationConstraint: aws.String(awsRegion),
-		}
-	}
-
 	if err := ValidBucketName(bucket, awsRegion); err != nil {
 		return fmt.Errorf("error validating S3 Bucket (%s) name: %w", bucket, err)
 	}
