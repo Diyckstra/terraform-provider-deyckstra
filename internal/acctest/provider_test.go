@@ -196,6 +196,8 @@ func TestAccProvider_endpoints(t *testing.T) {
 }
 
 func TestAccProvider_fipsEndpoint(t *testing.T) {
+	Skip(t, "FIPS isn't supported.")
+
 	rName := sdkacctest.RandomWithPrefix(ResourcePrefix)
 	resourceName := "aws_s3_bucket.test"
 
@@ -372,7 +374,7 @@ func TestAccProvider_IgnoreTagsKeys_multiple(t *testing.T) {
 	})
 }
 
-func TestAccProvider_Region_awsC2S(t *testing.T) {
+func TestAccProvider_Region_K2RuMsk(t *testing.T) {
 	var providers []*schema.Provider
 
 	resource.ParallelTest(t, resource.TestCase{
@@ -382,101 +384,14 @@ func TestAccProvider_Region_awsC2S(t *testing.T) {
 		CheckDestroy:      nil,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccRegionConfig(endpoints.UsIsoEast1RegionID),
+				Config: testAccRegionConfig(endpoints.RuMskRegionID),
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckDNSSuffix(&providers, "c2s.ic.gov"),
-					testAccCheckPartition(&providers, endpoints.AwsIsoPartitionID),
-					testAccCheckReverseDNSPrefix(&providers, "gov.ic.c2s"),
+					testAccCheckDNSSuffix(&[]*schema.Provider{Provider}, "k2.cloud"),
+					// "c2" is hardcoded as a partition in conns.Config.Client(..).
+					testAccCheckPartition(&providers, "c2"),
+					testAccCheckRegion(&providers, endpoints.RuMskRegionID),
+					testAccCheckReverseDNSPrefix(&providers, "cloud.k2"),
 				),
-				PlanOnly: true,
-			},
-		},
-	})
-}
-
-func TestAccProvider_Region_awsChina(t *testing.T) {
-	var providers []*schema.Provider
-
-	resource.ParallelTest(t, resource.TestCase{
-		PreCheck:          func() { PreCheck(t) },
-		ErrorCheck:        ErrorCheck(t),
-		ProviderFactories: FactoriesInternal(&providers),
-		CheckDestroy:      nil,
-		Steps: []resource.TestStep{
-			{
-				Config: testAccRegionConfig(endpoints.CnNorthwest1RegionID),
-				Check: resource.ComposeTestCheckFunc(
-					testAccCheckDNSSuffix(&providers, "amazonaws.com.cn"),
-					testAccCheckPartition(&providers, endpoints.AwsCnPartitionID),
-					testAccCheckReverseDNSPrefix(&providers, "cn.com.amazonaws"),
-				),
-				PlanOnly: true,
-			},
-		},
-	})
-}
-
-func TestAccProvider_Region_awsCommercial(t *testing.T) {
-	var providers []*schema.Provider
-
-	resource.ParallelTest(t, resource.TestCase{
-		PreCheck:          func() { PreCheck(t) },
-		ErrorCheck:        ErrorCheck(t),
-		ProviderFactories: FactoriesInternal(&providers),
-		CheckDestroy:      nil,
-		Steps: []resource.TestStep{
-			{
-				Config: testAccRegionConfig(endpoints.UsWest2RegionID),
-				Check: resource.ComposeTestCheckFunc(
-					testAccCheckDNSSuffix(&providers, "amazonaws.com"),
-					testAccCheckPartition(&providers, endpoints.AwsPartitionID),
-					testAccCheckReverseDNSPrefix(&providers, "com.amazonaws"),
-				),
-				PlanOnly: true,
-			},
-		},
-	})
-}
-
-func TestAccProvider_Region_awsGovCloudUs(t *testing.T) {
-	var providers []*schema.Provider
-
-	resource.ParallelTest(t, resource.TestCase{
-		PreCheck:          func() { PreCheck(t) },
-		ErrorCheck:        ErrorCheck(t),
-		ProviderFactories: FactoriesInternal(&providers),
-		CheckDestroy:      nil,
-		Steps: []resource.TestStep{
-			{
-				Config: testAccRegionConfig(endpoints.UsGovWest1RegionID),
-				Check: resource.ComposeTestCheckFunc(
-					testAccCheckDNSSuffix(&providers, "amazonaws.com"),
-					testAccCheckPartition(&providers, endpoints.AwsUsGovPartitionID),
-					testAccCheckReverseDNSPrefix(&providers, "com.amazonaws"),
-				),
-				PlanOnly: true,
-			},
-		},
-	})
-}
-
-func TestAccProvider_Region_awsSC2S(t *testing.T) {
-	var providers []*schema.Provider
-
-	resource.ParallelTest(t, resource.TestCase{
-		PreCheck:          func() { PreCheck(t) },
-		ErrorCheck:        ErrorCheck(t),
-		ProviderFactories: FactoriesInternal(&providers),
-		CheckDestroy:      nil,
-		Steps: []resource.TestStep{
-			{
-				Config: testAccRegionConfig(endpoints.UsIsobEast1RegionID),
-				Check: resource.ComposeTestCheckFunc(
-					testAccCheckDNSSuffix(&providers, "sc2s.sgov.gov"),
-					testAccCheckPartition(&providers, endpoints.AwsIsoBPartitionID),
-					testAccCheckReverseDNSPrefix(&providers, "gov.sgov.sc2s"),
-				),
-				PlanOnly: true,
 			},
 		},
 	})
@@ -492,18 +407,19 @@ func TestAccProvider_Region_stsRegion(t *testing.T) {
 		CheckDestroy:      nil,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccSTSRegionConfig(endpoints.UsEast1RegionID, endpoints.UsWest2RegionID),
+				Config: testAccSTSRegionConfig(endpoints.RuMskRegionID, endpoints.RuSpbRegionID),
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckRegion(&providers, endpoints.UsEast1RegionID),
-					testAccCheckSTSRegion(&providers, endpoints.UsWest2RegionID),
+					testAccCheckRegion(&providers, endpoints.RuMskRegionID),
+					testAccCheckSTSRegion(&providers, endpoints.RuSpbRegionID),
 				),
-				PlanOnly: true,
 			},
 		},
 	})
 }
 
 func TestAccProvider_AssumeRole_empty(t *testing.T) {
+	Skip(t, "Data source sts.aws_caller_identity isn't supported.")
+
 	var providers []*schema.Provider
 
 	resource.ParallelTest(t, resource.TestCase{
@@ -945,7 +861,7 @@ func testAccCheckUnusualEndpoints(providers *[]*schema.Provider, unusual1, unusu
 }
 
 func testAccEndpointsConfig(endpoints string) string {
-	//lintignore:AT004
+	// lintignore:AT004
 	return ConfigCompose(
 		testAccProviderConfigBase,
 		fmt.Sprintf(`
@@ -963,7 +879,7 @@ provider "aws" {
 }
 
 func testAccFIPSEndpointConfig(endpoint, rName string) string {
-	//lintignore:AT004
+	// lintignore:AT004
 	return ConfigCompose(
 		testAccProviderConfigBase,
 		fmt.Sprintf(`
@@ -986,7 +902,7 @@ resource "aws_s3_bucket_acl" "test" {
 }
 
 func testAccUnusualEndpointsConfig(unusual1, unusual2, unusual3 []string) string {
-	//lintignore:AT004
+	// lintignore:AT004
 	return ConfigCompose(
 		testAccProviderConfigBase,
 		fmt.Sprintf(`
@@ -1006,7 +922,7 @@ provider "aws" {
 }
 
 func testAccIgnoreTagsKeys0Config() string {
-	//lintignore:AT004
+	// lintignore:AT004
 	return ConfigCompose(
 		testAccProviderConfigBase,
 		`
@@ -1020,7 +936,7 @@ provider "aws" {
 }
 
 func testAccIgnoreTagsKeys1Config(tag1 string) string {
-	//lintignore:AT004
+	// lintignore:AT004
 	return ConfigCompose(
 		testAccProviderConfigBase,
 		fmt.Sprintf(`
@@ -1038,7 +954,7 @@ provider "aws" {
 }
 
 func testAccIgnoreTagsKeys2Config(tag1, tag2 string) string {
-	//lintignore:AT004
+	// lintignore:AT004
 	return ConfigCompose(
 		testAccProviderConfigBase,
 		fmt.Sprintf(`
@@ -1056,7 +972,7 @@ provider "aws" {
 }
 
 func testAccIgnoreTagsKeyPrefixes0Config() string {
-	//lintignore:AT004
+	// lintignore:AT004
 	return ConfigCompose(
 		testAccProviderConfigBase,
 		`
@@ -1070,7 +986,7 @@ provider "aws" {
 }
 
 func testAccIgnoreTagsKeyPrefixes3Config(tagPrefix1 string) string {
-	//lintignore:AT004
+	// lintignore:AT004
 	return ConfigCompose(
 		testAccProviderConfigBase,
 		fmt.Sprintf(`
@@ -1088,7 +1004,7 @@ provider "aws" {
 }
 
 func testAccIgnoreTagsKeyPrefixes2Config(tagPrefix1, tagPrefix2 string) string {
-	//lintignore:AT004
+	// lintignore:AT004
 	return ConfigCompose(
 		testAccProviderConfigBase,
 		fmt.Sprintf(`
@@ -1106,7 +1022,7 @@ provider "aws" {
 }
 
 func testAccDefaultTagsEmptyConfigurationBlockConfig() string {
-	//lintignore:AT004
+	// lintignore:AT004
 	return ConfigCompose(
 		testAccProviderConfigBase,
 		`
@@ -1122,7 +1038,7 @@ provider "aws" {
 }
 
 func testAccDefaultAndIgnoreTagsEmptyConfigurationBlockConfig() string {
-	//lintignore:AT004
+	// lintignore:AT004
 	return ConfigCompose(
 		testAccProviderConfigBase,
 		`
@@ -1139,7 +1055,7 @@ provider "aws" {
 }
 
 func testAccIgnoreTagsEmptyConfigurationBlockConfig() string {
-	//lintignore:AT004
+	// lintignore:AT004
 	return ConfigCompose(
 		testAccProviderConfigBase,
 		`
@@ -1155,7 +1071,7 @@ provider "aws" {
 }
 
 func testAccRegionConfig(region string) string {
-	//lintignore:AT004
+	// lintignore:AT004
 	return ConfigCompose(
 		testAccProviderConfigBase,
 		fmt.Sprintf(`
@@ -1170,7 +1086,7 @@ provider "aws" {
 }
 
 func testAccSTSRegionConfig(region, stsRegion string) string {
-	//lintignore:AT004
+	// lintignore:AT004
 	return ConfigCompose(
 		testAccProviderConfigBase,
 		fmt.Sprintf(`
