@@ -23,6 +23,7 @@ import (
 	"github.com/hashicorp/terraform-provider-aws/internal/service/eks"
 	"github.com/hashicorp/terraform-provider-aws/internal/service/elbv2"
 	"github.com/hashicorp/terraform-provider-aws/internal/service/iam"
+	"github.com/hashicorp/terraform-provider-aws/internal/service/meta"
 	"github.com/hashicorp/terraform-provider-aws/internal/service/paas"
 	"github.com/hashicorp/terraform-provider-aws/internal/service/route53"
 	"github.com/hashicorp/terraform-provider-aws/internal/service/s3"
@@ -584,11 +585,11 @@ func Provider() *schema.Provider {
 			//
 			// "aws_location_map": location.DataSourceMap(),
 			//
-			// "aws_arn":                     meta.DataSourceARN(),
+			"aws_arn": meta.DataSourceARN(),
 			// "aws_billing_service_account": meta.DataSourceBillingServiceAccount(),
 			// "aws_default_tags":            meta.DataSourceDefaultTags(),
 			// "aws_ip_ranges":               meta.DataSourceIPRanges(),
-			// "aws_partition":               meta.DataSourcePartition(),
+			"aws_partition": meta.DataSourcePartition(),
 			// "aws_region":                  meta.DataSourceRegion(),
 			// "aws_regions":                 meta.DataSourceRegions(),
 			// "aws_service":                 meta.DataSourceService(),
