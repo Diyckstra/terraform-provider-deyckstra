@@ -226,9 +226,6 @@ func (c *Config) Client(ctx context.Context) (interface{}, diag.Diagnostics) {
 	client.Route53DomainsConn = route53domains.NewFromConfig(cfg, func(o *route53domains.Options) {
 		if endpoint := c.Endpoints[names.Route53Domains]; endpoint != "" {
 			o.EndpointResolver = route53domains.EndpointResolverFromURL(endpoint)
-		} else if partition == endpoints.AwsPartitionID {
-			// Route 53 Domains is only available in AWS Commercial us-east-1 Region.
-			o.Region = endpoints.UsEast1RegionID
 		}
 	})
 
