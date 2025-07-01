@@ -728,10 +728,7 @@ func resourceBucketCreate(d *schema.ResourceData, meta interface{}) error {
 		log.Printf("[DEBUG] S3 bucket %s has default canned ACL %s", bucket, s3.BucketCannedACLPrivate)
 	}
 
-	awsRegion := meta.(*conns.AWSClient).Region
-	log.Printf("[DEBUG] S3 bucket create: %s, using region: %s", bucket, awsRegion)
-
-	if err := ValidBucketName(bucket, awsRegion); err != nil {
+	if err := ValidBucketName(bucket); err != nil {
 		return fmt.Errorf("error validating S3 Bucket (%s) name: %w", bucket, err)
 	}
 
