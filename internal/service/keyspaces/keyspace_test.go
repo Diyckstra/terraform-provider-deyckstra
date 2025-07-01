@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/service/keyspaces"
 	sdkacctest "github.com/hashicorp/terraform-plugin-sdk/v2/helper/acctest"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
@@ -16,21 +15,12 @@ import (
 	"github.com/hashicorp/terraform-provider-aws/internal/tfresource"
 )
 
-func testAccPreCheck(t *testing.T) {
-	// Checking for service fails in all partitions!
-	// acctest.PreCheckPartitionHasService(keyspaces.EndpointsID, t)
-
-	if got, want := acctest.Partition(), endpoints.AwsUsGovPartitionID; got == want {
-		t.Skipf("Keyspaces is not supported in %s partition", got)
-	}
-}
-
 func TestAccKeyspacesKeyspace_basic(t *testing.T) {
 	rName := "tf_test_" + sdkacctest.RandString(8)
 	resourceName := "aws_keyspaces_keyspace.test"
 
 	resource.ParallelTest(t, resource.TestCase{
-		PreCheck:          func() { acctest.PreCheck(t); testAccPreCheck(t) },
+		PreCheck:          func() { acctest.PreCheck(t) },
 		ErrorCheck:        acctest.ErrorCheck(t, keyspaces.EndpointsID),
 		ProviderFactories: acctest.ProviderFactories,
 		CheckDestroy:      testAccCheckKeyspaceDestroy,
@@ -58,7 +48,7 @@ func TestAccKeyspacesKeyspace_disappears(t *testing.T) {
 	resourceName := "aws_keyspaces_keyspace.test"
 
 	resource.ParallelTest(t, resource.TestCase{
-		PreCheck:          func() { acctest.PreCheck(t); testAccPreCheck(t) },
+		PreCheck:          func() { acctest.PreCheck(t) },
 		ErrorCheck:        acctest.ErrorCheck(t, keyspaces.EndpointsID),
 		ProviderFactories: acctest.ProviderFactories,
 		CheckDestroy:      testAccCheckKeyspaceDestroy,
@@ -80,7 +70,7 @@ func TestAccKeyspacesKeyspace_tags(t *testing.T) {
 	resourceName := "aws_keyspaces_keyspace.test"
 
 	resource.ParallelTest(t, resource.TestCase{
-		PreCheck:          func() { acctest.PreCheck(t); testAccPreCheck(t) },
+		PreCheck:          func() { acctest.PreCheck(t) },
 		ErrorCheck:        acctest.ErrorCheck(t, keyspaces.EndpointsID),
 		ProviderFactories: acctest.ProviderFactories,
 		CheckDestroy:      testAccCheckKeyspaceDestroy,

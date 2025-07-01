@@ -7,7 +7,6 @@ import (
 	"testing"
 
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/service/fsx"
 	sdkacctest "github.com/hashicorp/terraform-plugin-sdk/v2/helper/acctest"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
@@ -19,10 +18,6 @@ import (
 )
 
 func TestAccFSxDataRepositoryAssociation_basic(t *testing.T) {
-	if acctest.Partition() == endpoints.AwsUsGovPartitionID {
-		t.Skip("PERSISTENT_2 deployment_type is not supported in GovCloud partition")
-	}
-
 	var association fsx.DataRepositoryAssociation
 	resourceName := "aws_fsx_data_repository_association.test"
 	bucketName := sdkacctest.RandomWithPrefix(acctest.ResourcePrefix)
@@ -58,10 +53,6 @@ func TestAccFSxDataRepositoryAssociation_basic(t *testing.T) {
 }
 
 func TestAccFSxDataRepositoryAssociation_disappears(t *testing.T) {
-	if acctest.Partition() == endpoints.AwsUsGovPartitionID {
-		t.Skip("PERSISTENT_2 deployment_type is not supported in GovCloud partition")
-	}
-
 	var association fsx.DataRepositoryAssociation
 	resourceName := "aws_fsx_data_repository_association.test"
 	bucketName := sdkacctest.RandomWithPrefix(acctest.ResourcePrefix)
@@ -86,10 +77,6 @@ func TestAccFSxDataRepositoryAssociation_disappears(t *testing.T) {
 }
 
 func TestAccFSxDataRepositoryAssociation_disappears_ParentFileSystem(t *testing.T) {
-	if acctest.Partition() == endpoints.AwsUsGovPartitionID {
-		t.Skip("PERSISTENT_2 deployment_type is not supported in GovCloud partition")
-	}
-
 	var association fsx.DataRepositoryAssociation
 	parentResourceName := "aws_fsx_lustre_file_system.test"
 	resourceName := "aws_fsx_data_repository_association.test"
@@ -115,10 +102,6 @@ func TestAccFSxDataRepositoryAssociation_disappears_ParentFileSystem(t *testing.
 }
 
 func TestAccFSxDataRepositoryAssociation_fileSystemPathUpdated(t *testing.T) {
-	if acctest.Partition() == endpoints.AwsUsGovPartitionID {
-		t.Skip("PERSISTENT_2 deployment_type is not supported in GovCloud partition")
-	}
-
 	var association1, association2 fsx.DataRepositoryAssociation
 	resourceName := "aws_fsx_data_repository_association.test"
 	bucketName := sdkacctest.RandomWithPrefix(acctest.ResourcePrefix)
@@ -157,10 +140,6 @@ func TestAccFSxDataRepositoryAssociation_fileSystemPathUpdated(t *testing.T) {
 }
 
 func TestAccFSxDataRepositoryAssociation_dataRepositoryPathUpdated(t *testing.T) {
-	if acctest.Partition() == endpoints.AwsUsGovPartitionID {
-		t.Skip("PERSISTENT_2 deployment_type is not supported in GovCloud partition")
-	}
-
 	var association1, association2 fsx.DataRepositoryAssociation
 	resourceName := "aws_fsx_data_repository_association.test"
 	bucketName1 := sdkacctest.RandomWithPrefix(acctest.ResourcePrefix)
@@ -202,10 +181,6 @@ func TestAccFSxDataRepositoryAssociation_dataRepositoryPathUpdated(t *testing.T)
 
 // lintignore:AT002
 func TestAccFSxDataRepositoryAssociation_importedFileChunkSize(t *testing.T) {
-	if acctest.Partition() == endpoints.AwsUsGovPartitionID {
-		t.Skip("PERSISTENT_2 deployment_type is not supported in GovCloud partition")
-	}
-
 	var association fsx.DataRepositoryAssociation
 	resourceName := "aws_fsx_data_repository_association.test"
 	bucketName := sdkacctest.RandomWithPrefix(acctest.ResourcePrefix)
@@ -236,10 +211,6 @@ func TestAccFSxDataRepositoryAssociation_importedFileChunkSize(t *testing.T) {
 
 // lintignore:AT002
 func TestAccFSxDataRepositoryAssociation_importedFileChunkSizeUpdated(t *testing.T) {
-	if acctest.Partition() == endpoints.AwsUsGovPartitionID {
-		t.Skip("PERSISTENT_2 deployment_type is not supported in GovCloud partition")
-	}
-
 	var association1, association2 fsx.DataRepositoryAssociation
 	resourceName := "aws_fsx_data_repository_association.test"
 	bucketName := sdkacctest.RandomWithPrefix(acctest.ResourcePrefix)
@@ -277,10 +248,6 @@ func TestAccFSxDataRepositoryAssociation_importedFileChunkSizeUpdated(t *testing
 }
 
 func TestAccFSxDataRepositoryAssociation_deleteDataInFilesystem(t *testing.T) {
-	if acctest.Partition() == endpoints.AwsUsGovPartitionID {
-		t.Skip("PERSISTENT_2 deployment_type is not supported in GovCloud partition")
-	}
-
 	var association fsx.DataRepositoryAssociation
 	resourceName := "aws_fsx_data_repository_association.test"
 	bucketName := sdkacctest.RandomWithPrefix(acctest.ResourcePrefix)
@@ -310,10 +277,6 @@ func TestAccFSxDataRepositoryAssociation_deleteDataInFilesystem(t *testing.T) {
 }
 
 func TestAccFSxDataRepositoryAssociation_s3AutoExportPolicy(t *testing.T) {
-	if acctest.Partition() == endpoints.AwsUsGovPartitionID {
-		t.Skip("PERSISTENT_2 deployment_type is not supported in GovCloud partition")
-	}
-
 	var association fsx.DataRepositoryAssociation
 	resourceName := "aws_fsx_data_repository_association.test"
 	bucketName := sdkacctest.RandomWithPrefix(acctest.ResourcePrefix)
@@ -346,10 +309,6 @@ func TestAccFSxDataRepositoryAssociation_s3AutoExportPolicy(t *testing.T) {
 }
 
 func TestAccFSxDataRepositoryAssociation_s3AutoExportPolicyUpdate(t *testing.T) {
-	if acctest.Partition() == endpoints.AwsUsGovPartitionID {
-		t.Skip("PERSISTENT_2 deployment_type is not supported in GovCloud partition")
-	}
-
 	var association1, association2 fsx.DataRepositoryAssociation
 	resourceName := "aws_fsx_data_repository_association.test"
 	bucketName := sdkacctest.RandomWithPrefix(acctest.ResourcePrefix)
@@ -391,10 +350,6 @@ func TestAccFSxDataRepositoryAssociation_s3AutoExportPolicyUpdate(t *testing.T) 
 }
 
 func TestAccFSxDataRepositoryAssociation_s3AutoImportPolicy(t *testing.T) {
-	if acctest.Partition() == endpoints.AwsUsGovPartitionID {
-		t.Skip("PERSISTENT_2 deployment_type is not supported in GovCloud partition")
-	}
-
 	var association fsx.DataRepositoryAssociation
 	resourceName := "aws_fsx_data_repository_association.test"
 	bucketName := sdkacctest.RandomWithPrefix(acctest.ResourcePrefix)
@@ -427,10 +382,6 @@ func TestAccFSxDataRepositoryAssociation_s3AutoImportPolicy(t *testing.T) {
 }
 
 func TestAccFSxDataRepositoryAssociation_s3AutoImportPolicyUpdate(t *testing.T) {
-	if acctest.Partition() == endpoints.AwsUsGovPartitionID {
-		t.Skip("PERSISTENT_2 deployment_type is not supported in GovCloud partition")
-	}
-
 	var association1, association2 fsx.DataRepositoryAssociation
 	resourceName := "aws_fsx_data_repository_association.test"
 	bucketName := sdkacctest.RandomWithPrefix(acctest.ResourcePrefix)
@@ -472,10 +423,6 @@ func TestAccFSxDataRepositoryAssociation_s3AutoImportPolicyUpdate(t *testing.T) 
 }
 
 func TestAccFSxDataRepositoryAssociation_s3FullPolicy(t *testing.T) {
-	if acctest.Partition() == endpoints.AwsUsGovPartitionID {
-		t.Skip("PERSISTENT_2 deployment_type is not supported in GovCloud partition")
-	}
-
 	var association fsx.DataRepositoryAssociation
 	resourceName := "aws_fsx_data_repository_association.test"
 	bucketName := sdkacctest.RandomWithPrefix(acctest.ResourcePrefix)
