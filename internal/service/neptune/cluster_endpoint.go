@@ -5,7 +5,6 @@ import (
 	"log"
 
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/service/neptune"
 	"github.com/hashicorp/aws-sdk-go-base/v2/awsv1shim/v2/tfawserr"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -91,8 +90,7 @@ func resourceClusterEndpointCreate(d *schema.ResourceData, meta interface{}) err
 		input.ExcludedMembers = flex.ExpandStringSet(attr)
 	}
 
-	// Tags are currently only supported in AWS Commercial.
-	if len(tags) > 0 && meta.(*conns.AWSClient).Partition == endpoints.AwsPartitionID {
+	if len(tags) > 0 {
 		input.Tags = Tags(tags.IgnoreAWS())
 	}
 
@@ -140,27 +138,21 @@ func resourceClusterEndpointRead(d *schema.ResourceData, meta interface{}) error
 	arn := aws.StringValue(resp.DBClusterEndpointArn)
 	d.Set("arn", arn)
 
-	// Tags are currently only supported in AWS Commercial.
-	if meta.(*conns.AWSClient).Partition == endpoints.AwsPartitionID {
-		tags, err := ListTags(conn, arn)
+	tags, err := ListTags(conn, arn)
 
-		if err != nil {
-			return fmt.Errorf("error listing tags for Neptune Cluster Endpoint (%s): %w", arn, err)
-		}
+	if err != nil {
+		return fmt.Errorf("error listing tags for Neptune Cluster Endpoint (%s): %w", arn, err)
+	}
 
-		tags = tags.IgnoreAWS().IgnoreConfig(ignoreTagsConfig)
+	tags = tags.IgnoreAWS().IgnoreConfig(ignoreTagsConfig)
 
-		//lintignore:AWSR002
-		if err := d.Set("tags", tags.RemoveDefaultConfig(defaultTagsConfig).Map()); err != nil {
-			return fmt.Errorf("error setting tags: %w", err)
-		}
+	// lintignore:AWSR002
+	if err := d.Set("tags", tags.RemoveDefaultConfig(defaultTagsConfig).Map()); err != nil {
+		return fmt.Errorf("error setting tags: %w", err)
+	}
 
-		if err := d.Set("tags_all", tags.Map()); err != nil {
-			return fmt.Errorf("error setting tags_all: %w", err)
-		}
-	} else {
-		d.Set("tags", nil)
-		d.Set("tags_all", nil)
+	if err := d.Set("tags_all", tags.Map()); err != nil {
+		return fmt.Errorf("error setting tags_all: %w", err)
 	}
 
 	return nil
@@ -197,8 +189,7 @@ func resourceClusterEndpointUpdate(d *schema.ResourceData, meta interface{}) err
 		}
 	}
 
-	// Tags are currently only supported in AWS Commercial.
-	if d.HasChange("tags_all") && meta.(*conns.AWSClient).Partition == endpoints.AwsPartitionID {
+	if d.HasChange("tags_all") {
 		o, n := d.GetChange("tags_all")
 
 		if err := UpdateTags(conn, d.Get("arn").(string), o, n); err != nil {
