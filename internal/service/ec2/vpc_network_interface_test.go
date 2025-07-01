@@ -9,7 +9,6 @@ import (
 	"testing"
 
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/service/ec2"
 	sdkacctest "github.com/hashicorp/terraform-plugin-sdk/v2/helper/acctest"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
@@ -942,10 +941,12 @@ func convertIPToDashIP(ip string) string {
 	return strings.Replace(ip, ".", "-", -1)
 }
 
+// FIXME: get rid of using aws regions when fixing these tests.
+
 func regionalPrivateDNSSuffix(region string) string {
-	if region == endpoints.UsEast1RegionID {
+	if region == "us-east-1" {
 		return "ec2.internal"
-	}
+	} // lintignore:AWSAT003
 
 	return fmt.Sprintf("%s.compute.internal", region)
 }
