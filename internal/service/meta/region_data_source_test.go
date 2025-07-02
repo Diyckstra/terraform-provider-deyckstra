@@ -5,6 +5,7 @@ import (
 	"regexp"
 	"testing"
 
+	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/service/ec2"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-provider-aws/internal/acctest"
@@ -29,7 +30,7 @@ func TestFindRegionByEc2Endpoint(t *testing.T) {
 			ErrCount: 1,
 		},
 		{
-			Value:    "ec2.us-east-1.amazonaws.com", // lintignore:AWSAT003
+			Value:    fmt.Sprintf("ec2.%s.%s", endpoints.RuMskRegionID, endpoints.K2Partition().DNSSuffix()),
 			ErrCount: 0,
 		},
 	}
@@ -59,7 +60,7 @@ func TestFindRegionByName(t *testing.T) {
 			ErrCount: 1,
 		},
 		{
-			Value:    "us-east-1", // lintignore:AWSAT003
+			Value:    endpoints.RuMskRegionID,
 			ErrCount: 0,
 		},
 	}
