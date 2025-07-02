@@ -68,9 +68,8 @@ func Canonicalize(arn string) (string, error) {
 
 func checkPartition(partition string) error {
 	switch partition {
+	// FIXME: get rid of using aws partition after rewriting the tests.
 	case endpoints.AwsPartitionID:
-	case endpoints.AwsCnPartitionID:
-	case endpoints.AwsUsGovPartitionID:
 	default:
 		return fmt.Errorf("partion %q is not recognized", partition)
 	}
