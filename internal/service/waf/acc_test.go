@@ -5,7 +5,6 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/service/waf"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -71,19 +70,9 @@ func testAccLoggingConfigurationRegionProviderConfig() string {
 	return acctest.ConfigRegionalProvider(testAccGetLoggingConfigurationRegion())
 }
 
+// FIXME: testAccWafLoggingConfigurationRegion is always "". Fix it, if WAF Logging Configuration is supported.
+
 // testAccGetLoggingConfigurationRegion returns the WAF Logging Configurations region for testing
 func testAccGetLoggingConfigurationRegion() string {
-	if testAccWafLoggingConfigurationRegion != "" {
-		return testAccWafLoggingConfigurationRegion
-	}
-
-	// AWS Commercial: https://docs.aws.amazon.com/waf/latest/developerguide/classic-logging.html
-	// AWS GovCloud (US) - not available yet: https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-waf.html
-	// AWS China - not available yet
-	switch acctest.Partition() {
-	case endpoints.AwsPartitionID:
-		testAccWafLoggingConfigurationRegion = endpoints.UsEast1RegionID
-	}
-
 	return testAccWafLoggingConfigurationRegion
 }

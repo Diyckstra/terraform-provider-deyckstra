@@ -5,7 +5,6 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/service/lightsail"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -71,22 +70,12 @@ func testAccPreCheckDomain(t *testing.T) {
 // Testing Lightsail Domains assumes no other provider configurations
 // are necessary and overwrites the "aws" provider configuration.
 func testAccDomainRegionProviderConfig() string {
-	return acctest.ConfigRegionalProvider(testAccGetDomainRegion())
+	return acctest.ConfigRegionalProvider(testAccLightsailDomainRegion)
 }
+
+// FIXME: testAccLightsailDomainRegion is always "". Fix it, if Lightsail Domains are supported.
 
 // testAccGetDomainRegion returns the Lightsail Domains region for testing
 func testAccGetDomainRegion() string {
-	if testAccLightsailDomainRegion != "" {
-		return testAccLightsailDomainRegion
-	}
-
-	// AWS Commercial: https://lightsail.aws.amazon.com/ls/docs/en_us/articles/lightsail-how-to-create-dns-entry
-	// AWS GovCloud (US) - service not supported: https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/using-services.html
-	// AWS China - service not supported: https://www.amazonaws.cn/en/about-aws/regional-product-services/
-	switch acctest.Partition() {
-	case endpoints.AwsPartitionID:
-		testAccLightsailDomainRegion = endpoints.UsEast1RegionID
-	}
-
 	return testAccLightsailDomainRegion
 }

@@ -7,7 +7,6 @@ import (
 	"testing"
 
 	"github.com/aws/aws-sdk-go/aws/arn"
-	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/service/apigateway"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
@@ -74,20 +73,10 @@ func testAccEdgeDomainNameRegionProviderConfig() string {
 	return acctest.ConfigRegionalProvider(testAccGetEdgeDomainNameRegion())
 }
 
+// FIXME: testAccEdgeDomainNameRegion is always "". Fix it, if API Gateway Domain Name is supported.
+
 // testAccEdgeDomainNameRegion returns the API Gateway Domain Name region for testing
 func testAccGetEdgeDomainNameRegion() string {
-	if testAccEdgeDomainNameRegion != "" {
-		return testAccEdgeDomainNameRegion
-	}
-
-	// AWS Commercial: https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-custom-domains.html
-	// AWS GovCloud (US) - edge custom domain names not supported: https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-abp.html
-	// AWS China - edge custom domain names not supported: https://docs.amazonaws.cn/en_us/aws/latest/userguide/api-gateway.html
-	switch acctest.Partition() {
-	case endpoints.AwsPartitionID:
-		testAccEdgeDomainNameRegion = endpoints.UsEast1RegionID
-	}
-
 	return testAccEdgeDomainNameRegion
 }
 
