@@ -5,7 +5,6 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/service/fms"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -66,13 +65,9 @@ func testAccAdminRegionProviderConfig() string {
 	return acctest.ConfigRegionalProvider(testAccGetAdminRegion())
 }
 
+// FIXME: testAccAdminRegion is always "". Fix it, if Firewall Management Service is supported.
+
 // testAccGetAdminRegion returns the Firewall Management Service region for testing
 func testAccGetAdminRegion() string {
-	if testAccAdminRegion != "" {
-		return testAccAdminRegion
-	}
-
-	testAccAdminRegion = endpoints.UsEast1RegionID
-
 	return testAccAdminRegion
 }

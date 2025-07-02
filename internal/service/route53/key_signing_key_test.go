@@ -7,7 +7,6 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/service/route53"
 	"github.com/hashicorp/aws-sdk-go-base/v2/awsv1shim/v2/tfawserr"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
@@ -314,19 +313,9 @@ func testAccKeySigningKeyRegionProviderConfig() string {
 	return acctest.ConfigRegionalProvider(testAccGetKeySigningKeyRegion())
 }
 
+// FIXME: testAccRoute53KeySigningKeyRegion is always "". Fix it, if Route53 KSK is supported.
+
 // testAccGetKeySigningKeyRegion returns the Route 53 Key Signing Key region for testing
 func testAccGetKeySigningKeyRegion() string {
-	if testAccRoute53KeySigningKeyRegion != "" {
-		return testAccRoute53KeySigningKeyRegion
-	}
-
-	// AWS Commercial: https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-configuring-dnssec-cmk-requirements.html
-	// AWS GovCloud (US) - not available yet: https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-r53.html
-	// AWS China - not available yet: https://docs.amazonaws.cn/en_us/aws/latest/userguide/route53.html
-	switch acctest.Partition() {
-	case endpoints.AwsPartitionID:
-		testAccRoute53KeySigningKeyRegion = endpoints.UsEast1RegionID
-	}
-
 	return testAccRoute53KeySigningKeyRegion
 }

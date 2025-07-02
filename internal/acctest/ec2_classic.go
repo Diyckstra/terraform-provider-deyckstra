@@ -7,7 +7,6 @@ import (
 	"testing"
 
 	"github.com/aws/aws-sdk-go/aws/arn"
-	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
@@ -71,10 +70,6 @@ func EC2ClassicRegion() string {
 
 	if v != "" {
 		return v
-	}
-
-	if Partition() == endpoints.AwsPartitionID {
-		return endpoints.UsEast1RegionID
 	}
 
 	return Region()
