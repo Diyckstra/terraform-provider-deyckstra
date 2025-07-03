@@ -24,7 +24,6 @@ func TestAccWAFV2WebACLAssociation_basic(t *testing.T) {
 	resource.ParallelTest(t, resource.TestCase{
 		PreCheck: func() {
 			acctest.PreCheck(t)
-			acctest.PreCheckAPIGatewayTypeEDGE(t)
 			testAccPreCheckScopeRegional(t)
 		},
 		ErrorCheck:        acctest.ErrorCheck(t, wafv2.EndpointsID),
@@ -56,7 +55,6 @@ func TestAccWAFV2WebACLAssociation_disappears(t *testing.T) {
 	resource.ParallelTest(t, resource.TestCase{
 		PreCheck: func() {
 			acctest.PreCheck(t)
-			acctest.PreCheckAPIGatewayTypeEDGE(t)
 			testAccPreCheckScopeRegional(t)
 		},
 		ErrorCheck:        acctest.ErrorCheck(t, wafv2.EndpointsID),

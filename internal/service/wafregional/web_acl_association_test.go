@@ -91,7 +91,6 @@ func TestAccWAFRegionalWebACLAssociation_ResourceARN_apiGatewayStage(t *testing.
 		PreCheck: func() {
 			acctest.PreCheck(t)
 			acctest.PreCheckPartitionHasService(wafregional.EndpointsID, t)
-			acctest.PreCheckAPIGatewayTypeEDGE(t)
 		},
 		ErrorCheck:        acctest.ErrorCheck(t, wafregional.EndpointsID),
 		ProviderFactories: acctest.ProviderFactories,
