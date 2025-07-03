@@ -1537,13 +1537,6 @@ func CheckACMPCACertificateAuthorityExists(n string, certificateAuthority *acmpc
 	}
 }
 
-// PreCheckAPIGatewayTypeEDGE checks if endpoint config type EDGE can be used in a test and skips test if not (i.e., not in standard partition).
-func PreCheckAPIGatewayTypeEDGE(t *testing.T) {
-	if Partition() != endpoints.AwsPartitionID {
-		t.Skipf("skipping test; Endpoint Configuration type EDGE is not supported in this partition (%s)", Partition())
-	}
-}
-
 func PreCheckDirectoryService(t *testing.T) {
 	conn := Provider.Meta().(*conns.AWSClient).DSConn
 

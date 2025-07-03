@@ -14,7 +14,7 @@ func TestAccAPIGatewayRestAPIDataSource_basic(t *testing.T) {
 	dataSourceName := "data.aws_api_gateway_rest_api.test"
 	resourceName := "aws_api_gateway_rest_api.test"
 	resource.ParallelTest(t, resource.TestCase{
-		PreCheck:          func() { acctest.PreCheck(t); acctest.PreCheckAPIGatewayTypeEDGE(t) },
+		PreCheck:          func() { acctest.PreCheck(t) },
 		ErrorCheck:        acctest.ErrorCheck(t, apigateway.EndpointsID),
 		ProviderFactories: acctest.ProviderFactories,
 		Steps: []resource.TestStep{

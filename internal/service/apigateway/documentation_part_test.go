@@ -27,7 +27,7 @@ func TestAccAPIGatewayDocumentationPart_basic(t *testing.T) {
 	resourceName := "aws_api_gateway_documentation_part.test"
 
 	resource.ParallelTest(t, resource.TestCase{
-		PreCheck:          func() { acctest.PreCheck(t); acctest.PreCheckAPIGatewayTypeEDGE(t) },
+		PreCheck:          func() { acctest.PreCheck(t) },
 		ErrorCheck:        acctest.ErrorCheck(t, apigateway.EndpointsID),
 		ProviderFactories: acctest.ProviderFactories,
 		CheckDestroy:      testAccCheckDocumentationPartDestroy,
@@ -72,7 +72,7 @@ func TestAccAPIGatewayDocumentationPart_method(t *testing.T) {
 	resourceName := "aws_api_gateway_documentation_part.test"
 
 	resource.ParallelTest(t, resource.TestCase{
-		PreCheck:          func() { acctest.PreCheck(t); acctest.PreCheckAPIGatewayTypeEDGE(t) },
+		PreCheck:          func() { acctest.PreCheck(t) },
 		ErrorCheck:        acctest.ErrorCheck(t, apigateway.EndpointsID),
 		ProviderFactories: acctest.ProviderFactories,
 		CheckDestroy:      testAccCheckDocumentationPartDestroy,
@@ -121,7 +121,7 @@ func TestAccAPIGatewayDocumentationPart_responseHeader(t *testing.T) {
 	resourceName := "aws_api_gateway_documentation_part.test"
 
 	resource.ParallelTest(t, resource.TestCase{
-		PreCheck:          func() { acctest.PreCheck(t); acctest.PreCheckAPIGatewayTypeEDGE(t) },
+		PreCheck:          func() { acctest.PreCheck(t) },
 		ErrorCheck:        acctest.ErrorCheck(t, apigateway.EndpointsID),
 		ProviderFactories: acctest.ProviderFactories,
 		CheckDestroy:      testAccCheckDocumentationPartDestroy,
@@ -173,7 +173,7 @@ func TestAccAPIGatewayDocumentationPart_disappears(t *testing.T) {
 	resourceName := "aws_api_gateway_documentation_part.test"
 
 	resource.ParallelTest(t, resource.TestCase{
-		PreCheck:          func() { acctest.PreCheck(t); acctest.PreCheckAPIGatewayTypeEDGE(t) },
+		PreCheck:          func() { acctest.PreCheck(t) },
 		ErrorCheck:        acctest.ErrorCheck(t, apigateway.EndpointsID),
 		ProviderFactories: acctest.ProviderFactories,
 		CheckDestroy:      testAccCheckDocumentationPartDestroy,
