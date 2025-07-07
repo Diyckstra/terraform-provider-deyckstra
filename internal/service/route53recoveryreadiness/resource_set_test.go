@@ -21,8 +21,8 @@ func TestAccRoute53RecoveryReadinessResourceSet_basic(t *testing.T) {
 	rName := sdkacctest.RandomWithPrefix(acctest.ResourcePrefix)
 	cwArn := arn.ARN{
 		AccountID: "123456789012",
-		Partition: endpoints.AwsPartitionID,
-		Region:    endpoints.EuWest1RegionID,
+		Partition: "c2",
+		Region:    endpoints.RuMskRegionID,
 		Resource:  "alarm:zzzzzzzzz",
 		Service:   "cloudwatch",
 	}.String()
@@ -56,8 +56,8 @@ func TestAccRoute53RecoveryReadinessResourceSet_disappears(t *testing.T) {
 	rName := sdkacctest.RandomWithPrefix(acctest.ResourcePrefix)
 	cwArn := arn.ARN{
 		AccountID: "123456789012",
-		Partition: endpoints.AwsPartitionID,
-		Region:    endpoints.EuWest1RegionID,
+		Partition: "c2",
+		Region:    endpoints.RuMskRegionID,
 		Resource:  "alarm:zzzzzzzzz",
 		Service:   "cloudwatch",
 	}.String()
@@ -86,8 +86,8 @@ func TestAccRoute53RecoveryReadinessResourceSet_tags(t *testing.T) {
 	resourceName := "aws_route53recoveryreadiness_resource_set.test"
 	cwArn := arn.ARN{
 		AccountID: "123456789012",
-		Partition: endpoints.AwsPartitionID,
-		Region:    endpoints.EuWest1RegionID,
+		Partition: "c2",
+		Region:    endpoints.RuMskRegionID,
 		Resource:  "alarm:zzzzzzzzz",
 		Service:   "cloudwatch",
 	}.String()
@@ -137,8 +137,8 @@ func TestAccRoute53RecoveryReadinessResourceSet_readinessScope(t *testing.T) {
 	resourceName := "aws_route53recoveryreadiness_resource_set.test"
 	cwArn := arn.ARN{
 		AccountID: "123456789012",
-		Partition: endpoints.AwsPartitionID,
-		Region:    endpoints.EuWest1RegionID,
+		Partition: "c2",
+		Region:    endpoints.RuMskRegionID,
 		Resource:  "alarm:zzzzzzzzz",
 		Service:   "cloudwatch",
 	}.String()
@@ -172,8 +172,8 @@ func TestAccRoute53RecoveryReadinessResourceSet_basicDNSTargetResource(t *testin
 	domainName := "myTestDomain.test"
 	hzArn := arn.ARN{
 		AccountID: "123456789012",
-		Partition: endpoints.AwsPartitionID,
-		Region:    endpoints.EuWest1RegionID,
+		Partition: "c2",
+		Region:    endpoints.RuMskRegionID,
 		Resource:  "hostedzone/zzzzzzzzz",
 		Service:   "route53",
 	}.String()
@@ -214,8 +214,8 @@ func TestAccRoute53RecoveryReadinessResourceSet_dnsTargetResourceNLBTarget(t *te
 	resourceName := "aws_route53recoveryreadiness_resource_set.test"
 	hzArn := arn.ARN{
 		AccountID: "123456789012",
-		Partition: endpoints.AwsPartitionID,
-		Region:    endpoints.EuWest1RegionID,
+		Partition: "c2",
+		Region:    endpoints.RuMskRegionID,
 		Resource:  "hostedzone/zzzzzzzzz",
 		Service:   "route53",
 	}.String()
@@ -251,8 +251,8 @@ func TestAccRoute53RecoveryReadinessResourceSet_dnsTargetResourceR53Target(t *te
 	resourceName := "aws_route53recoveryreadiness_resource_set.test"
 	hzArn := arn.ARN{
 		AccountID: "123456789012",
-		Partition: endpoints.AwsPartitionID,
-		Region:    endpoints.EuWest1RegionID,
+		Partition: "c2",
+		Region:    endpoints.RuMskRegionID,
 		Resource:  "hostedzone/zzzzzzzzz",
 		Service:   "route53",
 	}.String()
@@ -290,8 +290,8 @@ func TestAccRoute53RecoveryReadinessResourceSet_timeout(t *testing.T) {
 	rName := sdkacctest.RandomWithPrefix(acctest.ResourcePrefix)
 	cwArn := arn.ARN{
 		AccountID: "123456789012",
-		Partition: endpoints.AwsPartitionID,
-		Region:    endpoints.EuWest1RegionID,
+		Partition: "c2",
+		Region:    endpoints.RuMskRegionID,
 		Resource:  "alarm:zzzzzzzzz",
 		Service:   "cloudwatch",
 	}.String()
