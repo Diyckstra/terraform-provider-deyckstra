@@ -315,7 +315,7 @@ func testAccCloudFormationStackNameNoPrefixImportStateIdFunc(resourceName string
 }
 
 func testAccCloudFormationApplicationID() string {
-	arnRegion := endpoints.UsEast1RegionID
+	arnRegion := endpoints.RuMskRegionID
 	arnAccountID := "297356227824"
 
 	return arn.ARN{

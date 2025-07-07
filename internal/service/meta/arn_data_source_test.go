@@ -17,8 +17,8 @@ func TestAccMetaARNDataSource_basic(t *testing.T) {
 
 	testARN := arn.ARN{
 		AccountID: "123456789012",
-		Partition: endpoints.AwsPartitionID,
-		Region:    endpoints.EuWest1RegionID,
+		Partition: "c2",
+		Region:    endpoints.RuMskRegionID,
 		Resource:  "db:mysql-db",
 		Service:   "rds",
 	}
