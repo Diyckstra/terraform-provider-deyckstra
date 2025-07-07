@@ -5,7 +5,6 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/service/eks"
 	sdkacctest "github.com/hashicorp/terraform-plugin-sdk/v2/helper/acctest"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
@@ -24,7 +23,7 @@ func TestAccEKSFargateProfile_basic(t *testing.T) {
 	resourceName := "aws_eks_fargate_profile.test"
 
 	resource.ParallelTest(t, resource.TestCase{
-		PreCheck:          func() { acctest.PreCheck(t); testAccPreCheck(t); testAccPreCheckFargateProfile(t) },
+		PreCheck:          func() { acctest.PreCheck(t); testAccPreCheck(t) },
 		ErrorCheck:        acctest.ErrorCheck(t, eks.EndpointsID),
 		ProviderFactories: acctest.ProviderFactories,
 		CheckDestroy:      testAccCheckFargateProfileDestroy,
@@ -58,7 +57,7 @@ func TestAccEKSFargateProfile_disappears(t *testing.T) {
 	resourceName := "aws_eks_fargate_profile.test"
 
 	resource.ParallelTest(t, resource.TestCase{
-		PreCheck:          func() { acctest.PreCheck(t); testAccPreCheck(t); testAccPreCheckFargateProfile(t) },
+		PreCheck:          func() { acctest.PreCheck(t); testAccPreCheck(t) },
 		ErrorCheck:        acctest.ErrorCheck(t, eks.EndpointsID),
 		ProviderFactories: acctest.ProviderFactories,
 		CheckDestroy:      testAccCheckFargateProfileDestroy,
@@ -82,7 +81,7 @@ func TestAccEKSFargateProfile_Multi_profile(t *testing.T) {
 	resourceName2 := "aws_eks_fargate_profile.test.1"
 
 	resource.ParallelTest(t, resource.TestCase{
-		PreCheck:          func() { acctest.PreCheck(t); testAccPreCheck(t); testAccPreCheckFargateProfile(t) },
+		PreCheck:          func() { acctest.PreCheck(t); testAccPreCheck(t) },
 		ErrorCheck:        acctest.ErrorCheck(t, eks.EndpointsID),
 		ProviderFactories: acctest.ProviderFactories,
 		CheckDestroy:      testAccCheckFargateProfileDestroy,
@@ -104,7 +103,7 @@ func TestAccEKSFargateProfile_Selector_labels(t *testing.T) {
 	resourceName := "aws_eks_fargate_profile.test"
 
 	resource.ParallelTest(t, resource.TestCase{
-		PreCheck:          func() { acctest.PreCheck(t); testAccPreCheck(t); testAccPreCheckFargateProfile(t) },
+		PreCheck:          func() { acctest.PreCheck(t); testAccPreCheck(t) },
 		ErrorCheck:        acctest.ErrorCheck(t, eks.EndpointsID),
 		ProviderFactories: acctest.ProviderFactories,
 		CheckDestroy:      testAccCheckFargateProfileDestroy,
@@ -130,7 +129,7 @@ func TestAccEKSFargateProfile_tags(t *testing.T) {
 	resourceName := "aws_eks_fargate_profile.test"
 
 	resource.ParallelTest(t, resource.TestCase{
-		PreCheck:          func() { acctest.PreCheck(t); testAccPreCheck(t); testAccPreCheckFargateProfile(t) },
+		PreCheck:          func() { acctest.PreCheck(t); testAccPreCheck(t) },
 		ErrorCheck:        acctest.ErrorCheck(t, eks.EndpointsID),
 		ProviderFactories: acctest.ProviderFactories,
 		CheckDestroy:      testAccCheckFargateProfileDestroy,
@@ -228,59 +227,6 @@ func testAccCheckFargateProfileDestroy(s *terraform.State) error {
 	}
 
 	return nil
-}
-
-func testAccPreCheckFargateProfile(t *testing.T) {
-	// Most PreCheck functions try to use a list or describe API call to
-	// determine service or functionality availability, however
-	// ListFargateProfiles requires a valid ClusterName and does not indicate
-	// that the functionality is unavailable in a region. The create API call
-	// fails with same "ResourceNotFoundException: No cluster found" before
-	// returning the definitive "InvalidRequestException: CreateFargateProfile
-	// is not supported for region" error. We do not want to wait 20 minutes to
-	// create and destroy an EKS Cluster just to find the real error, instead
-	// we take the least desirable approach of hardcoding allowed regions.
-	allowedRegions := []string{
-		endpoints.ApEast1RegionID,
-		endpoints.ApNortheast1RegionID,
-		endpoints.ApNortheast2RegionID,
-		endpoints.ApSouth1RegionID,
-		endpoints.ApSoutheast1RegionID,
-		endpoints.ApSoutheast2RegionID,
-		endpoints.CaCentral1RegionID,
-		endpoints.EuCentral1RegionID,
-		endpoints.EuNorth1RegionID,
-		endpoints.EuWest1RegionID,
-		endpoints.EuWest2RegionID,
-		endpoints.EuWest3RegionID,
-		endpoints.MeSouth1RegionID,
-		endpoints.SaEast1RegionID,
-		endpoints.UsEast1RegionID,
-		endpoints.UsEast2RegionID,
-		endpoints.UsWest1RegionID,
-		endpoints.UsWest2RegionID,
-	}
-	region := acctest.Provider.Meta().(*conns.AWSClient).Region
-
-	for _, allowedRegion := range allowedRegions {
-		if region == allowedRegion {
-			return
-		}
-	}
-
-	message := fmt.Sprintf(`Test provider region (%s) not found in allowed EKS Fargate regions: %v
-
-The allowed regions are hardcoded in the acceptance testing since dynamically determining the
-functionality requires creating and destroying a real EKS Cluster, which is a lengthy process.
-If this check is out of date, please create an issue in the Terraform AWS Provider
-repository (https://github.com/hashicorp/terraform-provider-aws) or submit a PR to update the
-check itself (testAccPreCheckFargateProfile).
-
-For the most up to date supported region information, see the EKS User Guide:
-https://docs.aws.amazon.com/eks/latest/userguide/fargate.html
-`, region, allowedRegions)
-
-	t.Skipf("skipping acceptance testing:\n\n%s", message)
 }
 
 func testAccFargateProfileBaseConfig(rName string) string {

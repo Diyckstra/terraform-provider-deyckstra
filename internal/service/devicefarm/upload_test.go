@@ -5,7 +5,6 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/service/devicefarm"
 	sdkacctest "github.com/hashicorp/terraform-plugin-sdk/v2/helper/acctest"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
@@ -26,9 +25,6 @@ func TestAccDeviceFarmUpload_basic(t *testing.T) {
 		PreCheck: func() {
 			acctest.PreCheck(t)
 			acctest.PreCheckPartitionHasService(devicefarm.EndpointsID, t)
-			// Currently, DeviceFarm is only supported in us-west-2
-			// https://docs.aws.amazon.com/general/latest/gr/devicefarm.html
-			acctest.PreCheckRegion(t, endpoints.UsWest2RegionID)
 		},
 		ErrorCheck:        acctest.ErrorCheck(t, devicefarm.EndpointsID),
 		ProviderFactories: acctest.ProviderFactories,
@@ -75,9 +71,6 @@ func TestAccDeviceFarmUpload_disappears(t *testing.T) {
 		PreCheck: func() {
 			acctest.PreCheck(t)
 			acctest.PreCheckPartitionHasService(devicefarm.EndpointsID, t)
-			// Currently, DeviceFarm is only supported in us-west-2
-			// https://docs.aws.amazon.com/general/latest/gr/devicefarm.html
-			acctest.PreCheckRegion(t, endpoints.UsWest2RegionID)
 		},
 		ErrorCheck:        acctest.ErrorCheck(t, devicefarm.EndpointsID),
 		ProviderFactories: acctest.ProviderFactories,
@@ -105,9 +98,6 @@ func TestAccDeviceFarmUpload_disappears_project(t *testing.T) {
 		PreCheck: func() {
 			acctest.PreCheck(t)
 			acctest.PreCheckPartitionHasService(devicefarm.EndpointsID, t)
-			// Currently, DeviceFarm is only supported in us-west-2
-			// https://docs.aws.amazon.com/general/latest/gr/devicefarm.html
-			acctest.PreCheckRegion(t, endpoints.UsWest2RegionID)
 		},
 		ErrorCheck:        acctest.ErrorCheck(t, devicefarm.EndpointsID),
 		ProviderFactories: acctest.ProviderFactories,
