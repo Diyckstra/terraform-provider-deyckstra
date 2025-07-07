@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/service/ec2"
 	"github.com/hashicorp/aws-sdk-go-base/v2/awsv1shim/v2/tfawserr"
 	sdkacctest "github.com/hashicorp/terraform-plugin-sdk/v2/helper/acctest"
@@ -80,7 +79,6 @@ func testAccDefaultSubnet_Existing_basic(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() {
 			acctest.PreCheck(t)
-			acctest.PreCheckRegionNot(t, endpoints.UsWest2RegionID, endpoints.UsGovWest1RegionID)
 			testAccPreCheckDefaultSubnetExists(t)
 		},
 		ErrorCheck:        acctest.ErrorCheck(t, ec2.EndpointsID),
@@ -124,7 +122,6 @@ func testAccDefaultSubnet_Existing_forceDestroy(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() {
 			acctest.PreCheck(t)
-			acctest.PreCheckRegionNot(t, endpoints.UsWest2RegionID, endpoints.UsGovWest1RegionID)
 			testAccPreCheckDefaultSubnetExists(t)
 		},
 		ErrorCheck:        acctest.ErrorCheck(t, ec2.EndpointsID),
@@ -150,7 +147,6 @@ func testAccDefaultSubnet_Existing_ipv6(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() {
 			acctest.PreCheck(t)
-			acctest.PreCheckRegionNot(t, endpoints.UsWest2RegionID, endpoints.UsGovWest1RegionID)
 			testAccPreCheckDefaultSubnetExists(t)
 		},
 		ErrorCheck:        acctest.ErrorCheck(t, ec2.EndpointsID),
@@ -195,7 +191,6 @@ func testAccDefaultSubnet_Existing_privateDnsNameOptionsOnLaunch(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() {
 			acctest.PreCheck(t)
-			acctest.PreCheckRegionNot(t, endpoints.UsWest2RegionID, endpoints.UsGovWest1RegionID)
 			testAccPreCheckDefaultSubnetExists(t)
 		},
 		ErrorCheck:        acctest.ErrorCheck(t, ec2.EndpointsID),
@@ -240,7 +235,6 @@ func testAccDefaultSubnet_NotFound_basic(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() {
 			acctest.PreCheck(t)
-			acctest.PreCheckRegionNot(t, endpoints.UsWest2RegionID, endpoints.UsGovWest1RegionID)
 			testAccPreCheckDefaultSubnetNotFound(t)
 		},
 		ErrorCheck:        acctest.ErrorCheck(t, ec2.EndpointsID),
@@ -284,7 +278,6 @@ func testAccDefaultSubnet_NotFound_ipv6Native(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() {
 			acctest.PreCheck(t)
-			acctest.PreCheckRegionNot(t, endpoints.UsWest2RegionID, endpoints.UsGovWest1RegionID)
 			testAccPreCheckDefaultSubnetNotFound(t)
 		},
 		ErrorCheck:        acctest.ErrorCheck(t, ec2.EndpointsID),

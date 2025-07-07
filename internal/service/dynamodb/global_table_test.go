@@ -3,11 +3,9 @@ package dynamodb_test
 import (
 	"fmt"
 	"regexp"
-	"sort"
 	"testing"
 
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/hashicorp/aws-sdk-go-base/v2/awsv1shim/v2/tfawserr"
 	sdkacctest "github.com/hashicorp/terraform-plugin-sdk/v2/helper/acctest"
@@ -26,7 +24,6 @@ func TestAccDynamoDBGlobalTable_basic(t *testing.T) {
 		PreCheck: func() {
 			acctest.PreCheck(t)
 			testAccPreCheckGlobalTable(t)
-			testAccGlobalTablePreCheck(t)
 		},
 		ErrorCheck:        acctest.ErrorCheck(t, dynamodb.EndpointsID),
 		ProviderFactories: acctest.ProviderFactories,
@@ -72,7 +69,6 @@ func TestAccDynamoDBGlobalTable_multipleRegions(t *testing.T) {
 			acctest.PreCheck(t)
 			testAccPreCheckGlobalTable(t)
 			acctest.PreCheckMultipleRegion(t, 2)
-			testAccGlobalTablePreCheck(t)
 		},
 		ErrorCheck:        acctest.ErrorCheck(t, dynamodb.EndpointsID),
 		ProviderFactories: acctest.FactoriesAlternate(&providers),
@@ -161,28 +157,6 @@ func testAccPreCheckGlobalTable(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("unexpected PreCheck error: %s", err)
-	}
-}
-
-// testAccGlobalTablePreCheck checks if aws_dynamodb_global_table (version 2017.11.29) can be used and skips test if not.
-// Region availability for Version 2017.11.29: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html
-func testAccGlobalTablePreCheck(t *testing.T) {
-	supportRegionsSort := []string{
-		endpoints.ApNortheast1RegionID,
-		endpoints.ApNortheast2RegionID,
-		endpoints.ApSoutheast1RegionID,
-		endpoints.ApSoutheast2RegionID,
-		endpoints.EuCentral1RegionID,
-		endpoints.EuWest1RegionID,
-		endpoints.EuWest2RegionID,
-		endpoints.UsEast1RegionID,
-		endpoints.UsEast2RegionID,
-		endpoints.UsWest1RegionID,
-		endpoints.UsWest2RegionID,
-	}
-
-	if acctest.Region() != supportRegionsSort[sort.SearchStrings(supportRegionsSort, acctest.Region())] {
-		t.Skipf("skipping test; aws_dynamodb_global_table (DynamoDB v2017.11.29) not supported in region %s", acctest.Region())
 	}
 }
 
