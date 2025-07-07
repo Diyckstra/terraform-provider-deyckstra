@@ -797,7 +797,7 @@ func TestAccRoute53Record_Latency_basic(t *testing.T) {
 		CheckDestroy:      testAccCheckRecordDestroy,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccRecordConfig_latencyCNAME(endpoints.UsEast1RegionID, endpoints.EuWest1RegionID, endpoints.ApNortheast1RegionID),
+				Config: testAccRecordConfig_latencyCNAME(endpoints.RuMskRegionID, endpoints.RuSpbRegionID, endpoints.RuSpbRegionID),
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckRecordExists(resourceName, &record1),
 					testAccCheckRecordExists("aws_route53_record.second_region", &record2),
