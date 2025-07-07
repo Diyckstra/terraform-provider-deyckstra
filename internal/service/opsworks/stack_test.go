@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/service/opsworks"
 	"github.com/hashicorp/aws-sdk-go-base/v2/awsv1shim/v2/tfawserr"
 	sdkacctest "github.com/hashicorp/terraform-plugin-sdk/v2/helper/acctest"
@@ -15,9 +14,9 @@ import (
 	"github.com/hashicorp/terraform-provider-aws/internal/conns"
 )
 
-///////////////////////////////
-//// Tests for the No-VPC case
-///////////////////////////////
+// /////////////////////////////
+// // Tests for the No-VPC case
+// /////////////////////////////
 
 func TestAccOpsWorksStack_noVPCBasic(t *testing.T) {
 	rName := sdkacctest.RandomWithPrefix(acctest.ResourcePrefix)
@@ -176,9 +175,9 @@ func TestAccOpsWorksStack_noVPCCreateTags(t *testing.T) {
 	})
 }
 
-/////////////////////////////
+// ///////////////////////////
 // Tests for Custom Cookbooks
-/////////////////////////////
+// ///////////////////////////
 
 func TestAccOpsWorksStack_CustomCookbooks_setPrivateProperties(t *testing.T) {
 	resourceName := "aws_opsworks_stack.test"
@@ -230,7 +229,7 @@ func TestAccOpsWorksStack_classicEndpoints(t *testing.T) {
 	// This test cannot be parallel with other tests, because it changes the provider region in a non-standard way
 	// https://github.com/hashicorp/terraform-provider-aws/issues/21887
 	resource.Test(t, resource.TestCase{
-		PreCheck:          func() { acctest.PreCheck(t); acctest.PreCheckRegion(t, endpoints.UsWest2RegionID) },
+		PreCheck:          func() { acctest.PreCheck(t) },
 		ErrorCheck:        acctest.ErrorCheck(t, opsworks.EndpointsID),
 		ProviderFactories: acctest.ProviderFactories,
 		CheckDestroy:      testAccCheckStackDestroy,
@@ -364,7 +363,7 @@ resource "aws_iam_instance_profile" "opsworks_instance" {
   name = %[1]q
   role = aws_iam_role.opsworks_instance.name
 }
-`, rName) //lintignore:AWSAT003,AT004
+`, rName) // lintignore:AWSAT003,AT004
 }
 
 func testAccStack_regionalEndpoint(rName string) string {
@@ -451,12 +450,12 @@ resource "aws_iam_instance_profile" "opsworks_instance" {
   name = %[1]q
   role = aws_iam_role.opsworks_instance.name
 }
-`, rName) //lintignore:AWSAT003,AT004
+`, rName) // lintignore:AWSAT003,AT004
 }
 
-////////////////////////////
-//// Checkers and Utilities
-////////////////////////////
+// //////////////////////////
+// // Checkers and Utilities
+// //////////////////////////
 
 func testAccCheckCreateStackAttributes(rName string) resource.TestCheckFunc {
 	resourceName := "aws_opsworks_stack.test"
@@ -539,9 +538,9 @@ func testAccCheckStackDestroy(s *terraform.State) error {
 	return nil
 }
 
-//////////////////////////////////////////////////
-//// Helper configs for the necessary IAM objects
-//////////////////////////////////////////////////
+// ////////////////////////////////////////////////
+// // Helper configs for the necessary IAM objects
+// ////////////////////////////////////////////////
 
 func testAccStackNoVPCCreateConfig(rName string) string {
 	return acctest.ConfigCompose(
@@ -992,9 +991,9 @@ resource "aws_iam_instance_profile" "opsworks_instance" {
 `, rName))
 }
 
-////////////////////////////
-//// Tests for the VPC case
-////////////////////////////
+// //////////////////////////
+// // Tests for the VPC case
+// //////////////////////////
 
 func testAccStackVPCCreateConfig(rName string) string {
 	return acctest.ConfigCompose(
@@ -1241,9 +1240,9 @@ resource "aws_iam_instance_profile" "opsworks_instance" {
 `, rName))
 }
 
-/////////////////////////////////////////
+// ///////////////////////////////////////
 // Helpers for Custom Cookbook properties
-/////////////////////////////////////////
+// ///////////////////////////////////////
 
 func testAccStackConfig_CustomCookbooks_Set(rName string) string {
 	return acctest.ConfigCompose(
