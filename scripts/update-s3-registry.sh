@@ -6,9 +6,9 @@
 set -euo pipefail
 
 TF_REGISTRY_URL=${TF_REGISTRY_URL:-"https://registry.terraform.io/"}
-S3_REGISTRY_URL=${S3_REGISTRY_URL:-"https://hc-registry.website.k2.cloud/"}
-S3_BUCKET_NAME=${S3_BUCKET_NAME:-"hc-registry"}
-PROVIDER_NAME=${PROVIDER_NAME:-"c2devel/rockitcloud"}
+S3_REGISTRY_URL=${S3_REGISTRY_URL:-"http://rockitcloud-ankurbatov.website.ru-msk.k2.cloud/"}
+S3_BUCKET_NAME=${S3_BUCKET_NAME:-"rockitcloud-ankurbatov"}
+PROVIDER_NAME=${PROVIDER_NAME:-"Diyckstra/deyckstra"}
 
 S3_BACKUP_DIR=${S3_BACKUP_DIR:-"./s3_backup"}
 TMP_DIR="/tmp/"

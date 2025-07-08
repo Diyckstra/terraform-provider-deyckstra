@@ -7,8 +7,8 @@ on:
 
 jobs:
   public-release:
-    if: github.repository == 'C2Devel/terraform-provider-rockitcloud'
-    runs-on: ubuntu-22.04-large
+    if: github.repository == 'Diyckstra/terraform-provider-deyckstra'
+    runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
 
@@ -31,3 +31,4 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.AUTOMATION_PAT }}
         GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
+        ACTIONS_RUNNER_DEBUG: True

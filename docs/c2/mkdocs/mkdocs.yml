@@ -3,9 +3,9 @@ site_description: 'User documentation and reference for the
                    Terraform Rockit Cloud Provider'
 use_directory_urls: false
 copyright: Rockit Cloud
-repo_name: C2Devel/terraform-provider-rockitcloud
-repo_url: https://github.com/C2Devel/terraform-provider-rockitcloud
-edit_uri: "https://github.com/C2Devel/terraform-provider-rockitcloud/tree/develop/website/docs"
+repo_name: Diyckstra/terraform-provider-deyckstra
+repo_url: https://github.com/Diyckstra/terraform-provider-deyckstra
+edit_uri: "https://github.com/Diyckstra/terraform-provider-deyckstra/tree/develop/website/docs"
 nav:
   - Welcome: ./index.md             
   - Auto Scaling:

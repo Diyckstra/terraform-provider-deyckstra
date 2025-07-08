@@ -32,6 +32,7 @@ markdown-link-check*.txt
 changelog.tmp
 terraform-provider-aws
 terraform-provider-rockitcloud
+terraform-provider-deyckstra
 aws/testdata/service/cloudformation/examplecompany-exampleservice-exampleresource/bin/handler
 
 # Test exclusions
