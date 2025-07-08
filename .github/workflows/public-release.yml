@@ -7,7 +7,7 @@ on:
 
 jobs:
   public-release:
-    if: github.repository == 'C2Devel/terraform-provider-rockitcloud'
+    if: github.repository == 'Diyckstra/terraform-provider-deyckstra'
     runs-on: ubuntu-22.04-large
     steps:
     - uses: actions/checkout@v4
