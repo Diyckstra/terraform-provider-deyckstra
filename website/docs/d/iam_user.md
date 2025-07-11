@@ -39,6 +39,7 @@ In addition to all arguments above, the following attributes are exported:
 * `login` - The login of the user.
 * `otp_required` -  Indicates whether the user is required to use two-factor authentication to log in to the web interface.
 * `phone` - The phone number of the user.
+* `tags` - Map of tags assigned to the user.
 * `update_date` - The time in [RFC3339 format] when the user was last updated.
 * `user_id` - The ID of the user.
 
@@ -48,4 +49,4 @@ In addition to all arguments above, the following attributes are exported:
 
 The following attributes are not currently supported:
 
-`path`, `permissions_boundary`, `tags`.
+`path`, `permissions_boundary`.
