@@ -3,7 +3,7 @@
 # Path of the directory with the documentation
 SOURCE_DIR="website/site/"
 S3_CMD_CFG_LOCATION=${S3_CMD_CFG_LOCATION:-"$HOME/.s3cfg"}
-S3_DOCS_BUCKET_NAME=${S3_DOCS_BUCKET_NAME:-"docs.tf.k2.cloud"}
+S3_DOCS_BUCKET_NAME=${S3_DOCS_BUCKET_NAME:-"ank-docs"}
 
 # Copying of configuration for the documentatiion to the website folder
 cp -r docs/c2/mkdocs/assets docs/c2/mkdocs/images website/docs/

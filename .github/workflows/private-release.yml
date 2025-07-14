@@ -27,7 +27,7 @@ jobs:
 
     - name: Upload S3 backup to artifacts
       if: ${{ failure() && steps.run-script.conclusion == 'failure' }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: s3_backup
         path: ./s3_backup/

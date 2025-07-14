@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PROVIDER_NAME=${PROVIDER_NAME:-"terraform-provider-local"} # Change to required provider
-S3_BUCKET=${S3_BUCKET:-"hc-releases"}
+S3_BUCKET=${S3_BUCKET:-"ank-website"}
 PROVIDER_BASE_URL="https://releases.hashicorp.com/${PROVIDER_NAME}"
 LOCAL_TMP_DIR="/tmp/${PROVIDER_NAME}"
 PROVIDER_SHORT_NAME=$(echo "$PROVIDER_NAME" | sed 's/^terraform-provider-//')
