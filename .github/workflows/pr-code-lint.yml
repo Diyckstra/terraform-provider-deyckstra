@@ -4,6 +4,10 @@ on:
   pull_request:
     branches: 'develop'
     paths: 'internal/**'
+    types: 
+      - labeled
+      - opened
+      - synchronize
 
 jobs:
   code-linter:
