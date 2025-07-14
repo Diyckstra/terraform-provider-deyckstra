@@ -3,7 +3,6 @@ layout: "aws"
 page_title: "Provider: Rockit Cloud"
 description: |-
   Use the Terraform Rockit Cloud Provider to manage resources in public and private clouds based on K2 Cloud and Rockit Cloud platforms. You must configure the provider with the proper credentials before you can use it.
-
 ---
 
 [aws-configure-files]: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html

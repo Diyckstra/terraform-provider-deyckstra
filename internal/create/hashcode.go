@@ -4,7 +4,6 @@ import (
 	"hash/crc32"
 )
 
-
 // StringHashcode hashes a string to a unique hashcode.
 //
 // crc32 returns a uint32, but for our use we need
