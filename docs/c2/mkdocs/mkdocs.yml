@@ -6,7 +6,6 @@ copyright: Rockit Cloud
 repo_name: Diyckstra/terraform-provider-deyckstra
 repo_url: https://github.com/Diyckstra/terraform-provider-deyckstra
 edit_uri: "https://github.com/Diyckstra/terraform-provider-deyckstra/tree/develop/website/docs"
-
 nav:
   - Welcome: ./index.md             
   - Auto Scaling:
