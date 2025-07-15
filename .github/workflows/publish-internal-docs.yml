@@ -14,10 +14,12 @@ jobs:
         python-version: 'pypy3.10'
 
     - name: Install s3cmd
-      run: sudo pip install s3cmd==2.4.0
+      run: sudo pip install s3cmd==2.4.0 mkdocs mkdocs-material mkdocs-awesome-pages-plugin
 
     - name: Create S3 config
       run: echo "${{ secrets.s3_config }}" > ./.s3cfg
 
     - name: Run script
+      env:
+        S3_CMD_CFG_LOCATION: "./.s3cfg"
       run: ./scripts/build-docs.sh
