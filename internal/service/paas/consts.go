@@ -15,7 +15,7 @@ const (
 )
 
 const (
-	ServiceNotFoundCode = "Document.NotFound"
+	ServiceNotFoundCode = "PaasServiceNotFound"
 )
 
 const (
