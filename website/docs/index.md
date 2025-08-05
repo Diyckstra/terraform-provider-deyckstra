@@ -9,6 +9,7 @@ description: |-
 [aws-tutorials]: https://learn.hashicorp.com/collections/terraform/aws?utm_source=WEBSITE&utm_medium=WEB_IO&utm_offer=ARTICLE_PAGE&utm_content=DOCS
 [c2-tutorials]: https://github.com/C2Devel/terraform-examples
 [hashicorp-tutorials]: https://learn.hashicorp.com/tutorials/terraform/infrastructure-as-code?in=terraform/aws-get-started&utm_source=WEBSITE&utm_medium=WEB_IO&utm_offer=ARTICLE_PAGE&utm_content=DOCS
+[k2-supported-regions]: https://docs.k2.cloud/en/security/isms.html#id2
 [terraform]: https://docs.k2.cloud/en/api/tools/terraform.html
 
 # Rockit Cloud Provider
@@ -39,7 +40,7 @@ terraform {
   required_providers {
     aws = {
       source  = "c2devel/rockitcloud"
-      version = "24.1.0"
+      version = "~> 25.2"
     }
   }
 }
@@ -47,6 +48,9 @@ terraform {
 # Configure the rockitcloud provider.
 # The section is named `aws` for backward compatibility.
 provider "aws" {
+  # For K2 Cloud, specify one of the supported regions.
+  # For other cloud platforms, enter a non-empty string,
+  # for example, "region-1", and API endpoints.
   region = "ru-msk"
 }
 
@@ -87,6 +91,11 @@ provider "aws" {
 
 The Rockit Cloud Provider manages resources via API calls. To connect the provider to the cloud platform,
 you must specify the platform API endpoints in the `provider.endpoints` block or define the corresponding environment variables.
+
+-> **Note**
+When connecting to K2 Cloud, you can specify one of [the supported regions][k2-supported-regions] in the configuration.
+In this case, the `provider.endpoints` block can be omitted,
+because the provider will generate all API endpoints based on the region value.
 
 Usage:
 

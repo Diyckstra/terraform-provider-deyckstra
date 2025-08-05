@@ -226,9 +226,6 @@ func (c *Config) Client(ctx context.Context) (interface{}, diag.Diagnostics) {
 	client.Route53DomainsConn = route53domains.NewFromConfig(cfg, func(o *route53domains.Options) {
 		if endpoint := c.Endpoints[names.Route53Domains]; endpoint != "" {
 			o.EndpointResolver = route53domains.EndpointResolverFromURL(endpoint)
-		} else if partition == endpoints.AwsPartitionID {
-			// Route 53 Domains is only available in AWS Commercial us-east-1 Region.
-			o.Region = endpoints.UsEast1RegionID
 		}
 	})
 
@@ -270,25 +267,6 @@ func (c *Config) Client(ctx context.Context) (interface{}, diag.Diagnostics) {
 
 	s3Config.DisableRestProtocolURICleaning = aws.Bool(true)
 	client.S3ConnURICleaningDisabled = s3.New(sess.Copy(s3Config))
-
-	// Force "global" services to correct regions
-	switch partition {
-	case endpoints.AwsPartitionID:
-		globalAcceleratorConfig.Region = aws.String(endpoints.UsWest2RegionID)
-		route53Config.Region = aws.String(endpoints.UsEast1RegionID)
-		route53RecoveryControlConfigConfig.Region = aws.String(endpoints.UsWest2RegionID)
-		route53RecoveryReadinessConfig.Region = aws.String(endpoints.UsWest2RegionID)
-		shieldConfig.Region = aws.String(endpoints.UsEast1RegionID)
-	case endpoints.AwsCnPartitionID:
-		// The AWS Go SDK is missing endpoint information for Route 53 in the AWS China partition.
-		// This can likely be removed in the future.
-		if aws.StringValue(route53Config.Endpoint) == "" {
-			route53Config.Endpoint = aws.String("https://api.route53.cn")
-		}
-		route53Config.Region = aws.String(endpoints.CnNorthwest1RegionID)
-	case endpoints.AwsUsGovPartitionID:
-		route53Config.Region = aws.String(endpoints.UsGovWest1RegionID)
-	}
 
 	client.GlobalAcceleratorConn = globalaccelerator.New(sess.Copy(globalAcceleratorConfig))
 	client.Route53Conn = route53.New(sess.Copy(route53Config))

@@ -554,15 +554,15 @@ func AccountID() string {
 }
 
 func Region() string {
-	return conns.GetEnvVarWithDefault(conns.EnvVarDefaultRegion, endpoints.UsWest2RegionID)
+	return conns.GetEnvVarWithDefault(conns.EnvVarDefaultRegion, endpoints.RuMskRegionID)
 }
 
 func AlternateRegion() string {
-	return conns.GetEnvVarWithDefault(conns.EnvVarAlternateRegion, endpoints.UsEast1RegionID)
+	return conns.GetEnvVarWithDefault(conns.EnvVarAlternateRegion, endpoints.RuSpbRegionID)
 }
 
 func ThirdRegion() string {
-	return conns.GetEnvVarWithDefault(conns.EnvVarThirdRegion, endpoints.UsEast2RegionID)
+	return conns.GetEnvVarWithDefault(conns.EnvVarThirdRegion, endpoints.RuSpbRegionID)
 }
 
 func Partition() string {
@@ -805,7 +805,7 @@ func PreCheckIAMServiceLinkedRole(t *testing.T, pathPrefix string) {
 }
 
 func ConfigAlternateAccountProvider() string {
-	//lintignore:AT004
+	// lintignore:AT004
 	return fmt.Sprintf(`
 provider "awsalternate" {
   access_key = %[1]q
@@ -833,7 +833,7 @@ func ConfigMultipleRegionProvider(regions int) string {
 }
 
 func ConfigDefaultAndIgnoreTagsKeyPrefixes1(key1, value1, keyPrefix1 string) string {
-	//lintignore:AT004
+	// lintignore:AT004
 	return fmt.Sprintf(`
 provider "aws" {
   default_tags {
@@ -849,7 +849,7 @@ provider "aws" {
 }
 
 func ConfigDefaultAndIgnoreTagsKeys1(key1, value1 string) string {
-	//lintignore:AT004
+	// lintignore:AT004
 	return fmt.Sprintf(`
 provider "aws" {
   default_tags {
@@ -865,7 +865,7 @@ provider "aws" {
 }
 
 func ConfigIgnoreTagsKeyPrefixes1(keyPrefix1 string) string {
-	//lintignore:AT004
+	// lintignore:AT004
 	return fmt.Sprintf(`
 provider "aws" {
   ignore_tags {
@@ -876,7 +876,7 @@ provider "aws" {
 }
 
 func ConfigIgnoreTagsKeys(key1 string) string {
-	//lintignore:AT004
+	// lintignore:AT004
 	return fmt.Sprintf(`
 provider "aws" {
   ignore_tags {
@@ -890,7 +890,7 @@ provider "aws" {
 //
 // This can be used to build multiple provider configuration testing.
 func ConfigNamedRegionalProvider(providerName string, region string) string {
-	//lintignore:AT004
+	// lintignore:AT004
 	return fmt.Sprintf(`
 provider %[1]q {
   region = %[2]q
@@ -903,7 +903,7 @@ provider %[1]q {
 // This can only be used for single provider configuration testing as it
 // overwrites the "aws" provider configuration.
 func ConfigRegionalProvider(region string) string {
-	//lintignore:AT004
+	// lintignore:AT004
 	return fmt.Sprintf(`
 provider "aws" {
   region = %[1]q
@@ -1034,7 +1034,7 @@ func RegisterServiceErrorCheckFunc(endpointID string, f ServiceErrorCheckFunc) {
 
 	if _, ok := serviceErrorCheckFuncs[endpointID]; ok {
 		// already registered
-		panic(fmt.Sprintf("Cannot re-register a service! ServiceErrorCheckFunc exists for %s", endpointID)) //lintignore:R009
+		panic(fmt.Sprintf("Cannot re-register a service! ServiceErrorCheckFunc exists for %s", endpointID)) // lintignore:R009
 	}
 
 	serviceErrorCheckFuncs[endpointID] = f
@@ -1129,7 +1129,7 @@ func PreCheckSkipError(err error) bool {
 }
 
 func ConfigDefaultTags_Tags0() string {
-	//lintignore:AT004
+	// lintignore:AT004
 	return ConfigCompose(
 		testAccProviderConfigBase,
 		`
@@ -1143,7 +1143,7 @@ provider "aws" {
 }
 
 func ConfigDefaultTags_Tags1(tag1, value1 string) string {
-	//lintignore:AT004
+	// lintignore:AT004
 	return ConfigCompose(
 		testAccProviderConfigBase,
 		fmt.Sprintf(`
@@ -1163,7 +1163,7 @@ provider "aws" {
 }
 
 func ConfigDefaultTags_Tags2(tag1, value1, tag2, value2 string) string {
-	//lintignore:AT004
+	// lintignore:AT004
 	return ConfigCompose(
 		testAccProviderConfigBase,
 		fmt.Sprintf(`
@@ -1188,7 +1188,7 @@ func PreCheckAssumeRoleARN(t *testing.T) {
 }
 
 func ConfigAssumeRolePolicy(policy string) string {
-	//lintignore:AT004
+	// lintignore:AT004
 	return fmt.Sprintf(`
 provider "aws" {
   assume_role {
@@ -1206,7 +1206,7 @@ provider "aws" {
 }
 
 data "aws_caller_identity" "current" {}
-` //lintignore:AT004
+` // lintignore:AT004
 
 const testAccProviderConfigBase = `
 data "aws_partition" "provider_test" {}
@@ -1534,13 +1534,6 @@ func CheckACMPCACertificateAuthorityExists(n string, certificateAuthority *acmpc
 		*certificateAuthority = *output.CertificateAuthority
 
 		return nil
-	}
-}
-
-// PreCheckAPIGatewayTypeEDGE checks if endpoint config type EDGE can be used in a test and skips test if not (i.e., not in standard partition).
-func PreCheckAPIGatewayTypeEDGE(t *testing.T) {
-	if Partition() != endpoints.AwsPartitionID {
-		t.Skipf("skipping test; Endpoint Configuration type EDGE is not supported in this partition (%s)", Partition())
 	}
 }
 

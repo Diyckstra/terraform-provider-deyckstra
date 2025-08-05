@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/service/iam"
 	"github.com/hashicorp/aws-sdk-go-base/v2/awsv1shim/v2/tfawserr"
 	awspolicy "github.com/hashicorp/awspolicyequivalence"
@@ -202,7 +201,7 @@ func resourceRoleCreate(d *schema.ResourceData, meta interface{}) error {
 	output, err := retryCreateRole(conn, request)
 
 	// Some partitions (i.e., ISO) may not support tag-on-create
-	if request.Tags != nil && meta.(*conns.AWSClient).Partition != endpoints.AwsPartitionID && verify.CheckISOErrorTagsUnsupported(err) {
+	if request.Tags != nil && verify.CheckISOErrorTagsUnsupported(err) {
 		log.Printf("[WARN] failed creating IAM Role (%s) with tags: %s. Trying create without tags.", name, err)
 		request.Tags = nil
 
@@ -232,7 +231,7 @@ func resourceRoleCreate(d *schema.ResourceData, meta interface{}) error {
 	d.SetId(roleName)
 
 	// Some partitions (i.e., ISO) may not support tag-on-create, attempt tag after create
-	if request.Tags == nil && len(tags) > 0 && meta.(*conns.AWSClient).Partition != endpoints.AwsPartitionID {
+	if request.Tags == nil && len(tags) > 0 {
 		err := roleUpdateTags(conn, d.Id(), nil, tags)
 
 		// If default tags only, log and continue. Otherwise, error.
@@ -321,7 +320,7 @@ func resourceRoleRead(d *schema.ResourceData, meta interface{}) error {
 
 	tags := KeyValueTags(role.Tags).IgnoreAWS().IgnoreConfig(ignoreTagsConfig)
 
-	//lintignore:AWSR002
+	// lintignore:AWSR002
 	if err := d.Set("tags", tags.RemoveDefaultConfig(defaultTagsConfig).Map()); err != nil {
 		return fmt.Errorf("error setting tags: %w", err)
 	}
@@ -485,7 +484,7 @@ func resourceRoleUpdate(d *schema.ResourceData, meta interface{}) error {
 		err := roleUpdateTags(conn, d.Id(), o, n)
 
 		// Some partitions may not support tagging, giving error
-		if meta.(*conns.AWSClient).Partition != endpoints.AwsPartitionID && verify.CheckISOErrorTagsUnsupported(err) {
+		if verify.CheckISOErrorTagsUnsupported(err) {
 			log.Printf("[WARN] failed updating tags for IAM Role %s: %s", d.Id(), err)
 			return resourceRoleRead(d, meta)
 		}

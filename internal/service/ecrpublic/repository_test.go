@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/service/ecrpublic"
 	"github.com/hashicorp/aws-sdk-go-base/v2/awsv1shim/v2/tfawserr"
 	sdkacctest "github.com/hashicorp/terraform-plugin-sdk/v2/helper/acctest"
@@ -452,14 +451,6 @@ resource "aws_ecrpublic_repository" "test" {
 }
 
 func testAccPreCheck(t *testing.T) {
-	// At this time, calls to DescribeRepositories returns (and by default, retries)
-	// an InternalFailure when the region is not supported i.e. not us-east-1.
-	// TODO: Remove when ECRPublic is supported across other known regions
-	// Reference: https://github.com/hashicorp/terraform-provider-aws/issues/18047
-	if region := acctest.Provider.Meta().(*conns.AWSClient).Region; region != endpoints.UsEast1RegionID {
-		t.Skipf("skipping acceptance testing: region (%s) does not support ECR Public repositories", region)
-	}
-
 	conn := acctest.Provider.Meta().(*conns.AWSClient).ECRPublicConn
 	input := &ecrpublic.DescribeRepositoriesInput{}
 	_, err := conn.DescribeRepositories(input)

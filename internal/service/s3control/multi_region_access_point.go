@@ -8,7 +8,6 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/arn"
-	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/service/s3control"
 	"github.com/hashicorp/aws-sdk-go-base/v2/awsv1shim/v2/tfawserr"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -256,8 +255,12 @@ func resourceMultiRegionAccessPointDelete(d *schema.ResourceData, meta interface
 
 func ConnForMRAP(client *conns.AWSClient) (*s3control.S3Control, error) {
 	originalConn := client.S3ControlConn
+
+	// FIXME: if resources using this method are supported one day,
+	//  it will be easier to replace the aws region here.
+
 	// All Multi-Region Access Point actions are routed to the US West (Oregon) Region.
-	region := endpoints.UsWest2RegionID
+	region := "us-west-2" // lintignore:AWSAT003
 
 	if originalConn.Config.Region != nil && aws.StringValue(originalConn.Config.Region) == region {
 		return originalConn, nil

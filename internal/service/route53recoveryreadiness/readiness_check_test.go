@@ -23,8 +23,8 @@ func TestAccRoute53RecoveryReadinessReadinessCheck_basic(t *testing.T) {
 	resourceName := "aws_route53recoveryreadiness_readiness_check.test"
 	cwArn := arn.ARN{
 		AccountID: "123456789012",
-		Partition: endpoints.AwsPartitionID,
-		Region:    endpoints.EuWest1RegionID,
+		Partition: "c2",
+		Region:    endpoints.RuMskRegionID,
 		Resource:  "alarm:zzzzzzzzz",
 		Service:   "cloudwatch",
 	}.String()
@@ -58,8 +58,8 @@ func TestAccRoute53RecoveryReadinessReadinessCheck_disappears(t *testing.T) {
 	resourceName := "aws_route53recoveryreadiness_readiness_check.test"
 	cwArn := arn.ARN{
 		AccountID: "123456789012",
-		Partition: endpoints.AwsPartitionID,
-		Region:    endpoints.EuWest1RegionID,
+		Partition: "c2",
+		Region:    endpoints.RuMskRegionID,
 		Resource:  "alarm:zzzzzzzzz",
 		Service:   "cloudwatch",
 	}.String()
@@ -87,8 +87,8 @@ func TestAccRoute53RecoveryReadinessReadinessCheck_tags(t *testing.T) {
 	resourceName := "aws_route53recoveryreadiness_readiness_check.test"
 	cwArn := arn.ARN{
 		AccountID: "123456789012",
-		Partition: endpoints.AwsPartitionID,
-		Region:    endpoints.EuWest1RegionID,
+		Partition: "c2",
+		Region:    endpoints.RuMskRegionID,
 		Resource:  "alarm:zzzzzzzzz",
 		Service:   "cloudwatch",
 	}.String()
@@ -139,8 +139,8 @@ func TestAccRoute53RecoveryReadinessReadinessCheck_timeout(t *testing.T) {
 	resourceName := "aws_route53recoveryreadiness_readiness_check.test"
 	cwArn := arn.ARN{
 		AccountID: "123456789012",
-		Partition: endpoints.AwsPartitionID,
-		Region:    endpoints.EuWest1RegionID,
+		Partition: "c2",
+		Region:    endpoints.RuMskRegionID,
 		Resource:  "alarm:zzzzzzzzz",
 		Service:   "cloudwatch",
 	}.String()

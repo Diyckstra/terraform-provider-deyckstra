@@ -5,7 +5,6 @@ import (
 	"log"
 
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/service/ec2"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-provider-aws/internal/conns"
@@ -108,8 +107,12 @@ func resourceDefaultVPCDHCPOptionsDelete(d *schema.ResourceData, meta interface{
 	return nil
 }
 
+// FIXME: get rid of using aws regions when fixing eip attributes: public_dns, private_dns or
+//  this resource (aws_default_vpc_dhcp_options).
+
 func RegionalPrivateDNSSuffix(region string) string {
-	if region == endpoints.UsEast1RegionID {
+	// lintignore:AWSAT003
+	if region == "us-east-1" {
 		return "ec2.internal"
 	}
 
@@ -117,7 +120,8 @@ func RegionalPrivateDNSSuffix(region string) string {
 }
 
 func RegionalPublicDNSSuffix(region string) string {
-	if region == endpoints.UsEast1RegionID {
+	// lintignore:AWSAT003
+	if region == "us-east-1" {
 		return "compute-1"
 	}
 

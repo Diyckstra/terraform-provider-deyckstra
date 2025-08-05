@@ -66,7 +66,7 @@ func TestAccPaaSServiceElasticSearch_basic(t *testing.T) {
 						"kibana":       "false",
 						"logging.#":    "0",
 						"monitoring.#": "0",
-						"version":      "8.12",
+						"version":      "8.17",
 					}),
 					resource.TestCheckResourceAttr(resourceName, "endpoints.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "environment_version"),
@@ -167,6 +167,20 @@ resource "aws_vpc" "test" {
   }
 }
 
+resource "aws_internet_gateway" "test" {
+  vpc_id = aws_vpc.test.id
+
+  tags = {
+    Name  = %[1]q
+  }
+}
+
+resource "aws_route" "test" {
+  route_table_id         = aws_vpc.test.main_route_table_id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = aws_internet_gateway.test.id
+}
+
 resource "aws_subnet" "test" {
   cidr_block = "10.0.1.0/24"
   vpc_id     = aws_vpc.test.id
@@ -177,12 +191,14 @@ resource "aws_subnet" "test" {
 }
 
 resource "aws_key_pair" "test" {
-  key_name   = %[1]q
-  public_key = %[2]q
+  key_name   = %[2]q
+  public_key = %[3]q
 }
 
 resource "aws_paas_service" "test" {
-  name          = %[3]q 
+  depends_on = ["aws_internet_gateway.test"]
+
+  name          = %[1]q
   instance_type = "c5.large"
 
   root_volume {
@@ -200,8 +216,8 @@ resource "aws_paas_service" "test" {
   ssh_key_name = aws_key_pair.test.key_name
 
   elasticsearch {
-    version = "8.12"
+    version = "8.17"
   }
 }
-`, keyName, publicKey, serviceName)
+`, serviceName, keyName, publicKey)
 }

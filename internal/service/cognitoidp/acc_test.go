@@ -5,7 +5,6 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/service/cognitoidentityprovider"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -71,19 +70,10 @@ func testAccUserPoolCustomDomainRegionProviderConfig() string {
 	return acctest.ConfigRegionalProvider(testAccGetUserPoolCustomDomainRegion())
 }
 
+// FIXME: testAccCognitoUserPoolCustomDomainRegion is always "".
+//  Fix it, if Cognito User Pool Custom Domains are supported.
+
 // testAccGetUserPoolCustomDomainRegion returns the Cognito User Pool Custom Domains region for testing
 func testAccGetUserPoolCustomDomainRegion() string {
-	if testAccCognitoUserPoolCustomDomainRegion != "" {
-		return testAccCognitoUserPoolCustomDomainRegion
-	}
-
-	// AWS Commercial: https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-add-custom-domain.html
-	// AWS GovCloud (US) - not supported: https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-cog.html
-	// AWS China - not supported: https://docs.amazonaws.cn/en_us/aws/latest/userguide/cognito.html
-	switch acctest.Partition() {
-	case endpoints.AwsPartitionID:
-		testAccCognitoUserPoolCustomDomainRegion = endpoints.UsEast1RegionID
-	}
-
 	return testAccCognitoUserPoolCustomDomainRegion
 }

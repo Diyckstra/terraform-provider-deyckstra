@@ -11,7 +11,6 @@ import (
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/service/lambda"
 	"github.com/aws/aws-sdk-go/service/signer"
 	sdkacctest "github.com/hashicorp/terraform-plugin-sdk/v2/helper/acctest"
@@ -165,18 +164,6 @@ func TestAccLambdaFunction_disappears(t *testing.T) {
 }
 
 func TestAccLambdaFunction_codeSigning(t *testing.T) {
-	if got, want := acctest.Partition(), endpoints.AwsUsGovPartitionID; got == want {
-		t.Skipf("Lambda code signing config is not supported in %s partition", got)
-	}
-
-	// We are hardcoding the region here, because go aws sdk endpoints
-	// package does not support Signer service
-	for _, want := range []string{endpoints.ApNortheast3RegionID, endpoints.ApSoutheast3RegionID} {
-		if got := acctest.Region(); got == want {
-			t.Skipf("Lambda code signing config is not supported in %s region", got)
-		}
-	}
-
 	var conf lambda.GetFunctionOutput
 	rString := sdkacctest.RandString(8)
 	funcName := fmt.Sprintf("tf_acc_lambda_func_csc_%s", rString)
@@ -1245,10 +1232,6 @@ func TestAccLambdaFunction_ephemeralStorage(t *testing.T) {
 func TestAccLambdaFunction_tracing(t *testing.T) {
 	if testing.Short() {
 		t.Skip("skipping long-running test in short mode")
-	}
-
-	if got, want := acctest.Partition(), endpoints.AwsUsGovPartitionID; got == want {
-		t.Skipf("Lambda tracing config is not supported in %s partition", got)
 	}
 
 	var conf lambda.GetFunctionOutput

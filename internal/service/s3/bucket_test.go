@@ -2362,7 +2362,7 @@ func TestBucketName(t *testing.T) {
 	}
 
 	for _, v := range validDnsNames {
-		if err := tfs3.ValidBucketName(v, endpoints.UsWest2RegionID); err != nil {
+		if err := tfs3.ValidBucketName(v); err != nil {
 			t.Fatalf("%q should be a valid S3 bucket name", v)
 		}
 	}
@@ -2379,35 +2379,7 @@ func TestBucketName(t *testing.T) {
 	}
 
 	for _, v := range invalidDnsNames {
-		if err := tfs3.ValidBucketName(v, endpoints.UsWest2RegionID); err == nil {
-			t.Fatalf("%q should not be a valid S3 bucket name", v)
-		}
-	}
-
-	validEastNames := []string{
-		"foobar",
-		"foo_bar",
-		"127.0.0.1",
-		"foo..bar",
-		"foo_bar_baz",
-		"foo.bar.baz",
-		"Foo.Bar",
-		strings.Repeat("x", 255),
-	}
-
-	for _, v := range validEastNames {
-		if err := tfs3.ValidBucketName(v, endpoints.UsEast1RegionID); err != nil {
-			t.Fatalf("%q should be a valid S3 bucket name", v)
-		}
-	}
-
-	invalidEastNames := []string{
-		"foo;bar",
-		strings.Repeat("x", 256),
-	}
-
-	for _, v := range invalidEastNames {
-		if err := tfs3.ValidBucketName(v, endpoints.UsEast1RegionID); err == nil {
+		if err := tfs3.ValidBucketName(v); err == nil {
 			t.Fatalf("%q should not be a valid S3 bucket name", v)
 		}
 	}
@@ -2427,34 +2399,27 @@ func TestBucketRegionalDomainName(t *testing.T) {
 			ExpectedOutput:   bucket + ".s3.amazonaws.com",
 		},
 		{
-			Region:           "custom",
+			Region:           "custom-region",
 			ExpectedErrCount: 0,
-			ExpectedOutput:   bucket + ".s3.custom.amazonaws.com",
+			ExpectedOutput: bucket + fmt.Sprintf(
+				".s3.custom-region.%s",
+				endpoints.K2Partition().DNSSuffix(),
+			),
 		},
 		{
-			Region:           endpoints.UsEast1RegionID,
+			Region:           endpoints.RuMskRegionID,
 			ExpectedErrCount: 0,
-			ExpectedOutput:   bucket + ".s3.amazonaws.com",
-		},
-		{
-			Region:           endpoints.UsWest2RegionID,
-			ExpectedErrCount: 0,
-			ExpectedOutput:   bucket + fmt.Sprintf(".s3.%s.%s", endpoints.UsWest2RegionID, acctest.PartitionDNSSuffix()),
-		},
-		{
-			Region:           endpoints.UsGovWest1RegionID,
-			ExpectedErrCount: 0,
-			ExpectedOutput:   bucket + fmt.Sprintf(".s3.%s.%s", endpoints.UsGovWest1RegionID, acctest.PartitionDNSSuffix()),
-		},
-		{
-			Region:           endpoints.CnNorth1RegionID,
-			ExpectedErrCount: 0,
-			ExpectedOutput:   bucket + fmt.Sprintf(".s3.%s.amazonaws.com.cn", endpoints.CnNorth1RegionID),
+			ExpectedOutput: bucket + fmt.Sprintf(
+				".s3.%s.%s",
+				endpoints.RuMskRegionID,
+				endpoints.K2Partition().DNSSuffix(),
+			),
 		},
 	}
 
 	for _, tc := range testCases {
 		output, err := tfs3.BucketRegionalDomainName(bucket, tc.Region)
+
 		if tc.ExpectedErrCount == 0 && err != nil {
 			t.Fatalf("expected %q not to trigger an error, received: %s", tc.Region, err)
 		}
@@ -2468,7 +2433,6 @@ func TestBucketRegionalDomainName(t *testing.T) {
 }
 
 func TestWebsiteEndpoint(t *testing.T) {
-	// https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteEndpoints.html
 	testCases := []struct {
 		TestingClient      *conns.AWSClient
 		LocationConstraint string
@@ -2477,146 +2441,18 @@ func TestWebsiteEndpoint(t *testing.T) {
 		{
 			TestingClient: &conns.AWSClient{
 				DNSSuffix: "amazonaws.com",
-				Region:    endpoints.UsEast1RegionID,
+				Region:    "us-east-1", // lintignore:AWSAT003
 			},
 			LocationConstraint: "",
-			Expected:           fmt.Sprintf("bucket-name.s3-website-%s.%s", endpoints.UsEast1RegionID, acctest.PartitionDNSSuffix()),
+			Expected:           "bucket-name.s3-website-us-east-1.amazonaws.com", // lintignore:AWSAT003
 		},
 		{
 			TestingClient: &conns.AWSClient{
-				DNSSuffix: "amazonaws.com",
-				Region:    endpoints.UsWest2RegionID,
+				DNSSuffix: "custom.suffix",
+				Region:    "custom-region",
 			},
-			LocationConstraint: endpoints.UsWest2RegionID,
-			Expected:           fmt.Sprintf("bucket-name.s3-website-%s.%s", endpoints.UsWest2RegionID, acctest.PartitionDNSSuffix()),
-		},
-		{
-			TestingClient: &conns.AWSClient{
-				DNSSuffix: "amazonaws.com",
-				Region:    endpoints.UsWest1RegionID,
-			},
-			LocationConstraint: endpoints.UsWest1RegionID,
-			Expected:           fmt.Sprintf("bucket-name.s3-website-%s.%s", endpoints.UsWest1RegionID, acctest.PartitionDNSSuffix()),
-		},
-		{
-			TestingClient: &conns.AWSClient{
-				DNSSuffix: "amazonaws.com",
-				Region:    endpoints.EuWest1RegionID,
-			},
-			LocationConstraint: endpoints.EuWest1RegionID,
-			Expected:           fmt.Sprintf("bucket-name.s3-website-%s.%s", endpoints.EuWest1RegionID, acctest.PartitionDNSSuffix()),
-		},
-		{
-			TestingClient: &conns.AWSClient{
-				DNSSuffix: "amazonaws.com",
-				Region:    endpoints.EuWest3RegionID,
-			},
-			LocationConstraint: endpoints.EuWest3RegionID,
-			Expected:           fmt.Sprintf("bucket-name.s3-website.%s.%s", endpoints.EuWest3RegionID, acctest.PartitionDNSSuffix()),
-		},
-		{
-			TestingClient: &conns.AWSClient{
-				DNSSuffix: "amazonaws.com",
-				Region:    endpoints.EuCentral1RegionID,
-			},
-			LocationConstraint: endpoints.EuCentral1RegionID,
-			Expected:           fmt.Sprintf("bucket-name.s3-website.%s.%s", endpoints.EuCentral1RegionID, acctest.PartitionDNSSuffix()),
-		},
-		{
-			TestingClient: &conns.AWSClient{
-				DNSSuffix: "amazonaws.com",
-				Region:    endpoints.ApSouth1RegionID,
-			},
-			LocationConstraint: endpoints.ApSouth1RegionID,
-			Expected:           fmt.Sprintf("bucket-name.s3-website.%s.%s", endpoints.ApSouth1RegionID, acctest.PartitionDNSSuffix()),
-		},
-		{
-			TestingClient: &conns.AWSClient{
-				DNSSuffix: "amazonaws.com",
-				Region:    endpoints.ApSoutheast1RegionID,
-			},
-			LocationConstraint: endpoints.ApSoutheast1RegionID,
-			Expected:           fmt.Sprintf("bucket-name.s3-website-%s.%s", endpoints.ApSoutheast1RegionID, acctest.PartitionDNSSuffix()),
-		},
-		{
-			TestingClient: &conns.AWSClient{
-				DNSSuffix: "amazonaws.com",
-				Region:    endpoints.ApNortheast1RegionID,
-			},
-			LocationConstraint: endpoints.ApNortheast1RegionID,
-			Expected:           fmt.Sprintf("bucket-name.s3-website-%s.%s", endpoints.ApNortheast1RegionID, acctest.PartitionDNSSuffix()),
-		},
-		{
-			TestingClient: &conns.AWSClient{
-				DNSSuffix: "amazonaws.com",
-				Region:    endpoints.ApSoutheast2RegionID,
-			},
-			LocationConstraint: endpoints.ApSoutheast2RegionID,
-			Expected:           fmt.Sprintf("bucket-name.s3-website-%s.%s", endpoints.ApSoutheast2RegionID, acctest.PartitionDNSSuffix()),
-		},
-		{
-			TestingClient: &conns.AWSClient{
-				DNSSuffix: "amazonaws.com",
-				Region:    endpoints.ApNortheast2RegionID,
-			},
-			LocationConstraint: endpoints.ApNortheast2RegionID,
-			Expected:           fmt.Sprintf("bucket-name.s3-website.%s.%s", endpoints.ApNortheast2RegionID, acctest.PartitionDNSSuffix()),
-		},
-		{
-			TestingClient: &conns.AWSClient{
-				DNSSuffix: "amazonaws.com",
-				Region:    endpoints.SaEast1RegionID,
-			},
-			LocationConstraint: endpoints.SaEast1RegionID,
-			Expected:           fmt.Sprintf("bucket-name.s3-website-%s.%s", endpoints.SaEast1RegionID, acctest.PartitionDNSSuffix()),
-		},
-		{
-			TestingClient: &conns.AWSClient{
-				DNSSuffix: "amazonaws.com",
-				Region:    endpoints.UsGovEast1RegionID,
-			},
-			LocationConstraint: endpoints.UsGovEast1RegionID,
-			Expected:           fmt.Sprintf("bucket-name.s3-website.%s.%s", endpoints.UsGovEast1RegionID, acctest.PartitionDNSSuffix()),
-		},
-		{
-			TestingClient: &conns.AWSClient{
-				DNSSuffix: "amazonaws.com",
-				Region:    endpoints.UsGovWest1RegionID,
-			},
-			LocationConstraint: endpoints.UsGovWest1RegionID,
-			Expected:           fmt.Sprintf("bucket-name.s3-website-%s.%s", endpoints.UsGovWest1RegionID, acctest.PartitionDNSSuffix()),
-		},
-		{
-			TestingClient: &conns.AWSClient{
-				DNSSuffix: "c2s.ic.gov",
-				Region:    endpoints.UsIsoEast1RegionID,
-			},
-			LocationConstraint: endpoints.UsIsoEast1RegionID,
-			Expected:           fmt.Sprintf("bucket-name.s3-website.%s.c2s.ic.gov", endpoints.UsIsoEast1RegionID),
-		},
-		{
-			TestingClient: &conns.AWSClient{
-				DNSSuffix: "sc2s.sgov.gov",
-				Region:    endpoints.UsIsobEast1RegionID,
-			},
-			LocationConstraint: endpoints.UsIsobEast1RegionID,
-			Expected:           fmt.Sprintf("bucket-name.s3-website.%s.sc2s.sgov.gov", endpoints.UsIsobEast1RegionID),
-		},
-		{
-			TestingClient: &conns.AWSClient{
-				DNSSuffix: "amazonaws.com.cn",
-				Region:    endpoints.CnNorthwest1RegionID,
-			},
-			LocationConstraint: endpoints.CnNorthwest1RegionID,
-			Expected:           fmt.Sprintf("bucket-name.s3-website.%s.amazonaws.com.cn", endpoints.CnNorthwest1RegionID),
-		},
-		{
-			TestingClient: &conns.AWSClient{
-				DNSSuffix: "amazonaws.com.cn",
-				Region:    endpoints.CnNorth1RegionID,
-			},
-			LocationConstraint: endpoints.CnNorth1RegionID,
-			Expected:           fmt.Sprintf("bucket-name.s3-website.%s.amazonaws.com.cn", endpoints.CnNorth1RegionID),
+			LocationConstraint: "custom-region",
+			Expected:           "bucket-name.s3-website.custom-region.custom.suffix",
 		},
 	}
 

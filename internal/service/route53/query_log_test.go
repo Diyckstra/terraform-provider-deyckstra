@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/service/route53"
 	"github.com/hashicorp/aws-sdk-go-base/v2/awsv1shim/v2/tfawserr"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
@@ -264,19 +263,9 @@ func testAccQueryLogRegionProviderConfig() string {
 	return acctest.ConfigRegionalProvider(testAccGetQueryLogRegion())
 }
 
+// FIXME: testAccRoute53QueryLogRegion is always "". Fix it, if Route53 Query Logging is supported.
+
 // testAccGetQueryLogRegion returns the Route 53 Query Logging region for testing
 func testAccGetQueryLogRegion() string {
-	if testAccRoute53QueryLogRegion != "" {
-		return testAccRoute53QueryLogRegion
-	}
-
-	// AWS Commercial: https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/query-logs.html
-	// AWS GovCloud (US) - only private DNS: https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-r53.html
-	// AWS China - not available yet: https://docs.amazonaws.cn/en_us/aws/latest/userguide/route53.html
-	switch acctest.Partition() {
-	case endpoints.AwsPartitionID:
-		testAccRoute53QueryLogRegion = endpoints.UsEast1RegionID
-	}
-
 	return testAccRoute53QueryLogRegion
 }

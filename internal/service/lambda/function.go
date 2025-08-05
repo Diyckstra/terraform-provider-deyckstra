@@ -12,7 +12,6 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/arn"
 	"github.com/aws/aws-sdk-go/aws/awserr"
-	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/service/lambda"
 	"github.com/hashicorp/aws-sdk-go-base/v2/awsv1shim/v2/tfawserr"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/customdiff"
@@ -709,7 +708,7 @@ func resourceFunctionRead(d *schema.ResourceData, meta interface{}) error {
 	if !qualifierExistance {
 		tags := KeyValueTags(getFunctionOutput.Tags).IgnoreAWS().IgnoreConfig(ignoreTagsConfig)
 
-		//lintignore:AWSR002
+		// lintignore:AWSR002
 		if err := d.Set("tags", tags.RemoveDefaultConfig(defaultTagsConfig).Map()); err != nil {
 			return fmt.Errorf("error setting tags: %w", err)
 		}
@@ -885,22 +884,6 @@ func resourceFunctionRead(d *schema.ResourceData, meta interface{}) error {
 
 	invokeArn := functionInvokeArn(*function.FunctionArn, meta)
 	d.Set("invoke_arn", invokeArn)
-
-	// Currently, this functionality is only enabled in AWS Commercial partition
-	// and other partitions return ambiguous error codes (e.g. AccessDeniedException
-	// in AWS GovCloud (US)) so we cannot just ignore the error as would typically.
-	if partition := meta.(*conns.AWSClient).Partition; partition != endpoints.AwsPartitionID {
-		return nil
-	}
-
-	// Currently, this functionality is not enabled in ap-northeast-3 (Osaka) and ap-southeast-3 (Jakarta) region
-	// and returns ambiguous error codes (e.g. AccessDeniedException)
-	// so we cannot just ignore the error as would typically.
-	// We are hardcoding the region here, because go aws sdk endpoints
-	// package does not support Signer service
-	if region := meta.(*conns.AWSClient).Region; region == endpoints.ApNortheast3RegionID || region == endpoints.ApSoutheast3RegionID {
-		return nil
-	}
 
 	// Code Signing is only supported on zip packaged lambda functions.
 	var codeSigningConfigArn string
