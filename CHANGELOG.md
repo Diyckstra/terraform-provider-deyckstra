@@ -1,3 +1,21 @@
+## 25.2.0
+
+NOTES:
+
+* Add Github Actions workflows
+* Use K2 Cloud partition and regions
+
+FEATURES:
+
+* **New Data Source**: `aws_arn` (internal usage)
+* **New Data Source**: `aws_partition` (internal usage)
+
+ENHANCEMENTS:
+
+* resource/aws_s3_bucket:
+    * remove location constraint population when creating bucket
+    * update bucket name validation to comply with K2 Cloud restrictions across all regions
+
 ## 25.1.1
 
 FEATURES:
