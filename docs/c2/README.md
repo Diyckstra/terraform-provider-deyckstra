@@ -247,8 +247,6 @@ $ make website-lint
 $ make docscheck
 ```
 
-Так же линтеры для документации можно запустить с помощью проставления лейбла `check-doc` в PR'е
-
 ### Директория website_unsupported
 
 В `website_unsupported/` перенесены гайды и документация для ресурсов, которые не поддерживаются Rockit Cloud API.
@@ -595,7 +593,7 @@ $ ./update-s3-registry.sh
 
 Запуск автоматизации:
 
-1. перейти по [ссылке](https://github.com/C2Devel/terraform-provider-rockitcloud/actions) #TODO: Уточнить ссылку
+1. перейти по [ссылке](https://github.com/C2Devel/terraform-provider-rockitcloud/actions/workflows/private-release.yml)
 2. нажать на кнопку `Run workflow`
 3. в выпадающем меню снова нажать на кнопку `Run workflow`
 
@@ -640,7 +638,7 @@ $ scripts/build-docs.sh
 
 Для выпуска внутренней документации требуется:
 
-1. перейти по [ссылке](https://github.com/C2Devel/terraform-provider-rockitcloud/actions) #TODO: Уточнить ссылку
+1. перейти по [ссылке](https://github.com/C2Devel/terraform-provider-rockitcloud/actions/workflows/publish-internal-docs.yml)
 2. нажать на кнопку `Run workflow`
 3. в выпадающем меню снова нажать на кнопку `Run workflow`
 
