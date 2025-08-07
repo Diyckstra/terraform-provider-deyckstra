@@ -51,4 +51,4 @@ In addition to all arguments above, the following attributes are exported:
 
 The following attributes are not currently supported:
 
-`all_availability_zones`, `group_name`, `name_suffix`, `network_border_group`, `opt_in_status`, `parent_zone_id`, `parent_zone_name`, `zone_id`, `zone_type`.
+`all_availability_zones`, `group_name`, `network_border_group`, `opt_in_status`, `parent_zone_id`, `parent_zone_name`, `zone_id`, `zone_type`.
