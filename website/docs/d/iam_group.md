@@ -32,7 +32,8 @@ data "aws_iam_group" "selected" {
 
 ## Argument Reference
 
-* `arn` - (Optional) The Amazon Resource Name (ARN) of the group (e.g. `arn:c2:iam::<customer-name>:group/<group-name>`).
+* `arn` - (Optional) The Amazon Resource Name (ARN) of the group
+    * _ARN Format_: `arn:c2:iam::<customer-name>:group/<group-name>`
     * _Constraints_: Required if `name` is not specified
 * `name` - (Optional) The name of the group.
     * _Constraints_: Required if `arn` is not specified
@@ -42,6 +43,8 @@ data "aws_iam_group" "selected" {
 ## Attribute Reference
 
 ### Supported attributes
+
+In addition to all arguments above, the following attributes are exported:
 
 * `create_date` - The time in [RFC3339 format] when the group was created.
 * `group_id` - The ID of the group.

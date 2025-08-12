@@ -37,7 +37,7 @@ The following arguments are supported:
 * `size` - (Optional) The size of the drive in GiB.
 * `snapshot_id` (Optional) A snapshot to base the EBS volume on.
 * `type` - (Optional) The type of EBS volume. Can be `st2`, `gp2` or `io2` (Default: `st2`).
-* `tags` - (Optional) Map of tags to assign to the resource. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
+* `tags` - (Optional) Map of tags to assign to the volume. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
 ## Attribute Reference
 
@@ -45,9 +45,9 @@ The following arguments are supported:
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` - Amazon Resource Name (ARN) of the volume.
-* `id` - The volume ID (e.g., vol-12345678).
-* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `arn` - The Amazon Resource Name (ARN) of the volume.
+* `id` - The volume ID (e.g., `vol-12345678`).
+* `tags_all` - Map of tags assigned to the volume, including those inherited from the provider [`default_tags` configuration block][default-tags].
 * `throughput` - The throughput that the volume supports, in MiB/s.
 
 ### Unsupported attributes

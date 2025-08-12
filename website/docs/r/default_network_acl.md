@@ -7,7 +7,9 @@ description: |-
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
+[icmp-parameters]: https://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml
 [network-acl]: https://docs.k2.cloud/en/services/security/networkacl.html
+
 
 # Resource: aws_default_network_acl
 
@@ -130,7 +132,7 @@ The following arguments are optional:
 * `egress` - (Optional) Configuration block for an egress rule. Detailed below.
 * `ingress` - (Optional) Configuration block for an ingress rule. Detailed below.
 * `subnet_ids` - (Optional) List of subnet IDs to apply the ACL to. See the notes below on managing subnets in the default network ACL.
-* `tags` - (Optional) Map of tags to assign to the resource. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
+* `tags` - (Optional) Map of tags to assign to the ACL. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
 ### egress and ingress
 
@@ -150,7 +152,7 @@ The following arguments are optional:
 * `icmp_code` - (Optional) The ICMP type code to be used. Default 0.
 * `icmp_type` - (Optional) The ICMP type to be used. Default 0.
 
--> For more information on ICMP types and codes, see [Internet Control Message Protocol (ICMP) Parameters](https://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml).
+-> For more information on ICMP types and codes, see [Internet Control Message Protocol (ICMP) Parameters][icmp-parameters].
 
 ## Attribute Reference
 
@@ -158,10 +160,10 @@ The following arguments are optional:
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` - The Amazon Resource Name (ARN) of the default network ACL
-* `id` - ID of the default network ACL
-* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
-* `vpc_id` -  ID of the associated VPC
+* `arn` - The Amazon Resource Name (ARN) of the default network ACL.
+* `id` - The ID of the default network ACL.
+* `tags_all` - Map of tags assigned to the default network ACL, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `vpc_id` -  The ID of the associated VPC.
 
 ### Unsupported attributes
 

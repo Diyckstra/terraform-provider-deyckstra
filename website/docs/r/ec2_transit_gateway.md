@@ -52,7 +52,7 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - The ID of the transit gateway.
 * `owner_id` - The ID of the project that owns the transit gateway.
 * `propagation_default_route_table_id` - The ID of the default propagation route table.
-* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the transit gateway, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 

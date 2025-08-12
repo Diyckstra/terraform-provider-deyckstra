@@ -44,7 +44,7 @@ The following arguments are optional:
 * `security_groups` - (Optional) List of security group IDs to assign to the ENI.
 * `source_dest_check` - (Optional) Whether to enable source destination checking for the ENI.
     * _Default value:_ `true`.
-* `tags` - (Optional) Map of tags to assign to the resource. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
+* `tags` - (Optional) Map of tags to assign to the network interface. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
 ### Attachment
 
@@ -64,7 +64,7 @@ In addition to all arguments above, the following attributes are exported:
 * `mac_address` - MAC address of the network interface.
 * `owner_id` - The project ID.
 * `private_dns_name` - Private DNS name of the network interface (IPv4).
-* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the network interface, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 

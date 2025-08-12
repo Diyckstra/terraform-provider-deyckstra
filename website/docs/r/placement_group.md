@@ -12,7 +12,7 @@ description: |-
 # Resource: aws_placement_group
 
 Manages an EC2 placement group.
-For more information, see the documentation on [Placement groups][placement-groups].
+For more information, see the documentation on [placement groups][placement-groups].
 
 ## Example Usage
 
@@ -29,8 +29,8 @@ The following arguments are supported:
 
 * `name` - (Required) The name of the placement group.
 * `strategy` - (Required) The placement strategy.
-    * _Valid values_: `"spread"`
-* `tags` - (Optional) Map of tags to assign to the resource. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
+    * _Valid values_: `spread`
+* `tags` - (Optional) Map of tags to assign to the placement group. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
 ## Attribute Reference
 
@@ -38,10 +38,10 @@ The following arguments are supported:
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` - Amazon Resource Name (ARN) of the placement group.
+* `arn` - The Amazon Resource Name (ARN) of the placement group.
 * `id` - The name of the placement group.
 * `placement_group_id` - The ID of the placement group.
-* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the placement group, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 

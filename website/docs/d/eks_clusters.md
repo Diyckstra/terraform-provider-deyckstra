@@ -8,7 +8,7 @@ description: |-
 
 # Data Source: aws_eks_clusters
 
-Provides the list of EKS clusters names matching the specified criteria.
+Provides a list of EKS clusters names.
 
 ## Example Usage
 
@@ -23,5 +23,7 @@ data "aws_eks_cluster" "example" {
 
 ## Attribute Reference
 
-* `id` - Region.
+In addition to all arguments above, the following attributes are exported:
+
+* `id` - The region.
 * `names` - Set of EKS clusters names.

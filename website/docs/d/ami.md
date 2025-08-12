@@ -42,7 +42,7 @@ data "aws_ami" "example" {
 
 ~> **Note** The search must return a single match, otherwise Terraform will fail.
 Ensure that your search is specific enough to return the ID of
-a single image  only, or use `most_recent` to choose the most recent one. If
+a single image only, or use `most_recent` to choose the most recent one. If
 you want to match multiple images, use the [`aws_ami_ids`](ami_ids.md) data source instead.
 
 ## Attribute Reference
@@ -52,27 +52,27 @@ you want to match multiple images, use the [`aws_ami_ids`](ami_ids.md) data sour
 In addition to all arguments above, the following attributes are exported:
 
 * `arn` - The Amazon Resource Name (ARN) of the image.
-* `architecture` - The OS architecture of the image (e.g., `i386` or `x86_64`).
+* `architecture` - The OS architecture of the image.
 * `block_device_mappings` - Set of objects with block device mappings of the image.
   The structure of this block is [described below](#block_device_mappings).
 * `description` - The description of the image that was provided during image
   creation.
 * `id` - The ID of the image.
 * `image_id` - The ID of the image. Should be the same as the resource `id`.
-* `image_owner_alias` -  The alias of the image owner name.
+* `image_owner_alias` -  The alias of the image owner.
 * `image_type` - The type of the image.
 * `name` - The name of the image that was provided during image creation.
-* `owner_id` - The ID of the project.
-* `platform` - The value is `Windows` for Windows images; otherwise blank.
+* `owner_id` - The ID of the image owner.
+* `platform` - The platform of the image.
 * `public` - `true` if the image has public launch permissions.
 * `root_device_name` - The device name of the root device.
-* `root_device_type` - The type of the root device (e.g., `ebs` or `instance-store`).
+* `root_device_type` - The type of the root device.
 * `root_snapshot_id` - The ID of the snapshot associated with the root device, if any
   (only applies to `ebs` root devices).
 * `state` - The current state of the image. If the state is `available`, the image
   is successfully registered and can be used to launch an instance.
 * `tags` - Map of tags assigned to the image.
-* `virtualization_type` - The type of virtualization of the image (e.g., `hvm`).
+* `virtualization_type` - The type of virtualization of the image.
 
 #### block_device_mappings
 
@@ -100,4 +100,4 @@ The `ebs` block is a part of the [`block_device_mappings`](#block_device_mapping
 
 The following attributes are not currently supported:
 
-`boot_mode`, `creation_date`, `deprecation_time`, `ena_support`, `hypervisor`, `image_location`, `kernel_id`, `platform_details`, `product_codes`, `ramdisk_id`, `state_reason`, `sriov_net_support`, `usage_operation`.
+`boot_mode`, `creation_date`, `deprecation_time`, `ena_support`, `hypervisor`, `image_location`, `kernel_id`, `platform_details`, `product_codes`, `ramdisk_id`, `sriov_net_support`, `state_reason`, `usage_operation`.

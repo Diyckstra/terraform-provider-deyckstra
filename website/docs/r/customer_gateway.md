@@ -42,7 +42,7 @@ In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the gateway.
 * `arn` - The Amazon Resource Name (ARN) of the customer gateway.
-* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the customer gateway, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 
@@ -54,7 +54,7 @@ The following attributes are not currently supported:
 
 ## Import
 
-Customer Gateways can be imported using `id`, e.g.,
+Customer gateways can be imported using `id`, e.g.,
 
 ```
 $ terraform import aws_customer_gateway.main cgw-12345678

@@ -38,6 +38,8 @@ The following arguments are supported:
 
 ### Supported attributes
 
+In addition to all arguments above, the following attributes are exported:
+
 * `arns` - List of ARNs of the users.
 * `id` - The region.
 * `names` - List of user names.

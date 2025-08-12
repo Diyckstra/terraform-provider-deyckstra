@@ -3,7 +3,7 @@ subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_s3_bucket_lifecycle_configuration"
 description: |-
-  Manages a S3 bucket lifecycle configuration.
+  Manages an S3 bucket lifecycle configuration.
 ---
 
 [lifecycle-management]: https://docs.k2.cloud/en/services/object_storage/operations.html#id28
@@ -11,7 +11,7 @@ description: |-
 
 # Resource: aws_s3_bucket_lifecycle_configuration
 
-Manages an independent configuration resource for S3 bucket lifecycle configuration.
+Manages an S3 bucket lifecycle configuration.
 For more information about lifecycle management, see [user documentation][lifecycle-management].
 
 An S3 lifecycle configuration consists of one or more lifecycle rules. Each rule consists of the following:

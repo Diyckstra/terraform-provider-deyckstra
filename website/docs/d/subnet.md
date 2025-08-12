@@ -3,7 +3,7 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_subnet"
 description: |-
-    Provides information about a subnet.
+  Provides information about a subnet.
 ---
 
 [describe-subnets]: https://docs.k2.cloud/en/api/ec2/subnets/DescribeSubnets.html

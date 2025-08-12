@@ -3,7 +3,7 @@ subcategory: "EC2 (Elastic Compute Cloud)"
 layout: "aws"
 page_title: "aws_eip"
 description: |-
-  Manages an Elastic IP resource.
+  Manages an Elastic IP.
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
@@ -13,7 +13,7 @@ description: |-
 
 # Resource: aws_eip
 
-Manages an Elastic IP resource. For more information about EIPs, see [user documentation][elastic-ips].
+Manages an Elastic IP. For more information about EIPs, see [user documentation][elastic-ips].
 
 ## Example Usage
 
@@ -70,11 +70,11 @@ The following arguments are supported:
     _Constraints:_ This option is only available for VPC EIPs
 * `associate_with_private_ip` - (Optional) User-specified primary or secondary private IP address to associate with the elastic IP address.
     * _Constraints:_ If no private IP address is specified, the elastic IP address is associated with the primary private IP address
-* `instance` - (Optional) ID of the EC2 instance.
-* `network_interface` - (Optional) ID of the network interface to associate with.
-* `public_ipv4_pool` - (Optional) EC2 IPv4 address pool identifier.
-    * _Constraints:_  This option is only available for VPC EIPs.
-* `tags` - (Optional) Map of tags to assign to the resource. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
+* `instance` - (Optional) The ID of the EC2 instance.
+* `network_interface` - (Optional) The ID of the network interface to associate with.
+* `public_ipv4_pool` - (Optional) The ID of the EC2 IPv4 address pool.
+    * _Constraints:_  This option is only available for VPC EIPs
+* `tags` - (Optional) Map of tags to assign to the EIP. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
     * _Constraints:_ Tags can only be applied to EIPs in a VPC
 * `vpc` - (Optional) Boolean if the EIP is in a VPC or not.
 
@@ -86,15 +86,17 @@ The following arguments are supported:
 
 ### Supported attributes
 
+~> **Note** The data source computes the `public_dns` and `private_dns` attributes according to the [AWS VPC DNS Guide][vpc-dns-guide] as they are not available with the EC2 API.
+
 In addition to all arguments above, the following attributes are exported:
 
 * `allocation_id` - ID that the cloud assigns to represent the allocation of the elastic IP address for use with instances in a VPC.
 * `association_id` - ID representing the association of the address with an instance in a VPC.
 * `domain` - Indicates if this EIP is for use in VPC (`vpc`).
-* `id` - Contains the ID of the EIP allocation.
+* `id` - The ID of the EIP allocation.
 * `private_ip` - Contains the private IP address. Can be `""` if `associate_with_private_ip` is specified.
 * `public_ip` - Contains the public IP address.
-* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the EIP, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 
@@ -103,8 +105,6 @@ In addition to all arguments above, the following attributes are exported:
 The following attributes are not currently supported:
 
 `carrier_ip`, `customer_owned_ip`, `customer_owned_ipv4_pool`, `network_border_group`, `private_dns`, `public_dns`.
-
-~> **Note** The data source computes the `public_dns` and `private_dns` attributes according to the [AWS VPC DNS Guide][vpc-dns-guide] as they are not available with the EC2 API.
 
 ## Timeouts
 

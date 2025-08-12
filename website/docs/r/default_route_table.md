@@ -6,6 +6,7 @@ description: |-
   Manages the default route table of a VPC.
 ---
 
+[attribute-as-blocks]: https://www.terraform.io/docs/configuration/attr-as-blocks.html
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 [route-tables]: https://docs.k2.cloud/en/services/networking/routetables.html
 [timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
@@ -74,12 +75,12 @@ The following arguments are required:
 The following arguments are optional:
 
 * `propagating_vgws` - (Optional) List of virtual gateways for propagation.
-* `route` - (Optional) Configuration block of routes. Detailed below. This argument is processed in [attribute-as-blocks mode](https://www.terraform.io/docs/configuration/attr-as-blocks.html). This means that omitting this argument is interpreted as ignoring any existing routes. To remove all managed routes an empty list should be specified. See the example above.
-* `tags` - (Optional) Map of tags to assign to the resource. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
+* `route` - (Optional) Configuration block of routes. Detailed below. This argument is processed in [attribute-as-blocks mode][attribute-as-blocks]. This means that omitting this argument is interpreted as ignoring any existing routes. To remove all managed routes an empty list should be specified. See the example above.
+* `tags` - (Optional) Map of tags to assign to the route table. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
 ### route
 
-This argument is processed in [attribute-as-blocks mode](https://www.terraform.io/docs/configuration/attr-as-blocks.html).
+This argument is processed in [attribute-as-blocks mode][attribute-as-blocks].
 
 One of the following destination arguments must be supplied:
 
@@ -87,9 +88,9 @@ One of the following destination arguments must be supplied:
 
 One of the following target arguments must be supplied:
 
-* `gateway_id` - (Optional) ID of an internet gateway or virtual private gateway.
-* `instance_id` - (Optional) ID of an EC2 instance.
-* `network_interface_id` - (Optional) ID of an EC2 network interface.
+* `gateway_id` - (Optional) The ID of an internet gateway.
+* `instance_id` - (Optional) The ID of an EC2 instance.
+* `network_interface_id` - (Optional) The ID of an EC2 network interface.
 * `transit_gateway_id` - (Optional) The ID of the transit gateway.
 
 ## Attribute Reference
@@ -98,10 +99,10 @@ One of the following target arguments must be supplied:
 
 In addition to all arguments above, the following attributes are exported:
 
-* `id` - ID of the route table.
+* `id` - The ID of the route table.
 * `arn` - The Amazon Resource Name (ARN) of the route table.
-* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
-* `vpc_id` - ID of the VPC.
+* `tags_all` - Map of tags assigned to the route table, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `vpc_id` - The ID of the VPC.
 
 ### Unsupported attributes
 

@@ -3,7 +3,7 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_security_group"
 description: |-
-    Provides information about a security group.
+  Provides information about a security group.
 ---
 
 [describe-security-groups]: https://docs.k2.cloud/en/api/ec2/security_groups/DescribeSecurityGroups.html
@@ -42,7 +42,6 @@ security group whose data will be exported as attributes.
 
 
 * `filter` - (Optional) One or more name/value pairs to use as filters.
-  A security group will be selected if any one of the given values matches.
     * _Valid values:_ See supported names and values in [EC2 API documentation][describe-security-groups]
 * `id` - (Optional) ID of the specific security group to retrieve.
 * `name` - (Optional) The name that the desired security group must have.
@@ -57,9 +56,9 @@ result attributes. This data source will complete the data by populating
 any fields that are not included in the configuration with the data for
 the selected security group.
 
-The following fields are also exported:
+In addition to all arguments above, the following attributes are exported:
 
-* `arn` - The computed Amazon Resource Name (ARN) of the security group.
+* `arn` - The Amazon Resource Name (ARN) of the security group.
 * `description` - The description of the security group.
 
 ~> **Note** The default security group for a VPC has the name `default`.

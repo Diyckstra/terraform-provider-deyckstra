@@ -77,7 +77,7 @@ cannot be configured for shared transit gateways.
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - The ID of the transit gateway attachment.
-* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the transit gateway attachment, including those inherited from the provider [`default_tags` configuration block][default-tags].
 * `vpc_owner_id` - The ID of the project that owns the VPC.
 
 ### Unsupported attributes

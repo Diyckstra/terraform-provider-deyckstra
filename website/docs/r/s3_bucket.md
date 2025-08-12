@@ -344,7 +344,7 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - The name of the bucket.
 * `arn` - The Amazon Resource Name (ARN) of the bucket. Will be of format `arn:aws:s3:::bucketname`.
 * `region` - The region this bucket resides in.
-* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the bucket, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 

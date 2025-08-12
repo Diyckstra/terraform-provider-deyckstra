@@ -3,14 +3,14 @@ subcategory: "VPN (Site-to-Site)"
 layout: "aws"
 page_title: "aws_customer_gateway"
 description: |-
-  Provides information about an existing customer gateway.
+  Provides information about a customer gateway.
 ---
 
 [describe-customer-gateways]: https://docs.k2.cloud/en/api/ec2/customer_gateways/DescribeCustomerGateways.html
 
 # Data Source: aws_customer_gateway
 
-Provides information about an existing customer gateway.
+Provides information about a customer gateway.
 
 ## Example Usage
 

@@ -52,7 +52,7 @@ The following arguments are supported:
 * `root_device_name` - (Optional) The name of the root device.
     * _Valid values_: `disk<N>`, `cdrom<N>`, `floppy<N>`, `menu`, where `<N>` is a disk number
     * _Default value_: `disk1`
-* `tags` - (Optional) Map of tags to assign to the resource. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
+* `tags` - (Optional) Map of tags to assign to the image. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 * `virtualization_type` - (Optional) Keyword to choose what virtualization mode created instances will use.
     * _Valid values_: `hvm`, `hvm-legacy`
     * _Default value_: `hvm`
@@ -73,7 +73,7 @@ The `ebs_block_device` blocks has the following structure:
     * _Constraints_:  If set, the `volume_size` attribute must be at least as large as the referenced
   snapshot
 * `volume_size` - (Optional) The size of created volumes, in GiB.
-    * _Constraints_: Required unless `snapshot_id` is set. If `snapshot_id` is set and `volume_size` is omitted then the volume will have the same size as the selected snapshot.
+    * _Constraints_: Required unless `snapshot_id` is set. If `snapshot_id` is set and `volume_size` is omitted then the volume will have the same size as the selected snapshot
 * `volume_type` - (Optional) The type of EBS volume to create.
     * _Valid values_: `st2`, `gp2`, `io2`
     * _Default value_: `st2`
@@ -95,13 +95,13 @@ In addition to all arguments above, the following attributes are exported:
 
 * `arn` - The Amazon Resource Name (ARN) of the image.
 * `id` - The ID of the created image.
-* `image_owner_alias` - The owner alias (for example, `self`) or the project ID.
+* `image_owner_alias` - The alias of the image owner.
 * `image_type` - The type of the image.
-* `owner_id` - The ID of the project.
-* `platform` - This value is set to `windows` for Windows images; otherwise, it is blank.
+* `owner_id` - The ID of the image owner.
+* `platform` - The platform of the image.
 * `public` - Indicates whether the image has public launch permissions.
 * `root_snapshot_id` - The ID of the snapshot for the root volume (for EBS-backed images)
-* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the image, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 
@@ -109,11 +109,11 @@ In addition to all arguments above, the following attributes are exported:
 
 The following attributes are not currently supported:
 
-`boot_mode`, `deprecation_time`, `ena_support`, `ebs_block_device.encrypted`, `ebs_block_device.kms_key_id`, `ebs_block_device.outpost_arn`, `ebs_block_device.throughput`, `hypervisor`, `image_location`, `kernel_id`, `platform_details`, `ramdisk_id`, `sriov_net_support`, `usage_operation`.
+`boot_mode`, `deprecation_time`, `ebs_block_device.encrypted`, `ebs_block_device.kms_key_id`, `ebs_block_device.outpost_arn`, `ebs_block_device.throughput`, `ena_support`, `hypervisor`, `image_location`, `kernel_id`, `platform_details`, `ramdisk_id`, `sriov_net_support`, `usage_operation`.
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts][timeouts] for certain actions:
+The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 * `create` - (Default `40 minutes`) Used when creating the image
 * `update` - (Default `40 minutes`) Used when updating the image

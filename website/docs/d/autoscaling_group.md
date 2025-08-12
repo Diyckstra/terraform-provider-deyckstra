@@ -26,6 +26,8 @@ data "aws_autoscaling_group" "example" {
 
 ### Supported attributes
 
+In addition to all arguments above, the following attributes are exported:
+
 * `arn` - The Amazon Resource Name (ARN) of the Auto Scaling group.
 * `availability_zones` - One or more availability zones for the group.
 * `default_cool_down` - The amount of time, in seconds, after a scaling activity completes before another scaling activity can start.

@@ -3,7 +3,7 @@ subcategory: "Route 53"
 layout: "aws"
 page_title: "aws_route53_zone"
 description: |-
-    Provides information about a Route 53 hosted zone.
+  Provides information about a Route 53 hosted zone.
 ---
 
 # Data Source: aws_route53_zone
@@ -66,4 +66,4 @@ In addition to all arguments above, the following attributes are exported:
 
 The following attributes are not currently supported:
 
-`linked_service_principal`, `linked_service_description`.
+`linked_service_description`, `linked_service_principal`.

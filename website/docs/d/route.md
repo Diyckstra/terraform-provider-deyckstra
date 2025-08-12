@@ -3,7 +3,7 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_route"
 description: |-
-    Provides information about a route.
+  Provides information about a route.
 ---
 
 # Data Source: aws_route
@@ -46,7 +46,7 @@ The arguments of this data source act as filters for querying the available rout
 
 ## Attribute Reference
 
-All the argument attributes are also exported as result attributes when there is data available. For example, the `vpc_peering_connection_id` field will be empty when the route is attached to a network interface.
+All the argument attributes are also exported as result attributes.
 
 ### Unsupported attributes
 

@@ -6,6 +6,7 @@ description: |-
   Manages a security group.
 ---
 
+[attribute-as-blocks]: https://www.terraform.io/docs/configuration/attr-as-blocks.html
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 [security-groups]: https://docs.k2.cloud/en/services/security/securitygroups.html
 [timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
@@ -15,7 +16,7 @@ description: |-
 Manages a security group.
 
 ~> **Note on security groups and security group rules:** Terraform currently
-provides both a standalone [`aws_security_group_rule`][tf-security-group-rule] (a single `ingress` or
+provides both a standalone [`aws_security_group_rule`](security-group-rule.md) (a single `ingress` or
 `egress` rule), and a security group resource with `ingress` and `egress` rules
 defined in-line. At this time you cannot use a security group with in-line rules
 in conjunction with any security group rule resources. Doing so will cause
@@ -97,18 +98,18 @@ The following arguments are supported:
 
 * `description` - (Optional, Forces new resource) Security group description.
     * _Default value_: `Managed by Terraform`
-* `egress` - (Optional, VPC only) Configuration block for egress rules. Can be specified multiple times for each egress rule. Each egress block supports fields documented below. This argument is processed in [attribute-as-blocks mode](https://www.terraform.io/docs/configuration/attr-as-blocks.html).
-* `ingress` - (Optional) Configuration block for ingress rules. Can be specified multiple times for each ingress rule. Each ingress block supports fields documented below. This argument is processed in [attribute-as-blocks mode](https://www.terraform.io/docs/configuration/attr-as-blocks.html).
+* `egress` - (Optional, VPC only) Configuration block for egress rules. Can be specified multiple times for each egress rule. Each egress block supports fields documented below. This argument is processed in [attribute-as-blocks mode][attribute-as-blocks].
+* `ingress` - (Optional) Configuration block for ingress rules. Can be specified multiple times for each ingress rule. Each ingress block supports fields documented below. This argument is processed in [attribute-as-blocks mode][attribute-as-blocks].
 * `name_prefix` - (Optional, Forces new resource) Creates a unique name beginning with the specified prefix. Conflicts with `name`.
 * `name` - (Optional, Forces new resource) Name of the security group. If omitted, Terraform will assign a random, unique name.
 * `revoke_rules_on_delete` - (Optional) Instruct Terraform to revoke all the security groups attached ingress and egress rules before deleting the rule itself.
     * _Default value:_ `false`
-* `tags` - (Optional) Map of tags to assign to the resource. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
+* `tags` - (Optional) Map of tags to assign to the security group. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 * `vpc_id` - (Optional, Forces new resource) VPC ID.
 
 ### ingress
 
-This argument is processed in [attribute-as-blocks mode](https://www.terraform.io/docs/configuration/attr-as-blocks.html).
+This argument is processed in [attribute-as-blocks mode][attribute-as-blocks].
 
 The following arguments are required:
 
@@ -126,7 +127,7 @@ The following arguments are optional:
 
 ### egress
 
-This argument is processed in [attribute-as-blocks mode](https://www.terraform.io/docs/configuration/attr-as-blocks.html).
+This argument is processed in [attribute-as-blocks mode][attribute-as-blocks].
 
 The following arguments are required:
 
@@ -151,7 +152,7 @@ In addition to all arguments above, the following attributes are exported:
 * `arn` - The Amazon Resource Name (ARN) of the security group.
 * `id` - ID of the security group.
 * `owner_id` - The project ID.
-* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the security group, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 

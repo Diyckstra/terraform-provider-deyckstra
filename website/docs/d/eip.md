@@ -3,7 +3,7 @@ subcategory: "EC2 (Elastic Compute Cloud)"
 layout: "aws"
 page_title: "aws_eip"
 description: |-
-    Provides information about an Elastic IP
+  Provides information about an Elastic IP
 ---
 
 [describe-addresses]: https://docs.k2.cloud/en/api/ec2/addresses/DescribeAddresses.html
@@ -59,8 +59,8 @@ The given filters must match exactly one Elastic IP whose data will be exported 
 
 * `filter` - (Optional) One or more name/value pairs to use as filters.
     * _Valid values:_ See supported names and values in [EC2 API documentation][describe-addresses]
-* `id` - (Optional) The ID of the allocation of the specific VPC EIP to retrieve.
-* `public_ip` - (Optional) The public IP of the specific EIP to retrieve.
+* `id` - (Optional) The ID of the allocation of the specific VPC Elastic IP to retrieve.
+* `public_ip` - (Optional) The public IP of the specific Elastic IP to retrieve.
 * `tags` - (Optional) Map of tags, each pair of which must exactly match a pair on the desired Elastic IP.
 
 ## Attribute Reference

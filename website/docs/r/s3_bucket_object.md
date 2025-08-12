@@ -75,7 +75,7 @@ In addition to all arguments above, the following attributes are exported:
 
 * `etag` - ETag generated for the object (an MD5 sum of the object content). For plaintext objects the hash is an MD5 digest of the object data. For objects created by either the multipart upload or part copy operation, the hash is not an MD5 digest, regardless of the method of encryption.
 * `id` - `key` of the resource supplied above.
-* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the object, including those inherited from the provider [`default_tags` configuration block][default-tags].
 * `version_id` - Unique version ID value for the object, if bucket versioning is enabled.
 
 ### Unsupported attributes

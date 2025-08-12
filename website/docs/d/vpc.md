@@ -3,7 +3,7 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_vpc"
 description: |-
-    Provides information about a VPC.
+  Provides information about a VPC.
 ---
 
 [describe-vpcs]: https://docs.k2.cloud/en/api/ec2/vpcs/DescribeVpcs.html
@@ -44,7 +44,6 @@ VPC whose data will be exported as attributes.
 * `cidr_block` - (Optional) The CIDR block of the desired VPC.
 * `dhcp_options_id` - (Optional) The ID of the DHCP options for the desired VPC.
 * `filter` - (Optional) One or more name/value pairs to use as filters.
-  A VPC will be selected if any one of the given values matches.
     * _Valid values:_ See supported names and values in [EC2 API documentation][describe-vpcs]
 * `id` - (Optional) The ID of the specific VPC to retrieve.
 * `state` - (Optional) The current state of the desired VPC.
@@ -61,9 +60,9 @@ result attributes. This data source will complete the data by populating
 any fields that are not included in the configuration with the data for
 the selected VPC.
 
-The following attributes are additionally exported:
+In addition to all arguments above, the following attributes are exported:
 
-* `arn` - Amazon Resource Name (ARN) of VPC.
+* `arn` - The Amazon Resource Name (ARN) of VPC.
 * `enable_dns_support` - Whether the VPC has DNS support.
 * `main_route_table_id` - ID of the main route table associated with this VPC.
 

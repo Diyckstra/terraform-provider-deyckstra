@@ -42,7 +42,7 @@ resource "aws_eip" "example" {
 The following arguments are supported:
 
 * `allocation_id` - (Optional) The ID of the allocation.
-    _Constraints:_ Required, if `public_ip` is not supplied.
+    _Constraints:_ Required, if `public_ip` is not supplied
 * `allow_reassociation` - (Optional) Indicates whether to allow an Elastic IP to be re-associated.
     * Default value: `true`
 * `instance_id` - (Optional) The ID of the instance.

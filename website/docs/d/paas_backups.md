@@ -8,7 +8,7 @@ description: |-
 
 # Data Source: aws_paas_backups
 
-Provides the list of PaaS service backups IDs matching the specified criteria.
+Provides a list of PaaS service backups IDs matching the specified criteria.
 
 ## Example Usage
 

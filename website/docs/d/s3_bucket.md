@@ -3,7 +3,7 @@ subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_s3_bucket"
 description: |-
-    Provides information about an S3 bucket.
+  Provides information about an S3 bucket.
 ---
 
 # Data Source: aws_s3_bucket

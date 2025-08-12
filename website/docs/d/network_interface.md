@@ -7,7 +7,6 @@ description: |-
 ---
 
 [describe-network-interfaces]: https://docs.k2.cloud/en/api/ec2/network_interfaces/DescribeNetworkInterfaces.html
-[tf-network-interface]: network_interface.html
 
 # aws_network_interface
 
@@ -27,7 +26,7 @@ The following arguments are supported:
 
 * `filter` - (Optional) One or more name/value pairs to use as filters.
     * _Valid values:_ See supported names and values in [EC2 API documentation][describe-network-interfaces]
-* `id` - (Optional) The identifier for the network interface.
+* `id` - (Optional) The ID of the network interface.
 
 ## Attribute Reference
 
@@ -38,7 +37,8 @@ See the [`aws_network_interface`](network_interface.md) for details on the retur
 Additionally, the following attributes are exported:
 
 * `arn` - The Amazon Resource Name (ARN) of the network interface.
-* `association` - The association information for an Elastic IP address (IPv4) associated with the network interface. See supported fields below.
+* `association` - The association information for an Elastic IP address (IPv4) associated with the network interface.
+  The structure of this block is [described below](#association).
 * `availability_zone` - The availability zone.
 * `description` - Description of the network interface.
 * `mac_address` - The MAC address.
@@ -66,4 +66,4 @@ Additionally, the following attributes are exported:
 
 The following attributes are not currently supported:
 
-`interface_type`, `ipv6_addresses`, `requester_id`, `outpost_arn`, `association.carrier_ip`.
+`association.carrier_ip`, `interface_type`, `ipv6_addresses`, `outpost_arn`, `requester_id`.

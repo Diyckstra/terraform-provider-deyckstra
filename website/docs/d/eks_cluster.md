@@ -26,31 +26,33 @@ data "aws_eks_cluster" "example" {
 
 ### Supported attributes
 
+In addition to all arguments above, the following attributes are exported:
+
 * `arn` - Cluster ID.
 * `certificate_authority` - Nested attribute containing `certificate-authority-data` for your cluster.
     * `data` - The base64 encoded certificate data required to communicate with your cluster. Add this to the `certificate-authority-data` section of the `kubeconfig` file for your cluster.
 * `created_at` - The Unix epoch time stamp in seconds for when the cluster was created.
 * `id` - The name of the cluster.
 * `kubernetes_network_config` - The Kubernetes network configuration.
-  The structure of this block is [described below](#kubernetes_network_config)
+  The structure of this block is [described below](#kubernetes_network_config).
 * `legacy_cluster_params` - The parameters for fine-tuning the Kubernetes cluster.
     * `master_config` - The configuration of the master node of the cluster.
-        The structure of this block is [described below](#master_config)
+        The structure of this block is [described below](#master_config).
 * `platform_version` - The platform version for the cluster.
 * `status` - The status of the EKS cluster. One of `CLAIMED`, `CREATING`, `DELETED`, `DELETING`, `ERROR`, `MODIFYING`, `PENDING`, `PROVISIONING`, `READY`, `REPAIRING`.
 * `version` - The Kubernetes server version for the cluster.
 * `vpc_config` - The VPC configuration for the cluster.
-  The structure of this block is [described below](#vpc_config)
-* `tags` - Map of tags assigned to the resource.
+  The structure of this block is [described below](#vpc_config).
+* `tags` - Map of tags assigned to the cluster.
 
-### kubernetes_network_config
+#### kubernetes_network_config
 
 The `kubernetes_network_config` block has the following structure:
 
 * `ip_family` - The IP family used to assign Kubernetes pod and service addresses.
 * `service_ipv4_cidr` - The CIDR block to assign Kubernetes service IP addresses from.
 
-### master_config
+#### master_config
 
 The `master_config` block has the following structure:
 
@@ -61,7 +63,7 @@ The `master_config` block has the following structure:
 * `volume_size` - The size of the master node volume in GiB.
 * `volume_type` - The type of the master node volume.
 
-### vpc_config
+#### vpc_config
 
 The `vpc_config` block has the following structure:
 

@@ -24,6 +24,8 @@ data "aws_dx_gateway" "selected" {
 
 ## Attribute Reference
 
+In addition to all arguments above, the following attributes are exported:
+
 * `amazon_side_asn` - The ASN for the cloud side of the connection.
 * `id` - The ID of the Direct Connect gateway.
 * `owner_account_id` - The ID of the project that owns the Direct Connect gateway.

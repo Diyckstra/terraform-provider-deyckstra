@@ -6,6 +6,7 @@ description: |-
   Creates a VPC routing table.
 ---
 
+[attribute-as-blocks]: https://www.terraform.io/docs/configuration/attr-as-blocks.html
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 [route-tables]: https://docs.k2.cloud/en/services/networking/routetables.html
 [timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
@@ -79,14 +80,14 @@ resource "aws_route_table" "example" {
 The following arguments are supported:
 
 * `vpc_id` - (Required) ID of the VPC.
-* `route` - (Optional) A list of route objects. Their keys are documented below. This argument is processed in [attribute-as-blocks mode](https://www.terraform.io/docs/configuration/attr-as-blocks.html).
+* `route` - (Optional) A list of route objects. Their keys are documented below. This argument is processed in [attribute-as-blocks mode][attribute-as-blocks]).
 This means that omitting this argument is interpreted as ignoring any existing routes. To remove all managed routes an empty list should be specified. See the example above.
-* `tags` - (Optional) A map of tags to assign to the resource. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
+* `tags` - (Optional) A map of tags to assign to the route table. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
 * `propagating_vgws` - (Optional) A list of virtual gateways for propagation.
 
 ### route Argument Reference
 
-This argument is processed in [attribute-as-blocks mode](https://www.terraform.io/docs/configuration/attr-as-blocks.html).
+This argument is processed in [attribute-as-blocks mode][attribute-as-blocks].
 
 One of the following destination arguments must be supplied:
 
@@ -94,9 +95,9 @@ One of the following destination arguments must be supplied:
 
 One of the following target arguments must be supplied:
 
-* `gateway_id` - (Optional) ID of an internet gateway or virtual private gateway.
-* `instance_id` - (Optional) ID of an EC2 instance.
-* `network_interface_id` - (Optional) ID of an EC2 network interface.
+* `gateway_id` - (Optional) The ID of an internet gateway.
+* `instance_id` - (Optional) The ID of an EC2 instance.
+* `network_interface_id` - (Optional) The ID of an EC2 network interface.
 * `transit_gateway_id` - (Optional) The ID of the transit gateway.
 
 ## Attributes Reference
@@ -108,9 +109,9 @@ In addition to all arguments above, the following attributes are exported:
 ~> **Note** Only the target that is entered is exported as a readable
 attribute once the route resource is created.
 
-* `id` - ID of the route table.
-* `arn` - ARN of the route table.
-* `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `id` - The ID of the route table.
+* `arn` - The ARN of the route table.
+* `tags_all` - A map of tags assigned to the route table, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 

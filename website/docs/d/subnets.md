@@ -3,11 +3,10 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_subnets"
 description: |-
-    Provides a list of subnet IDs.
+  Provides a list of subnet IDs.
 ---
 
 [describe-subnets]: https://docs.k2.cloud/en/api/ec2/subnets/DescribeSubnets.html
-[tf-subnet]: subnet.html
 
 # Data Source: aws_subnets
 
@@ -77,11 +76,12 @@ data "aws_subnets" "selected" {
 ## Argument Reference
 
 * `filter` - (Optional) One or more name/value pairs to use as filters.
-  Subnet IDs will be selected if any one of the given values match.
     * _Valid values:_ See supported names and values in [EC2 API documentation][describe-subnets]
 * `tags` - (Optional) Map of tags, each pair of which must exactly match
   a pair on the desired subnets.
 
 ## Attribute Reference
+
+In addition to all arguments above, the following attribute is exported:
 
 * `ids` - A list of all the subnet IDs found.

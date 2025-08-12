@@ -40,8 +40,7 @@ The following arguments are supported:
 * `most_recent` - (Optional) If more than one result is returned, use the most recent snapshot.
 * `owners` - (Optional) List of the snapshot owners.
     * _Valid values_: Project ID (`project@customer`) or `self`
-* `restorable_by_user_ids` - (Optional) List of the project IDs (`project@customer`).
-  that can create volumes from the snapshot.
+* `restorable_by_user_ids` - (Optional) List of the project IDs (`project@customer`), in which volumes can be created from a snapshot.
 * `snapshot_ids` - (Optional) Returns information on a snapshot ID.
 
 ## Attribute Reference
@@ -50,7 +49,7 @@ The following arguments are supported:
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` - Amazon Resource Name (ARN) of the EBS snapshot.
+* `arn` - The Amazon Resource Name (ARN) of the EBS snapshot.
 * `id` - The snapshot ID (e.g., snap-12345678).
 * `snapshot_id` - The snapshot ID (e.g., snap-12345678).
 * `description` - A description for the snapshot
@@ -59,7 +58,7 @@ In addition to all arguments above, the following attributes are exported:
 * `volume_id` - The volume ID (e.g., vol-12345678).
 * `volume_size` - The size of the drive in GiB.
 * `state` - The snapshot state.
-* `tags` - Map of tags assigned to the resource.
+* `tags` - Map of tags assigned to the snapshot.
 
 ### Unsupported attributes
 

@@ -48,13 +48,15 @@ resource "aws_eip" "example" {
 
 * `filter` - (Optional) One or more name/value pairs to use as filters.
     * _Valid values_: See supported names and values in [EC2 API documentation][describe-instances]
-* `instance_state_names` - (Optional) A list of instance states that should be applicable to the desired instances.
+* `instance_state_names` - (Optional) List of instance states that should be applicable to the desired instances.
     * _Valid values_: `pending`, `running`, `shutting-down`, `stopped`, `stopping`, `terminated`
 * `instance_tags` - (Optional) Map of tags, each pair of which must exactly match a pair on desired instances.
 
 ## Attribute Reference
 
-* `id` - The region (e.g., `region-1`).
+In addition to all arguments above, the following attributes are exported:
+
+* `id` - The region.
 * `ids` - IDs of instances found through the filter.
 * `private_ips` - Private IP addresses of instances found through the filter.
 * `public_ips` - Public IP addresses of instances found through the filter.

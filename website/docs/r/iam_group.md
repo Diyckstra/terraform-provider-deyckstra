@@ -48,7 +48,7 @@ In addition to all arguments above, the following attributes are exported:
 * `arn` - The Amazon Resource Name (ARN) of the group.
 * `create_date` - The time in [RFC3339 format] when the group was created.
 * `group_id` - The ID of the group.
-* `id` - The Amazon Resource Name (ARN) of the group.
+* `id` - The ARN of the group.
 * `owner` - The owner of the group.
 
 ### Unsupported attributes

@@ -6,7 +6,6 @@ description: |-
   Provides information about a set of security groups.
 ---
 
-[tf-security-group]: security_group.html
 [describe-security-groups]: https://docs.k2.cloud/en/api/ec2/security_groups/DescribeSecurityGroups.html
 
 # Data Source: aws_security_groups
@@ -48,7 +47,9 @@ data "aws_security_groups" "test" {
 
 ## Attribute Reference
 
+In addition to all arguments above, the following attributes are exported:
+
 * `arns` - The Amazon Resource Names (ARNs) of the matched security groups.
-* `id` - The region (e.g., `region-1`).
+* `id` - The region.
 * `ids` - IDs of the matched security groups.
 * `vpc_ids` - The VPC IDs of the matched security groups. The data source's tag or filter *will span VPCs* unless the `vpc-id` filter is also used.

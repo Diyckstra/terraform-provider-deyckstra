@@ -42,25 +42,18 @@ The following arguments are supported:
 * `description` - (Optional) A description of what the snapshot is.
 * `tags` - (Optional) Map of tags to assign to the snapshot. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
-### Timeouts
-
-The `timeouts` block allows you to specify [timeouts] for certain actions:
-
-- `create` - (Default `10 minutes`) Used for creating the ebs snapshot
-- `delete` - (Default `10 minutes`) Used for deleting the ebs snapshot
-
 ## Attribute Reference
 
 ### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` - Amazon Resource Name (ARN) of the EBS snapshot.
+* `arn` - The Amazon Resource Name (ARN) of the EBS snapshot.
 * `id` - The snapshot ID (e.g., snap-12345678).
 * `owner_id` - The project ID.
 * `owner_alias` - The alias of the EBS snapshot owner.
 * `volume_size` - The size of the drive in GiB.
-* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the snapshot, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 
@@ -69,6 +62,13 @@ In addition to all arguments above, the following attributes are exported:
 The following attributes are not currently supported:
 
 `data_encryption_key_id`, `encrypted`, `kms_key_id`, `outpost_arn`, `permanent_restore`, `storage_tier`, `temporary_restore_days`.
+
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts] for certain actions:
+
+- `create` - (Default `10 minutes`) Used for creating the ebs snapshot
+- `delete` - (Default `10 minutes`) Used for deleting the ebs snapshot
 
 ## Import
 

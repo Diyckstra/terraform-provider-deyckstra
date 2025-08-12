@@ -20,9 +20,9 @@ data "aws_eks_cluster_auth" "example" {
 
 ## Argument Reference
 
-* `name` - (Required) The name of the cluster
+* `name` - (Required) The name of the cluster.
 
 ## Attribute Reference
 
-* `id` - Name of the cluster.
+* `id` - The name of the cluster.
 * `token` - The token to use to authenticate with the cluster.

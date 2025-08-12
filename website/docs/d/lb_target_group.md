@@ -39,7 +39,7 @@ data "aws_lb_target_group" "test" {
 
 The following arguments are supported:
 
-* `arn` - (Optional) The full Amazon Resource Name (ARN) of the target group.
+* `arn` - (Optional) The Amazon Resource Name (ARN) of the target group.
 * `name` - (Optional) The unique name of the target group.
 
 ~> **Note**: When both `arn` and `name` are specified, `arn` takes precedence.

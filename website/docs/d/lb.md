@@ -39,7 +39,7 @@ data "aws_lb" "test" {
 
 The following arguments are supported:
 
-* `arn` - (Optional) The full Amazon Resource Name (ARN) of the load balancer.
+* `arn` - (Optional) The Amazon Resource Name (ARN) of the load balancer.
 * `name` - (Optional) The unique name of the load balancer.
 * `tags` - (Optional) Map of tags, each pair of which must exactly match a pair on the desired load balancer.
 
@@ -47,5 +47,5 @@ The following arguments are supported:
 
 ## Attribute Reference
 
-See the [LB Resource](../r/lb.md) for details on the
+See the [LB resource](../r/lb.md) for details on the
 returned attributes - they are identical.

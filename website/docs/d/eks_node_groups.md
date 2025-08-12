@@ -3,12 +3,12 @@ subcategory: "EKS (Elastic Kubernetes)"
 layout: "aws"
 page_title: "aws_eks_node_groups"
 description: |-
-  Provides the list of EKS node groups names associated with an EKS cluster.
+  Provides a list of EKS node groups names associated with an EKS cluster.
 ---
 
 # Data Source: aws_eks_node_groups
 
-Provides the list of EKS node groups names associated with an EKS cluster.
+Provides a list of EKS node groups names associated with an EKS cluster.
 
 ## Example Usage
 
@@ -30,6 +30,8 @@ data "aws_eks_node_group" "example" {
 * `cluster_name` - (Required) The name of the cluster.
 
 ## Attribute Reference
+
+In addition to all arguments above, the following attributes are exported:
 
 * `id` - Cluster name.
 * `names` - A set of all node group names in an EKS cluster.

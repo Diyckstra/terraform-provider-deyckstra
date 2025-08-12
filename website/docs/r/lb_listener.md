@@ -237,7 +237,7 @@ The following arguments are optional:
 * `protocol` - (Optional) Protocol for connections from clients to the load balancer. For application load balancers, valid values are `HTTP` and `HTTPS`, with a default of `HTTP`. For network load balancers, valid values are `TCP`, `TLS`, `UDP`, and `TCP_UDP`. Not valid to use `UDP` or `TCP_UDP` if dual-stack mode is enabled. Not valid for gateway load balancers.
 * `ssl_policy` - (Optional) Name of the SSL policy for the listener.
     * _Constraints_: Required if `protocol` is `HTTPS` or `TLS`.
-* `tags` - (Optional) Map of tags to assign to the resource. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider level.
+* `tags` - (Optional) Map of tags to assign to the listener. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider level.
 
 ~> **Note::** Please note that listeners that are attached to application load balancers must use either `HTTP` or `HTTPS` protocols while listeners that are attached to network load balancers must use the `TCP` protocol.
 
@@ -374,7 +374,7 @@ In addition to all arguments above, the following attributes are exported:
 
 * `arn` - The Amazon Resource Name (ARN) of the listener (matches `id`).
 * `id` - The Amazon Resource Name (ARN) of the listener (matches `arn`).
-* `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - A map of tags assigned to the listener, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ## Import
 

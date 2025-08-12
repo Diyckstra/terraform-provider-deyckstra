@@ -3,7 +3,7 @@ subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_s3_bucket_policy"
 description: |-
-    Provides information about a policy of an S3 bucket.
+  Provides information about a policy of an S3 bucket.
 ---
 
 # Data Source: aws_s3_bucket_policy

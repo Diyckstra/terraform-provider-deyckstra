@@ -52,7 +52,7 @@ In addition to all arguments above, the following attributes are exported:
 * `size` - The size of the drive in GiB.
 * `snapshot_id` - The snapshot_id the EBS volume is based off.
 * `volume_type` - The type of EBS volume.
-* `tags` - Map of tags assigned to the resource.
+* `tags` - Map of tags assigned to the volume.
 * `throughput` - The throughput that the volume supports, in MiB/s.
 
 ### Unsupported attributes

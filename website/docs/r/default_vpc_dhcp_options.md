@@ -3,12 +3,14 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_default_vpc_dhcp_options"
 description: |-
-  Manages the default DHCP options resource.
+  Manages the default DHCP options set.
 ---
+
+[rfc-2132]: http://www.ietf.org/rfc/rfc2132.txt
 
 # Resource: aws_default_vpc_dhcp_options
 
-Manages the default DHCP options set in the current region.
+Manages the default DHCP options set.
 
 Each AWS region comes with a default set of DHCP options.
 **This is an advanced resource**, and has special caveats to be aware of when
@@ -37,9 +39,9 @@ Namely, the `domain_name`, `domain_name_servers` and `ntp_servers` arguments are
 The following arguments are still supported:
 
 * `netbios_name_servers` - (Optional) List of NETBIOS name servers.
-* `netbios_node_type` - (Optional) The NetBIOS node type (1, 2, 4, or 8). AWS recommends to specify 2 since broadcast and multicast are not supported in their network. For more information about these node types, see [RFC 2132](http://www.ietf.org/rfc/rfc2132.txt).
+* `netbios_node_type` - (Optional) The NetBIOS node type (1, 2, 4, or 8). AWS recommends to specify 2 since broadcast and multicast are not supported in their network. For more information about these node types, see [RFC 2132][rfc-2132].
 * `owner_id` - The ID of the project that owns the DHCP options set.
-* `tags` - (Optional) Map of tags to assign to the resource.
+* `tags` - (Optional) Map of tags to assign to the DHCP options set.
 
 ### Removing `aws_default_vpc_dhcp_options` from your configuration
 
@@ -52,12 +54,12 @@ You can resume managing the DHCP options set via the cloud console.
 
 In addition to all arguments above, the following attributes are exported:
 
-* `id` - ID of the DHCP options set.
+* `id` - The ID of the DHCP options set.
 * `arn` - The Amazon Resource Name (ARN) of the DHCP options set.
 
 ## Import
 
-VPC DHCP options can be imported using the `dhcp options id`, e.g.,
+VPC DHCP options can be imported using `id`, e.g.,
 
 ```
 $ terraform import aws_default_vpc_dhcp_options.default_options dopt-d9070ebb

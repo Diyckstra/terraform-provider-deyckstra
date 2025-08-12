@@ -3,14 +3,14 @@ subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_s3_objects"
 description: |-
-    Provides information about keys and metadata of S3 objects.
+  Provides information about keys and metadata of S3 objects.
 ---
 
 # Data Source: aws_s3_objects
 
 ~> **Note on `max_keys`:** Retrieving very large numbers of keys can adversely affect Terraform's performance.
 
-Provides information about keys (i.e., file names) and other metadata of objects in an S3 bucket.
+Provides information about keys and metadata of S3 objects.
 
 ## Example Usage
 

@@ -10,8 +10,6 @@ description: |-
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 [icmp-parameters]:  https://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml
 [network-acl]: https://docs.k2.cloud/en/services/networks/networkacl.html
-[tf-network-acl-association]: network_acl_association.html
-[tf-network-acl-rule]: network_acl_rule.html
 
 # Resource: aws_network_acl
 
@@ -19,7 +17,7 @@ Creates a network ACL. You might set up network ACLs with rules similar
 to your security groups in order to add an additional layer of security to your VPC.
 
 ~> **Note on Network ACLs and Network ACL Rules:** Terraform currently
-provides both a standalone [`aws_network_acl_rule`][tf-network-acl-rule] resource and a network ACL resource with rules
+provides both a standalone [`aws_network_acl_rule`](network-acl-rule.md) resource and a network ACL resource with rules
 defined in-line. At this time you cannot use a network ACL with in-line rules
 in conjunction with any network ACL rule resources. Doing so will cause
 a conflict of rule settings and will overwrite rules.
@@ -74,7 +72,7 @@ The following arguments are supported:
   This argument is processed in [attribute-as-blocks mode][attribute-as-blocks].
 * `egress` - (Optional) Specifies an egress rule. Parameters defined below.
   This argument is processed in [attribute-as-blocks mode][attribute-as-blocks].
-* `tags` - (Optional) Map of tags to assign to the resource. If a provider [`default_tags`][default-tags] configuration block is used, tags with matching keys will overwrite those defined at the provider level.
+* `tags` - (Optional) Map of tags to assign to the ACL. If a provider [`default_tags`][default-tags] configuration block is used, tags with matching keys will overwrite those defined at the provider level.
 
 ### egress and ingress
 
@@ -101,9 +99,9 @@ valid network mask.
 
 In addition to all arguments above, the following attributes are exported:
 
-* `id` - ID of the network ACL.
+* `id` - The ID of the network ACL.
 * `arn` - The Amazon Resource Name (ARN) of the network ACL.
-* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the network ACL, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 

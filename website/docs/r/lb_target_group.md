@@ -88,7 +88,7 @@ The following arguments are supported:
 * `proxy_protocol_v2` - (Optional) Whether to enable support for proxy protocol v2 on network load balancers. See [doc](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#proxy-protocol) for more information. Default is `false`.
 * `slow_start` - (Optional) Amount time for targets to warm up before the load balancer sends them a full share of requests. The range is 30-900 seconds or 0 to disable. The default value is 0 seconds.
 * `stickiness` - (Optional, Maximum of 1) Stickiness configuration block. Detailed below.
-* `tags` - (Optional) Map of tags to assign to the resource. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
+* `tags` - (Optional) Map of tags to assign to the target group. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
 * `target_type` - (May be required, Forces new resource) Type of target that you must specify when registering targets with this target group. See [doc](https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_CreateTargetGroup.html) for supported values. The default is `instance`.
 
   Note that you can't specify targets for a target group using both instance IDs and IP addresses.
@@ -139,8 +139,8 @@ In addition to all arguments above, the following attributes are exported:
 * `arn_suffix` - The Amazon Resource Name (ARN) suffix for use with CloudWatch metrics.
 * `arn` - The Amazon Resource Name (ARN) of the target group (matches `id`).
 * `id` - The Amazon Resource Name (ARN) of the target group (matches `arn`).
-* `name` - Name of the target group.
-* `tags_all` - Map of tags to assign to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `name` - The name of the target group.
+* `tags_all` - Map of tags to assign to the target group, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ## Import
 

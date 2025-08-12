@@ -38,7 +38,7 @@ data "aws_instance" "selected" {
 ## Argument Reference
 
 * `filter` - (Optional) One or more name/value pairs to use as filters.
-    * _Valid values_: See supported names and values in [EC2 API documentation][describe-instances].
+    * _Valid values_: See supported names and values in [EC2 API documentation][describe-instances]
 * `get_user_data` - (Optional) Retrieve Base64 encoded user data contents into the `user_data_base64` attribute.
   A SHA-1 hash of the user data contents will always be present in the `user_data` attribute.
     * _Default value_: `false`
@@ -55,7 +55,7 @@ a single instance ID only.
 
 ### Supported attributes
 
-The following attributes are exported:
+In addition to all arguments above, the following attributes are exported:
 
 * `affinity` - The affinity setting for an instance on a dedicated host.
 * `ami` - The ID of the image used to launch the instance.
@@ -63,9 +63,8 @@ The following attributes are exported:
 * `associate_public_ip_address` - Whether the instance is associated with a public IP address or not.
 * `availability_zone` - The availability zone of the instance.
 * `ebs_block_device` - The EBS block device mappings of the instance.
-  The structure of this block is [described below](#ebs_block_device)
 * `ephemeral_block_device` - The ephemeral block device mappings of the instance.
-  The structure of this block is [described below](#ephemeral_block_device)
+  The structure of this block is [described below](#ephemeral_block_device).
 * `host_id` - The ID of the dedicated host that the instance will be assigned to.
 * `id` - The ID of the instance.
 * `instance_state` - The state of the instance.
@@ -76,12 +75,11 @@ The following attributes are exported:
 * `network_interface_id` - The ID of the network interface that was created with the instance.
 * `placement_group` - The placement group of the instance.
 * `private_dns` - The private DNS name assigned to the instance.
-    * _Constraints_: For EC2-VPC, this is only available if you've enabled DNS hostnames for your VPC.
 * `private_ip` - The private IP address assigned to the instance.
 * `secondary_private_ips` - The secondary private IPv4 addresses assigned to the instance's primary network interface in a VPC.
-* `public_dns` - The public DNS name assigned to the instance. For EC2-VPC, this is only available if you've enabled DNS hostnames for your VPC.
+* `public_dns` - The public DNS name assigned to the instance.
 * `public_ip` - The public IP address assigned to the instance, if applicable.
-    * _Constraints_: If you are using an [`aws_eip`](../resources/eip.md) with your instance, you should refer to the EIP's address directly and not use `public_ip`, as this field will change after the EIP is attached
+    ~> **Note** If you are using an [`aws_eip`](../resources/eip.md) with your instance, you should refer to the EIP's address directly and not use `public_ip`, as this field will change after the EIP is attached
 * `root_block_device` - The root block device mappings of the instance.
   The structure of this block is [described below](#root_block_device).
 * `security_groups` - The associated security groups.

@@ -3,14 +3,14 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_network_interfaces"
 description: |-
-    Provides a list of network interface IDs.
+  Provides a list of network interface IDs.
 ---
 
 [describe-network-interfaces]: https://docs.k2.cloud/en/api/ec2/network_interfaces/DescribeNetworkInterfaces.html
 
 # Data Source: aws_network_interfaces
 
-Provides the list of network interface IDs matching the specified criteria.
+Provides a list of network interface IDs matching the specified criteria.
 
 ## Example Usage
 
@@ -61,6 +61,8 @@ output "example2" {
   a pair on the desired network interfaces.
 
 ## Attribute Reference
+
+In addition to all arguments above, the following attributes are exported:
 
 * `id` - The region.
 * `ids` - A list of all the network interface IDs found.

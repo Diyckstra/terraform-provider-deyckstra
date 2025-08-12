@@ -3,14 +3,14 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_network_acls"
 description: |-
-    Provides the list of network ACL IDs for a VPC.
+  Provides a list of network ACL IDs for a VPC.
 ---
 
 [describe-network-acls]: https://docs.k2.cloud/en/api/ec2/network_acls/DescribeNetworkAcls.html
 
 # Data Source: aws_network_acls
 
-Provides the list of network ACL IDs for a VPC.
+Provides a list of network ACL IDs for a VPC.
 
 ## Example Usage
 
@@ -28,7 +28,7 @@ output "example" {
 }
 ```
 
-The following example retrieves a list of all network ACL ids in a VPC with a custom
+The following example retrieves a list of all network ACL IDs in a VPC with a custom
 tag of `Tier` set to a value of "Private".
 
 ```terraform
@@ -62,7 +62,6 @@ data "aws_network_acls" "example" {
 ## Argument Reference
 
 * `filter` - (Optional) One or more name/value pairs to use as filters.
-  A network ACL will be selected if any one of the given values matches.
     * _Valid values:_ See supported names and values in [EC2 API documentation][describe-network-acls]
 * `tags` - (Optional) Map of tags, each pair of which must exactly match
   a pair on the desired network ACLs.
@@ -71,5 +70,7 @@ data "aws_network_acls" "example" {
 
 ## Attribute Reference
 
+In addition to all arguments above, the following attributes are exported:
+
 * `id` - The region.
-* `ids` - A list of all the network ACL ids found.
+* `ids` - List of all the network ACL IDs found.

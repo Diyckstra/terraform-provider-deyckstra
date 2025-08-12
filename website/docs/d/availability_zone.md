@@ -3,16 +3,15 @@ subcategory: "EC2 (Elastic Compute Cloud)"
 layout: "aws"
 page_title: "aws_availability_zone"
 description: |-
-    Provides information about an availability zone.
+  Provides information about an availability zone.
 ---
 
 [describe-azs]: https://docs.k2.cloud/en/api/ec2/placements/DescribeAvailabilityZones.html
-[tf-availability-zones]: availability_zones.html
 
 # Data Source: aws_availability_zone
 
 Provides information about an availability zone.
-To get a list of the available zones, use the [`aws_availability_zones`][tf-availability-zones] (plural) data source.
+To get a list of the available zones, use the [`aws_availability_zones`](availability_zones.md) (plural) data source.
 
 ## Example Usage
 
@@ -33,7 +32,7 @@ availability zones. The given filters must match exactly one availability
 zone whose data will be exported as attributes.
 
 * `filter` - (Optional) One or more name/value pairs to use as filters.
-    * _Valid values_: See supported names and values in [EC2 API documentation][describe-azs].
+    * _Valid values_: See supported names and values in [EC2 API documentation][describe-azs]
 * `name` - (Optional) The full name of the availability zone to select.
 * `state` - (Optional) A specific availability zone state to require.
     * _Valid values_: `available`, `information`, `impaired`

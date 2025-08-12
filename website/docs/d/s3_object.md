@@ -3,7 +3,7 @@ subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_s3_object"
 description: |-
-    Provides information about metadata and optionally content of an S3 object.
+  Provides information about metadata and optionally content of an S3 object.
 ---
 
 [ETag]: https://en.wikipedia.org/wiki/HTTP_ETag
@@ -38,17 +38,17 @@ The following arguments are supported:
 
 In addition to all arguments above, the following attributes are exported:
 
-* `body` - Object data (see **limitations above** to understand cases in which this field is actually available)
+* `body` - Object data (see **limitations above** to understand cases in which this field is actually available).
 * `cache_control` - Specifies caching behavior along the request/reply chain.
 * `content_disposition` - Specifies presentational information for the object.
 * `content_encoding` - Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
 * `content_language` - The language the content is in.
 * `content_length` - Size of the body in bytes.
 * `content_type` - A standard MIME type describing the format of the object data.
-* `etag` - [ETag] generated for the object (an MD5 sum of the object content in case it's not encrypted)
+* `etag` - [ETag] generated for the object (an MD5 sum of the object content in case it's not encrypted).
 * `expiration` - If the object expiration is configured (see [how to configure lifecycle][set-lifecycle]), the field includes this header. It includes the expiry-date and rule-id key value pairs providing object expiration information. The value of the rule-id is URL encoded.
 * `id` - The full path to the object inside the bucket.
-* `last_modified` - Last modified date of the object in RFC1123 format (e.g., `Mon, 02 Jan 2006 15:04:05 MST`)
+* `last_modified` - Last modified date of the object in RFC1123 format (e.g., `Mon, 02 Jan 2006 15:04:05 MST`).
 * `metadata` - A map of metadata stored with the object in S3.
 * `tags` - Map of tags assigned to the object.
 * `version_id` - The latest version ID of the object returned.

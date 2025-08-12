@@ -37,7 +37,7 @@ The following arguments are supported:
 
 * `dx_gateway_id` - (Optional) The ID of the Direct Connect gateway.
 * `filter` - (Optional) One or more name/value pairs to use as filters.
-    * _Valid values_: See supported names and values in [EC2 API documentation][describe-transit-gateway-attachments].
+    * _Valid values_: See supported names and values in [EC2 API documentation][describe-transit-gateway-attachments]
 * `transit_gateway_id` - (Optional) The ID of the EC2 transit gateway.
 
 ## Attribute Reference

@@ -83,7 +83,7 @@ The following arguments are supported:
 * `user_data` - (Optional) The base64-encoded user data to provide when launching the instance. The text length must not exceed 16 KB.
 * `vpc_security_group_ids` - (Optional) A list of security group IDs to associate with.
 
-### Block devices
+### block_device_mappings
 
 Configures additional volumes of the instance besides specified by the image.
 
@@ -95,6 +95,8 @@ The `block_device_mappings` block has the following structure:
 * `ebs` - (Optional) Configures EBS volume properties.
 * `no_device` - (Optional) Suppresses the specified device included in the block device mapping.
 
+### ebs
+
 The `ebs` block has the following structure:
 
 * `delete_on_termination` - (Optional) Indicates whether the volume should be destroyed on instance termination.
@@ -105,13 +107,13 @@ The `ebs` block has the following structure:
 * `volume_type` - (Optional) The type of the volume.
     * _Valid values_: `st2`, `gp2`, `io2`
 
-### Monitoring
+### monitoring
 
 The `monitoring` block has the following structure:
 
 * `enabled` - If `true`, the launched EC2 instance will have detailed monitoring enabled.
 
-### Network Interfaces
+### network_interfaces
 
 Attaches one or more network interfaces to the instance.
 
@@ -130,7 +132,7 @@ The `network_interfaces` block has the following structure:
 * `security_groups` - (Optional) A list of security group IDs to associate.
 * `subnet_id` - (Optional) The ID of the subnet to associate.
 
-### Placement
+### placement
 
 The placement group of the instance.
 
@@ -147,7 +149,7 @@ The `placement` block has the following structure:
 
 ~> **Note** If you use the `host` value, you may encounter the `NotEnoughResourcesForInstanceType` error when running an instance. To avoid this, it is recommended to provide either the `subnet_id` argument or the `availability_zone` argument.
 
-### Tag Specifications
+### tag_specifications
 
 The tags to apply to the resources during launch. You can tag instances and volumes.
 
@@ -155,7 +157,7 @@ Each `tag_specifications` block has the following structure:
 
 * `resource_type` - (Optional) The type of resource to tag.
     * _Valid values_: `instance`, `volume`
-* `tags` - (Optional) Map of tags to assign to the resource.
+* `tags` - (Optional) Map of tags to assign to the launch template.
 
 ## Attribute Reference
 
@@ -166,7 +168,7 @@ In addition to all arguments above, the following attributes are exported:
 * `arn` - The Amazon Resource Name (ARN) of the launch template.
 * `id` - The ID of the launch template.
 * `latest_version` - The latest version of the launch template.
-* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the launch template, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 

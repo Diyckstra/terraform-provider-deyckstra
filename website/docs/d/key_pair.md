@@ -3,7 +3,7 @@ subcategory: "EC2 (Elastic Compute Cloud)"
 layout: "aws"
 page_title: "aws_key_pair"
 description: |-
-    Provides information about a key pair.
+  Provides information about a key pair.
 ---
 
 [describe-key-pairs]: https://docs.k2.cloud/en/api/ec2/key_pairs/DescribeKeyPairs.html

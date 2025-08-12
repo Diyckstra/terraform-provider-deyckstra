@@ -49,13 +49,6 @@ The following arguments are supported:
 * `s3_bucket` - The name of the S3 bucket where the disk image is located.
 * `s3_key` - The file name of the disk image.
 
-### Timeouts
-
-The `timeouts` block allows you to specify [timeouts] for certain actions:
-
-- `create` - (Default `60 minutes`) Used for importing the EBS snapshot
-- `delete` - (Default `10 minutes`) Used for deleting the EBS snapshot
-
 ## Attribute Reference
 
 ### Supported attributes
@@ -63,11 +56,11 @@ The `timeouts` block allows you to specify [timeouts] for certain actions:
 In addition to all arguments above, the following attributes are exported:
 
 * `arn` - Amazon Resource Name (ARN) of the EBS snapshot.
-* `id` - The snapshot ID (e.g., snap-12345678).
+* `id` - The snapshot ID (e.g., `snap-12345678`).
 * `owner_id` - The project ID.
 * `owner_alias` - The alias of the EBS snapshot owner.
 * `volume_size` - The size of the drive in GiB.
-* `tags_all` - Map of tags assigned to the resource.
+* `tags_all` - Map of tags assigned to the snapshot.
 
 ### Unsupported attributes
 
@@ -76,3 +69,10 @@ In addition to all arguments above, the following attributes are exported:
 The following attributes are not currently supported:
 
 `client_data`, `data_encryption_key_id`, `disk_container.url`, `encrypted`, `kms_key_id`, `outpost_arn`, `permanent_restore`, `role_name`, `storage_tier`, `temporary_restore_days`.
+
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts] for certain actions:
+
+- `create` - (Default `60 minutes`) Used for importing the EBS snapshot
+- `delete` - (Default `10 minutes`) Used for deleting the EBS snapshot

@@ -92,18 +92,18 @@ The following arguments are supported:
 
 * `affinity` - (Optional) The affinity setting for an instance on a dedicated host.
     * _Valid values_: `default`, `host`
-    * _Constraints:_ The parameter could be set to `host` only if `tenancy` is `host`.
+    * _Constraints:_ The parameter could be set to `host` only if `tenancy` is `host`
 * `ami` - (Optional) An image to use for the instance.
   If an image is specified in the launch template, the `ami` setting will override it.
-    * _Constraints:_ Required unless `launch_template` is specified.
+    * _Constraints:_ Required unless `launch_template` is specified
 * `associate_public_ip_address` - (Optional) Indicates whether to associate a public IP address with an instance in a VPC.
-    * _Constraints:_ Conflicts with `network_interface`.
+    * _Constraints:_ Conflicts with `network_interface`
       The address will be assigned to the `eth0` interface only if there are free allocated external addresses.
       This operation is available only for instances running in the VPC and for new network interfaces
 * `availability_zone` - (Optional) An availability zone to start the instance in.
 * `disable_api_termination` - (Optional) If `true`, disables the possibility to terminate an instance via API.
 * `ebs_block_device` - (Optional) One or more configuration blocks with additional EBS block devices to attach to the instance. The structure of this block and details on drift detection are [described below](#ebs-block-device). When accessing this as an attribute reference, it is a set of objects.
-    * _Constraints:_ Block device configurations are applied only when the resource is created.
+    * _Constraints:_ Block device configurations are applied only when the resource is created
 * `ephemeral_block_device` - (Optional) One or more configuration blocks to customize ephemeral volumes on the instance. The structure of this block is [described below](#ephemeral-block-device). When accessing this as an attribute reference, it is a set of objects.
 * `host_id` - (Optional) The ID of the dedicated host that the instance will be assigned to.
 * `instance_initiated_shutdown_behavior` - (Optional) Shutdown behavior for the instance.
@@ -120,13 +120,13 @@ The following arguments are supported:
     * _Constraints:_ Conflicts with `network_interface`
 * `root_block_device` - (Optional) Root block device of the instance. The structure of this block is [described below](#root-block-device). When accessing this as an attribute reference, it is a list containing one object.
 * `secondary_private_ips` - (Optional) A list of secondary private IPv4 addresses to assign to the instance's primary network interface in a VPC.
-    * _Constraints:_ Conflicts with `network_interface`.
+    * _Constraints:_ Conflicts with `network_interface`
        Currently, only the primary private IP address can be specified.
 * `source_dest_check` - (Optional) Controls if traffic is routed to the instance when the destination address does not match the instance.
     * _Default value:_ `true`
 * `subnet_id` - (Optional) The ID of a subnet to launch in.
-* `tags` - (Optional) Map of tags to assign to the resource. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
-    * _Constraints:_ These tags apply to the instance and not block storage devices.
+* `tags` - (Optional) Map of tags to assign to the instance. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
+    * _Constraints:_ These tags apply to the instance and not block storage devices
 * `tenancy` - (Optional) The placement type.
     * _Valid values_: `default`, `host`
 
@@ -145,7 +145,7 @@ The following arguments are supported:
 * `vpc_security_group_ids` - (Optional) A list of security group IDs to associate with.
     * _Constraints:_ Conflicts with `network_interface`
 
-### EBS Block Device
+### ebs_block_device
 
 The `ebs_block_device` block has the following structure:
 
@@ -153,9 +153,9 @@ The `ebs_block_device` block has the following structure:
     * _Default value:_ `true`
 * `device_name` - (Required) Name of the device to mount.
 * `iops` - (Optional) Amount of provisioned IOPS.
-    * _Constraints:_ Only valid for the volume_type `io2`
-* `snapshot_id` - (Optional) ID of the snapshot to mount.
-* `tags` - (Optional) A map of tags to assign to the device.
+    * _Constraints:_ Only valid for the volume type `io2`
+* `snapshot_id` - (Optional) The ID of the snapshot to mount.
+* `tags` - (Optional) Map of tags to assign to the device.
 * `volume_size` - (Optional) Size of the volume, in GiB.
 * `volume_type` - (Optional) Type of volume.
     * _Valid values_: `st2`, `gp2`, `io2`
@@ -165,7 +165,7 @@ To manage changes and attachments of an EBS block to an instance, use the [`aws_
 If you use `ebs_block_device` on an `aws_instance`, Terraform will assume management over the full set of non-root EBS block devices for the instance, treating additional block devices as drift.
 For this reason, `ebs_block_device` cannot be mixed with external `aws_ebs_volume` and `aws_volume_attachment` resources for a given instance.
 
-### Ephemeral Block Device
+### ephemeral_block_device
 
 The `ephemeral_block_device` block has the following structure:
 
@@ -173,7 +173,7 @@ The `ephemeral_block_device` block has the following structure:
 * `no_device` - (Optional) Suppresses the specified device included in the block device mapping.
 * `virtual_name` - (Optional) A name for the ephemeral device. Must match with the device name.
 
-### Network Interface
+### network_interface
 
 Each of the `network_interface` blocks attaches a network interface to an EC2 instance during boot time.
 However, because the network interface is attached at boot-time, replacing/modifying the network interface **WILL** trigger a recreation of the EC2 instance.
@@ -185,11 +185,11 @@ The `network_interface` block has the following structure:
 
 * `delete_on_termination` - (Optional) Whether to delete the network interface on instance termination.
     *_Default value:_ `false`
-    * _Constraints:_ Currently, the only valid value is `false`, as this option is only supported when creating new network interfaces during instance launching.
+    * _Constraints:_ Currently, the only valid value is `false`, as this option is only supported when creating new network interfaces during instance launching
 * `device_index` - (Required) Integer index of the network interface attachment.
 * `network_interface_id` - (Required) ID of the network interface to attach.
 
-### Launch Template
+### launch_template
 
 ~> **Note** Launch template parameters will be used only once when the instance is created.
 If you want to update existing instance you need to change parameters directly.
@@ -205,7 +205,7 @@ The `launch_template` block has the following structure:
     * _Valid values_:  A version number, `$Latest`, `$Default`
     * _Default value:_ `$Default`
 
-### Root Block Device
+### root_block_device
 
 The `root_block_device` block has the following structure:
 
@@ -235,7 +235,7 @@ In addition to all arguments above, the following attributes are exported:
   ~> **NOTE** If you are using [`aws_eip`](eip.md) with your instance, you should refer to the EIP's address directly and not use `public_ip` as this field will change after the EIP is attached.
 
 * `security_groups` - The list of security group names associated with the instance.
-* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the instance, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 For `ebs_block_device`, in addition to the arguments above, the following attribute is exported:
 
@@ -254,7 +254,7 @@ The following attributes are not currently supported:
 
 `capacity_reservation_specification`, `cpu_core_count`, `cpu_threads_per_core`, `credit_specification`, `ebs_block_device.encrypted`, `ebs_block_device.kms_key_id`, `ebs_block_device.throughput`, `ebs_optimized`, `enclave_options`, `get_password_data`, `hibernation`, `iam_instance_profile`, `ipv6_address_count`, `ipv6_addresses`, `maintenance_options`, `metadata_options`, `network_interface.network_card_index`, `outpost_arn`, `password_data`, `placement_partition_number`, `root_block_device.encrypted`, `root_block_device.kms_key_id`, `root_block_device.throughput`.
 
-### Timeouts
+## Timeouts
 
 The `timeouts` block allows you to specify [timeouts] for certain actions:
 

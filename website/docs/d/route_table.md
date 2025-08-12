@@ -3,7 +3,7 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_route_table"
 description: |-
-    Provides information about a route table.
+  Provides information about a route table.
 ---
 
 [describe-route-tables]: https://docs.k2.cloud/en/api/ec2/routes/DescribeRouteTables.html
@@ -52,8 +52,20 @@ The following arguments are optional:
 In addition to all arguments above, the following attributes are exported:
 
 * `arn` - The Amazon Resource Name (ARN) of the route table.
-* `associations` - List of associations with attributes detailed below.
-* `routes` - List of routes with attributes detailed below.
+* `associations` - List of associations.
+  The structure of this block is [described below](#associations).
+* `routes` - List of routes.
+  The structure of this block is [described below](#routes).
+
+#### associations
+
+Associations are also exported with the following attributes:
+
+* `gateway_id` - The ID of the internet gateway.
+* `main` - Whether the association is due to the main route table.
+* `route_table_association_id` - The ID of the association.
+* `route_table_id` - The ID of the route table.
+* `subnet_id` - The ID of the subnet. Only set when associated with a subnet.
 
 #### routes
 
@@ -65,20 +77,10 @@ For destinations:
 
 For targets:
 
-* `gateway_id` - The ID of the Internet Gateway or Virtual Private Gateway.
+* `gateway_id` - The ID of the internet gateway or virtual private gateway.
 * `instance_id` - The ID of the instance.
 * `network_interface_id` - The ID of the network interface.
 * `transit_gateway_id` - The ID of the transit gateway.
-
-#### associations
-
-Associations are also exported with the following attributes:
-
-* `gateway_id` - The ID of the Internet Gateway or Virtual Private Gateway.
-* `main` - Whether the association is due to the main route table.
-* `route_table_association_id` - The ID of the association.
-* `route_table_id` - The ID of the route table.
-* `subnet_id` - The ID of the subnet. Only set when associated with a subnet.
 
 ### Unsupported attributes
 

@@ -3,15 +3,14 @@ subcategory: "EBS (EC2)"
 layout: "aws"
 page_title: "aws_ebs_volumes"
 description: |-
-    Provides a list of EBS volume IDs.
+  Provides a list of EBS volume IDs.
 ---
 
 [describe-volumes]: https://docs.k2.cloud/en/api/ec2/volumes/DescribeVolumes.html
-[tf-ebs-volume]: ebs_volume.html
 
 # Data Source: aws_ebs_volumes
 
-Provides the list of EBS volume IDs matching the specified criteria.
+Provides a list of EBS volume IDs matching the specified criteria.
 This data source can be used to get a list of volume IDs with (for example) matching tags.
 
 ## Example Usage
@@ -52,6 +51,8 @@ data "aws_ebs_volumes" "ten_or_twenty_gb_volumes" {
 ```
 
 ## Argument Reference
+
+In addition to all arguments above, the following attributes are exported:
 
 * `filter` - (Optional) One or more name/value pairs to use as filters.
     * _Valid values:_ See supported names and values in [EC2 API documentation][describe-volumes]

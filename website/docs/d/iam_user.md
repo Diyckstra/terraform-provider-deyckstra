@@ -28,6 +28,8 @@ data "aws_iam_user" "selected" {
 
 ### Supported attributes
 
+In addition to all arguments above, the following attributes are exported:
+
 * `arn` - The Amazon Resource Name (ARN) of the user.
 * `display_name` - The displayed name of the user.
 * `email` - The email of the user.

@@ -10,7 +10,7 @@ description: |-
 
 # Resource: aws_key_pair
 
-Manages an EC2 key pair resource.
+Manages a key pair.
 Currently, this resource requires an existing user-supplied key pair.
 This key pair's public key will be registered to allow logging in to EC2 instances.
 
@@ -37,9 +37,10 @@ The following arguments are supported:
 * `key_name` - (Optional) The name for the key pair.
     _Constraints:_ If neither `key_name` nor `key_name_prefix` is provided, Terraform will create a unique key name using the prefix `terraform-`
 * `key_name_prefix` - (Optional) Creates a unique name beginning with the specified prefix.
-    _Constraints:_ Conflicts with `key_name`  If neither `key_name` nor `key_name_prefix` is provided, Terraform will create a unique key name using the prefix `terraform-`.
+    _Constraints:_ Conflicts with `key_name`.
+    If neither `key_name` nor `key_name_prefix` is provided, Terraform will create a unique key name using the prefix `terraform-`
 * `public_key` - (Required) The public key material.
-* `tags` - (Optional) Map of tags to assign to the resource. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
+* `tags` - (Optional) Map of tags to assign to the key pair. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
 ## Attribute Reference
 
@@ -50,11 +51,11 @@ In addition to all arguments above, the following attributes are exported:
 * `key_name` - The name of the key pair.
 * `key_pair_id` - The ID of the key pair.
 * `fingerprint` - The MD5 public key fingerprint as specified in section 4 of RFC 4716.
-* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the key pair, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ## Import
 
-Key pairs can be imported using the `key_name`, e.g.,
+Key pairs can be imported using `key_name`, e.g.,
 
 ```
 $ terraform import aws_key_pair.deployer deployer-key
