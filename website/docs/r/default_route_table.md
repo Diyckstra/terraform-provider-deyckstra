@@ -116,8 +116,8 @@ The following attributes are not currently supported:
 
 The `timeouts` block allows you to specify [timeouts] for certain actions:
 
-- `create` - (Default `2 minutes`) Used for route creation
-- `update` - (Default `2 minutes`) Used for route creation
+- `create` - (Default `2 minutes`) Used for route creation.
+- `update` - (Default `2 minutes`) Used for route creation.
 
 ## Import
 

@@ -69,9 +69,9 @@ The following attributes are not currently supported:
 
 The `timeouts` block allows you to specify [timeouts] for certain actions:
 
-- `create` - (Default `5 minutes`) Used for route creation
-- `update` - (Default `2 minutes`) Used for route creation
-- `delete` - (Default `5 minutes`) Used for route deletion
+- `create` - (Default `5 minutes`) Used for route creation.
+- `update` - (Default `2 minutes`) Used for route creation.
+- `delete` - (Default `5 minutes`) Used for route deletion.
 
 ## Import
 

@@ -74,5 +74,5 @@ The following attributes are not currently supported:
 
 The `timeouts` block allows you to specify [timeouts] for certain actions:
 
-- `create` - (Default `60 minutes`) Used for importing the EBS snapshot
-- `delete` - (Default `10 minutes`) Used for deleting the EBS snapshot
+- `create` - (Default `60 minutes`) Used for importing the EBS snapshot.
+- `delete` - (Default `10 minutes`) Used for deleting the EBS snapshot.

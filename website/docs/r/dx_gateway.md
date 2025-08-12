@@ -39,8 +39,8 @@ In addition to all arguments above, the following attributes are exported:
 
 The `timeouts` block allows you to specify [timeouts] for certain actions:
 
-- `create` - (Default `10 minutes`) Used for creating the gateway
-- `delete` - (Default `10 minutes`) Used for destroying the gateway
+- `create` - (Default `10 minutes`) Used for creating the gateway.
+- `delete` - (Default `10 minutes`) Used for destroying the gateway.
 
 ## Import
 

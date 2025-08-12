@@ -71,6 +71,6 @@ The following attribute is not currently supported: `snapshot_without_reboot`.
 
 The `timeouts` block allows you to specify [timeouts] for certain actions:
 
-* `create` - (Default `40 minutes`) Used when creating the image
-* `update` - (Default `40 minutes`) Used when updating the image
-* `delete` - (Default `90 minutes`) Used when deregistering the image
+* `create` - (Default `40 minutes`) Used when creating the image.
+* `update` - (Default `40 minutes`) Used when updating the image.
+* `delete` - (Default `90 minutes`) Used when deregistering the image.

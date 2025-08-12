@@ -62,9 +62,9 @@ The following attributes are not currently supported:
 
 The `timeouts` block allows you to specify [timeouts] for certain actions:
 
-- `create` - (Default `5 minutes`) Used for creating volumes. This includes the time required for the volume to become available
-- `update` - (Default `5 minutes`) Used for `size`, `type`, or `iops` volume changes
-- `delete` - (Default `5 minutes`) Used for destroying volumes
+- `create` - (Default `5 minutes`) Used for creating volumes. This includes the time required for the volume to become available.
+- `update` - (Default `5 minutes`) Used for `size`, `type`, or `iops` volume changes.
+- `delete` - (Default `5 minutes`) Used for destroying volumes.
 
 ## Import
 

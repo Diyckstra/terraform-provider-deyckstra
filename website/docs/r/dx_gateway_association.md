@@ -63,9 +63,9 @@ The following attributes are not currently supported:
 
 The `timeouts` block allows you to specify [timeouts] for certain actions:
 
-- `create` - (Default `30 minutes`) Timeout for creating the association
-- `update` - (Default `30 minutes`) Timeout for updating the association
-- `delete` - (Default `30 minutes`) Timeout for destroying the association
+- `create` - (Default `30 minutes`) Timeout for creating the association.
+- `update` - (Default `30 minutes`) Timeout for updating the association.
+- `delete` - (Default `30 minutes`) Timeout for destroying the association.
 
 ## Import
 

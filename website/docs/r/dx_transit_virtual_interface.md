@@ -76,9 +76,9 @@ The following attributes are not currently supported:
 
 The `timeouts` block allows you to specify [timeouts] for certain actions:
 
-- `create` - (Default `10 minutes`) Timeout for creating virtual interface
-- `update` - (Default `10 minutes`) Timeout for virtual interface modifications
-- `delete` - (Default `10 minutes`) Timeout for destroying virtual interface
+- `create` - (Default `10 minutes`) Timeout for creating virtual interface.
+- `update` - (Default `10 minutes`) Timeout for virtual interface modifications.
+- `delete` - (Default `10 minutes`) Timeout for destroying virtual interface.
 
 ## Import
 

@@ -164,9 +164,9 @@ In addition to all arguments above, the following attributes are exported:
 
 The `timeouts` block allows you to specify [timeouts] for certain actions:
 
-- `create` - (Default `10 minutes`) Used for creating LB
-- `update` - (Default `10 minutes`) Used for LB modifications
-- `delete` - (Default `10 minutes`) Used for destroying LB
+- `create` - (Default `10 minutes`) Used for creating LB.
+- `update` - (Default `10 minutes`) Used for LB modifications.
+- `delete` - (Default `10 minutes`) Used for destroying LB.
 
 ## Import
 
