@@ -74,7 +74,7 @@ func TestAccIAMServerCertificateDataSource_matchNamePrefix(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config:      testAccDataServerCertMatchNamePrefixConfig,
-				ExpectError: regexp.MustCompile(`Search for AWS IAM server certificate returned no results`),
+				ExpectError: regexp.MustCompile(`Search for IAM server certificate returned no results`),
 			},
 		},
 	})

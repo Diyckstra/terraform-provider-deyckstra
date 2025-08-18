@@ -225,41 +225,6 @@ func samlProviderUpdateTags(conn *iam.IAM, identifier string, oldTagsMap interfa
 	return nil
 }
 
-// serverCertificateUpdateTags updates IAM Server Certificate tags.
-// The identifier is the Server Certificate name.
-func serverCertificateUpdateTags(conn *iam.IAM, identifier string, oldTagsMap interface{}, newTagsMap interface{}) error {
-	oldTags := tftags.New(oldTagsMap)
-	newTags := tftags.New(newTagsMap)
-
-	if removedTags := oldTags.Removed(newTags); len(removedTags) > 0 {
-		input := &iam.UntagServerCertificateInput{
-			ServerCertificateName: aws.String(identifier),
-			TagKeys:               aws.StringSlice(removedTags.Keys()),
-		}
-
-		_, err := conn.UntagServerCertificate(input)
-
-		if err != nil {
-			return fmt.Errorf("error untagging resource (%s): %w", identifier, err)
-		}
-	}
-
-	if updatedTags := oldTags.Updated(newTags); len(updatedTags) > 0 {
-		input := &iam.TagServerCertificateInput{
-			ServerCertificateName: aws.String(identifier),
-			Tags:                  Tags(updatedTags.IgnoreAWS()),
-		}
-
-		_, err := conn.TagServerCertificate(input)
-
-		if err != nil {
-			return fmt.Errorf("error tagging resource (%s): %w", identifier, err)
-		}
-	}
-
-	return nil
-}
-
 // virtualMFAUpdateTags updates IAM Virtual MFA Device tags.
 // The identifier is the Virtual MFA Device ARN.
 func virtualMFAUpdateTags(conn *iam.IAM, identifier string, oldTagsMap interface{}, newTagsMap interface{}) error {

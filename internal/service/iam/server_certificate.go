@@ -18,16 +18,13 @@ import ( // nosemgrep: aws-sdk-go-multiple-service-imports
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	"github.com/hashicorp/terraform-provider-aws/internal/conns"
-	tftags "github.com/hashicorp/terraform-provider-aws/internal/tags"
 	"github.com/hashicorp/terraform-provider-aws/internal/tfresource"
-	"github.com/hashicorp/terraform-provider-aws/internal/verify"
 )
 
 func ResourceServerCertificate() *schema.Resource {
 	return &schema.Resource{
 		Create: resourceServerCertificateCreate,
 		Read:   resourceServerCertificateRead,
-		Update: resourceServerCertificateUpdate,
 		Delete: resourceServerCertificateDelete,
 		Importer: &schema.ResourceImporter{
 			State: resourceServerCertificateImport,
@@ -48,13 +45,6 @@ func ResourceServerCertificate() *schema.Resource {
 				ForceNew:         true,
 				DiffSuppressFunc: suppressNormalizeCertRemoval,
 				StateFunc:        StateTrimSpace,
-			},
-
-			"path": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Default:  "/",
-				ForceNew: true,
 			},
 
 			"private_key": {
@@ -95,18 +85,12 @@ func ResourceServerCertificate() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"tags":     tftags.TagsSchema(),
-			"tags_all": tftags.TagsSchemaComputed(),
 		},
-
-		CustomizeDiff: verify.SetTagsDiff,
 	}
 }
 
 func resourceServerCertificateCreate(d *schema.ResourceData, meta interface{}) error {
 	conn := meta.(*conns.AWSClient).IAMConn
-	defaultTagsConfig := meta.(*conns.AWSClient).DefaultTagsConfig
-	tags := defaultTagsConfig.MergeTags(tftags.New(d.Get("tags").(map[string]interface{})))
 
 	var sslCertName string
 	if v, ok := d.GetOk("name"); ok {
@@ -123,28 +107,12 @@ func resourceServerCertificateCreate(d *schema.ResourceData, meta interface{}) e
 		ServerCertificateName: aws.String(sslCertName),
 	}
 
-	if len(tags) > 0 {
-		createOpts.Tags = Tags(tags.IgnoreAWS())
-	}
-
 	if v, ok := d.GetOk("certificate_chain"); ok {
 		createOpts.CertificateChain = aws.String(v.(string))
 	}
 
-	if v, ok := d.GetOk("path"); ok {
-		createOpts.Path = aws.String(v.(string))
-	}
-
 	log.Printf("[DEBUG] Creating IAM Server Certificate with opts: %s", createOpts)
 	resp, err := conn.UploadServerCertificate(createOpts)
-
-	// Some partitions (i.e., ISO) may not support tag-on-create
-	if createOpts.Tags != nil && verify.CheckISOErrorTagsUnsupported(err) {
-		log.Printf("[WARN] failed creating IAM Server Certificate (%s) with tags: %s. Trying create without tags.", sslCertName, err)
-		createOpts.Tags = nil
-
-		resp, err = conn.UploadServerCertificate(createOpts)
-	}
 
 	if err != nil {
 		return fmt.Errorf("error uploading server certificate: %w", err)
@@ -153,34 +121,17 @@ func resourceServerCertificateCreate(d *schema.ResourceData, meta interface{}) e
 	d.SetId(aws.StringValue(resp.ServerCertificateMetadata.ServerCertificateId))
 	d.Set("name", sslCertName)
 
-	// Some partitions (i.e., ISO) may not support tag-on-create, attempt tag after create
-	if createOpts.Tags == nil && len(tags) > 0 {
-		err := serverCertificateUpdateTags(conn, d.Get("name").(string), nil, tags)
-
-		// If default tags only, log and continue. Otherwise, error.
-		if v, ok := d.GetOk("tags"); (!ok || len(v.(map[string]interface{})) == 0) && verify.CheckISOErrorTagsUnsupported(err) {
-			log.Printf("[WARN] failed adding tags after create for IAM Server Certificate (%s): %s", d.Id(), err)
-			return resourceServerCertificateRead(d, meta)
-		}
-
-		if err != nil {
-			return fmt.Errorf("failed adding tags after create for IAM Server Certificate (%s): %w", d.Id(), err)
-		}
-	}
-
 	return resourceServerCertificateRead(d, meta)
 }
 
 func resourceServerCertificateRead(d *schema.ResourceData, meta interface{}) error {
 	conn := meta.(*conns.AWSClient).IAMConn
-	defaultTagsConfig := meta.(*conns.AWSClient).DefaultTagsConfig
-	ignoreTagsConfig := meta.(*conns.AWSClient).IgnoreTagsConfig
 
 	resp, err := conn.GetServerCertificate(&iam.GetServerCertificateInput{
 		ServerCertificateName: aws.String(d.Get("name").(string)),
 	})
 
-	if tfawserr.ErrCodeEquals(err, iam.ErrCodeNoSuchEntityException) {
+	if !d.IsNewResource() && tfawserr.ErrCodeEquals(err, iam.ErrCodeServerCertificateNotFoundException) {
 		log.Printf("[WARN] IAM Server Certificate (%s) not found, removing from state", d.Id())
 		d.SetId("")
 		return nil
@@ -196,7 +147,6 @@ func resourceServerCertificateRead(d *schema.ResourceData, meta interface{}) err
 
 	d.Set("certificate_body", cert.CertificateBody)
 	d.Set("certificate_chain", cert.CertificateChain)
-	d.Set("path", metadata.Path)
 	d.Set("arn", metadata.Arn)
 	if metadata.Expiration != nil {
 		d.Set("expiration", aws.TimeValue(metadata.Expiration).Format(time.RFC3339))
@@ -210,40 +160,7 @@ func resourceServerCertificateRead(d *schema.ResourceData, meta interface{}) err
 		d.Set("upload_date", nil)
 	}
 
-	tags := KeyValueTags(cert.Tags).IgnoreAWS().IgnoreConfig(ignoreTagsConfig)
-
-	//lintignore:AWSR002
-	if err := d.Set("tags", tags.RemoveDefaultConfig(defaultTagsConfig).Map()); err != nil {
-		return fmt.Errorf("error setting tags: %w", err)
-	}
-
-	if err := d.Set("tags_all", tags.Map()); err != nil {
-		return fmt.Errorf("error setting tags_all: %w", err)
-	}
-
 	return nil
-}
-
-func resourceServerCertificateUpdate(d *schema.ResourceData, meta interface{}) error {
-	conn := meta.(*conns.AWSClient).IAMConn
-
-	if d.HasChange("tags_all") {
-		o, n := d.GetChange("tags_all")
-
-		err := serverCertificateUpdateTags(conn, d.Get("name").(string), o, n)
-
-		// Some partitions (i.e., ISO) may not support tagging, giving error
-		if verify.CheckISOErrorTagsUnsupported(err) {
-			log.Printf("[WARN] failed updating tags for IAM Server Certificate (%s): %s", d.Id(), err)
-			return resourceServerCertificateRead(d, meta)
-		}
-
-		if err != nil {
-			return fmt.Errorf("failed updating tags for IAM Server Certificate (%s): %w", d.Id(), err)
-		}
-	}
-
-	return resourceServerCertificateRead(d, meta)
 }
 
 func resourceServerCertificateDelete(d *schema.ResourceData, meta interface{}) error {
@@ -261,7 +178,7 @@ func resourceServerCertificateDelete(d *schema.ResourceData, meta interface{}) e
 					log.Printf("[WARN] Conflict deleting server certificate: %s, retrying", awsErr.Message())
 					return resource.RetryableError(err)
 				}
-				if awsErr.Code() == iam.ErrCodeNoSuchEntityException {
+				if awsErr.Code() == iam.ErrCodeServerCertificateNotFoundException {
 					return nil
 				}
 			}
