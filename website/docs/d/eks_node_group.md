@@ -43,11 +43,11 @@ In addition to all arguments above, the following attributes are exported:
 * `scaling_config` - Configuration block with scaling settings.
   The structure of this block is [described below](#scaling_config).
 * `status` - Status of the EKS node group.
-    * _Valid values_: `CREATING`, `ACTIVE`, `PENDING`, `UPDATING`, `DELETING`, `CREATE_FAILED`, `DELETE_FAILED`, `DEGRADED`
+    * _Valid values:_ `CREATING`, `ACTIVE`, `PENDING`, `UPDATING`, `DELETING`, `CREATE_FAILED`, `DELETE_FAILED`, `DEGRADED`
 * `subnet_ids` - Identifiers of EC2 subnets to associate with the EKS node group.
 * `tags` - Map of tags assigned to the node group.
 * `taints` - List of objects containing information about taints applied to the nodes in the EKS node group.
-  The structure of this block is [described below](#taints)
+  The structure of this block is [described below](#taints).
 * `version` - Kubernetes version.
 
 #### scaling_config

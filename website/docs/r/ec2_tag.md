@@ -10,7 +10,7 @@ description: |-
 
 # Resource: aws_ec2_tag
 
-Manages an individual EC2 resource tag. This resource should only be used when Terraform was not used to create EC2 resources (e.g., AMIs).
+Manages an individual EC2 resource tag. This resource should only be used when Terraform was not used to create EC2 resources (e.g., images).
 
 ~> **Note** This tagging resource should not be combined with the Terraform resource for managing the parent resource. For example, using `aws_vpc` and `aws_ec2_tag` to manage tags of the same VPC will cause a perpetual difference where the `aws_vpc` resource will try to remove the tag being added by the `aws_ec2_tag` resource.
 
@@ -38,11 +38,11 @@ The following arguments are supported:
 
 In addition to all arguments above, the following attributes are exported:
 
-* `id` - EC2 resource identifier and key, separated by a comma (`,`).
+* `id` - `resource_id` and `key` separated by a comma (`,`).
 
 ## Import
 
-`aws_ec2_tag` can be imported using the EC2 resource identifier and key separated by a comma (`,`), e.g.,
+`aws_ec2_tag` can be imported using the ID of the EC2 resource and a tag name separated by comma (`,`), e.g.,
 
 ```
 $ terraform import aws_ec2_tag.example tgw-attach-12345678,Name

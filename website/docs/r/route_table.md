@@ -82,7 +82,7 @@ The following arguments are supported:
 * `vpc_id` - (Required) ID of the VPC.
 * `route` - (Optional) A list of route objects. Their keys are documented below. This argument is processed in [attribute-as-blocks mode][attribute-as-blocks]).
 This means that omitting this argument is interpreted as ignoring any existing routes. To remove all managed routes an empty list should be specified. See the example above.
-* `tags` - (Optional) A map of tags to assign to the route table. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
+* `tags` - (Optional) Map of tags to assign to the route table. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 * `propagating_vgws` - (Optional) A list of virtual gateways for propagation.
 
 ### route Argument Reference
@@ -110,8 +110,8 @@ In addition to all arguments above, the following attributes are exported:
 attribute once the route resource is created.
 
 * `id` - The ID of the route table.
-* `arn` - The ARN of the route table.
-* `tags_all` - A map of tags assigned to the route table, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `arn` - The Amazon Resource Name (ARN) of the route table.
+* `tags_all` - Map of tags assigned to the route table, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 

@@ -29,10 +29,10 @@ data "aws_availability_zones" "available" {
 The following arguments are supported:
 
 * `filter` - (Optional) One or more name/value pairs to use as filters.
-    * _Valid values_: See supported names and values in [EC2 API documentation][describe-azs]
+    * _Valid values:_ See supported names and values in [EC2 API documentation][describe-azs]
 * `state` - (Optional) Filters the list of availability zones based on their
 current state.
-    * _Valid values_:  `available`, `information`, `impaired`, `unavailable`
+    * _Valid values:_ `available`, `information`, `impaired`, `unavailable`
 
 ## Attribute Reference
 
@@ -40,8 +40,8 @@ current state.
 
 In addition to all arguments above, the following attributes are exported:
 
-* `id` - Region of the availability zones.
-* `names` - A list of the availability zone names available to the account.
+* `id` - The region of the availability zones.
+* `names` - List of the availability zone names available to the account.
 
 ### Unsupported attributes
 

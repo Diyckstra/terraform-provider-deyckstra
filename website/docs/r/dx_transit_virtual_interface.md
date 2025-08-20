@@ -40,8 +40,8 @@ resource "aws_dx_transit_virtual_interface" "example" {
 The following arguments are supported:
 
 * `address_family` - (Optional) The address family for the BGP peer.
-    * _Valid values_: `ipv4 `
-    * _Default value_: `ipv4`
+    * _Valid values:_ `ipv4 `
+    * _Default value:_ `ipv4`
 * `amazon_address` - (Optional) The IPv4 CIDR address of the connection endpoint on the cloud side.
 * `bgp_asn` - (Required) The BGP ASN on the client side.
 * `bgp_auth_key` - (Optional, Sensitive) The authentication key for BGP configuration.
@@ -49,7 +49,7 @@ The following arguments are supported:
 * `customer_address` - (Optional) The IPv4 CIDR address of the connection endpoint on the client side.
 * `dx_gateway_id` - (Required) The ID of the Direct Connect gateway that the virtual interface must be connected to.
 * `name` - (Required) The name for the virtual interface.
-* `tags` - (Optional, Editable) Map of tags to assign to the virtual interface. If there is a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider level.
+* `tags` - (Optional, Editable) Map of tags to assign to the virtual interface. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 * `vlan` - (Required) The VLAN ID.
 
 ## Attribute Reference

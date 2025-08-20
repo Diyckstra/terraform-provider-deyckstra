@@ -11,7 +11,7 @@ description: |-
 Creates an entry (a rule) in a network ACL with the specified rule number.
 
 ~> **Note on Network ACLs and Network ACL Rules:** Terraform currently
-provides both a standalone network ACL rule resource and an [aws_network_acl](network-acl.md) resource with rules
+provides both a standalone network ACL rule resource and an [aws_network_acl](network_acl.md) resource with rules
 defined in-line. At this time you cannot use a network ACL with in-line rules
 in conjunction with any network ACL rule resources. Doing so will cause
 a conflict of rule settings and will overwrite rules.
@@ -57,9 +57,9 @@ The following arguments are supported:
 * `from_port` - (Optional) The from port to match.
 * `to_port` - (Optional) The to port to match.
 * `icmp_type` - (Optional) ICMP protocol: The ICMP type, e.g., -1
-    * _Constraints_: Required if specifying ICMP for the protocol
+    * _Constraints:_ Required if specifying ICMP for the protocol
 * `icmp_code` - (Optional) ICMP protocol: The ICMP code, e.g., -1
-    * _Constraints_: Required if specifying ICMP for the protocol
+    * _Constraints:_ Required if specifying ICMP for the protocol
 
 ~> **Note** If the value of `protocol` is `-1` or `all`, the `from_port` and `to_port` values will be ignored and the rule will apply to all ports.
 

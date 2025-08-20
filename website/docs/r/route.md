@@ -12,7 +12,7 @@ description: |-
 
 Creates a routing table entry (a route) in a VPC routing table.
 
-~> **Note on route tables and routes:** Terraform currently provides both a standalone route resource and a [`aws_route_table`](route-table.md) resource with routes defined in-line. At this time you cannot use a route table with in-line routes in conjunction with any route resources. Doing so will cause a conflict of rule settings and will overwrite rules.
+~> **Note on route tables and routes:** Terraform currently provides both a standalone route resource and a [`aws_route_table`](route_table.md) resource with routes defined in-line. At this time you cannot use a route table with in-line routes in conjunction with any route resources. Doing so will cause a conflict of rule settings and will overwrite rules.
 
 ## Example Usage
 

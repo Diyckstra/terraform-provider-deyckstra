@@ -81,7 +81,7 @@ The following arguments are supported:
 
 * `policy` - (Required, Editable) A string with policy-defined access rules in JSON format.
 * `type` - (Required) The type of the policy.
-    * _Valid values_: `global`, `project`
+    * _Valid values:_ `global`, `project`
 
 ## Attribute Reference
 
@@ -91,7 +91,7 @@ In addition to all arguments above, the following attributes are exported:
 
 * `arn` - The Amazon Resource Name (ARN) of the policy.
 * `create_date` - The time in [RFC3339 format] when the policy was created.
-* `id` - The Amazon Resource Name (ARN) of the policy.
+* `id` - The ARN of the policy.
 * `owner` - The owner of the policy.
 * `policy_id` - The ID of the policy.
 * `update_date` - The time in [RFC3339 format] when the policy was last updated.

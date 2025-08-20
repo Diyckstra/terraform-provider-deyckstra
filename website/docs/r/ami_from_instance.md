@@ -49,10 +49,6 @@ The following arguments are supported:
 
 ### Supported attributes
 
-This resource also exports a full set of attributes corresponding to the arguments of the
-[`aws_ami`](ami.md) resource, allowing the properties of the created image to be used elsewhere in the
-configuration.
-
 In addition to all arguments above, the following attributes are exported:
 
 * `arn` - The Amazon Resource Name (ARN) of the image.

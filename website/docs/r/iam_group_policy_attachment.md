@@ -45,7 +45,7 @@ The following arguments are supported:
 
 * `group_arn` - (Required) The Amazon Resource Name (ARN) of the group
   (e.g. `arn:c2:iam::<customer-name>:group/<group-name>`).
-* `policy_arn` - (Required) The Amazon Resource Name (ARN) of the attached policy
+* `policy_arn` - (Required) The ARN of the attached policy
   (e.g. `arn:c2:iam::<customer-name>:policy/<policy-name>`).
 
 ## Attribute Reference

@@ -30,7 +30,7 @@ internet gateway. The given filters must match exactly one
 internet gateway whose data will be exported as attributes.
 
 * `filter` - (Optional) One or more name/value pairs to use as filters.
-    * _Valid values_: See supported names and values in [EC2 API documentation][describe-igws]
+    * _Valid values:_ See supported names and values in [EC2 API documentation][describe-igws]
 * `internet_gateway_id` - (Optional) The ID of the internet gateway.
 * `tags` - (Optional) Map of tags. Each tag must exactly match a tag on the desired internet gateway.
 

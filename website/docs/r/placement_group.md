@@ -29,7 +29,7 @@ The following arguments are supported:
 
 * `name` - (Required) The name of the placement group.
 * `strategy` - (Required) The placement strategy.
-    * _Valid values_: `spread`
+    * _Valid values:_ `spread`
 * `tags` - (Optional) Map of tags to assign to the placement group. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
 ## Attribute Reference

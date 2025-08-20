@@ -3,7 +3,7 @@ subcategory: "EC2 (Elastic Compute Cloud)"
 layout: "aws"
 page_title: "aws_eip"
 description: |-
-  Provides information about an Elastic IP
+  Provides information about an Elastic IP.
 ---
 
 [describe-addresses]: https://docs.k2.cloud/en/api/ec2/addresses/DescribeAddresses.html

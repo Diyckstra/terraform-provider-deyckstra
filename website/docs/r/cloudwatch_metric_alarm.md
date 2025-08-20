@@ -40,12 +40,12 @@ resource "aws_cloudwatch_metric_alarm" "example" {
 The following arguments are supported:
 
 * `actions_enabled` - (Optional) Indicates whether actions should be executed during any changes to the alarm state.
-    * _Default value_: `true`
+    * _Default value:_ `true`
 * `alarm_actions` - (Optional) Actions, which must be executed when this alarm transitions to the `alarm` state. Each action must be between 1-1024 characters in length. You can specify a maximum of 5 actions.
 * `alarm_description` - (Optional) The alarm description. Must be between 1-255 characters in length.
 * `alarm_name` - (Required) The name for the alarm. This name must be unique within the project. Must be between 1-255 characters in length.
 * `comparison_operator` - (Required) The arithmetic operation to use when comparing the specified `statistic` and `threshold`.
-    * _Valid values_: `GreaterThanOrEqualToThreshold`, `GreaterThanThreshold`, `LessThanThreshold`, `LessThanOrEqualToThreshold`
+    * _Valid values:_ `GreaterThanOrEqualToThreshold`, `GreaterThanThreshold`, `LessThanThreshold`, `LessThanOrEqualToThreshold`
 * `datapoints_to_alarm` - (Optional) The number of datapoints that must be breaching to trigger the alarm. Minimum value is 1.
 * `dimensions` - (Required) The alarm dimensions. See docs for [dimensions][dimensions].
 * `evaluation_periods` - (Required) The number of periods which is compared to the threshold. Minimum value is 1.
@@ -55,13 +55,13 @@ The following arguments are supported:
 * `ok_actions` - (Optional) Actions, which must be executed when this alarm transitions to the `ok` state. Each action must be between 1-1024 characters in length. You can specify a maximum of 5 actions.
 * `period` - (Required) The period in seconds over which the specified `statistic` is applied. Value must be divisible by 60, minimum value is 60.
 * `statistic` - (Required) The statistic for the metric.
-    * _Valid values_: `SampleCount`, `Average`, `Sum`, `Minimum`, `Maximum`
+    * _Valid values:_ `SampleCount`, `Average`, `Sum`, `Minimum`, `Maximum`
 * `threshold` - (Required) The value, to which metric values will be compared.
 * `treat_missing_data` - (Optional) Defines how periods without values would be interpreted.
-    * _Valid values_: `missing`, `ignore`, `breaching`, `not_breaching`
-    * _Default value_: `missing`
+    * _Valid values:_ `missing`, `ignore`, `breaching`, `not_breaching`
+    * _Default value:_ `missing`
 * `unit` - (Optional) The unit of the metric associated with the alarm.
-    * _Valid values_: `Percent`, `Bytes`, `Count`
+    * _Valid values:_ `Percent`, `Bytes`, `Count`
 
 ## Attribute Reference
 

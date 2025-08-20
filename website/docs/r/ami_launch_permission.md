@@ -39,7 +39,7 @@ The following arguments are supported:
 * `image_id` - (Required) The ID of the image.
 * `account_id` - (Optional) The ID of the project (`project@customer`) for the launch permission.
 * `group` - (Optional) The name of the group for the launch permission.
-    * _Valid values_: `all`
+    * _Valid values:_ `all`
 
 ## Attribute Reference
 

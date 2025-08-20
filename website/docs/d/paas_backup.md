@@ -34,12 +34,12 @@ The following arguments are supported:
 * `database_name` - (Optional) The database name.
 * `id` - (Optional) The ID of the PaaS service backup (e.g. `paas-backup-12345678`).
 * `ready_only` - (Optional) Indicates whether to filter only completed backups.
-    * _Default value_: `true`
+    * _Default value:_ `true`
 * `service_class` - (Optional) The class of the PaaS service.
-    * _Valid values_: `cacher`, `database`, `message_broker`, `search`
+    * _Valid values:_ `cacher`, `database`, `message_broker`, `search`
 * `service_id` - (Optional) The ID of the PaaS service (e.g. `fm-cluster-12345678`).
 * `service_type` - (Optional) The type of the PaaS service.
-    * _Valid values_: `elasticsearch`, `memcached`, `mongodb`, `mysql`, `pgsql`, `rabbitmq`, `redis`
+    * _Valid values:_ `elasticsearch`, `memcached`, `mongodb`, `mysql`, `pgsql`, `rabbitmq`, `redis`
 
 ~> **Note** `id` cannot be specified together with the other parameters.
 

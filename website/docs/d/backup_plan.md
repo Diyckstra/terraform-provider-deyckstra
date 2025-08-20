@@ -30,7 +30,7 @@ The following arguments are supported:
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` - The Amazon Resource Name (ARN) of the backup plan.
+* `arn` - The ARN of the backup plan.
 * `name` - The name of the backup plan.
 
 ### Unsupported attributes

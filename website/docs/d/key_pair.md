@@ -44,7 +44,7 @@ The arguments of this data source act as filters for querying the available key 
 The given filters must match exactly one key pair whose data will be exported as attributes.
 
 * `filter` -  (Optional) One or more name/value pairs to use as filters.
-    * _Valid values_: See supported names and values in [EC2 API documentation][describe-key-pairs]
+    * _Valid values:_ See supported names and values in [EC2 API documentation][describe-key-pairs]
 * `key_name` - (Optional) The name of the key pair.
 * `key_pair_id` - (Optional) The ID of the key pair.
 
@@ -55,4 +55,4 @@ In addition to all arguments above, the following attributes are exported:
 * `arn` - The Amazon Resource Name (ARN) of the key pair.
 * `fingerprint` - The SHA-1 digest of the DER encoded private key.
 * `id` - The ID of the key pair.
-* `tags` - The map of tags assigned to the key pair.
+* `tags` - Map of tags assigned to the key pair.

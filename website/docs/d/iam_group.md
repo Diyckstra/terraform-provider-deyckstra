@@ -33,10 +33,10 @@ data "aws_iam_group" "selected" {
 ## Argument Reference
 
 * `arn` - (Optional) The Amazon Resource Name (ARN) of the group
-    * _ARN Format_: `arn:c2:iam::<customer-name>:group/<group-name>`
-    * _Constraints_: Required if `name` is not specified
+    * _ARN Format:_ `arn:c2:iam::<customer-name>:group/<group-name>`
+    * _Constraints:_ Required if `name` is not specified
 * `name` - (Optional) The name of the group.
-    * _Constraints_: Required if `arn` is not specified
+    * _Constraints:_ Required if `arn` is not specified
 
 ~> **Note** Filtering by `name` is performed locally and can affect performance when the list of groups is large.
 
@@ -48,14 +48,14 @@ In addition to all arguments above, the following attributes are exported:
 
 * `create_date` - The time in [RFC3339 format] when the group was created.
 * `group_id` - The ID of the group.
-* `id` - The Amazon Resource Name (ARN) of the group.
+* `id` - The ARN of the group.
 * `owner` - The owner of the group.
 * `type` - The type of the group.
 * `users` - List of group members. The structure of this block is [described below](#users).
 
 #### users
 
-* `arn` - The Amazon Resource Name (ARN) of a user.
+* `arn` - The ARN of a user.
 * `user_id` - The ID of a user.
 * `user_name` - The name of a user.
 

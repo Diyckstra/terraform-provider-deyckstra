@@ -27,7 +27,7 @@ output "backup-user-logins" {
 The following arguments are supported:
 
 * `active_only` - (Optional) Indicates whether to filter only active users.
-    * _Default value_: `false`
+    * _Default value:_ `false`
 
 ## Attribute Reference
 

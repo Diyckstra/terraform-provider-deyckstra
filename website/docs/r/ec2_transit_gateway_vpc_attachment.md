@@ -63,9 +63,9 @@ The following arguments are supported:
   If a provider [`default_tags` configuration block][default-tags] is used,
   tags with matching keys will overwrite those defined at the provider level.
 * `transit_gateway_default_route_table_association` - (Optional) Indicates whether the transit gateway VPC attachment should be associated with the transit gateway default association route table.
-    * _Default value_: `true`
+    * _Default value:_ `true`
 * `transit_gateway_default_route_table_propagation` - (Optional) Indicates whether the transit gateway VPC attachment should propagate routes to the transit gateway default propagation route table.
-    * _Default value_: `true`
+    * _Default value:_ `true`
 
 ~> **Note** `transit_gateway_default_route_table_association` and `transit_gateway_default_route_table_propagation`
 cannot be configured for shared transit gateways.

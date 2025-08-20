@@ -37,7 +37,7 @@ The following arguments are supported:
   plus (+) and equal (=) signs, commas (,), periods (.), at symbols (@) and hyphens (-) (`^[\w+=,.@-]*$`).
   The value must be 1 to 128 characters long.
 * `type` - (Required) The type of the group.
-    * _Valid values_: `global`, `project`
+    * _Valid values:_ `global`, `project`
 
 ## Attribute Reference
 

@@ -60,12 +60,12 @@ The following arguments are supported:
 The `rule` block has the following structure:
 
 * `completion_window` - (Optional) Time in minutes after the backup job is started, during which it should be completed. Otherwise, it will be cancelled.
-    * _Default value_: `180`
+    * _Default value:_ `180`
 * `lifecycle` - (Optional) The lifecycle defines when a recovery point is transferred to cold storage and when it expires. The structure of the block is [described below](#lifecycle).
 * `rule_name` - (Required) The name of the backup rule. The value must be `1` to `50` characters long and must contain only alphanumeric characters, hyphens, underscores, or periods.
 * `schedule` - (Optional) CRON expression in UTC for the backup job scheduling.
 * `start_window` - (Optional) Time in minutes during which a backup job should start running. Otherwise the job will be cancelled.
-    * _Default value_: `60`
+    * _Default value:_ `60`
 * `target_vault_name` - (Required) The name of the backup vault. The value must be `2` to `50` characters long and must contain only alphanumeric characters, hyphens, or underscores.
 
 #### Lifecycle

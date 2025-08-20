@@ -34,12 +34,12 @@ resource "aws_key_pair" "deployer" {
 
 The following arguments are supported:
 
+* `public_key` - (Required) The public key material.
 * `key_name` - (Optional) The name for the key pair.
     _Constraints:_ If neither `key_name` nor `key_name_prefix` is provided, Terraform will create a unique key name using the prefix `terraform-`
 * `key_name_prefix` - (Optional) Creates a unique name beginning with the specified prefix.
     _Constraints:_ Conflicts with `key_name`.
     If neither `key_name` nor `key_name_prefix` is provided, Terraform will create a unique key name using the prefix `terraform-`
-* `public_key` - (Required) The public key material.
 * `tags` - (Optional) Map of tags to assign to the key pair. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
 ## Attribute Reference

@@ -46,7 +46,7 @@ In addition to all arguments above, the following attributes are exported:
 
 * `id` - The volume ID (e.g., vol-12345678).
 * `volume_id` - The volume ID (e.g., vol-12345678).
-* `arn` - Amazon Resource Name (ARN) of the volume.
+* `arn` - The Amazon Resource Name (ARN) of the volume.
 * `availability_zone` - The AZ where the EBS volume exists.
 * `iops` - The amount of IOPS for the disk.
 * `size` - The size of the drive in GiB.

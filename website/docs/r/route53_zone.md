@@ -70,9 +70,9 @@ The following arguments are supported:
 
 * `name` - (Required) This is the name of the hosted zone.
 * `comment` - (Optional) A comment for the hosted zone.
-    * _Default value_: 'Managed by Terraform'
+    * _Default value:_ 'Managed by Terraform'
 * `force_destroy` - (Optional) Whether to destroy all records (possibly managed outside of Terraform) in the zone when destroying the zone.
-* `tags` - (Optional) A map of tags to assign to the zone. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
+* `tags` - (Optional) Map of tags to assign to the zone. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 * `vpc` - (Optional) Configuration block(s) specifying VPC to associate with a private hosted zone.
 
 ### vpc Argument Reference
@@ -89,7 +89,7 @@ In addition to all arguments above, the following attributes are exported:
 * `zone_id` - The hosted zone ID. This can be referenced by zone records.
 * `name_servers` - A list of name servers in associated (or default) delegation set.
   Find more about delegation sets in [AWS docs](https://docs.aws.amazon.com/Route53/latest/APIReference/actions-on-reusable-delegation-sets.html).
-* `tags_all` - A map of tags assigned to the hosted zone, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the hosted zone, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 

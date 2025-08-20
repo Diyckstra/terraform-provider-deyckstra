@@ -31,11 +31,11 @@ resource "aws_ec2_transit_gateway" "example" {
 The following arguments are supported:
 
 * `default_route_table_association` - (Optional) Indicates whether the association with default association route table is created automatically.
-    * _Valid values_: `disable`, `enable`
-    * _Default value_: `enable`
+    * _Valid values:_ `disable`, `enable`
+    * _Default value:_ `enable`
 * `default_route_table_propagation` - (Optional) Indicates whether the routes are automatically propagated to the default propagation route table.
-    * _Valid values_: `disable`, `enable`
-    * _Default value_: `enable`
+    * _Valid values:_ `disable`, `enable`
+    * _Default value:_ `enable`
 * `description` - (Optional) The description of the transit gateway.
 * `shared_owners` - (Optional) List of project IDs (`project@customer`) that are granted access to the transit gateway.
 * `tags` - (Optional) Map of tags to assign to the transit gateway.

@@ -113,7 +113,7 @@ Updating the value from `Enabled` or `Suspended` to `Disabled` will result in er
 The `versioning_configuration` configuration block supports the following arguments:
 
 * `status` - (Required) The versioning state of the bucket. `Disabled` should only be used when creating or importing resources that correspond to unversioned S3 buckets.
-    * _Valid values_:  `Enabled`, `Suspended`, `Disabled`
+    * _Valid values:_ `Enabled`, `Suspended`, `Disabled`
 
 ## Attribute Reference
 

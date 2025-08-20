@@ -32,10 +32,10 @@ availability zones. The given filters must match exactly one availability
 zone whose data will be exported as attributes.
 
 * `filter` - (Optional) One or more name/value pairs to use as filters.
-    * _Valid values_: See supported names and values in [EC2 API documentation][describe-azs]
+    * _Valid values:_ See supported names and values in [EC2 API documentation][describe-azs]
 * `name` - (Optional) The full name of the availability zone to select.
 * `state` - (Optional) A specific availability zone state to require.
-    * _Valid values_: `available`, `information`, `impaired`
+    * _Valid values:_ `available`, `information`, `impaired`
 
 ## Attribute Reference
 
@@ -44,8 +44,6 @@ zone whose data will be exported as attributes.
 In addition to all arguments above, the following attributes are exported:
 
 * `region` - The region where the selected availability zone resides.
-* `state` - A specific availability zone state to require.
-    * _Valid values_: `available`, `information`, `impaired`, `unavailable`
 
 ### Unsupported attributes
 

@@ -56,7 +56,7 @@ The following arguments are supported:
 
 * Notice that all arguments are optional, but you have to specify at least one argument.
 * `domain_name_servers`, `netbios_name_servers`, `ntp_servers` are limited to maximum four servers only.
-* To actually use the DHCP options set you need to associate it to a VPC using [`aws_vpc_dhcp_options_association`](main-route-table-association.md).
+* To actually use the DHCP options set you need to associate it to a VPC using [`aws_vpc_dhcp_options_association`](main_route_table_association.md).
 * If you delete a DHCP options set, all VPCs using it will be associated to `default` DHCP options set.
 * In most cases unless you're configuring your own DNS you'll want to set `domain_name_servers` to `AmazonProvidedDNS`.
 

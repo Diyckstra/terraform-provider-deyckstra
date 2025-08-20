@@ -6,6 +6,7 @@ description: |-
   Imports a disk image from S3 as a snapshot.
 ---
 
+[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 [timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
 
 # Resource: aws_ebs_snapshot_import
@@ -37,6 +38,7 @@ The following arguments are supported:
 * `description` - (Optional) The description string for the import snapshot task.
 * `disk_container` - (Required) Information about the disk container. Detailed below.
 * `tags` - (Optional) Map of tags to assign to the snapshot.
+  If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
 ### disk_container Configuration Block
 
@@ -55,12 +57,12 @@ The following arguments are supported:
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` - Amazon Resource Name (ARN) of the EBS snapshot.
+* `arn` - The Amazon Resource Name (ARN) of the EBS snapshot.
 * `id` - The snapshot ID (e.g., `snap-12345678`).
 * `owner_id` - The project ID.
 * `owner_alias` - The alias of the EBS snapshot owner.
 * `volume_size` - The size of the drive in GiB.
-* `tags_all` - Map of tags assigned to the snapshot.
+* `tags_all` - Map of tags assigned to the snapshot, including those inherited from the provider [`default_tags` configuration block][default-tags]
 
 ### Unsupported attributes
 

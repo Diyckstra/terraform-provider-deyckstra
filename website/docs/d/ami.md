@@ -31,11 +31,11 @@ data "aws_ami" "example" {
 ## Argument Reference
 
 * `owners` - (Required) List of image owners to limit search. At least one value must be specified.
-    * _Valid values_: Project ID (`project@customer`) or `self`
+    * _Valid values:_ Project ID (`project@customer`) or `self`
 * `executable_users` - (Optional) Limits search to project with the _explicit_ launch permission on the image.
-    * _Valid values_: Project ID (`project@customer`), `all`, or `self`
+    * _Valid values:_ Project ID (`project@customer`), `all`, or `self`
 * `filter` - (Optional) One or more name/value pairs to use as filters.
-    * _Valid values_: See supported names and values in [EC2 API documentation][describe-images]
+    * _Valid values:_ See supported names and values in [EC2 API documentation][describe-images]
 * `most_recent` - (Optional) If more than one result is returned, use the most recent image.
 * `name_regex` - (Optional) A regex string to apply to the image list returned by the EC2 API.
   It is recommended to combine this with other options to narrow down the list that the EC2 API returns.

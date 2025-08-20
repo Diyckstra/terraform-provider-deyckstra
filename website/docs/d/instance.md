@@ -38,10 +38,10 @@ data "aws_instance" "selected" {
 ## Argument Reference
 
 * `filter` - (Optional) One or more name/value pairs to use as filters.
-    * _Valid values_: See supported names and values in [EC2 API documentation][describe-instances]
+    * _Valid values:_ See supported names and values in [EC2 API documentation][describe-instances]
 * `get_user_data` - (Optional) Retrieve Base64 encoded user data contents into the `user_data_base64` attribute.
   A SHA-1 hash of the user data contents will always be present in the `user_data` attribute.
-    * _Default value_: `false`
+    * _Default value:_ `false`
 * `instance_id` - (Optional) Specify the exact instance ID with which to populate the data source.
 * `instance_tags` - (Optional) Map of tags, each pair of which must exactly match a pair on the desired instance.
 
@@ -68,7 +68,7 @@ In addition to all arguments above, the following attributes are exported:
 * `host_id` - The ID of the dedicated host that the instance will be assigned to.
 * `id` - The ID of the instance.
 * `instance_state` - The state of the instance.
-    * _Valid values_: `pending`, `running`, `shutting-down`, `terminated`, `stopping`, `stopped`
+    * _Valid values:_ `pending`, `running`, `shutting-down`, `terminated`, `stopping`, `stopped`
 * `instance_type` - The type of the instance.
 * `key_name` - The key name of the instance.
 * `monitoring` - Whether detailed monitoring is enabled or disabled for the instance.
@@ -79,7 +79,7 @@ In addition to all arguments above, the following attributes are exported:
 * `secondary_private_ips` - The secondary private IPv4 addresses assigned to the instance's primary network interface in a VPC.
 * `public_dns` - The public DNS name assigned to the instance.
 * `public_ip` - The public IP address assigned to the instance, if applicable.
-    ~> **Note** If you are using an [`aws_eip`](../resources/eip.md) with your instance, you should refer to the EIP's address directly and not use `public_ip`, as this field will change after the EIP is attached
+    ~> **Note** If you are using an [`aws_eip`](../r/eip.md) with your instance, you should refer to the EIP's address directly and not use `public_ip`, as this field will change after the EIP is attached.
 * `root_block_device` - The root block device mappings of the instance.
   The structure of this block is [described below](#root_block_device).
 * `security_groups` - The associated security groups.
@@ -87,7 +87,7 @@ In addition to all arguments above, the following attributes are exported:
 * `subnet_id` - The ID of the subnet.
 * `user_data` - SHA-1 hash of user data supplied to the instance.
 * `user_data_base64` - Base64 encoded contents of user data supplied to the instance. Valid UTF-8 contents can be decoded with the [`base64decode` function][base64decode-function].
-    * _Constraints_: This attribute is only exported if `get_user_data` is true
+    * _Constraints:_ This attribute is only exported if `get_user_data` is true
 * `tags` - Map of tags assigned to the instance.
 * `tenancy` - The placement type.
 * `vpc_security_group_ids` - The associated security groups in a non-default VPC.

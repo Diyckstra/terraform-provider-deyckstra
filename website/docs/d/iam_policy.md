@@ -33,9 +33,9 @@ data "aws_iam_policy" "selected" {
 ## Argument Reference
 
 * `arn` - (Optional) The Amazon Resource Name (ARN) of the policy (e.g. `arn:c2:iam::<customer-name>:policy/<policy-name>`).
-    _Constraints_: Required if `name` is not specified
+    _Constraints:_ Required if `name` is not specified
 * `name` - (Optional) The name of the policy.
-    _Constraints_: Required if `arn` is not specified
+    _Constraints:_ Required if `arn` is not specified
 
 ~> **Note** Filtering by `name` is performed locally and can affect performance when the list of policies is large.
 
@@ -47,7 +47,7 @@ In addition to all arguments above, the following attributes are exported:
 
 * `create_date` - The time in [RFC3339 format] when the policy was created.
 * `description` - The description of the policy.
-* `id` - The Amazon Resource Name (ARN) of the policy.
+* `id` - The ARN of the policy.
 * `owner` - The owner of the policy.
 * `policy` - Policy-defined access rules in JSON format.
 * `policy_id` - The ID of the policy.

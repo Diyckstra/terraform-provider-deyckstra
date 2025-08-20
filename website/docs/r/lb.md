@@ -110,7 +110,7 @@ Terraform will autogenerate a name beginning with `tf-lb`.
 * `name_prefix` - (Optional) Creates a unique name beginning with the specified prefix. Conflicts with `name`.
 * `internal` - (Optional) If true, the LB will be internal.
 * `load_balancer_type` - (Optional) The type of load balancer to create. Possible values are `application`, `gateway`, or `network`. The default value is `application`.
-* `security_groups` - (Optional) A list of security group IDs to assign to the LB. Only valid for load balancers of type `application`.
+* `security_groups` - (Optional) List of security group IDs to assign to the LB. Only valid for load balancers of type `application`.
 * `drop_invalid_header_fields` - (Optional) Indicates whether HTTP headers with header fields that are not valid are removed by the load balancer (true) or routed to targets (false). The default is false. Elastic Load Balancing requires that message header names contain only alphanumeric characters and hyphens. Only valid for load balancers of type `application`.
 * `access_logs` - (Optional) An access logs block. Access logs documented below.
 * `subnets` - (Optional) A list of subnet IDs to attach to the LB. Subnets
@@ -120,26 +120,26 @@ for load balancers of type `network` will force a recreation of the resource.
 * `idle_timeout` - (Optional) The time in seconds that the connection is allowed to be idle. Only valid for load balancers of type `application`. Default: 60.
 * `enable_deletion_protection` - (Optional) If true, deletion of the load balancer will be disabled via
    the AWS API. This will prevent Terraform from deleting the load balancer.
-    * _Default value_: `false`
+    * _Default value:_ `false`
 * `enable_cross_zone_load_balancing` - (Optional) If true, cross-zone load balancing of the load balancer will be enabled.
    This is a `network` load balancer feature.
-    * _Default value_: `false`
+    * _Default value:_ `false`
 * `enable_http2` - (Optional) Indicates whether HTTP/2 is enabled in `application` load balancers.
-    * _Default value_: `true`
+    * _Default value:_ `true`
 * `enable_waf_fail_open` - (Optional) Indicates whether to allow a WAF-enabled load balancer to route requests to targets if it is unable to forward the request to AWS WAF.
-    * _Default value_: `false`
+    * _Default value:_ `false`
 * `customer_owned_ipv4_pool` - (Optional) The ID of the customer owned ipv4 pool to use for this load balancer.
 * `ip_address_type` - (Optional) The type of IP addresses used by the subnets for your load balancer. The possible values are `ipv4` and `dualstack`
 * `desync_mitigation_mode` - (Optional) Determines how the load balancer handles requests that might pose a security risk to an application due to HTTP desync.
-    * _Valid values_: `defensive` (default), `monitor`, `strictest`
-* `tags` - (Optional) Map of tags to assign to the load balancer. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider level.
+    * _Valid values:_ `defensive` (default), `monitor`, `strictest`
+* `tags` - (Optional) Map of tags to assign to the load balancer. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
 Access logs (`access_logs`) support the following:
 
 * `bucket` - (Required) The S3 bucket name to store the logs in.
 * `prefix` - (Optional) The S3 bucket prefix. Logs are stored in the root if not configured.
 * `enabled` - (Optional) Boolean to enable / disable `access_logs`.
-    * _Default value_: `false`, even when `bucket` is specified
+    * _Default value:_ `false`, even when `bucket` is specified
 
 Subnet mapping (`subnet_mapping`) blocks support the following:
 
@@ -154,7 +154,7 @@ In addition to all arguments above, the following attributes are exported:
 
 * `id` - The ID of the load balancer (matches `arn`).
 * `arn` - The Amazon Resource Name (ARN) of the load balancer (matches `id`).
-* `arn_suffix` - The Amazon Resource Name (ARN) suffix for use with CloudWatch metrics.
+* `arn_suffix` - The ARN suffix for use with CloudWatch metrics.
 * `dns_name` - The DNS name of the load balancer.
 * `tags_all` - Map of tags assigned to the load balancer, including those inherited from the provider [`default_tags` configuration block][default-tags].
 * `zone_id` - The canonical hosted zone ID of the load balancer (to be used in a Route 53 Alias record).

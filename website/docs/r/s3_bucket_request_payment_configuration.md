@@ -31,7 +31,7 @@ The following arguments are supported:
 * `bucket` - (Required, Forces new resource) The name of the bucket.
 * `expected_bucket_owner` - (Optional, Forces new resource) The account ID of the expected bucket owner.
 * `payer` - (Required) Specifies who pays for the download and request fees.
-    * _Valid values_:  `BucketOwner`, `Requester`
+    * _Valid values:_ `BucketOwner`, `Requester`
 
 ## Attribute Reference
 
