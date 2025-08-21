@@ -164,6 +164,8 @@ The `legacy_cluster_params` block has the following structure:
   The structure of this block is [described below](#ingress_config).
 * `master_config` - (Optional) The configuration of the master node of the cluster.
   The structure of this block is [described below](#master_config).
+* `user_data_config` - (Optional) The configuration of the cluster user data.
+  The structure of this block is [described below](#user_data_config).
 * `nlb_provider_config` – (Optional) The configuration of the NLB Provider.
   The structure of this block is [described below](#nlb_provider_config).
 * `placement_config` - (Optional) The placement of the cluster.
@@ -233,6 +235,14 @@ The `placement_config` block has the following structure:
 * `tenancy` - (Optional) The tenancy of the instance (if the instance is running in a VPC).
     * _Valid values:_ `default`, `host`
     * _Default value:_ `default`
+
+#### user_data_config
+
+The `user_data_config` block has the following structure:
+
+* `user_data` - (Required) User data.
+* `user_data_content_type` - (Required) The type of `user_data`.
+    * _Valid values:_ `cloud-config`,  `x-shellscript`
 
 ## Attribute Reference
 

@@ -284,6 +284,29 @@ func ResourceCluster() *schema.Resource {
 								},
 							},
 						},
+						"user_data_config": {
+							Type:     schema.TypeList,
+							Optional: true,
+							MaxItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"user_data": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
+									"user_data_content_type": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+										ValidateFunc: validation.StringInSlice(
+											[]string{"cloud-config", "x-shellscript"},
+											false,
+										),
+									},
+								},
+							},
+						},
 						"nlb_provider_config": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -909,6 +932,10 @@ func expandLegacyClusterParams(tfList []interface{}) *eks.LegacyClusterParamsReq
 		legacyParams.MasterConfig = expandMasterConfig(masterConfig)
 	}
 
+	if userDataConfig, ok := tfMap["user_data_config"].([]interface{}); ok && len(userDataConfig) > 0 {
+		legacyParams.UserDataConfig = expandUserDataConfig(userDataConfig)
+	}
+
 	if nlbProviderConfig, ok := tfMap["nlb_provider_config"].([]interface{}); ok && len(nlbProviderConfig) > 0 {
 		legacyParams.NlbProviderConfig = expandNlbProviderConfig(nlbProviderConfig)
 	}
@@ -1072,6 +1099,29 @@ func expandMasterConfig(tfList []interface{}) *eks.MasterConfig {
 	return masterConfig
 }
 
+func expandUserDataConfig(tfList []interface{}) *eks.UserDataConfig {
+	if len(tfList) == 0 {
+		return nil
+	}
+
+	tfMap, ok := tfList[0].(map[string]interface{})
+	if !ok || tfMap == nil {
+		return nil
+	}
+
+	userDataConfig := &eks.UserDataConfig{}
+
+	if v, ok := tfMap["user_data"].(string); ok && v != "" {
+		userDataConfig.UserData = aws.String(v)
+	}
+
+	if v, ok := tfMap["user_data_content_type"].(string); ok && v != "" {
+		userDataConfig.UserDataContentType = aws.String(v)
+	}
+
+	return userDataConfig
+}
+
 func expandNlbProviderConfig(tfList []interface{}) *eks.NlbProviderConfigRequest {
 	if len(tfList) == 0 {
 		return nil
@@ -1218,6 +1268,7 @@ func flattenLegacyClusterParams(legacyParams *eks.LegacyClusterParamsResponse) [
 		"ebs_provider_config":    flattenEbsProviderConfig(legacyParams.EbsProviderConfig),
 		"ingress_config":         flattenIngressConfig(legacyParams.IngressConfig),
 		"master_config":          flattenMasterConfig(legacyParams.MasterConfig),
+		"user_data_config":       flattenUserDataConfig(legacyParams.UserDataConfig),
 		"placement_config":       flattenPlacementConfig(legacyParams.PlacementConfig),
 		"nlb_provider_config":    flattenNlbProviderConfig(legacyParams.NlbProviderConfig),
 	}
@@ -1315,6 +1366,19 @@ func flattenMasterConfig(masterConfig *eks.MasterConfig) []interface{} {
 		"volume_iops":       aws.Int64Value(masterConfig.MastersVolumeIops),
 		"volume_size":       aws.Int64Value(masterConfig.MastersVolumeSize),
 		"volume_type":       aws.StringValue(masterConfig.MastersVolumeType),
+	}
+
+	return []interface{}{tfMap}
+}
+
+func flattenUserDataConfig(userDataConfig *eks.UserDataConfig) []interface{} {
+	if userDataConfig == nil {
+		return nil
+	}
+
+	tfMap := map[string]interface{}{
+		"user_data":              aws.StringValue(userDataConfig.UserData),
+		"user_data_content_type": aws.StringValue(userDataConfig.UserDataContentType),
 	}
 
 	return []interface{}{tfMap}
