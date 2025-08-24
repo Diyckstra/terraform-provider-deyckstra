@@ -19,10 +19,6 @@ Attaches a policy to an S3 bucket.
 ```terraform
 resource "aws_s3_bucket" "example" {
   bucket = "tf-example"
-
-  # Use the predefined provider configuration to connect to object storage
-  # https://docs.k2.cloud/en/api/tools/terraform.html#providers-tf
-  provider = aws.noregion
 }
 
 resource "aws_s3_bucket_policy" "example" {
