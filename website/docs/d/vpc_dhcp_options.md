@@ -3,12 +3,15 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_vpc_dhcp_options"
 description: |-
-  Retrieve information about an EC2 DHCP Options configuration
+  Provides information about an DHCP options configuration.
 ---
+
+[describe-dhcp-options]: https://docs.k2.cloud/en/api/ec2/dhcp_options/DescribeDhcpOptions.html
+[rfc-2132]: http://www.ietf.org/rfc/rfc2132.txt
 
 # Data Source: aws_vpc_dhcp_options
 
-Retrieve information about an EC2 DHCP options configuration.
+Provides information about an DHCP options configuration.
 
 ## Example Usage
 
@@ -40,34 +43,28 @@ data "aws_vpc_dhcp_options" "example" {
 
 ## Argument Reference
 
-* `dhcp_options_id` - (Optional) The EC2 DHCP options ID.
-* `filter` - (Optional) List of custom filters as described below.
+* `dhcp_options_id` - (Optional) The DHCP options ID.
+* `filter` - (Optional) One or more name/value pairs to use as filters.
+    * _Valid values:_ See supported names and values in [EC2 API documentation][describe-dhcp-options]
 
-### filter
-
-For more information about filtering, see the [EC2 API documentation][describe-dhcp-options].
-
-* `name` - (Required) The name of the field to filter.
-* `values` - (Required) Set of values for filtering.
-
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
-* `arn` - The ARN of the DHCP options Set.
-* `dhcp_options_id` - EC2 DHCP options ID.
-* `domain_name` - The suffix domain name to used when resolving non Fully Qualified Domain Names e.g., the `search` value in the `/etc/resolv.conf` file.
+In addition to all arguments above, the following attributes are exported:
+
+* `arn` - The Amazon Resource Name (ARN) of the DHCP options set.
+* `dhcp_options_id` - DHCP options ID.
+* `domain_name` - The suffix domain name to used when resolving non fully qualified domain names e.g., the `search` value in the `/etc/resolv.conf` file.
 * `domain_name_servers` - List of name servers.
-* `id` - EC2 DHCP options ID.
+* `id` - DHCP options ID.
 * `netbios_name_servers` - List of NETBIOS name servers.
-* `netbios_node_type` - The NetBIOS node type (1, 2, 4, or 8). For more information about these node types, see [RFC 2132](http://www.ietf.org/rfc/rfc2132.txt).
+* `netbios_node_type` - The NetBIOS node type (1, 2, 4, or 8). For more information about these node types, see [RFC 2132][rfc-2132].
 * `ntp_servers` - List of NTP servers.
-* `tags` - A map of tags assigned to the resource.
+* `tags` - Map of tags assigned to the DHCP options set.
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** This attribute may be present in the `terraform.tfstate` file, but it has a preset value and cannot be specified in configuration files.
 
-The following attributes are not currently supported: `owner_id`.
-
-[describe-dhcp-options]: https://docs.k2.cloud/en/api/ec2/dhcp_options/DescribeDhcpOptions.html
+The following attribute is not currently supported: `owner_id`.

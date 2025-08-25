@@ -32,15 +32,19 @@ data "aws_iam_group" "selected" {
 
 ## Argument Reference
 
-* `arn` - (Required if `name` is not specified) The Amazon Resource Name (ARN) of the group
-  (e.g. `arn:c2:iam::<customer-name>:group/<group-name>`).
-* `name` - (Required if `arn` is not specified) The name of the group.
+* `arn` - (Optional) The Amazon Resource Name (ARN) of the group
+    * _ARN Format:_ `arn:c2:iam::<customer-name>:group/<group-name>`
+    * _Constraints:_ Required if `name` is not specified
+* `name` - (Optional) The name of the group.
+    * _Constraints:_ Required if `arn` is not specified
 
 ~> **Note** Filtering by `name` is performed locally and can affect performance when the list of groups is large.
 
 ## Attribute Reference
 
 ### Supported attributes
+
+In addition to all arguments above, the following attributes are exported:
 
 * `create_date` - The time in [RFC3339 format] when the group was created.
 * `group_id` - The ID of the group.
@@ -57,7 +61,7 @@ data "aws_iam_group" "selected" {
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 

@@ -3,12 +3,12 @@ subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_s3_bucket"
 description: |-
-    Provides details about a specific S3 bucket.
+  Provides information about an S3 bucket.
 ---
 
 # Data Source: aws_s3_bucket
 
-Provides details about a specific S3 bucket.
+Provides information about an S3 bucket.
 
 ## Example Usage
 
@@ -34,13 +34,13 @@ The following arguments are supported:
 
 In addition to all arguments above, the following attributes are exported:
 
+* `arn` - The Amazon Resource Name (ARN) of the bucket. Will be of format `arn:aws:s3:::bucketname`.
 * `id` - The name of the bucket.
-* `arn` - The ARN of the bucket. Will be of format `arn:aws:s3:::bucketname`.
 * `region` - The region this bucket resides in.
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 

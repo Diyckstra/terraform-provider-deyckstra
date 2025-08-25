@@ -26,35 +26,55 @@ data "aws_eks_cluster" "example" {
 
 ### Supported attributes
 
+In addition to all arguments above, the following attributes are exported:
+
 * `arn` - Cluster ID.
 * `certificate_authority` - Nested attribute containing `certificate-authority-data` for your cluster.
     * `data` - The base64 encoded certificate data required to communicate with your cluster. Add this to the `certificate-authority-data` section of the `kubeconfig` file for your cluster.
 * `created_at` - The Unix epoch time stamp in seconds for when the cluster was created.
 * `id` - The name of the cluster.
-* `kubernetes_network_config` - Nested list containing Kubernetes Network Configuration.
-    * `ip_family` - The IP family used to assign Kubernetes pod and service addresses.
-    * `service_ipv4_cidr` - The CIDR block to assign Kubernetes service IP addresses from.
+* `kubernetes_network_config` - The Kubernetes network configuration.
+  The structure of this block is [described below](#kubernetes_network_config).
 * `legacy_cluster_params` - The parameters for fine-tuning the Kubernetes cluster.
     * `master_config` - The configuration of the master node of the cluster.
-        * `high_availability` - Indicates whether this is a high-availability cluster.
-        * `instance_type` - The instance type of the master node.
-        * `public_ip` - The public IP address at which the master node is accessed.
-        * `volume_iops` - The number of read/write operations per second for the master node volume.
-        * `volume_size` - The size of the master node volume in GiB.
-        * `volume_type` - The type of the master node volume.
+        The structure of this block is [described below](#master_config).
 * `platform_version` - The platform version for the cluster.
 * `status` - The status of the EKS cluster. One of `CLAIMED`, `CREATING`, `DELETED`, `DELETING`, `ERROR`, `MODIFYING`, `PENDING`, `PROVISIONING`, `READY`, `REPAIRING`.
 * `version` - The Kubernetes server version for the cluster.
-* `vpc_config` - Nested list containing VPC configuration for the cluster.
-    * `cluster_security_group_id` - The cluster security group that was created by the cloud for the cluster.
-    * `security_group_ids` – List of security group IDs.
-    * `subnet_ids` – List of subnet IDs.
-    * `vpc_id` – The VPC associated with your cluster.
-* `tags` - Key-value map of resource tags.
+* `vpc_config` - The VPC configuration for the cluster.
+  The structure of this block is [described below](#vpc_config).
+* `tags` - Map of tags assigned to the cluster.
+
+#### kubernetes_network_config
+
+The `kubernetes_network_config` block has the following structure:
+
+* `ip_family` - The IP family used to assign Kubernetes pod and service addresses.
+* `service_ipv4_cidr` - The CIDR block to assign Kubernetes service IP addresses from.
+
+#### master_config
+
+The `master_config` block has the following structure:
+
+* `high_availability` - Indicates whether this is a high-availability cluster.
+* `instance_type` - The instance type of the master node.
+* `public_ip` - The public IP address at which the master node is accessed.
+* `volume_iops` - The number of read/write operations per second for the master node volume.
+* `volume_size` - The size of the master node volume in GiB.
+* `volume_type` - The type of the master node volume.
+
+#### vpc_config
+
+The `vpc_config` block has the following structure:
+
+* `cluster_security_group_id` - The cluster security group that was created by the cloud for the cluster.
+* `security_group_ids` - List of security group IDs.
+* `subnet_ids` - List of subnet IDs.
+* `vpc_id` - The VPC associated with your cluster.
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 

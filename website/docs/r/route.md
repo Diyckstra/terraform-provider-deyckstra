@@ -3,16 +3,16 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_route"
 description: |-
-  Provides a resource to create a routing entry in a VPC routing table.
+  Creates a routing entry in a VPC routing table.
 ---
 
 [timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
 
 # Resource: aws_route
 
-Provides a resource to create a routing table entry (a route) in a VPC routing table.
+Creates a routing table entry (a route) in a VPC routing table.
 
-~> **Note on Route Tables and Routes:** Terraform currently provides both a standalone Route resource and a [`aws_route_table`](route_table.md) resource with routes defined in-line. At this time you cannot use a Route Table with in-line routes in conjunction with any Route resources. Doing so will cause a conflict of rule settings and will overwrite rules.
+~> **Note on route tables and routes:** Terraform currently provides both a standalone route resource and a [`aws_route_table`](route_table.md) resource with routes defined in-line. At this time you cannot use a route table with in-line routes in conjunction with any route resources. Doing so will cause a conflict of rule settings and will overwrite rules.
 
 ## Example Usage
 
@@ -39,12 +39,12 @@ One of the following destination arguments must be supplied:
 
 One of the following target arguments must be supplied:
 
-* `gateway_id` - (Optional) ID of an internet gateway or virtual private gateway.
-* `instance_id` - (Optional) ID of an EC2 instance.
-* `network_interface_id` - (Optional) ID of an EC2 network interface.
+* `gateway_id` - (Optional) The ID of an internet gateway.
+* `instance_id` - (Optional) The ID of an EC2 instance.
+* `network_interface_id` - (Optional) The ID of an EC2 network interface.
 * `transit_gateway_id` - (Optional) The ID of the transit gateway.
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
@@ -59,7 +59,7 @@ In addition to all arguments above, the following attributes are exported:
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 
@@ -69,9 +69,9 @@ The following attributes are not currently supported:
 
 The `timeouts` block allows you to specify [timeouts] for certain actions:
 
-- `create` - (Default `5 minutes`) Used for route creation
-- `update` - (Default `2 minutes`) Used for route creation
-- `delete` - (Default `5 minutes`) Used for route deletion
+- `create` - (Default `5 minutes`) Used for route creation.
+- `update` - (Default `2 minutes`) Used for route creation.
+- `delete` - (Default `5 minutes`) Used for route deletion.
 
 ## Import
 

@@ -32,9 +32,10 @@ data "aws_iam_policy" "selected" {
 
 ## Argument Reference
 
-* `arn` - (Required if `name` is not specified) The Amazon Resource Name (ARN) of the policy
-  (e.g. `arn:c2:iam::<customer-name>:policy/<policy-name>`).
-* `name` - (Required if `arn` is not specified) The name of the policy.
+* `arn` - (Optional) The Amazon Resource Name (ARN) of the policy (e.g. `arn:c2:iam::<customer-name>:policy/<policy-name>`).
+    _Constraints:_ Required if `name` is not specified
+* `name` - (Optional) The name of the policy.
+    _Constraints:_ Required if `arn` is not specified
 
 ~> **Note** Filtering by `name` is performed locally and can affect performance when the list of policies is large.
 
@@ -55,7 +56,7 @@ In addition to all arguments above, the following attributes are exported:
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 

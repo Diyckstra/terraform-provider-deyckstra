@@ -3,12 +3,14 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_route_tables"
 description: |-
-    Get information on route tables.
+  Provides a list of route table IDs.
 ---
+
+[describe-route-tables]: https://docs.k2.cloud/en/api/ec2/routes/DescribeRouteTables.html
 
 # Data Source: aws_route_tables
 
-This resource can be useful for getting back a list of route table ids to be referenced elsewhere.
+Provides a list of route table IDs matching the specified criteria.
 
 ## Example Usage
 
@@ -27,23 +29,13 @@ data "aws_route_tables" "rts" {
 
 ## Argument Reference
 
-* `filter` - (Optional) Custom filter block as described below.
+* `filter` - (Optional) One or more name/value pairs to use as filters.
+    * _Valid values:_ See supported names and values in [EC2 API documentation][describe-route-tables]
 * `vpc_id` - (Optional) The VPC ID that you want to filter from.
-* `tags` - (Optional) A map of tags, each pair of which must exactly match
+* `tags` - (Optional) Map of tags, each pair of which must exactly match
   a pair on the desired route tables.
 
-More complex filters can be expressed using one or more `filter` sub-blocks,
-which take the following arguments:
-
-* `name` - (Required) The name of the field to filter by it.
-* `values` - (Required) Set of values that are accepted for the given field.
-  A Route Table will be selected if any one of the given values matches.
-
-For more information about filtering, see the [EC2 API documentation][describe-route-tables].
-
-## Attributes Reference
+## Attribute Reference
 
 * `id` - The region.
-* `ids` - A list of all the route table ids found.
-
-[describe-route-tables]: https://docs.k2.cloud/en/api/ec2/routes/DescribeRouteTables.html
+* `ids` - List of all the route table IDs found.

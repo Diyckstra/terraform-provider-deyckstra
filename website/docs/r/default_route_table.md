@@ -3,16 +3,17 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_default_route_table"
 description: |-
-  Provides a resource to manage a default route table of a VPC.
+  Manages the default route table of a VPC.
 ---
 
+[attribute-as-blocks]: https://www.terraform.io/docs/configuration/attr-as-blocks.html
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 [route-tables]: https://docs.k2.cloud/en/services/networking/routetables.html
 [timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
 
 # Resource: aws_default_route_table
 
-Provides a resource to manage a default route table of a VPC. This resource can manage the default route table of the default or a non-default VPC.
+Manages the default route table of a VPC. This resource can manage the default route table of the default or a non-default VPC.
 
 ~> **Note** This is an advanced resource with special caveats. Please read this document in its entirety before using this resource. The `aws_default_route_table` resource behaves differently from normal resources. Terraform does not _create_ this resource but instead attempts to "adopt" it into management. **Do not** use both `aws_default_route_table` to manage a default route table **and** `aws_main_route_table_association` with the same VPC due to possible route conflicts. See [aws_main_route_table_association](main_route_table_association.md) documentation for more details.
 
@@ -74,12 +75,12 @@ The following arguments are required:
 The following arguments are optional:
 
 * `propagating_vgws` - (Optional) List of virtual gateways for propagation.
-* `route` - (Optional) Configuration block of routes. Detailed below. This argument is processed in [attribute-as-blocks mode](https://www.terraform.io/docs/configuration/attr-as-blocks.html). This means that omitting this argument is interpreted as ignoring any existing routes. To remove all managed routes an empty list should be specified. See the example above.
-* `tags` - (Optional) Map of tags to assign to the resource. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
+* `route` - (Optional) Configuration block of routes. Detailed below. This argument is processed in [attribute-as-blocks mode][attribute-as-blocks]. This means that omitting this argument is interpreted as ignoring any existing routes. To remove all managed routes an empty list should be specified. See the example above.
+* `tags` - (Optional) Map of tags to assign to the route table. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
 ### route
 
-This argument is processed in [attribute-as-blocks mode](https://www.terraform.io/docs/configuration/attr-as-blocks.html).
+This argument is processed in [attribute-as-blocks mode][attribute-as-blocks].
 
 One of the following destination arguments must be supplied:
 
@@ -87,25 +88,25 @@ One of the following destination arguments must be supplied:
 
 One of the following target arguments must be supplied:
 
-* `gateway_id` - (Optional) ID of an internet gateway or virtual private gateway.
-* `instance_id` - (Optional) ID of an EC2 instance.
-* `network_interface_id` - (Optional) ID of an EC2 network interface.
+* `gateway_id` - (Optional) The ID of an internet gateway.
+* `instance_id` - (Optional) The ID of an EC2 instance.
+* `network_interface_id` - (Optional) The ID of an EC2 network interface.
 * `transit_gateway_id` - (Optional) The ID of the transit gateway.
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
-* `id` - ID of the route table.
+* `id` - The ID of the route table.
 * `arn` - The Amazon Resource Name (ARN) of the route table.
-* `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
-* `vpc_id` - ID of the VPC.
+* `tags_all` - Map of tags assigned to the route table, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `vpc_id` - The ID of the VPC.
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 
@@ -115,8 +116,8 @@ The following attributes are not currently supported:
 
 The `timeouts` block allows you to specify [timeouts] for certain actions:
 
-- `create` - (Default `2 minutes`) Used for route creation
-- `update` - (Default `2 minutes`) Used for route creation
+- `create` - (Default `2 minutes`) Used for route creation.
+- `update` - (Default `2 minutes`) Used for route creation.
 
 ## Import
 

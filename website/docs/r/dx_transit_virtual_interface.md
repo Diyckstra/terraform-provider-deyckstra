@@ -39,7 +39,9 @@ resource "aws_dx_transit_virtual_interface" "example" {
 
 The following arguments are supported:
 
-* `address_family` - (Optional) The address family for the BGP peer. Valid value is `ipv4 `. Defaults to `ipv4`.
+* `address_family` - (Optional) The address family for the BGP peer.
+    * _Valid values:_ `ipv4 `
+    * _Default value:_ `ipv4`
 * `amazon_address` - (Optional) The IPv4 CIDR address of the connection endpoint on the cloud side.
 * `bgp_asn` - (Required) The BGP ASN on the client side.
 * `bgp_auth_key` - (Optional, Sensitive) The authentication key for BGP configuration.
@@ -47,24 +49,24 @@ The following arguments are supported:
 * `customer_address` - (Optional) The IPv4 CIDR address of the connection endpoint on the client side.
 * `dx_gateway_id` - (Required) The ID of the Direct Connect gateway that the virtual interface must be connected to.
 * `name` - (Required) The name for the virtual interface.
-* `tags` - (Optional, Editable) Tags assigned to the resource. If there is a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider level.
+* `tags` - (Optional, Editable) Map of tags to assign to the virtual interface. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 * `vlan` - (Required) The VLAN ID.
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
 * `amazon_side_asn` - The ASN for the cloud side of the connection.
-* `arn` - The ARN of the virtual interface.
+* `arn` - The Amazon Resource Name (ARN) of the virtual interface.
 * `aws_device` - The ID of the device to which the connection (or LAG) is attached.
 * `id` - The ID of the virtual interface.
-* `tags_all` - Tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the virtual interface, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 
@@ -74,9 +76,9 @@ The following attributes are not currently supported:
 
 The `timeouts` block allows you to specify [timeouts] for certain actions:
 
-- `create` - (Default `10 minutes`) Timeout for creating virtual interface
-- `update` - (Default `10 minutes`) Timeout for virtual interface modifications
-- `delete` - (Default `10 minutes`) Timeout for destroying virtual interface
+- `create` - (Default `10 minutes`) Timeout for creating virtual interface.
+- `update` - (Default `10 minutes`) Timeout for virtual interface modifications.
+- `delete` - (Default `10 minutes`) Timeout for destroying virtual interface.
 
 ## Import
 

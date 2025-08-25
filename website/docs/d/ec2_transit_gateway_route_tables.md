@@ -26,14 +26,8 @@ output "tgw-rtb-ids" {
 
 The following arguments are supported:
 
-* `filter` - (Optional) One or more configuration blocks containing name-values filters.
-  The structure of this block is [described below](#filter).
-
-### filter
-
-* `name` - (Required) The name of the field to filter by it.
-  Valid values can be found in the [EC2 API documentation][describe-tgw-rtb].
-* `values` - (Required) List of one or more values for the filter.
+* `filter` - (Optional) One or more name/value pairs to use as filters.
+    * _Valid values:_ See supported names and values in [EC2 API documentation][describe-tgw-rtb]
 
 ## Attribute Reference
 
@@ -46,6 +40,6 @@ In addition to all arguments above, the following attributes are exported:
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** This attribute may be present in the `terraform.tfstate` file, but it has a preset value and cannot be specified in configuration files.
 
-The following attributes are not currently supported: `tags`.
+The following attribute is not currently supported: `tags`.

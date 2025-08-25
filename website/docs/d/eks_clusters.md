@@ -3,12 +3,12 @@ subcategory: "EKS (Elastic Kubernetes)"
 layout: "aws"
 page_title: "aws_eks_clusters"
 description: |-
-  Retrieves the EKS clusters names.
+  Provides a list of EKS clusters names.
 ---
 
 # Data Source: aws_eks_clusters
 
-Retrieves the EKS clusters names.
+Provides a list of EKS clusters names.
 
 ## Example Usage
 
@@ -21,7 +21,9 @@ data "aws_eks_cluster" "example" {
 }
 ```
 
-## Attributes Reference
+## Attribute Reference
 
-* `id` - Region.
+In addition to all arguments above, the following attributes are exported:
+
+* `id` - The region.
 * `names` - Set of EKS clusters names.

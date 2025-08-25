@@ -3,18 +3,18 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_route"
 description: |-
-    Provides details about a specific Route
+  Provides information about a route.
 ---
 
 # Data Source: aws_route
 
-`aws_route` provides details about a specific Route.
+Provides information about a route.
 
-This resource can prove useful when finding the resource associated with a CIDR. For example, finding the peering connection associated with a CIDR value.
+This resource can be used when finding the resource associated with a CIDR. For example, finding the peering connection associated with a CIDR value.
 
 ## Example Usage
 
-The following example shows how one might use a CIDR value to find a network interface id and use this to create a data source of that network interface.
+The following example shows how one might use a CIDR value to find the ID of a network interface and use this to create a data source of that network interface.
 
 ```terraform
 variable "subnet_id" {}
@@ -35,33 +35,23 @@ data "aws_network_interface" "interface" {
 
 ## Argument Reference
 
-The arguments of this data source act as filters for querying the available Route in the current region. The given filters must match exactly oneRoute whose data will be exported as attributes.
+The arguments of this data source act as filters for querying the available route in the current region. The given filters must match exactly oneRoute whose data will be exported as attributes.
 
-The following arguments are required:
-
-* `route_table_id` - (Required) ID of the specific Route Table containing the Route entry.
-
-The following arguments are optional:
-
-* `destination_cidr_block` - (Optional) CIDR block of the Route belonging to the Route Table.
-* `gateway_id` - (Optional) Gateway ID of the Route belonging to the Route Table.
-* `instance_id` - (Optional) Instance ID of the Route belonging to the Route Table.
-* `network_interface_id` - (Optional) Network Interface ID of the Route belonging to the Route Table.
+* `route_table_id` - (Required) ID of the specific route table containing the route entry.
+* `destination_cidr_block` - (Optional) CIDR block of the route belonging to the route table.
+* `gateway_id` - (Optional) Gateway ID of the route belonging to the route table.
+* `instance_id` - (Optional) Instance ID of the route belonging to the route table.
+* `network_interface_id` - (Optional) Network interface ID of the route belonging to the route table.
 * `transit_gateway_id` - (Optional) The ID of the transit gateway.
 
-->  **Unsupported arguments**
-These arguments are currently unsupported:
+## Attribute Reference
 
-* `carrier_gateway_id` - ID of a carrier gateway. Always `""`.
-* `core_network_arn` - ARN of a core network. Always `""`.
-* `destination_ipv6_cidr_block` - The destination IPv6 CIDR block. Always `""`.
-* `destination_prefix_list_id` - ID of a managed prefix list destination of the route. Always `""`.
-* `egress_only_gateway_id` - ID of a VPC Egress Only Internet Gateway. Always `""`.
-* `local_gateway_id` - ID of an Outpost local gateway. Always `""`.
-* `nat_gateway_id` - ID of a VPC NAT gateway. Always `""`.
-* `vpc_endpoint_id` - ID of a VPC Endpoint. Always `""`.
-* `vpc_peering_connection_id` - ID of a VPC peering connection. Always `""`.
+All the argument attributes are also exported as result attributes.
 
-## Attributes Reference
+### Unsupported attributes
 
-All the argument attributes are also exported as result attributes when there is data available. For example, the `vpc_peering_connection_id` field will be empty when the route is attached to a Network Interface.
+~> **Note** These arguments may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
+
+The following arguments are not currently supported:
+
+`carrier_gateway_id`, `core_network_arn`, `destination_ipv6_cidr_block`, `destination_prefix_list_id`, `egress_only_gateway_id`, `local_gateway_id`, `nat_gateway_id`, `vpc_endpoint_id`, `vpc_peering_connection_id`.

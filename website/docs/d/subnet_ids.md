@@ -3,18 +3,18 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_subnet_ids"
 description: |-
-    Provides a set of subnet IDs for a VPC
+  Provides a list of subnet IDs for a VPC.
 ---
+
+[describe-subnets]: https://docs.k2.cloud/en/api/ec2/subnets/DescribeSubnets.html
 
 # Data Source: aws_subnet_ids
 
-`aws_subnet_ids` provides a set of ids for a vpc_id
-
-This resource can be useful for getting back a set of subnet ids for a vpc.
+Provides a list of subnet IDs for a VPC.
 
 ## Example Usage
 
-The following shows all cidr blocks for every subnet id in a vpc.
+The following shows all CIDR blocks for every subnet ID in a VPC.
 
 ```terraform
 variable vpc_id {}
@@ -62,18 +62,7 @@ resource "aws_instance" "app" {
 }
 ```
 
-## Argument Reference
-
-* `vpc_id` - (Required) The VPC ID that you want to filter from.
-* `filter` - (Optional) Custom filter block as described below.
-* `tags` - (Optional) A map of tags, each pair of which must exactly match
-  a pair on the desired subnets.
-
-More complex filters can be expressed using one or more `filter` sub-blocks,
-which take the following arguments:
-
-* `name` - (Required) The name of the field to filter by it.
-  For example, if matching against tag `Name`, use:
+For matching against tag `Name`, use:
 
 ```terraform
 data "aws_subnet_ids" "selected" {
@@ -84,13 +73,16 @@ data "aws_subnet_ids" "selected" {
 }
 ```
 
-* `values` - (Required) Set of values that are accepted for the given field.
-  Subnet IDs will be selected if any one of the given values match.
+## Argument Reference
 
-For more information about filtering, see the [EC2 API documentation][describe-subnets].
+* `vpc_id` - (Required) The VPC ID that you want to filter from.
+* `filter` - (Optional) One or more name/value pairs to use as filters.
+    * _Valid values:_ See supported names and values in [EC2 API documentation][describe-subnets]
+* `tags` - (Optional) Map of tags, each pair of which must exactly match
+  a pair on the desired subnets.
 
-## Attributes Reference
+## Attribute Reference
 
-* `ids` - A set of all the subnet ids found.
+In addition to all arguments above, the following attribute is exported:
 
-[describe-subnets]: https://docs.k2.cloud/en/api/ec2/subnets/DescribeSubnets.html
+* `ids` - Set of found subnet IDs.

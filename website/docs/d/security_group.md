@@ -3,20 +3,22 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_security_group"
 description: |-
-    Provides details about a specific Security Group
+  Provides information about a security group.
 ---
+
+[describe-security-groups]: https://docs.k2.cloud/en/api/ec2/security_groups/DescribeSecurityGroups.html
 
 # Data Source: aws_security_group
 
-`aws_security_group` provides details about a specific Security Group.
+Provides information about a security group.
 
-This resource can prove useful when a module accepts a Security Group id as
-an input variable and needs to, for example, determine the id of the
+This resource can be used when a module accepts the ID of a security group as
+an input variable and needs to, for example, determine the ID of the
 VPC that the security group belongs to.
 
 ## Example Usage
 
-The following example shows how one might accept a Security Group id as a variable
+The following example shows how one might accept the ID of a security group as a variable
 and use this data source to obtain the data necessary to create a subnet.
 
 ```terraform
@@ -39,34 +41,24 @@ security group in the current region. The given filters must match exactly one
 security group whose data will be exported as attributes.
 
 
-* `filter` - (Optional) Custom filter block as described below.
+* `filter` - (Optional) One or more name/value pairs to use as filters.
+    * _Valid values:_ See supported names and values in [EC2 API documentation][describe-security-groups]
 * `id` - (Optional) ID of the specific security group to retrieve.
 * `name` - (Optional) The name that the desired security group must have.
-* `tags` - (Optional) A map of tags, each pair of which must exactly match
+* `tags` - (Optional) Map of tags, each pair of which must exactly match
   a pair on the desired security group.
-* `vpc_id` - (Optional) The id of the VPC that the desired security group belongs to.
+* `vpc_id` - (Optional) The ID of the VPC that the desired security group belongs to.
 
-More complex filters can be expressed using one or more `filter` sub-blocks,
-which take the following arguments:
-
-* `name` - (Required) The name of the field to filter by it.
-* `values` - (Required) Set of values that are accepted for the given field.
-  A Security Group will be selected if any one of the given values matches.
-
-For more information about filtering, see the [EC2 API documentation][describe-security-groups].
-
-## Attributes Reference
+## Attribute Reference
 
 All argument attributes except `filter` blocks are also exported as
 result attributes. This data source will complete the data by populating
 any fields that are not included in the configuration with the data for
-the selected Security Group.
+the selected security group.
 
-The following fields are also exported:
+In addition to all arguments above, the following attributes are exported:
 
+* `arn` - The Amazon Resource Name (ARN) of the security group.
 * `description` - The description of the security group.
-* `arn` - The computed ARN of the security group.
 
 ~> **Note** The default security group for a VPC has the name `default`.
-
-[describe-security-groups]: https://docs.k2.cloud/en/api/ec2/security_groups/DescribeSecurityGroups.html

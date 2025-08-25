@@ -3,12 +3,12 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_network_interface_sg_attachment"
 description: |-
-  Associates a security group with a network interface.
+  Associates a security group to a network interface.
 ---
 
 # Resource: aws_network_interface_sg_attachment
 
-This resource attaches a security group to an elastic network interface (ENI).
+Attaches a security group to an elastic network interface (ENI).
 It can be used to attach a security group to any existing ENI, be it a
 secondary ENI or one attached as the primary interface on an instance.
 
@@ -54,6 +54,6 @@ resource "aws_network_interface_sg_attachment" "sg_attachment" {
 * `security_group_id` - (Required) The ID of the security group.
 * `network_interface_id` - (Required) The ID of the network interface to attach to.
 
-## Attributes Reference
+## Attribute Reference
 
 No additional attributes are exported.

@@ -3,12 +3,12 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_network_acl_association"
 description: |-
-  Provides a network ACL association resource.
+  Manages a network ACL association.
 ---
 
 # Resource: aws_network_acl_association
 
-Provides a network ACL association resource which allows you to associate your network ACL with any subnet(s).
+Manages a network ACL association. This allows you to associate your network ACL with any subnet(s).
 
 ~> **Note on Network ACLs and Network ACL Associations:** Terraform provides both a standalone network ACL association resource
 and an [aws_network_acl](network_acl.md) resource with a `subnet_ids` attribute. Do not use the same subnet ID in both a network ACL
@@ -42,9 +42,9 @@ resource "aws_network_acl_association" "example" {
 The following arguments are supported:
 
 * `network_acl_id` - (Required) ID of the network ACL.
-* `subnet_id` - (Required) ID of the associated Subnet.
+* `subnet_id` - (Required) ID of the associated subnet.
 
-## Attributes Reference
+## Attribute Reference
 
 In addition to all arguments above, the following attributes are exported:
 

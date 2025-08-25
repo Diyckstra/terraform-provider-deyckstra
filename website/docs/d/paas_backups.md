@@ -3,12 +3,12 @@ subcategory: "PaaS"
 layout: "aws"
 page_title: "aws_paas_backups"
 description: |-
-  Provides list of PaaS service backups IDs.
+  Provides a list of PaaS service backups IDs.
 ---
 
 # Data Source: aws_paas_backups
 
-Provides list of PaaS service backups IDs.
+Provides a list of PaaS service backups IDs matching the specified criteria.
 
 ## Example Usage
 
@@ -28,10 +28,10 @@ data "aws_paas_backup" "backups" {
 The following arguments are supported:
 
 * `service_class` - (Optional) The class of the PaaS service.
-  Valid values are `cacher`, `database`, `message_broker`, `search`.
+    * _Valid values:_ `cacher`, `database`, `message_broker`, `search`
 * `service_id` - (Optional) The ID of the PaaS service (e.g. `fm-cluster-12345678`).
 * `service_type` - (Optional) The type of the PaaS service.
-  Valid values are `elasticsearch`, `memcached`, `mongodb`, `mysql`, `pgsql`, `rabbitmq`, `redis`.
+    * _Valid values:_ `elasticsearch`, `memcached`, `mongodb`, `mysql`, `pgsql`, `rabbitmq`, `redis`
 
 ## Attribute Reference
 

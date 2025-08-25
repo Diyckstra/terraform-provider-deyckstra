@@ -26,6 +26,8 @@ data "aws_iam_project" "selected" {
 
 ## Attribute Reference
 
+In addition to all arguments above, the following attributes are exported:
+
 * `arn` - The Amazon Resource Name (ARN) of the project.
 * `create_date` - The time in [RFC3339 format] when the project was created.
 * `display_name` - The displayed name of the project.

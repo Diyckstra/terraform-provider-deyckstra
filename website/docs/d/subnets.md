@@ -3,12 +3,14 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_subnets"
 description: |-
-    Get information about a set of subnets.
+  Provides a list of subnet IDs.
 ---
+
+[describe-subnets]: https://docs.k2.cloud/en/api/ec2/subnets/DescribeSubnets.html
 
 # Data Source: aws_subnets
 
-This resource can be useful for getting back a set of subnet IDs.
+Provides a list of subnet IDs.
 
 ## Example Usage
 
@@ -60,17 +62,7 @@ resource "aws_instance" "app" {
 }
 ```
 
-## Argument Reference
-
-* `filter` - (Optional) Custom filter block as described below.
-* `tags` - (Optional) A map of tags, each pair of which must exactly match
-  a pair on the desired subnets.
-
-More complex filters can be expressed using one or more `filter` sub-blocks,
-which take the following arguments:
-
-* `name` - (Required) The name of the field to filter by it.
-  For example, if matching against tag `Name`, use:
+For matching against tag `Name`, use:
 
 ```terraform
 data "aws_subnets" "selected" {
@@ -81,13 +73,15 @@ data "aws_subnets" "selected" {
 }
 ```
 
-* `values` - (Required) Set of values that are accepted for the given field.
-  Subnet IDs will be selected if any one of the given values match.
+## Argument Reference
 
-For more information about filtering, see the [EC2 API documentation][describe-subnets].
+* `filter` - (Optional) One or more name/value pairs to use as filters.
+    * _Valid values:_ See supported names and values in [EC2 API documentation][describe-subnets]
+* `tags` - (Optional) Map of tags, each pair of which must exactly match
+  a pair on the desired subnets.
 
-## Attributes Reference
+## Attribute Reference
+
+In addition to all arguments above, the following attribute is exported:
 
 * `ids` - A list of all the subnet IDs found.
-
-[describe-subnets]: https://docs.k2.cloud/en/api/ec2/subnets/DescribeSubnets.html

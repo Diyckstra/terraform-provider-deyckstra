@@ -3,12 +3,12 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_route_table_association"
 description: |-
-  Provides a resource to create an association between a route table and a subnet.
+  Creates an association between a route table and a subnet.
 ---
 
 # Resource: aws_route_table_association
 
-Provides a resource to create an association between a route table and a subnet.
+Creates an association between a route table and a subnet.
 
 ## Example Usage
 
@@ -41,7 +41,7 @@ The following arguments are supported:
 * `subnet_id` - (Required) Subnet ID to create an association.
 * `route_table_id` - (Required) ID of the routing table to associate with.
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
@@ -51,13 +51,13 @@ In addition to all arguments above, the following attributes are exported:
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** This attribute may be present in the `terraform.tfstate` file, but it has a preset value and cannot be specified in configuration files.
 
-The following attributes are not currently supported: `gateway_id`.
+The following attribute is not currently supported: `gateway_id`.
 
 ## Import
 
-EC2 Route Table Associations can be imported using the associated resource ID and route table ID
+EC2 route table associations can be imported using the associated resource ID and route table ID
 separated by a forward slash (`/`).
 
 For example with EC2 subnets:

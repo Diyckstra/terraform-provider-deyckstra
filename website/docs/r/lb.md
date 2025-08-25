@@ -3,7 +3,7 @@ subcategory: "ELB (Elastic Load Balancing)"
 layout: "aws"
 page_title: "aws_lb"
 description: |-
-  Provides a Load Balancer resource.
+  Manages a load balancer.
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
@@ -11,7 +11,7 @@ description: |-
 
 # Resource: aws_lb
 
-Provides a Load Balancer resource.
+Manages a load balancer.
 
 ~> **Note** `aws_alb` is known as `aws_lb`. The functionality is identical.
 
@@ -110,47 +110,53 @@ Terraform will autogenerate a name beginning with `tf-lb`.
 * `name_prefix` - (Optional) Creates a unique name beginning with the specified prefix. Conflicts with `name`.
 * `internal` - (Optional) If true, the LB will be internal.
 * `load_balancer_type` - (Optional) The type of load balancer to create. Possible values are `application`, `gateway`, or `network`. The default value is `application`.
-* `security_groups` - (Optional) A list of security group IDs to assign to the LB. Only valid for Load Balancers of type `application`.
-* `drop_invalid_header_fields` - (Optional) Indicates whether HTTP headers with header fields that are not valid are removed by the load balancer (true) or routed to targets (false). The default is false. Elastic Load Balancing requires that message header names contain only alphanumeric characters and hyphens. Only valid for Load Balancers of type `application`.
-* `access_logs` - (Optional) An Access Logs block. Access Logs documented below.
+* `security_groups` - (Optional) List of security group IDs to assign to the LB. Only valid for load balancers of type `application`.
+* `drop_invalid_header_fields` - (Optional) Indicates whether HTTP headers with header fields that are not valid are removed by the load balancer (true) or routed to targets (false). The default is false. Elastic Load Balancing requires that message header names contain only alphanumeric characters and hyphens. Only valid for load balancers of type `application`.
+* `access_logs` - (Optional) An access logs block. Access logs documented below.
 * `subnets` - (Optional) A list of subnet IDs to attach to the LB. Subnets
-cannot be updated for Load Balancers of type `network`. Changing this value
+cannot be updated for load balancers of type `network`. Changing this value
 for load balancers of type `network` will force a recreation of the resource.
 * `subnet_mapping` - (Optional) A subnet mapping block as documented below.
-* `idle_timeout` - (Optional) The time in seconds that the connection is allowed to be idle. Only valid for Load Balancers of type `application`. Default: 60.
+* `idle_timeout` - (Optional) The time in seconds that the connection is allowed to be idle. Only valid for load balancers of type `application`. Default: 60.
 * `enable_deletion_protection` - (Optional) If true, deletion of the load balancer will be disabled via
-   the AWS API. This will prevent Terraform from deleting the load balancer. Defaults to `false`.
+   the AWS API. This will prevent Terraform from deleting the load balancer.
+    * _Default value:_ `false`
 * `enable_cross_zone_load_balancing` - (Optional) If true, cross-zone load balancing of the load balancer will be enabled.
-   This is a `network` load balancer feature. Defaults to `false`.
-* `enable_http2` - (Optional) Indicates whether HTTP/2 is enabled in `application` load balancers. Defaults to `true`.
-* `enable_waf_fail_open` - (Optional) Indicates whether to allow a WAF-enabled load balancer to route requests to targets if it is unable to forward the request to AWS WAF. Defaults to `false`.
+   This is a `network` load balancer feature.
+    * _Default value:_ `false`
+* `enable_http2` - (Optional) Indicates whether HTTP/2 is enabled in `application` load balancers.
+    * _Default value:_ `true`
+* `enable_waf_fail_open` - (Optional) Indicates whether to allow a WAF-enabled load balancer to route requests to targets if it is unable to forward the request to AWS WAF.
+    * _Default value:_ `false`
 * `customer_owned_ipv4_pool` - (Optional) The ID of the customer owned ipv4 pool to use for this load balancer.
 * `ip_address_type` - (Optional) The type of IP addresses used by the subnets for your load balancer. The possible values are `ipv4` and `dualstack`
-* `desync_mitigation_mode` - (Optional) Determines how the load balancer handles requests that might pose a security risk to an application due to HTTP desync. Valid values are `monitor`, `defensive` (default), `strictest`.
-* `tags` - (Optional) A map of tags to assign to the resource. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
+* `desync_mitigation_mode` - (Optional) Determines how the load balancer handles requests that might pose a security risk to an application due to HTTP desync.
+    * _Valid values:_ `defensive` (default), `monitor`, `strictest`
+* `tags` - (Optional) Map of tags to assign to the load balancer. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
-Access Logs (`access_logs`) support the following:
+Access logs (`access_logs`) support the following:
 
 * `bucket` - (Required) The S3 bucket name to store the logs in.
 * `prefix` - (Optional) The S3 bucket prefix. Logs are stored in the root if not configured.
-* `enabled` - (Optional) Boolean to enable / disable `access_logs`. Defaults to `false`, even when `bucket` is specified.
+* `enabled` - (Optional) Boolean to enable / disable `access_logs`.
+    * _Default value:_ `false`, even when `bucket` is specified
 
-Subnet Mapping (`subnet_mapping`) blocks support the following:
+Subnet mapping (`subnet_mapping`) blocks support the following:
 
-* `subnet_id` - (Required) The id of the subnet of which to attach to the load balancer. You can specify only one subnet per Availability Zone.
+* `subnet_id` - (Required) The ID of the subnet to attach to the load balancer. You can specify only one subnet per availability zone.
 * `allocation_id` - (Optional) The allocation ID of the Elastic IP address.
 * `private_ipv4_address` - (Optional) A private ipv4 address within the subnet to assign to the internal-facing load balancer.
-* `ipv6_address` - (Optional) An ipv6 address within the subnet to assign to the internet-facing load balancer.
+* `ipv6_address` - (Optional) An IPv6 address within the subnet to assign to the internet-facing load balancer.
 
-## Attributes Reference
+## Attribute Reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `id` - The ARN of the load balancer (matches `arn`).
-* `arn` - The ARN of the load balancer (matches `id`).
-* `arn_suffix` - The ARN suffix for use with CloudWatch Metrics.
+* `id` - The ID of the load balancer (matches `arn`).
+* `arn` - The Amazon Resource Name (ARN) of the load balancer (matches `id`).
+* `arn_suffix` - The ARN suffix for use with CloudWatch metrics.
 * `dns_name` - The DNS name of the load balancer.
-* `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the load balancer, including those inherited from the provider [`default_tags` configuration block][default-tags].
 * `zone_id` - The canonical hosted zone ID of the load balancer (to be used in a Route 53 Alias record).
 * `subnet_mapping.*.outpost_id` - ID of the Outpost containing the load balancer.
 
@@ -158,13 +164,13 @@ In addition to all arguments above, the following attributes are exported:
 
 The `timeouts` block allows you to specify [timeouts] for certain actions:
 
-- `create` - (Default `10 minutes`) Used for Creating LB
-- `update` - (Default `10 minutes`) Used for LB modifications
-- `delete` - (Default `10 minutes`) Used for destroying LB
+- `create` - (Default `10 minutes`) Used for creating LB.
+- `update` - (Default `10 minutes`) Used for LB modifications.
+- `delete` - (Default `10 minutes`) Used for destroying LB.
 
 ## Import
 
-LBs can be imported using their ARN, e.g.,
+LBs can be imported using their ARNs, e.g.,
 
 ```
 $ terraform import aws_lb.bar arn:aws:elasticloadbalancing:us-west-2:123456789012:loadbalancer/app/my-load-balancer/50dc6c495c0c9188

@@ -3,14 +3,14 @@ subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_s3_bucket_versioning"
 description: |-
-  Provides an S3 bucket versioning resource.
+  Manages versioning for an S3 bucket.
 ---
 
 [s3-versioning]: https://docs.k2.cloud/en/services/object_storage/operations.html#s3versioningmanual
 
 # Resource: aws_s3_bucket_versioning
 
-Provides a resource for controlling versioning on an S3 bucket.
+Manages versioning for an S3 bucket.
 Deleting this resource will either suspend versioning on the associated S3 bucket or
 simply remove the resource from Terraform state if the associated S3 bucket is unversioned.
 
@@ -112,9 +112,10 @@ Updating the value from `Enabled` or `Suspended` to `Disabled` will result in er
 
 The `versioning_configuration` configuration block supports the following arguments:
 
-* `status` - (Required) The versioning state of the bucket. Valid values: `Enabled`, `Suspended`, `Disabled`. `Disabled` should only be used when creating or importing resources that correspond to unversioned S3 buckets.
+* `status` - (Required) The versioning state of the bucket. `Disabled` should only be used when creating or importing resources that correspond to unversioned S3 buckets.
+    * _Valid values:_ `Enabled`, `Suspended`, `Disabled`
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
@@ -124,7 +125,7 @@ In addition to all arguments above, the following attributes are exported:
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 

@@ -3,12 +3,15 @@ subcategory: "EC2 (Elastic Compute Cloud)"
 layout: "aws"
 page_title: "aws_eip"
 description: |-
-    Provides details about a specific Elastic IP
+  Provides information about an Elastic IP.
 ---
+
+[describe-addresses]: https://docs.k2.cloud/en/api/ec2/addresses/DescribeAddresses.html
+[vpc-dns-hostnames]: https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns.html#vpc-dns-hostnames
 
 # Data Source: aws_eip
 
-`aws_eip` provides details about a specific Elastic IP.
+Provides information about an Elastic IP.
 
 ## Example Usage
 
@@ -55,15 +58,12 @@ The arguments of this data source act as filters for querying the available Elas
 The given filters must match exactly one Elastic IP whose data will be exported as attributes.
 
 * `filter` - (Optional) One or more name/value pairs to use as filters.
-* `id` - (Optional) The allocation id of the specific VPC EIP to retrieve.
-* `public_ip` - (Optional) The public IP of the specific EIP to retrieve.
-* `tags` - (Optional) A map of tags, each pair of which must exactly match a pair on the desired Elastic IP.
+    * _Valid values:_ See supported names and values in [EC2 API documentation][describe-addresses]
+* `id` - (Optional) The ID of the allocation of the specific VPC Elastic IP to retrieve.
+* `public_ip` - (Optional) The public IP of the specific Elastic IP to retrieve.
+* `tags` - (Optional) Map of tags, each pair of which must exactly match a pair on the desired Elastic IP.
 
-For more information about filtering, see the [EC2 API documentation][describe-addresses].
-
-[describe-addresses]: https://docs.k2.cloud/en/api/ec2/addresses/DescribeAddresses.html
-
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
@@ -78,14 +78,14 @@ In addition to all arguments above, the following attributes are exported:
 * `private_ip` - The private IP address associated with the Elastic IP address.
 * `public_ip` - Public IP address of Elastic IP.
 * `public_ipv4_pool` - The ID of an address pool.
-* `tags` - Key-value map of tags associated with Elastic IP.
+* `tags` - Map of tags assigned to the Elastic IP.
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 
 `carrier_ip`, `customer_owned_ip`, `customer_owned_ipv4_pool`, `private_dns`, `public_dns`.
 
-~> **Note** The data source computes the `public_dns` and `private_dns` attributes according to the [AWS VPC DNS Guide](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns.html#vpc-dns-hostnames) as they are not available with the EC2 API.
+~> **Note** The data source computes the `public_dns` and `private_dns` attributes according to the [AWS VPC DNS Guide][vpc-dns-hostnames] as they are not available with the EC2 API.

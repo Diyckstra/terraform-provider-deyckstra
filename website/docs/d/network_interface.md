@@ -3,12 +3,14 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_network_interface"
 description: |-
-  Get information on a Network Interface resource.
+  Provides information about a network interface.
 ---
+
+[describe-network-interfaces]: https://docs.k2.cloud/en/api/ec2/network_interfaces/DescribeNetworkInterfaces.html
 
 # aws_network_interface
 
-Use this data source to get information about a network interface.
+Provides information about a network interface.
 
 ## Example Usage
 
@@ -22,12 +24,11 @@ data "aws_network_interface" "example" {
 
 The following arguments are supported:
 
-* `id` – (Optional) The identifier for the network interface.
-* `filter` – (Optional) One or more name/value pairs to filter.
+* `filter` - (Optional) One or more name/value pairs to use as filters.
+    * _Valid values:_ See supported names and values in [EC2 API documentation][describe-network-interfaces]
+* `id` - (Optional) The ID of the network interface.
 
-For more information about filtering, see the [EC2 API documentation][describe-network-interfaces].
-
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
@@ -35,8 +36,9 @@ See the [`aws_network_interface`](network_interface.md) for details on the retur
 
 Additionally, the following attributes are exported:
 
-* `arn` - The ARN of the network interface.
-* `association` - The association information for an Elastic IP address (IPv4) associated with the network interface. See supported fields below.
+* `arn` - The Amazon Resource Name (ARN) of the network interface.
+* `association` - The association information for an Elastic IP address (IPv4) associated with the network interface.
+  The structure of this block is [described below](#association).
 * `availability_zone` - The availability zone.
 * `description` - Description of the network interface.
 * `mac_address` - The MAC address.
@@ -46,10 +48,10 @@ Additionally, the following attributes are exported:
 * `private_ips` - The private IPv4 addresses associated with the network interface.
 * `security_groups` - The list of security groups for the network interface.
 * `subnet_id` - The ID of the subnet.
-* `tags` - Any tags assigned to the network interface.
+* `tags` - Map of tags assigned to the network interface.
 * `vpc_id` - The ID of the VPC.
 
-#### `association`
+#### association
 
 * `allocation_id` - The allocation ID.
 * `association_id` - The association ID.
@@ -60,18 +62,8 @@ Additionally, the following attributes are exported:
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 
-`interface_type`, `ipv6_addresses`, `requester_id`, `outpost_arn`, `association.carrier_ip`.
-
-## Import
-
-Elastic network interfaces can be imported using the `id`, e.g.,
-
-```
-$ terraform import aws_network_interface.test eni-12345678
-```
-
-[describe-network-interfaces]: https://docs.k2.cloud/en/api/ec2/network_interfaces/DescribeNetworkInterfaces.html
+`association.carrier_ip`, `interface_type`, `ipv6_addresses`, `outpost_arn`, `requester_id`.

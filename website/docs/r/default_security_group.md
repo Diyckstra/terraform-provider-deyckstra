@@ -3,23 +3,24 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_default_security_group"
 description: |-
-  Manage a default security group resource.
+  Manages the default security group of a VPC.
 ---
 
+[attribute-as-blocks]: https://www.terraform.io/docs/configuration/attr-as-blocks.html
 [default-security-groups]: https://docs.k2.cloud/en/services/security/securitygroups.html#id3
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 
 # Resource: aws_default_security_group
 
-Provides a resource to manage a default security group. This resource can manage the default security group of the default or a non-default VPC.
+Manages the default security group of a VPC. This resource can manage the default security group of the default or a non-default VPC.
 
 ~> **Note** This is an advanced resource with special caveats. Please read this document in its entirety before using this resource. The `aws_default_security_group` resource behaves differently from normal resources. Terraform does not _create_ this resource but instead attempts to "adopt" it into management.
 
-When Terraform first adopts the default security group, it **immediately removes all ingress and egress rules in the Security Group**. It then creates any rules specified in the configuration. This way only the rules specified in the configuration are created.
+When Terraform first adopts the default security group, it **immediately removes all ingress and egress rules in the security group**. It then creates any rules specified in the configuration. This way only the rules specified in the configuration are created.
 
 This resource treats its inline rules as absolute; only the rules defined inline are created, and any additions/removals external to this resource will result in diff shown. For these reasons, this resource is incompatible with the [`aws_security_group_rule`](security_group_rule.md) resource.
 
-For more information about default security groups, see the documentation on [Default Security Groups][default-security-groups]. To manage normal security groups, see the [`aws_security_group`](security_group.md) resource.
+For more information about default security groups, see the documentation on [default security groups][default-security-groups]. To manage normal security groups, see the [`aws_security_group`](security_group.md) resource.
 
 ## Example Usage
 
@@ -51,7 +52,7 @@ resource "aws_default_security_group" "example" {
 
 ### Example Config To Deny All Egress Traffic, Allowing Ingress
 
-The following denies all Egress traffic by omitting any `egress` rules, while including the default `ingress` rule to allow all traffic.
+The following denies all egress traffic by omitting any `egress` rules, while including the default `ingress` rule to allow all traffic.
 
 ```terraform
 resource "aws_vpc" "mainvpc" {
@@ -81,12 +82,12 @@ The following arguments are optional:
 
 * `egress` - (Optional, VPC only) Configuration block. Detailed below.
 * `ingress` - (Optional) Configuration block. Detailed below.
-* `tags` - (Optional) Map of tags to assign to the resource. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
-* `vpc_id` - (Optional, Forces new resource) VPC ID. **Note that changing the `vpc_id` will _not_ restore any default security group rules that were modified, added, or removed.** It will be left in its current state.
+* `tags` - (Optional) Map of tags to assign to the security group. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
+* `vpc_id` - (Optional, Forces new resource) The ID of the VPC. **Note that changing the `vpc_id` will _not_ restore any default security group rules that were modified, added, or removed.** It will be left in its current state.
 
 ### egress and ingress
 
-Both arguments are processed in [attribute-as-blocks mode](https://www.terraform.io/docs/configuration/attr-as-blocks.html).
+Both arguments are processed in [attribute-as-blocks mode][attribute-as-blocks].
 
 Both `egress` and `ingress` objects have the same arguments.
 
@@ -99,28 +100,28 @@ Both `egress` and `ingress` objects have the same arguments.
 * `self` - (Optional) Whether the security group itself will be added as a source to this egress rule.
 * `to_port` - (Required) End range port (or ICMP code if protocol is `icmp`).
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` - ARN of the security group.
+* `arn` - The Amazon Resource Name (ARN) of the security group.
 * `description` - Description of the security group.
-* `id` - ID of the security group.
+* `id` - The ID of the security group.
 * `name` - Name of the security group.
 * `owner_id` - The project ID.
-* `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the security group, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** This attribute may be present in the `terraform.tfstate` file, but it has a preset value and cannot be specified in configuration files.
 
-The following attributes are not currently supported: `prefix_list_ids`.
+The following attribute is not currently supported: `prefix_list_ids`.
 
 ## Import
 
-Security Groups can be imported using the `security group id`, e.g.,
+Security groups can be imported using the `id`, e.g.,
 
 ```
 $ terraform import aws_default_security_group.default_sg sg-12345678

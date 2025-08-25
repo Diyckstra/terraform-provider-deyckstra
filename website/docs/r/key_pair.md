@@ -3,18 +3,18 @@ subcategory: "EC2 (Elastic Compute Cloud)"
 layout: "aws"
 page_title: "aws_key_pair"
 description: |-
-  Provides a Key Pair resource. Currently this supports importing an existing key pair but not creating a new key pair.
+  Manages a key pair.
 ---
+
+[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 
 # Resource: aws_key_pair
 
-Provides an EC2 key pair resource. A key pair is used to control login access to EC2 instances.
-
+Manages a key pair.
 Currently, this resource requires an existing user-supplied key pair.
-This key pair's public key will be registered to allow logging-in to EC2 instances.
+This key pair's public key will be registered to allow logging in to EC2 instances.
 
-When importing an existing key pair the public key material .
-
+When importing an existing key pair, the public key material may be in any format supported by AWS.
 Supported public key material formats are:
 
 * OpenSSH public key format (the format in ~/.ssh/authorized_keys)
@@ -34,28 +34,29 @@ resource "aws_key_pair" "deployer" {
 
 The following arguments are supported:
 
-* `key_name` - (Optional) The name for the key pair. If neither `key_name` nor `key_name_prefix` is provided, Terraform will create a unique key name using the prefix `terraform-`.
-* `key_name_prefix` - (Optional) Creates a unique name beginning with the specified prefix. Conflicts with `key_name`. If neither `key_name` nor `key_name_prefix` is provided, Terraform will create a unique key name using the prefix `terraform-`.
 * `public_key` - (Required) The public key material.
-* `tags` - (Optional) Key-value map of resource tags. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
+* `key_name` - (Optional) The name for the key pair.
+    _Constraints:_ If neither `key_name` nor `key_name_prefix` is provided, Terraform will create a unique key name using the prefix `terraform-`
+* `key_name_prefix` - (Optional) Creates a unique name beginning with the specified prefix.
+    _Constraints:_ Conflicts with `key_name`.
+    If neither `key_name` nor `key_name_prefix` is provided, Terraform will create a unique key name using the prefix `terraform-`
+* `tags` - (Optional) Map of tags to assign to the key pair. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
-## Attributes Reference
+## Attribute Reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `id` - The key pair name.
-* `arn` - The key pair ARN.
-* `key_name` - The key pair name.
-* `key_pair_id` - The key pair ID.
+* `arn` - The Amazon Resource Name (ARN) of the key pair.
+* `id` - The ID of the key pair.
+* `key_name` - The name of the key pair.
+* `key_pair_id` - The ID of the key pair.
 * `fingerprint` - The MD5 public key fingerprint as specified in section 4 of RFC 4716.
-* `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the key pair, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ## Import
 
-Key Pairs can be imported using the `key_name`, e.g.,
+Key pairs can be imported using `key_name`, e.g.,
 
 ```
 $ terraform import aws_key_pair.deployer deployer-key
 ```
-
-[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block

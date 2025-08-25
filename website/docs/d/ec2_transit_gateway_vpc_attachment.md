@@ -37,15 +37,9 @@ data "aws_ec2_transit_gateway_vpc_attachment" "selected" {
 
 The following arguments are supported:
 
-* `filter` - (Optional) One or more configuration blocks containing name-values filters.
-  The structure of this block is [described below](#filter).
+* `filter` - (Optional) One or more name/value pairs to use as filters.
+    * _Valid values:_ See supported names and values in [EC2 API documentation][describe-tgw-vpc-attachments]
 * `id` - (Optional) The ID of the transit gateway VPC attachment.
-
-### filter
-
-* `name` - (Required) The name of the field to filter by it.
-  Valid values can be found in the [EC2 API documentation][describe-tgw-vpc-attachments].
-* `values` - (Required) List of one or more values for the filter.
 
 ## Attribute Reference
 
@@ -55,14 +49,14 @@ In addition to all arguments above, the following attributes are exported:
 
 * `id` - The ID of the transit gateway attachment.
 * `subnet_ids` - List of subnet IDs.
-* `transit_gateway_id` - The ID of the transit gateway.
 * `tags` - Map of tags assigned to the transit gateway VPC attachment.
+* `transit_gateway_id` - The ID of the transit gateway.
 * `vpc_id` - The ID of the VPC.
 * `vpc_owner_id` - The ID of the project that owns the VPC.
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 

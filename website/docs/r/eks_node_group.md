@@ -83,20 +83,22 @@ resource "aws_subnet" "example" {
 
 The following arguments are required:
 
-* `cluster_name` – (Required) Name of the EKS cluster. Must be between 1-100 characters in length. Must begin with an alphanumeric character, and must only contain alphanumeric characters, dashes and underscores (`^[0-9A-Za-z][A-Za-z0-9\-_]+$`).
+* `cluster_name` - (Required) Name of the EKS cluster. Must be between 1-100 characters in length. Must begin with an alphanumeric character, and must only contain alphanumeric characters, dashes and underscores (`^[0-9A-Za-z][A-Za-z0-9\-_]+$`).
 * `instance_types` - (Required) List of instance types associated with the EKS node group.
 * `scaling_config` - (Required) Configuration block with scaling settings. Detailed below.
-* `subnet_ids` – (Required) IDs of EC2 subnets to associate with the EKS node group.
+* `subnet_ids` - (Required) IDs of EC2 subnets to associate with the EKS node group.
 
 The following arguments are optional:
 
-* `capacity_type` - (Optional) Type of capacity associated with the EKS node group. Valid values: `ON_DEMAND`. Terraform will only perform drift detection if a configuration value is provided.
-* `disk_size` - (Optional) Disk size in GiB for worker nodes. Defaults to `20`. Terraform will only perform drift detection if a configuration value is provided.
+* `capacity_type` - (Optional) Type of capacity associated with the EKS node group.  Terraform will only perform drift detection if a configuration value is provided.
+    * _Valid values:_ `ON_DEMAND`
+* `disk_size` - (Optional) Disk size in GiB for worker nodes. Terraform will only perform drift detection if a configuration value is provided.
+    * _Default value:_ `20`
 * `labels` - (Optional) Key-value map of Kubernetes labels. Only labels that are applied with the EKS API are managed by this argument. Other Kubernetes labels applied to the EKS node group will not be managed.
-* `node_group_name` – (Optional) Name of the EKS node group. If omitted, Terraform will assign a random, unique name. Conflicts with `node_group_name_prefix`.
-* `node_group_name_prefix` – (Optional) Creates a unique name beginning with the specified prefix. Conflicts with `node_group_name`.
+* `node_group_name` - (Optional) Name of the EKS node group. If omitted, Terraform will assign a random, unique name. Conflicts with `node_group_name_prefix`.
+* `node_group_name_prefix` - (Optional) Creates a unique name beginning with the specified prefix. Conflicts with `node_group_name`.
 * `remote_access` - (Optional) Configuration block with remote access settings. Detailed below.
-* `tags` - (Optional) Key-value map of resource tags. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
+* `tags` - (Optional) Map of tags to assign to the node group. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 * `taint` - (Optional) The Kubernetes taints to be applied to the nodes in the node group. Maximum of 50 taints per node group. Detailed below.
 
 ### remote_access Configuration Block
@@ -113,7 +115,8 @@ The following arguments are optional:
 
 * `key` - (Required) The key of the taint. Maximum length of 63.
 * `value` - (Optional) The value of the taint. Maximum length of 63.
-* `effect` - (Required) The effect of the taint. Valid values: `NO_SCHEDULE`, `NO_EXECUTE`, `PREFER_NO_SCHEDULE`.
+* `effect` - (Required) The effect of the taint.
+    * _Valid values:_ `NO_SCHEDULE`, `NO_EXECUTE`, `PREFER_NO_SCHEDULE`
 
 ### update_config Configuration Block
 
@@ -122,7 +125,7 @@ The following arguments are mutually exclusive.
 * `max_unavailable` - (Optional) Desired max number of unavailable worker nodes during node group update.
 * `max_unavailable_percentage` - (Optional) Desired max percentage of unavailable worker nodes during node group update.
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
@@ -137,13 +140,13 @@ In addition to all arguments above, the following attributes are exported:
 * `resources` - List of objects containing information about underlying resources.
     * `autoscaling_groups` - List of objects containing information about autoscaling groups.
         * `name` - Name of the autoscaling group.
-* `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the node group, including those inherited from the provider [`default_tags` configuration block][default-tags].
 * `status` - Status of the EKS node group. One of `CREATING`, `ACTIVE`, `PENDING`, `UPDATING`, `DELETING`, `CREATE_FAILED`, `DELETE_FAILED`, `DEGRADED`.
-* `version` – Kubernetes version.
+* `version` - Kubernetes version.
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 

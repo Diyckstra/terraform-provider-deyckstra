@@ -31,14 +31,16 @@ resource "aws_ec2_transit_gateway" "example" {
 The following arguments are supported:
 
 * `default_route_table_association` - (Optional) Indicates whether the association with default association route table is created automatically.
-  Valid values are `disable`, `enable`. Defaults to `enable`.
+    * _Valid values:_ `disable`, `enable`
+    * _Default value:_ `enable`
 * `default_route_table_propagation` - (Optional) Indicates whether the routes are automatically propagated to the default propagation route table.
-  Valid values are `disable`, `enable`. Defaults to `enable`.
+    * _Valid values:_ `disable`, `enable`
+    * _Default value:_ `enable`
 * `description` - (Optional) The description of the transit gateway.
 * `shared_owners` - (Optional) List of project IDs (`project@customer`) that are granted access to the transit gateway.
 * `tags` - (Optional) Map of tags to assign to the transit gateway.
-  If configured with a provider [`default_tags` configuration block][default-tags] present,
-  tags with matching keys will overwrite those defined at the provider-level.
+  If a provider [`default_tags` configuration block][default-tags] is used,
+  tags with matching keys will overwrite those defined at the provider level.
 
 ## Attribute Reference
 
@@ -50,11 +52,11 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - The ID of the transit gateway.
 * `owner_id` - The ID of the project that owns the transit gateway.
 * `propagation_default_route_table_id` - The ID of the default propagation route table.
-* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the transit gateway, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 

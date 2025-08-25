@@ -80,7 +80,8 @@ The following arguments are supported:
 ~> **Note** If `name` and `name_prefix` are omitted, Terraform will assign a random unique name with the `terraform-` prefix.
 
 * `policy` - (Required, Editable) A string with policy-defined access rules in JSON format.
-* `type` - (Required) The type of the policy. Valid values are `global`, `project`.
+* `type` - (Required) The type of the policy.
+    * _Valid values:_ `global`, `project`
 
 ## Attribute Reference
 
@@ -97,9 +98,9 @@ In addition to all arguments above, the following attributes are exported:
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** This attribute may be present in the `terraform.tfstate` file, but it has a preset value and cannot be specified in configuration files.
 
-The following attributes are not currently supported: `path`.
+The following attribute is not currently supported: `path`.
 
 ## Import
 

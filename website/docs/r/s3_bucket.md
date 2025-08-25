@@ -3,7 +3,7 @@ subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_s3_bucket"
 description: |-
-  Provides a S3 bucket resource.
+  Manages an S3 bucket.
 ---
 
 [bucket-naming]: https://docs.k2.cloud/en/services/object_storage/operations.html#s3bucketnaming
@@ -17,33 +17,33 @@ description: |-
 
 # Resource: aws_s3_bucket
 
-Provides a S3 bucket resource.
+Manages an S3 bucket.
 
-~> **Note on S3 Bucket canned ACL Configuration:** S3 Bucket canned ACL can be configured in either the standalone resource [`aws_s3_bucket_acl`](s3_bucket_acl.md)
+~> **Note on S3 Bucket canned ACL Configuration:** S3 bucket canned ACL can be configured in either the standalone resource [`aws_s3_bucket_acl`](s3_bucket_acl.md)
 or with the deprecated parameter `acl` in the resource `aws_s3_bucket`.
 Configuring with both will cause inconsistencies and may overwrite configuration.
 
-~> **Note on S3 Bucket ACL Grants Configuration:** S3 Bucket grants can be configured in either the standalone resource [`aws_s3_bucket_acl`](s3_bucket_acl.md)
+~> **Note on S3 Bucket ACL Grants Configuration:** S3 bucket grants can be configured in either the standalone resource [`aws_s3_bucket_acl`](s3_bucket_acl.md)
 or with the deprecated parameter `grant` in the resource `aws_s3_bucket`.
 Configuring with both will cause inconsistencies and may overwrite configuration.
 
-~> **Note on S3 Bucket CORS Configuration:** S3 Bucket CORS can be configured in either the standalone resource [`aws_s3_bucket_cors_configuration`](s3_bucket_cors_configuration.md)
+~> **Note on S3 Bucket CORS Configuration:** S3 bucket CORS can be configured in either the standalone resource [`aws_s3_bucket_cors_configuration`](s3_bucket_cors_configuration.md)
 or with the deprecated parameter `cors_rule` in the resource `aws_s3_bucket`.
 Configuring with both will cause inconsistencies and may overwrite configuration.
 
-~> **Note on S3 Bucket Lifecycle Configuration:** S3 Bucket Lifecycle can be configured in either the standalone resource [`aws_s3_bucket_lifecycle_configuration`](s3_bucket_lifecycle_configuration.md)
+~> **Note on S3 Bucket Lifecycle Configuration:** S3 bucket lifecycle can be configured in either the standalone resource [`aws_s3_bucket_lifecycle_configuration`](s3_bucket_lifecycle_configuration.md)
 or with the deprecated parameter `lifecycle_rule` in the resource `aws_s3_bucket`.
 Configuring with both will cause inconsistencies and may overwrite configuration.
 
-~> **Note on S3 Bucket Policy Configuration:** S3 Bucket Policy can be configured in either the standalone resource [`aws_s3_bucket_policy`](s3_bucket_policy.md)
+~> **Note on S3 Bucket Policy Configuration:** S3 bucket policy can be configured in either the standalone resource [`aws_s3_bucket_policy`](s3_bucket_policy.md)
 or with the deprecated parameter `policy` in the resource `aws_s3_bucket`.
 Configuring with both will cause inconsistencies and may overwrite configuration.
 
-~> **Note on S3 Bucket Versioning Configuration:** S3 Bucket versioning can be configured in either the standalone resource [`aws_s3_bucket_versioning`](s3_bucket_versioning.md)
+~> **Note on S3 Bucket Versioning Configuration:** S3 bucket versioning can be configured in either the standalone resource [`aws_s3_bucket_versioning`](s3_bucket_versioning.md)
 or with the deprecated parameter `versioning` in the resource `aws_s3_bucket`.
 Configuring with both will cause inconsistencies and may overwrite configuration.
 
-~> **Note on S3 Bucket Website Configuration:** S3 Bucket Website can be configured in either the standalone resource [`aws_s3_bucket_website_configuration`](s3_bucket_website_configuration.md)
+~> **Note on S3 Bucket Website Configuration:** S3 bucket website can be configured in either the standalone resource [`aws_s3_bucket_website_configuration`](s3_bucket_website_configuration.md)
 or with the deprecated parameter `website` in the resource `aws_s3_bucket`.
 Configuring with both will cause inconsistencies and may overwrite configuration.
 
@@ -246,10 +246,13 @@ The following arguments are supported:
 
 * `bucket` - (Optional, Forces new resource) The name of the bucket. If omitted, Terraform will assign a random, unique name. Must be lowercase and less than or equal to 63 characters in length. A full list of bucket naming rules may be found in [user documentation][bucket-naming].
 * `bucket_prefix` - (Optional, Conflicts with `bucket`, Forces new resource) Creates a unique bucket name beginning with the specified prefix. Must be lowercase and less than or equal to 37 characters in length. A full list of bucket naming rules may be found in [user documentation][bucket-naming].
-* `acl` - (Optional, **Deprecated**, Conflicts with `grant`) The [canned ACL][canned-acl] to apply. Valid values are `private`, `public-read`, `public-read-write`, `authenticated-read`. Defaults to `private`. Terraform will only perform drift detection if a configuration value is provided. Use the resource [`aws_s3_bucket_acl`](s3_bucket_acl.md) instead.
+* `acl` - (Optional, **Deprecated**, Conflicts with `grant`) The [canned ACL][canned-acl] to apply.  Terraform will only perform drift detection if a configuration value is provided. Use the resource [`aws_s3_bucket_acl`](s3_bucket_acl.md) instead.
+    * _Valid values:_ `private`, `public-read`, `public-read-write`, `authenticated-read`
+    * _Default value:_ `private`
 * `grant` - (Optional, **Deprecated**, Conflicts with `acl`) An ACL policy grant. See [Grant](#grant) below for details. Terraform will only perform drift detection if a configuration value is provided. Use the resource [`aws_s3_bucket_acl`](s3_bucket_acl.md) instead.
 * `cors_rule` - (Optional, **Deprecated**) A rule of [Cross-Origin Resource Sharing][cors]. See [CORS rule](#cors-rule) below for details. Terraform will only perform drift detection if a configuration value is provided. Use the resource [`aws_s3_bucket_cors_configuration`](s3_bucket_cors_configuration.md) instead.
-* `force_destroy` - (Optional) A boolean that indicates all objects should be deleted from the bucket so that the bucket can be destroyed without error. Defaults to `false`.
+* `force_destroy` - (Optional) A boolean that indicates all objects should be deleted from the bucket so that the bucket can be destroyed without error.
+    * _Default value:_ `false`
 * `lifecycle_rule` - (Optional, **Deprecated**) A configuration of [object lifecycle management][lifecycle-management]. See [Lifecycle Rule](#lifecycle-rule) below for details. Terraform will only perform drift detection if a configuration value is provided.
   Use the resource [`aws_s3_bucket_lifecycle_configuration`](s3_bucket_lifecycle_configuration.md) instead.
 * `policy` - (Optional, **Deprecated**) A valid bucket policy JSON document. Note that if the policy document is not specific enough (but still valid), Terraform may view the policy as constantly changing in a `terraform plan`. In this case, please make sure you use the verbose/specific version of the policy.
@@ -258,7 +261,7 @@ The following arguments are supported:
 * `versioning` - (Optional, **Deprecated**) A configuration of the [S3 bucket versioning state][s3-versioning]. See [Versioning](#versioning) below for details. Terraform will only perform drift detection if a configuration value is provided. Use the resource [`aws_s3_bucket_versioning`](s3_bucket_versioning.md) instead.
 * `website` - (Optional, **Deprecated**) A configuration of the [S3 bucket website][hosting-website]. See [Website](#website) below for details. Terraform will only perform drift detection if a configuration value is provided.
   Use the resource [`aws_s3_bucket_website_configuration`](s3_bucket_website_configuration.md) instead.
-* `tags` - (Optional) A map of tags to assign to the bucket. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
+* `tags` - (Optional) Map of tags to assign to the bucket. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
 ### CORS Rule
 
@@ -279,13 +282,15 @@ The `cors_rule` configuration block supports the following arguments:
 The `grant` configuration block supports the following arguments:
 
 * `id` - (Optional) Canonical user ID to grant for (S3 User ID). Used only when `type` is `CanonicalUser`.
-* `type` - (Required) Type of grantee to apply for. Valid values are `CanonicalUser` and `Group`. `AmazonCustomerByEmail` is not supported.
-* `permissions` - (Required) List of permissions to apply for grantee. Valid values are `READ`, `WRITE`, `READ_ACP`, `WRITE_ACP`, `FULL_CONTROL`.
+* `type` - (Required) Type of grantee to apply for.  `AmazonCustomerByEmail` is not supported.
+    * _Valid values:_ `CanonicalUser` and `Group`
+* `permissions` - (Required) List of permissions to apply for grantee.
+    * _Valid values:_ `READ`, `WRITE`, `READ_ACP`, `WRITE_ACP`, `FULL_CONTROL`
 * `uri` - (Optional) Uri address to grant for. Supported groups are `http://acs.amazonaws.com/groups/global/AllUsers` and `http://acs.amazonaws.com/groups/global/AuthenticatedUsers`. Used only when `type` is `Group`.
 
 ### Lifecycle Rule
 
-~> **Note** Currently, changes to the `lifecycle_rule` configuration of _existing_ resources cannot be automatically detected by Terraform. To manage changes of Lifecycle rules to an S3 bucket, use the `aws_s3_bucket_lifecycle_configuration` resource instead. If you use `lifecycle_rule` on an `aws_s3_bucket`, Terraform will assume management over the full set of Lifecycle rules for the S3 bucket, treating additional Lifecycle rules as drift. For this reason, `lifecycle_rule` cannot be mixed with the external `aws_s3_bucket_lifecycle_configuration` resource for a given S3 bucket.
+~> **Note** Currently, changes to the `lifecycle_rule` configuration of _existing_ resources cannot be automatically detected by Terraform. To manage changes of lLifecycle rules to an S3 bucket, use the `aws_s3_bucket_lifecycle_configuration` resource instead. If you use `lifecycle_rule` on an `aws_s3_bucket`, Terraform will assume management over the full set of lifecycle rules for the S3 bucket, treating additional lifecycle rules as drift. For this reason, `lifecycle_rule` cannot be mixed with the external `aws_s3_bucket_lifecycle_configuration` resource for a given S3 bucket.
 
 ~> **Note** At least one of `abort_incomplete_multipart_upload_days`, `expiration`, `noncurrent_version_expiration`, must be specified.
 
@@ -303,7 +308,7 @@ The `expiration` configuration block supports the following arguments:
 
 * `date` - (Optional) Specifies the date after which you want the corresponding action to take effect.
 * `days` - (Optional) Specifies the number of days after object creation when the specific rule action takes effect.
-* `expired_object_delete_marker` - (Optional) On a versioned bucket (versioning-enabled or versioning-suspended bucket), you can add this element in the lifecycle configuration to direct S3 to delete expired object delete markers. This cannot be specified with Days or Date in a Lifecycle Expiration Policy.
+* `expired_object_delete_marker` - (Optional) On a versioned bucket (versioning-enabled or versioning-suspended bucket), you can add this element in the lifecycle configuration to direct S3 to delete expired object delete markers. This cannot be specified with days or date in a lifecycle expiration policy.
 
 #### Noncurrent Version Expiration
 
@@ -330,20 +335,20 @@ The `website` configuration block supports the following arguments:
 * `redirect_all_requests_to` - (Optional) A hostname to redirect all website requests for this bucket to. Hostname can optionally be prefixed with a protocol (`http://` or `https://`) to use when redirecting requests. The default is the protocol that is used in the original request.
 * `routing_rules` - (Optional) A json array containing [routing rules][website-redirect-rules] describing redirect behavior and when redirects are applied.
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - The name of the bucket.
-* `arn` - The ARN of the bucket. Will be of format `arn:aws:s3:::bucketname`.
+* `arn` - The Amazon Resource Name (ARN) of the bucket. Will be of format `arn:aws:s3:::bucketname`.
 * `region` - The region this bucket resides in.
-* `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the bucket, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 

@@ -6,9 +6,11 @@ description: |-
   Provides a list of image IDs.
 ---
 
+[describe-images]: https://docs.k2.cloud/en/api/ec2/images/DescribeImages.html
+
 # Data Source: aws_ami_ids
 
-Use this data source to get a list of image IDs matching the specified criteria.
+Provides a list of image IDs.
 
 ## Example Usage
 
@@ -21,22 +23,18 @@ data "aws_ami_ids" "example" {
 ## Argument Reference
 
 * `owners` - (Required) List of image owners to limit search. At least one value must be specified.
-  Valid items are the project ID (`project@customer`) or `self`.
+    * _Valid values:_ Project ID (`project@customer`) or `self`
 * `executable_users` - (Optional) Limit search to project with *explicit* launch permission on the image.
-  Valid items are the project ID (`project@customer`), `all` or `self`.
-
-* `filter` - (Optional) One or more name/value pairs to filter.
-
-For more information about filtering, see the [EC2 API documentation][describe-images].
-
+    * _Valid values:_ Project ID (`project@customer`), `all` or `self`
+* `filter` - (Optional) One or more name/value pairs to use as filters.
+    * _Valid values:_ See supported names and values in [EC2 API documentation][describe-images]
 * `name_regex` - (Optional) A regex string to apply to the image list returned by the EC2 API.
-  This allows more advanced filtering. It is done locally on what the EC2 API returns,
-  and could have a performance impact if the result is large.
   It is recommended to combine this with other options to narrow down the list the EC2 API returns.
-* `sort_ascending`  - (Defaults to `false`) Used to sort images by creation time.
+* `sort_ascending` - (Optional) Used to sort images by creation time.
+    * _Default value:_ `false`
 
-## Attributes Reference
+## Attribute Reference
 
-`ids` is set to the list of image IDs, sorted by creation time according to `sort_ascending`.
+In addition to all arguments above, the following attribute is exported:
 
-[describe-images]: https://docs.k2.cloud/en/api/ec2/images/DescribeImages.html
+* `ids` - List of image IDs, sorted by creation time according to `sort_ascending`.

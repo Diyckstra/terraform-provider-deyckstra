@@ -3,16 +3,16 @@ subcategory: "ELB (Elastic Load Balancing)"
 layout: "aws"
 page_title: "aws_lb_listener"
 description: |-
-  Provides a Load Balancer Listener data source.
+  Provides information about a load balancer listener.
 ---
 
 # Data Source: aws_lb_listener
 
 ~> **Note** `aws_alb_listener` is known as `aws_lb_listener`. The functionality is identical.
 
-Provides information about a Load Balancer Listener.
+Provides information about a load balancer listener.
 
-This data source can prove useful when a module accepts an LB Listener as an input variable and needs to know the LB it is attached to, or other information specific to the listener in question.
+This data source can prove useful when a module accepts an LB listener as an input variable and needs to know the LB it is attached to, or other information specific to the listener in question.
 
 ## Example Usage
 
@@ -43,10 +43,13 @@ data "aws_lb_listener" "selected443" {
 
 The following arguments are supported:
 
-* `arn` - (Optional) ARN of the listener. Required if `load_balancer_arn` and `port` is not set.
-* `load_balancer_arn` - (Optional) ARN of the load balancer. Required if `arn` is not set.
-* `port` - (Optional) Port of the listener. Required if `arn` is not set.
+* `arn` - (Optional) The Amazon Resource Name (ARN) of the listener.
+    * _Constraints:_ Required if `load_balancer_arn` and `port` are not set
+* `load_balancer_arn` - (Optional) The ARN of the load balancer.
+    * _Constraints:_ Required if `arn` is not set
+* `port` - (Optional) Port of the listener.
+    * _Constraints:_ Required if `arn` is not set
 
-## Attributes Reference
+## Attribute Reference
 
-See the [LB Listener Resource](../r/lb_listener.md) for details on the returned attributes - they are identical.
+See the [LB listener resource](../r/lb_listener.md) for details on the returned attributes - they are identical.

@@ -39,10 +39,10 @@ resource "aws_dx_gateway_association" "example" {
 The following arguments are supported:
 
 * `allowed_prefixes` - (Required, Editable) VPC prefixes (CIDRs) to advertise to the Direct Connect gateway.
-* `associated_gateway_id` - (Required) The ID of the transit gateway that the Direct Connection gateway must be associated with.
+* `associated_gateway_id` - (Required) The ID of the transit gateway that the Direct Connect gateway must be associated with.
 * `dx_gateway_id` - (Required) The ID of the Direct Connect gateway.
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
@@ -53,7 +53,7 @@ In addition to all arguments above, the following attributes are exported:
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 
@@ -63,9 +63,9 @@ The following attributes are not currently supported:
 
 The `timeouts` block allows you to specify [timeouts] for certain actions:
 
-- `create` - (Default `30 minutes`) Timeout for creating the association
-- `update` - (Default `30 minutes`) Timeout for updating the association
-- `delete` - (Default `30 minutes`) Timeout for destroying the association
+- `create` - (Default `30 minutes`) Timeout for creating the association.
+- `update` - (Default `30 minutes`) Timeout for updating the association.
+- `delete` - (Default `30 minutes`) Timeout for destroying the association.
 
 ## Import
 

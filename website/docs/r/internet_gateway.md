@@ -37,7 +37,7 @@ resource "aws_internet_gateway" "example" {
 The following arguments are supported:
 
 * `tags` - (Optional) Map of tags to assign to the internet gateway.
-  If configured with a provider [`default_tags` configuration block][default-tags] present,
+  If a provider [`default_tags` configuration block][default-tags] is used,
   tags with matching keys will overwrite those defined at the provider level.
 * `vpc_id` - (Optional) The ID of the VPC to which the internet gateway will be attached.
   See the [aws_internet_gateway_attachment](internet_gateway_attachment.md) resource for another way to attach an internet gateway to a VPC.

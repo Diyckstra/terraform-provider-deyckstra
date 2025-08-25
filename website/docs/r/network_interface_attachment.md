@@ -3,12 +3,12 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_network_interface_attachment"
 description: |-
-  Attach an elastic network interface (ENI) resource with EC2 instance.
+  Attaches an elastic network interface (ENI) with an EC2 instance.
 ---
 
 # Resource: aws_network_interface_attachment
 
-Attach an elastic network interface (ENI) resource with EC2 instance.
+Attaches an elastic network interface (ENI) with an EC2 instance.
 
 ## Example Usage
 
@@ -28,7 +28,7 @@ The following arguments are supported:
 * `network_interface_id` - (Required) ENI ID to attach.
 * `device_index` - (Required) Network interface index (int).
 
-## Attributes Reference
+## Attribute Reference
 
 In addition to all arguments above, the following attributes are exported:
 

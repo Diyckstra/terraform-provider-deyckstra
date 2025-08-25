@@ -22,7 +22,9 @@ data "aws_dx_gateway" "selected" {
 
 * `name` - (Required) The name of the Direct Connect gateway.
 
-## Attributes Reference
+## Attribute Reference
+
+In addition to all arguments above, the following attributes are exported:
 
 * `amazon_side_asn` - The ASN for the cloud side of the connection.
 * `id` - The ID of the Direct Connect gateway.

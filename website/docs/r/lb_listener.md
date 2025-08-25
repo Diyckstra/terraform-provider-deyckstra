@@ -3,14 +3,14 @@ subcategory: "ELB (Elastic Load Balancing)"
 layout: "aws"
 page_title: "aws_lb_listener"
 description: |-
-  Provides a Load Balancer Listener resource.
+  Manages a listener for a load balancer.
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 
 # Resource: aws_lb_listener
 
-Provides a Load Balancer Listener resource.
+Manages a listener for a load balancer.
 
 ~> **Note** `aws_alb_listener` is known as `aws_lb_listener`. The functionality is identical.
 
@@ -41,7 +41,7 @@ resource "aws_lb_listener" "front_end" {
 }
 ```
 
-To a NLB:
+To an NLB:
 
 ```hcl
 resource "aws_lb_listener" "front_end" {
@@ -226,47 +226,54 @@ resource "aws_lb_listener" "example" {
 The following arguments are required:
 
 * `default_action` - (Required) Configuration block for default actions. Detailed below.
-* `load_balancer_arn` - (Required, Forces New Resource) ARN of the load balancer.
+* `load_balancer_arn` - (Required, forces new resource) The Amazon Resource Name (ARN) of the load balancer.
 
 The following arguments are optional:
 
-* `alpn_policy` - (Optional)  Name of the Application-Layer Protocol Negotiation (ALPN) policy. Can be set if `protocol` is `TLS`. Valid values are `HTTP1Only`, `HTTP2Only`, `HTTP2Optional`, `HTTP2Preferred`, and `None`.
-* `certificate_arn` - (Optional) ARN of the default SSL server certificate. Exactly one certificate is required if the protocol is HTTPS.
-* `port` - (Optional) Port on which the load balancer is listening. Not valid for Gateway Load Balancers.
-* `protocol` - (Optional) Protocol for connections from clients to the load balancer. For Application Load Balancers, valid values are `HTTP` and `HTTPS`, with a default of `HTTP`. For Network Load Balancers, valid values are `TCP`, `TLS`, `UDP`, and `TCP_UDP`. Not valid to use `UDP` or `TCP_UDP` if dual-stack mode is enabled. Not valid for Gateway Load Balancers.
-* `ssl_policy` - (Optional) Name of the SSL Policy for the listener. Required if `protocol` is `HTTPS` or `TLS`.
-* `tags` - (Optional) A map of tags to assign to the resource. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
+* `alpn_policy` - (Optional)  Name of the Application-Layer Protocol Negotiation (ALPN) policy. Can be set if `protocol` is `TLS`.
+    * _Valid values:_ `HTTP1Only`, `HTTP2Only`, `HTTP2Optional`, `HTTP2Preferred`, and `None`
+* `certificate_arn` - (Optional) The ARN of the default SSL server certificate. Exactly one certificate is required if the protocol is HTTPS.
+* `port` - (Optional) Port on which the load balancer is listening. Not valid for gateway load balancers.
+* `protocol` - (Optional) Protocol for connections from clients to the load balancer. For application load balancers, valid values are `HTTP` and `HTTPS`, with a default of `HTTP`. For network load balancers, valid values are `TCP`, `TLS`, `UDP`, and `TCP_UDP`. Not valid to use `UDP` or `TCP_UDP` if dual-stack mode is enabled. Not valid for gateway load balancers.
+* `ssl_policy` - (Optional) Name of the SSL policy for the listener.
+    * _Constraints:_ Required if `protocol` is `HTTPS` or `TLS`
+* `tags` - (Optional) Map of tags to assign to the listener. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
-~> **Note::** Please note that listeners that are attached to Application Load Balancers must use either `HTTP` or `HTTPS` protocols while listeners that are attached to Network Load Balancers must use the `TCP` protocol.
+~> **Note::** Please note that listeners that are attached to application load balancers must use either `HTTP` or `HTTPS` protocols while listeners that are attached to network load balancers must use the `TCP` protocol.
 
 ### default_action
 
 The following arguments are required:
 
-* `type` - (Required) Type of routing action. Valid values are `forward`, `redirect`, `fixed-response`, `authenticate-cognito` and `authenticate-oidc`.
+* `type` - (Required) Type of routing action.
+    * _Valid values:_ `forward`, `redirect`, `fixed-response`, `authenticate-cognito` and `authenticate-oidc`
 
 The following arguments are optional:
 
 * `authenticate_cognito` - (Optional) Configuration block for using Amazon Cognito to authenticate users. Specify only when `type` is `authenticate-cognito`. Detailed below.
 * `authenticate_oidc` - (Optional) Configuration block for an identity provider that is compliant with OpenID Connect (OIDC). Specify only when `type` is `authenticate-oidc`. Detailed below.
-* `fixed_response` - (Optional) Information for creating an action that returns a custom HTTP response. Required if `type` is `fixed-response`.
+* `fixed_response` - (Optional) Information for creating an action that returns a custom HTTP response.
+    * _Constraints:_ Required if `type` is `fixed-response`
 * `forward` - (Optional) Configuration block for creating an action that distributes requests among one or more target groups. Specify only if `type` is `forward`. If you specify both `forward` block and `target_group_arn` attribute, you can specify only one target group using `forward` and it must be the same target group specified in `target_group_arn`. Detailed below.
-* `order` - (Optional) Order for the action. This value is required for rules with multiple actions. The action with the lowest value for order is performed first. Valid values are between `1` and `50000`.
-* `redirect` - (Optional) Configuration block for creating a redirect action. Required if `type` is `redirect`. Detailed below.
-* `target_group_arn` - (Optional) ARN of the Target Group to which to route traffic. Specify only if `type` is `forward` and you want to route to a single target group. To route to one or more target groups, use a `forward` block instead.
+* `order` - (Optional) Order for the action. This value is required for rules with multiple actions. The action with the lowest value for order is performed first.
+    * _Valid values:_ between `1` and `50000`
+* `redirect` - (Optional) Configuration block for creating a redirect action. Detailed below.
+    * _Constraints:_ Required if `type` is `redirect`
+* `target_group_arn` - (Optional) The ARN of the target group to which to route traffic. Specify only if `type` is `forward` and you want to route to a single target group. To route to one or more target groups, use a `forward` block instead.
 
 #### authenticate_cognito
 
 The following arguments are required:
 
-* `user_pool_arn` - (Required) ARN of the Cognito user pool.
+* `user_pool_arn` - (Required) The ARN of the Cognito user pool.
 * `user_pool_client_id` - (Required) ID of the Cognito user pool client.
 * `user_pool_domain` - (Required) Domain prefix or fully-qualified domain name of the Cognito user pool.
 
 The following arguments are optional:
 
 * `authentication_request_extra_params` - (Optional) Query parameters to include in the redirect request to the authorization endpoint. Max: 10. Detailed below.
-* `on_unauthenticated_request` - (Optional) Behavior if the user is not authenticated. Valid values are `deny`, `allow` and `authenticate`.
+* `on_unauthenticated_request` - (Optional) Behavior if the user is not authenticated.
+    * _Valid values:_ `deny`, `allow` and `authenticate`
 * `scope` - (Optional) Set of user claims to be requested from the IdP.
 * `session_cookie_name` - (Optional) Name of the cookie used to maintain session information.
 * `session_timeout` - (Optional) Maximum duration of the authentication session, in seconds.
@@ -290,7 +297,8 @@ The following arguments are required:
 The following arguments are optional:
 
 * `authentication_request_extra_params` - (Optional) Query parameters to include in the redirect request to the authorization endpoint. Max: 10.
-* `on_unauthenticated_request` - (Optional) Behavior if the user is not authenticated. Valid values: `deny`, `allow` and `authenticate`
+* `on_unauthenticated_request` - (Optional) Behavior if the user is not authenticated.
+    * _Valid values:_ `deny`, `allow` and `authenticate`
 * `scope` - (Optional) Set of user claims to be requested from the IdP.
 * `session_cookie_name` - (Optional) Name of the cookie used to maintain session information.
 * `session_timeout` - (Optional) Maximum duration of the authentication session, in seconds.
@@ -299,12 +307,14 @@ The following arguments are optional:
 
 The following arguments are required:
 
-* `content_type` - (Required) Content type. Valid values are `text/plain`, `text/css`, `text/html`, `application/javascript` and `application/json`.
+* `content_type` - (Required) Content type.
+    * _Valid values:_ `text/plain`, `text/css`, `text/html`, `application/javascript` and `application/json`
 
 The following arguments are optional:
 
 * `message_body` - (Optional) Message body.
-* `status_code` - (Optional) HTTP response code. Valid values are `2XX`, `4XX`, or `5XX`.
+* `status_code` - (Optional) HTTP response code.
+    * _Valid values:_ `2XX`, `4XX`, or `5XX`
 
 #### forward
 
@@ -320,7 +330,7 @@ The following arguments are optional:
 
 The following arguments are required:
 
-* `arn` - (Required) ARN of the target group.
+* `arn` - (Required) The ARN of the target group.
 
 The following arguments are optional:
 
@@ -346,23 +356,29 @@ The following arguments are required:
 
 The following arguments are optional:
 
-* `host` - (Optional) Hostname. This component is not percent-encoded. The hostname can contain `#{host}`. Defaults to `#{host}`.
-* `path` - (Optional) Absolute path, starting with the leading "/". This component is not percent-encoded. The path can contain #{host}, #{path}, and #{port}. Defaults to `/#{path}`.
-* `port` - (Optional) Port. Specify a value from `1` to `65535` or `#{port}`. Defaults to `#{port}`.
-* `protocol` - (Optional) Protocol. Valid values are `HTTP`, `HTTPS`, or `#{protocol}`. Defaults to `#{protocol}`.
-* `query` - (Optional) Query parameters, URL-encoded when necessary, but not percent-encoded. Do not include the leading "?". Defaults to `#{query}`.
+* `host` - (Optional) Hostname. This component is not percent-encoded. The hostname can contain `#{host}`.
+    * _Default value:_ `#{host}`
+* `path` - (Optional) Absolute path, starting with the leading "/". This component is not percent-encoded. The path can contain #{host}, #{path}, and #{port}.
+    * _Default value:_ `/#{path}`
+* `port` - (Optional) Port. Specify a value from `1` to `65535` or `#{port}`.
+    * _Default value:_ `#{port}`
+* `protocol` - (Optional) Protocol.
+    * _Valid values:_ `HTTP`, `HTTPS`, or `#{protocol}`
+    * _Default value:_ `#{protocol}`
+* `query` - (Optional) Query parameters, URL-encoded when necessary, but not percent-encoded. Do not include the leading "?".
+    * _Default value:_ `#{query}`
 
-## Attributes Reference
+## Attribute Reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` - ARN of the listener (matches `id`).
-* `id` - ARN of the listener (matches `arn`).
-* `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `arn` - The ARN of the listener (matches `id`).
+* `id` - The ARN of the listener (matches `arn`).
+* `tags_all` - Map of tags assigned to the listener, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ## Import
 
-Listeners can be imported using their ARN, e.g.,
+Listeners can be imported using their ARNs, e.g.,
 
 ```
 $ terraform import aws_lb_listener.front_end arn:aws:elasticloadbalancing:us-west-2:187416307283:listener/app/front-end-alb/8e4497da625e2d8a/9ab28ade35828f96

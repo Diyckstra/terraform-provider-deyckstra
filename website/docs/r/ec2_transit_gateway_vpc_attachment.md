@@ -60,12 +60,12 @@ The following arguments are supported:
 * `transit_gateway_id` - (Required) The ID of the transit gateway.
 * `vpc_id` - (Required) The ID of the VPC.
 * `tags` - (Optional)  Map of tags to assign to the transit gateway VPC attachment.
-  If configured with a provider [`default_tags` configuration block][default-tags] present,
-  tags with matching keys will overwrite those defined at the provider-level.
-* `transit_gateway_default_route_table_association` - (Optional) Indicates whether the transit gateway VPC attachment
-  should be associated with the transit gateway default association route table. Defaults to `true`.
-* `transit_gateway_default_route_table_propagation` - (Optional) Indicates whether the transit gateway VPC attachment
-  should propagate routes to the transit gateway default propagation route table. Defaults to `true`.
+  If a provider [`default_tags` configuration block][default-tags] is used,
+  tags with matching keys will overwrite those defined at the provider level.
+* `transit_gateway_default_route_table_association` - (Optional) Indicates whether the transit gateway VPC attachment should be associated with the transit gateway default association route table.
+    * _Default value:_ `true`
+* `transit_gateway_default_route_table_propagation` - (Optional) Indicates whether the transit gateway VPC attachment should propagate routes to the transit gateway default propagation route table.
+    * _Default value:_ `true`
 
 ~> **Note** `transit_gateway_default_route_table_association` and `transit_gateway_default_route_table_propagation`
 cannot be configured for shared transit gateways.
@@ -77,12 +77,12 @@ cannot be configured for shared transit gateways.
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - The ID of the transit gateway attachment.
-* `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `tags_all` - Map of tags assigned to the transit gateway attachment, including those inherited from the provider [`default_tags` configuration block][default-tags].
 * `vpc_owner_id` - The ID of the project that owns the VPC.
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 

@@ -3,14 +3,18 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_network_acls"
 description: |-
-    Provides a list of network ACL ids for a VPC
+  Provides a list of network ACL IDs for a VPC.
 ---
+
+[describe-network-acls]: https://docs.k2.cloud/en/api/ec2/network_acls/DescribeNetworkAcls.html
 
 # Data Source: aws_network_acls
 
+Provides a list of network ACL IDs for a VPC.
+
 ## Example Usage
 
-The following example shows all network ACL ids in a vpc.
+The following example shows all network ACL IDs in a VPC.
 
 ```terraform
 variable vpc_id {}
@@ -24,7 +28,7 @@ output "example" {
 }
 ```
 
-The following example retrieves a list of all network ACL ids in a VPC with a custom
+The following example retrieves a list of all network ACL IDs in a VPC with a custom
 tag of `Tier` set to a value of "Private".
 
 ```terraform
@@ -39,8 +43,7 @@ data "aws_network_acls" "example" {
 }
 ```
 
-The following example retrieves a network ACL id in a VPC which associated
-with specific subnet.
+The following example retrieves the ID of a network ACL which is associated with a specific subnet in a VPC.
 
 ```terraform
 variable vpc_id {}
@@ -58,23 +61,16 @@ data "aws_network_acls" "example" {
 
 ## Argument Reference
 
-* `vpc_id` - (Optional) The VPC ID that you want to filter from.
-* `tags` - (Optional) A map of tags, each pair of which must exactly match
+* `filter` - (Optional) One or more name/value pairs to use as filters.
+    * _Valid values:_ See supported names and values in [EC2 API documentation][describe-network-acls]
+* `tags` - (Optional) Map of tags, each pair of which must exactly match
   a pair on the desired network ACLs.
-* `filter` - (Optional) Custom filter block as described below.
+* `vpc_id` - (Optional) The VPC ID that you want to filter from.
 
-More complex filters can be expressed using one or more `filter` sub-blocks,
-which take the following arguments:
 
-* `name` - (Required) The name of the field to filter by it.
-* `values` - (Required) Set of values that are accepted for the given field.
-  A network ACL will be selected if any one of the given values matches.
+## Attribute Reference
 
-For more information about filtering, see the [EC2 API documentation][describe-network-acls].
-
-## Attributes Reference
+In addition to all arguments above, the following attributes are exported:
 
 * `id` - The region.
-* `ids` - A list of all the network ACL ids found.
-
-[describe-network-acls]: https://docs.k2.cloud/en/api/ec2/network_acls/DescribeNetworkAcls.html
+* `ids` - List of all the network ACL IDs found.

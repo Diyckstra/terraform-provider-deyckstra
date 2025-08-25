@@ -3,7 +3,7 @@ subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_s3_bucket_lifecycle_configuration"
 description: |-
-  Provides a S3 bucket lifecycle configuration resource.
+  Manages an S3 bucket lifecycle configuration.
 ---
 
 [lifecycle-management]: https://docs.k2.cloud/en/services/object_storage/operations.html#id28
@@ -11,8 +11,7 @@ description: |-
 
 # Resource: aws_s3_bucket_lifecycle_configuration
 
-Provides an independent configuration resource for S3 bucket lifecycle configuration.
-
+Manages an S3 bucket lifecycle configuration.
 For more information about lifecycle management, see [user documentation][lifecycle-management].
 
 An S3 lifecycle configuration consists of one or more lifecycle rules. Each rule consists of the following:
@@ -21,7 +20,7 @@ An S3 lifecycle configuration consists of one or more lifecycle rules. Each rule
 * [Filter](#filter) identifying objects to which the rule applies
 * One or more expiration actions
 
-~> **Note** S3 Buckets only support a single lifecycle configuration. Declaring multiple `aws_s3_bucket_lifecycle_configuration` resources to the same S3 bucket will cause a perpetual difference in configuration.
+~> **Note** S3 buckets only support a single lifecycle configuration. Declaring multiple `aws_s3_bucket_lifecycle_configuration` resources to the same S3 bucket will cause a perpetual difference in configuration.
 
 ## Example Usage
 
@@ -247,7 +246,7 @@ The following arguments are supported:
 
 ### rule
 
-~> **Note** The `filter` argument, while Optional, is required if the `rule` configuration block does not contain a `prefix` **and** you intend to override the default behavior of setting the rule to filter objects with the empty string prefix (`""`).
+~> **Note** The `filter` argument, while optional, is required if the `rule` configuration block does not contain a `prefix` **and** you intend to override the default behavior of setting the rule to filter objects with the empty string prefix (`""`).
 Since `prefix` is deprecated by Amazon S3 , we recommend users either specify `filter` or leave both `filter` and `prefix` unspecified.
 
 ~> **Note** A rule cannot be updated from having a filter (via either the `rule.filter` parameter or when neither `rule.filter` and `rule.prefix` are specified) to only having a prefix via the `rule.prefix` parameter.
@@ -257,11 +256,13 @@ Since `prefix` is deprecated by Amazon S3 , we recommend users either specify `f
 The `rule` configuration block supports the following arguments:
 
 * `expiration` - (Optional) Configuration block that specifies the expiration for the lifecycle of the object in the form of days [documented below](#expiration).
-* `filter` - (Optional) Configuration block used to identify objects that a Lifecycle Rule applies to [documented below](#filter). If not specified, the `rule` will default to using `prefix`.
+* `filter` - (Optional) Configuration block used to identify objects that a lifecycle rule applies to [documented below](#filter). If not specified, the `rule` will default to using `prefix`.
 * `id` - (Required) Unique identifier for the rule. The value cannot be longer than 255 characters.
 * `noncurrent_version_expiration` - (Optional) Configuration block that specifies when noncurrent object versions expire [documented below](#noncurrent_version_expiration).
-* `prefix` - (Optional) **DEPRECATED** Use `filter` instead. This has been deprecated by Amazon S3. Prefix identifying one or more objects to which the rule applies. Defaults to an empty string (`""`) if `filter` is not specified.
-* `status` - (Required) Whether the rule is currently being applied. Valid values: `Enabled` or `Disabled`.
+* `prefix` - (Optional) **DEPRECATED** Use `filter` instead. This has been deprecated by Amazon S3. Prefix identifying one or more objects to which the rule applies.
+    * _Default value:_ An empty string (`""`) if `filter` is not specified
+* `status` - (Required) Whether the rule is currently being applied.
+    * _Valid values:_ `Enabled` or `Disabled`
 
 ### expiration
 
@@ -278,7 +279,8 @@ The `expiration` configuration block supports the following arguments:
 The `filter` configuration block supports the following arguments:
 
 * `and`- (Optional) Configuration block used to apply a logical `AND` to two or more predicates [documented below](#and). The lifecycle rule will apply to any object matching all the predicates configured inside the `and` block.
-* `prefix` - (Optional) Prefix identifying one or more objects to which the rule applies. Defaults to an empty string (`""`) if not specified.
+* `prefix` - (Optional) Prefix identifying one or more objects to which the rule applies.
+    * _Default value:_ An empty string (`""`) if not specified
 * `tag` - (Optional) A configuration block for specifying a tag key and value [documented below](#tag).
 
 ### noncurrent_version_expiration
@@ -291,7 +293,7 @@ The `noncurrent_version_expiration` configuration block supports the following a
 
 The `and` configuration block supports the following arguments:
 
-* `tags` - (Required) Key-value map of resource tags. All of these tags must exist in the object's tag set in order for the rule to apply.
+* `tags` - (Required) Map of tags to assign to the resource. All of these tags must exist in the object's tag set in order for the rule to apply.
 
 ### tag
 
@@ -300,7 +302,7 @@ The `tag` configuration block supports the following arguments:
 * `key` - (Required) Name of the object key.
 * `value` - (Required) Value of the tag.
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
@@ -310,7 +312,7 @@ In addition to all arguments above, the following attributes are exported:
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 

@@ -3,21 +3,23 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_network_acl"
 description: |-
-  Provides a network ACL resource.
+  Creates a network ACL.
 ---
 
+[attribute-as-blocks]: https://www.terraform.io/docs/configuration/attr-as-blocks.html
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[network-acl]: https://docs.k2.cloud/en/services/security/networkacl.html
+[icmp-parameters]:  https://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml
+[network-acl]: https://docs.k2.cloud/en/services/networks/networkacl.html
 
 # Resource: aws_network_acl
 
-Provides a network ACL resource. You might set up network ACLs with rules similar
+Creates a network ACL. You might set up network ACLs with rules similar
 to your security groups in order to add an additional layer of security to your VPC.
 
 ~> **Note on Network ACLs and Network ACL Rules:** Terraform currently
-provides both a standalone [`aws_network_acl_rule`](network_acl_rule.md) resource and a Network ACL resource with rules
-defined in-line. At this time you cannot use a Network ACL with in-line rules
-in conjunction with any Network ACL Rule resources. Doing so will cause
+provides both a standalone [`aws_network_acl_rule`](network_acl_rule.md) resource and a network ACL resource with rules
+defined in-line. At this time you cannot use a network ACL with in-line rules
+in conjunction with any network ACL rule resources. Doing so will cause
 a conflict of rule settings and will overwrite rules.
 
 ~> **Note on Network ACLs and Network ACL Associations:** Terraform provides both a standalone [aws_network_acl_association](network_acl_association.md)
@@ -67,14 +69,14 @@ The following arguments are supported:
 * `vpc_id` - (Required) ID of the associated VPC.
 * `subnet_ids` - (Optional) A list of subnet IDs to apply the ACL to.
 * `ingress` - (Optional) Specifies an ingress rule. Parameters defined below.
-  This argument is processed in [attribute-as-blocks mode](https://www.terraform.io/docs/configuration/attr-as-blocks.html).
+  This argument is processed in [attribute-as-blocks mode][attribute-as-blocks].
 * `egress` - (Optional) Specifies an egress rule. Parameters defined below.
-  This argument is processed in [attribute-as-blocks mode](https://www.terraform.io/docs/configuration/attr-as-blocks.html).
-* `tags` - (Optional) A map of tags to assign to the resource. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
+  This argument is processed in [attribute-as-blocks mode][attribute-as-blocks].
+* `tags` - (Optional) Map of tags to assign to the ACL. If a provider [`default_tags`][default-tags] configuration block is used, tags with matching keys will overwrite those defined at the provider level.
 
 ### egress and ingress
 
-Both arguments are processed in [attribute-as-blocks mode](https://www.terraform.io/docs/configuration/attr-as-blocks.html).
+Both arguments are processed in [attribute-as-blocks mode][attribute-as-blocks].
 
 Both `egress` and `ingress` support the following keys:
 
@@ -89,21 +91,21 @@ valid network mask.
 * `icmp_type` - (Optional) The ICMP type to be used. Default 0.
 * `icmp_code` - (Optional) The ICMP type code to be used. Default 0.
 
-~> **Note** For more information on ICMP types and codes, see here: https://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml
+~> **Note** For more information on ICMP types and codes, see [ICMP Parameters][icmp-parameters]
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
-* `id` - ID of the network ACL.
-* `arn` - ARN of the network ACL.
-* `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `id` - The ID of the network ACL.
+* `arn` - The Amazon Resource Name (ARN) of the network ACL.
+* `tags_all` - Map of tags assigned to the network ACL, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 
@@ -111,7 +113,7 @@ The following attributes are not currently supported:
 
 ## Import
 
-Network ACLs can be imported using the `id`, e.g.,
+Network ACLs can be imported using `id`, e.g.,
 
 ```
 $ terraform import aws_network_acl.main acl-12345678

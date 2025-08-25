@@ -8,7 +8,7 @@ description: |-
 
 # Resource: aws_ami_launch_permission
 
-Adds a launch permission to an image.
+Adds a launch permission to an Amazon Machine Image (AMI).
 
 ## Example Usage
 
@@ -36,21 +36,22 @@ resource "aws_ami_launch_permission" "example" {
 
 The following arguments are supported:
 
-* `account_id` - (Optional) The project ID (`project@customer`) for the launch permission.
-* `group` - (Optional) The name of the group for the launch permission. Valid values: `"all"`.
 * `image_id` - (Required) The ID of the image.
+* `account_id` - (Optional) The ID of the project (`project@customer`) for the launch permission.
+* `group` - (Optional) The name of the group for the launch permission.
+    * _Valid values:_ `all`
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
-* `id` - Launch permission ID.
+* `id` - The ID of the launch permission.
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 
@@ -60,9 +61,3 @@ The following attributes are not currently supported:
 
 -> **Unsupported operation**
 Import image launch permission is currently unsupported.
-
-Image launch permissions can be imported using `[ACCOUNT-ID|GROUP-NAME]/IMAGE-ID`, e.g.,
-
-```sh
-$ terraform import aws_ami_launch_permission.example 123456789012/cmi-12345678
-```

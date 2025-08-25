@@ -3,16 +3,16 @@ subcategory: "S3 (Simple Storage)"
 layout: "aws"
 page_title: "aws_s3_bucket_cors_configuration"
 description: |-
-  Provides an S3 bucket CORS configuration resource.
+  Manages an S3 bucket CORS configuration.
 ---
 
 [cors]: https://docs.k2.cloud/en/services/object_storage/operations.html#cors
 
 # Resource: aws_s3_bucket_cors_configuration
 
-Provides an S3 bucket CORS configuration resource. For more information about CORS, go to [Cross-Origin Resource Sharing][cors].
+Manages an S3 bucket CORS configuration. For more information about CORS, go to [Cross-Origin Resource Sharing][cors].
 
-~> **Note** S3 Buckets only support a single CORS configuration. Declaring multiple `aws_s3_bucket_cors_configuration` resources to the same S3 Bucket will cause a perpetual difference in configuration.
+~> **Note** S3 buckets only support a single CORS configuration. Declaring multiple `aws_s3_bucket_cors_configuration` resources to the same S3 bucket will cause a perpetual difference in configuration.
 
 ## Example Usage
 
@@ -54,14 +54,15 @@ The following arguments are supported:
 
 The `cors_rule` configuration block supports the following arguments:
 
-* `allowed_headers` - (Optional) Set of Headers that are specified in the `Access-Control-Request-Headers` header.
-* `allowed_methods` - (Required) Set of HTTP methods that you allow the origin to execute. Valid values are `GET`, `PUT`, `HEAD`, `POST`, and `DELETE`.
+* `allowed_headers` - (Optional) Set of headers that are specified in the `Access-Control-Request-Headers` header.
+* `allowed_methods` - (Required) Set of HTTP methods that you allow the origin to execute.
+    * _Valid values:_ `GET`, `PUT`, `HEAD`, `POST`, and `DELETE`
 * `allowed_origins` - (Required) Set of origins you want customers to be able to access the bucket from.
 * `expose_headers` - (Optional) Set of headers in the response that you want customers to be able to access from their applications (for example, from a JavaScript `XMLHttpRequest` object).
 * `id` - (Optional) Unique identifier for the rule. The value cannot be longer than 255 characters.
 * `max_age_seconds` - (Optional) The time in seconds that your browser is to cache the preflight response for the specified resource.
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
@@ -71,9 +72,9 @@ In addition to all arguments above, the following attributes are exported:
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** This attribute may be present in the `terraform.tfstate` file, but it has a preset value and cannot be specified in configuration files.
 
-The following attributes are not currently supported: `expected_bucket_owner`.
+The following attribute is not currently supported: `expected_bucket_owner`.
 
 ## Import
 

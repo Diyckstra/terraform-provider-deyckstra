@@ -3,14 +3,14 @@ subcategory: "ELB (Elastic Load Balancing)"
 layout: "aws"
 page_title: "aws_lb"
 description: |-
-  Provides a Load Balancer data source.
+  Provides information about a load balancer.
 ---
 
 # Data Source: aws_lb
 
 ~> **Note** `aws_alb` is known as `aws_lb`. The functionality is identical.
 
-Provides information about a Load Balancer.
+Provides information about a load balancer.
 
 This data source can prove useful when a module accepts an LB as an input
 variable and needs to, for example, determine the security groups associated
@@ -39,13 +39,13 @@ data "aws_lb" "test" {
 
 The following arguments are supported:
 
-* `arn` - (Optional) The full ARN of the load balancer.
+* `arn` - (Optional) The Amazon Resource Name (ARN) of the load balancer.
 * `name` - (Optional) The unique name of the load balancer.
-* `tags` - (Optional) A mapping of tags, each pair of which must exactly match a pair on the desired load balancer.
+* `tags` - (Optional) Map of tags, each pair of which must exactly match a pair on the desired load balancer.
 
 ~> **Note**: When both `arn` and `name` are specified, `arn` takes precedence. `tags` has lowest precedence.
 
-## Attributes Reference
+## Attribute Reference
 
-See the [LB Resource](../r/lb.md) for details on the
+See the [LB resource](../r/lb.md) for details on the
 returned attributes - they are identical.

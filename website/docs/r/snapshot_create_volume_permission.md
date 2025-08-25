@@ -3,12 +3,12 @@ subcategory: "EBS (EC2)"
 layout: "aws"
 page_title: "aws_snapshot_create_volume_permission"
 description: |-
-  Adds create volume permission to an EBS Snapshot
+  Adds the permission to create volumes from a given EBS snapshot.
 ---
 
 # Resource: aws_snapshot_create_volume_permission
 
-Adds permission to create volumes from a given EBS snapshot.
+Adds the permission to create volumes from a given EBS snapshot.
 
 ## Example Usage
 
@@ -35,7 +35,7 @@ The following arguments are supported:
 * `snapshot_id` - (required) A snapshot ID.
 * `account_id` - (required) The project ID (`project@customer`).
 
-## Attributes Reference
+## Attribute Reference
 
 In addition to all arguments above, the following attributes are exported:
 

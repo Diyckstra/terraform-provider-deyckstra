@@ -52,7 +52,7 @@ The following arguments are supported:
 ~> **Note** User names are not case-sensitive. For example, you cannot create user names "TESTUSER" and "testuser" at the same time.
 
 * `otp_required` - (Optional) Indicates whether the user is required to use two-factor authentication to log in to the web interface.
-  Defaults to `false`.
+    * _Default value:_ `false`
 * `password` - (Optional, Editable) The password of the user.
   If no value is specified, the password will be generated automatically.
 * `phone` - (Optional, Editable) The phone number of the user.
@@ -76,7 +76,7 @@ In addition to all arguments above, the following attributes are exported:
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 

@@ -3,7 +3,7 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_vpc"
 description: |-
-  Provides a VPC resource.
+  Manages a VPC.
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
@@ -11,8 +11,7 @@ description: |-
 
 # Resource: aws_vpc
 
-Provides a VPC resource.
-
+Manages a VPC.
 For more information, see the documentation on [VPC][vpc].
 
 ## Example Usage
@@ -43,27 +42,27 @@ The following arguments are supported:
 
 * `cidr_block` - (Optional) The IPv4 CIDR block for the VPC.
 * `enable_dns_support` - (Optional) A boolean flag to enable/disable DNS support in the VPC. Defaults true.
-* `tags` - (Optional) A map of tags to assign to the resource. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
+* `tags` - (Optional) Map of tags to assign to the VPC. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` - Amazon Resource Name (ARN) of VPC
-* `id` - ID of the VPC
-* `main_route_table_id` - ID of the main route table associated with
+* `arn` - The Amazon Resource Name (ARN) of the VPC.
+* `id` - The ID of the VPC.
+* `main_route_table_id` - The ID of the main route table associated with
      this VPC. Note that you can change a VPC's main route table by using an
      [`aws_main_route_table_association`](main_route_table_association.md).
-* `default_network_acl_id` - ID of the network ACL created by default on VPC creation
-* `default_security_group_id` - ID of the security group created by default on VPC creation
-* `default_route_table_id` - ID of the route table created by default on VPC creation
-* `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `default_network_acl_id` - The ID of the network ACL created by default on VPC creation.
+* `default_security_group_id` - The ID of the security group created by default on VPC creation.
+* `default_route_table_id` - The ID of the route table created by default on VPC creation.
+* `tags_all` - Map of tags assigned to the VPC, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 

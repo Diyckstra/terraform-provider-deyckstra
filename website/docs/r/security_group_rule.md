@@ -3,15 +3,15 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_security_group_rule"
 description: |-
-  Provides a security group rule resource.
+  Manages a security group rule.
 ---
 
 # Resource: aws_security_group_rule
 
-Provides a security group rule resource. Represents a single `ingress` or
-`egress` group rule, which can be added to external security groups.
+Manages a security group rule.
+Represents a single `ingress` or `egress` group rule, which can be added to external security groups.
 
-~> **Note on Security Groups and Security Group Rules:** Terraform currently
+~> **Note on security groups and security group rules:** Terraform currently
 provides both a standalone security group rule resource (a single `ingress` or
 `egress` rule), and a [`aws_security_group`](security_group.md) with `ingress` and `egress` rules
 defined in-line. At this time you cannot use a security group with in-line rules
@@ -62,9 +62,9 @@ The following arguments are optional:
 * `description` - (Optional) Description of the rule.
 * `ipv6_cidr_blocks` - (Optional) List of IPv6 CIDR blocks. Cannot be specified with `source_security_group_id` or `self`.
 * `self` - (Optional) Whether the security group itself will be added as a source to this ingress rule. Cannot be specified with `cidr_blocks`, `ipv6_cidr_blocks`, or `source_security_group_id`.
-* `source_security_group_id` - (Optional) Security group id to allow access to/from, depending on the `type`. Cannot be specified with `cidr_blocks`, `ipv6_cidr_blocks`, or `self`.
+* `source_security_group_id` - (Optional) ID of the security group to allow access to/from, depending on the `type`. Cannot be specified with `cidr_blocks`, `ipv6_cidr_blocks`, or `self`.
 
-## Attributes Reference
+## Attribute Reference
 
 ### Supported attributes
 
@@ -74,51 +74,11 @@ In addition to all arguments above, the following attributes are exported:
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** This attribute may be present in the `terraform.tfstate` file, but it has a preset value and cannot be specified in configuration files.
 
-The following attributes are not currently supported: `prefix_list_ids`.
+The following attribute is not currently supported: `prefix_list_ids`.
 
 ## Import
 
 -> **Unsupported operation**
 Import security group rules is currently unsupported.
-
-Security group rules can be imported using the `security_group_id`, `type`, `protocol`, `from_port`, `to_port`, and source(s)/destination(s) (e.g., `cidr_block`) separated by underscores (`_`). All parts are required.
-
-Not all rule permissions (e.g., not all of a rule's CIDR blocks) need to be imported for Terraform to manage rule permissions. However, importing some of a rule's permissions but not others, and then making changes to the rule will result in the creation of an additional rule to capture the updated permissions. Rule permissions that were not imported are left intact in the original rule.
-
-Import an ingress rule in security group `sg-12345678` for TCP port 8000 with an IPv4 destination CIDR of `10.0.3.0/24`:
-
-```console
-$ terraform import aws_security_group_rule.ingress sg-12345678_ingress_tcp_8000_8000_10.0.3.0/24
-```
-
-Import a rule with various IPv4 and IPv6 source CIDR blocks:
-
-```console
-$ terraform import aws_security_group_rule.ingress sg-12345678_ingress_tcp_100_121_10.1.0.0/16_2001:db8::/48_10.2.0.0/16_2002:db8::/48
-```
-
-Import a rule, applicable to all ports, with a protocol other than TCP/UDP/ICMP/ICMPV6/ALL, e.g., Multicast Transport Protocol (MTP), using the IANA protocol number, e.g., 92.
-
-```console
-$ terraform import aws_security_group_rule.ingress sg-12345678_ingress_92_0_65536_10.0.3.0/24_10.0.4.0/24
-```
-
-Import a default any/any egress rule to 0.0.0.0/0:
-
-```console
-$ terraform import aws_security_group_rule.default_egress sg-12345678_egress_all_0_0_0.0.0.0/0
-```
-
-Import a rule applicable to all protocols and ports with a security group source:
-
-```console
-$ terraform import aws_security_group_rule.ingress_rule sg-12345678_ingress_all_0_65536_sg-61766572
-```
-
-Import a rule that has itself and an IPv6 CIDR block as sources:
-
-```console
-$ terraform import aws_security_group_rule.rule_name sg-12345678_ingress_tcp_80_80_self_2001:db8::/48
-```

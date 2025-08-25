@@ -9,7 +9,6 @@ description: |-
 # Data Source: aws_backup_vault
 
 Provides information about a backup vault.
-Use this data source to get information on an existing backup vault.
 
 ## Example Usage
 
@@ -36,6 +35,6 @@ In addition to all arguments above, the following attributes are exported:
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** This attribute may be present in the `terraform.tfstate` file, but it has a preset value and cannot be specified in configuration files.
 
-The following attributes are not currently supported: `kms_key_arn`.
+The following attribute is not currently supported: `kms_key_arn`.
