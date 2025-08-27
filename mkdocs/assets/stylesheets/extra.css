@@ -30,6 +30,7 @@ code {
     border-radius: 3px;
     padding: 0.2em 0.4em;
     font-size: 85%;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "JetBrains Mono", "Liberation Mono", monospace !important;
     font-family: "IBMPlexSans-Light";
 }
 
