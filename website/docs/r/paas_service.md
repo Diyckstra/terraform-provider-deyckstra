@@ -279,10 +279,6 @@ resource "aws_subnet" "subnet_comp1p" {
 
 resource "aws_s3_bucket" "example" {
   bucket = "tf-paas-backup"
-
-  # Use the predefined provider configuration to connect to object storage
-  # https://docs.k2.cloud/en/api/tools/terraform.html#providers-tf
-  provider = aws.noregion
 }
 
 resource "aws_paas_service" "pgsql" {

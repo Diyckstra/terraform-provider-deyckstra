@@ -32,10 +32,6 @@ The lifecycle rule applies to a subset of objects based on the key name prefix (
 # This bucket is used in all examples below
 resource "aws_s3_bucket" "bucket" {
   bucket = "tf-example"
-
-  # Use the predefined provider configuration to connect to object storage
-  # https://docs.k2.cloud/en/api/tools/terraform.html#providers-tf
-  provider = aws.noregion
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "example" {
@@ -197,10 +193,6 @@ resource "aws_s3_bucket_lifecycle_configuration" "example" {
 ```terraform
 resource "aws_s3_bucket" "versioning_bucket" {
   bucket = "tf-example"
-
-  # Use the predefined provider configuration to connect to object storage
-  # https://docs.k2.cloud/en/api/tools/terraform.html#providers-tf
-  provider = aws.noregion
 }
 
 resource "aws_s3_bucket_acl" "versioning_bucket_acl" {

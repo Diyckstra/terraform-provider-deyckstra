@@ -23,10 +23,6 @@ resource "aws_kms_key" "mykey" {
 
 resource "aws_s3_bucket" "mybucket" {
   bucket = "mybucket"
-
-  # Use the predefined provider configuration to connect to object storage
-  # https://docs.k2.cloud/en/api/tools/terraform.html#providers-tf
-  provider = aws.noregion
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "example" {

@@ -23,10 +23,6 @@ For more information about S3 versioning, see [user documentation][s3-versioning
 ```terraform
 resource "aws_s3_bucket" "example" {
   bucket = "tf-example"
-
-  # Use the predefined provider configuration to connect to object storage
-  # https://docs.k2.cloud/en/api/tools/terraform.html#providers-tf
-  provider = aws.noregion
 }
 
 resource "aws_s3_bucket_acl" "example" {
@@ -47,10 +43,6 @@ resource "aws_s3_bucket_versioning" "versioning_example" {
 ```terraform
 resource "aws_s3_bucket" "example" {
   bucket = "tf-example"
-
-  # Use the predefined provider configuration to connect to object storage
-  # https://docs.k2.cloud/en/api/tools/terraform.html#providers-tf
-  provider = aws.noregion
 }
 
 resource "aws_s3_bucket_acl" "example" {
@@ -77,10 +69,6 @@ This example shows the `aws_s3_object.example` depending implicitly on the versi
 ```terraform
 resource "aws_s3_bucket" "example" {
   bucket = "tf-example"
-
-  # Use the predefined provider configuration to connect to object storage
-  # https://docs.k2.cloud/en/api/tools/terraform.html#providers-tf
-  provider = aws.noregion
 }
 
 resource "aws_s3_bucket_versioning" "example" {

@@ -19,10 +19,6 @@ Manages an S3 bucket CORS configuration. For more information about CORS, go to 
 ```terraform
 resource "aws_s3_bucket" "example" {
   bucket = "tf-example"
-
-  # Use the predefined provider configuration to connect to object storage
-  # https://docs.k2.cloud/en/api/tools/terraform.html#providers-tf
-  provider = aws.noregion
 }
 
 resource "aws_s3_bucket_cors_configuration" "example" {

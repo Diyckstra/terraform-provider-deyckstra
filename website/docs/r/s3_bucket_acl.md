@@ -23,10 +23,6 @@ For more information about access rights for buckets, see [user documentation][a
 ```terraform
 resource "aws_s3_bucket" "example" {
   bucket = "tf-example"
-
-  # Use the predefined provider configuration to connect to object storage
-  # https://docs.k2.cloud/en/api/tools/terraform.html#providers-tf
-  provider = aws.noregion
 }
 
 resource "aws_s3_bucket_acl" "example_bucket_acl" {
@@ -42,10 +38,6 @@ data "aws_canonical_user_id" "current" {}
 
 resource "aws_s3_bucket" "example" {
   bucket = "tf-example"
-
-  # Use the predefined provider configuration to connect to object storage
-  # https://docs.k2.cloud/en/api/tools/terraform.html#providers-tf
-  provider = aws.noregion
 }
 
 resource "aws_s3_bucket_acl" "example" {
