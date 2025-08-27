@@ -35,6 +35,7 @@ terraform-provider-rockitcloud
 aws/testdata/service/cloudformation/examplecompany-exampleservice-exampleresource/bin/handler
 backup
 website_proccess
+.venv/
 
 # Test exclusions
 !command/test-fixtures/**/*.tfstate

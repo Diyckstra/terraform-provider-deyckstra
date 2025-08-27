@@ -2,6 +2,8 @@
 
 # Path of the directory with the documentation
 SOURCE_DIR="site/"
+S3_CMD_CFG_LOCATION=${S3_CMD_CFG_LOCATION:-"$HOME/.s3cfg"}
+S3_DOCS_BUCKET_NAME=${S3_DOCS_BUCKET_NAME:-"docs.tf.k2.cloud"}
 
 help () {
     echo "
@@ -12,7 +14,10 @@ help () {
 }
 
 tools () {
+  python3 -m venv .venv
+  source .venv/bin/activate
   pip3 install mkdocs mkdocs-material mkdocs-awesome-pages-plugin | pip install mkdocs mkdocs-material mkdocs-awesome-pages-plugin
+  deactivate
 }
 
 # Copying of configuration for the documentatiion to the website folder
@@ -24,29 +29,33 @@ copy () {
 
 # Generation of the documentation
 build () {
+  source .venv/bin/activate
   echo "Generation of the documentation"
   mkdocs build -f ./mkdocs.yml --clean
+  deactivate
 }
 
 # Run the documentation locally
 run_local () {
+  source .venv/bin/activate
   echo "Run the documentation locally"
   mkdocs serve -f ./mkdocs.yml
+  deactivate
 }
 
-# Funtion to upload the documentation files to the bucket
+#Funtion to upload the documentation files to the bucket
 upload_other_files () {
     s3cmd sync "$SOURCE_DIR" "s3://$S3_DOCS_BUCKET_NAME" --acl-public
 }
 
-# Funtion to upload .css files to the bucket with specified Content-Type
+#Funtion to upload .css files to the bucket with specified Content-Type
 upload_css_files () {
     find "$SOURCE_DIR" -type f -name "*.css" | while read -r file; do
     s3cmd modify "s3://$S3_DOCS_BUCKET_NAME/${file#$SOURCE_DIR}" --add-header='Content-Type:text/css'
 done
 }
 
-# Funtion to upload .js files to the bucket with specified Content-Type
+#Funtion to upload .js files to the bucket with specified Content-Type
 upload_js_files () {
     find "$SOURCE_DIR" -type f -name "*.js" | while read -r file; do
     s3cmd modify "s3://$S3_DOCS_BUCKET_NAME/${file#$SOURCE_DIR}" --add-header='Content-Type:application/javascript'
@@ -67,8 +76,8 @@ if [[ "$1" == "--push" ]]; then
         copy
         build
         upload_other_files
-        modify_content_type css text/css
-        modify_content_type js application/javascript
+        upload_css_files css text/css
+        upload_js_files js application/javascript
         cleanup
     else
         echo "Define S3_DOCS_BUCKET_NAME environment variable."
