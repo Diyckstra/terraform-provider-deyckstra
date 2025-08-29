@@ -3,6 +3,10 @@ name: Run unit tests for the code
 on:
   pull_request_target:
     branches: 'develop'
+    paths:
+      - '**/*.go'
+      - 'go.mod'
+      - 'go.sum'
     types: 
       - labeled
       - opened
