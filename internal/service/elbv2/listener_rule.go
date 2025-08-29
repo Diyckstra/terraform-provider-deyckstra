@@ -13,13 +13,11 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/elbv2"
 	"github.com/hashicorp/aws-sdk-go-base/v2/awsv1shim/v2/tfawserr"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/customdiff"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	"github.com/hashicorp/terraform-provider-aws/internal/conns"
 	"github.com/hashicorp/terraform-provider-aws/internal/flex"
-	tftags "github.com/hashicorp/terraform-provider-aws/internal/tags"
 	"github.com/hashicorp/terraform-provider-aws/internal/tfresource"
 	"github.com/hashicorp/terraform-provider-aws/internal/verify"
 )
@@ -64,12 +62,17 @@ func ResourceListenerRule() *schema.Resource {
 			"action": {
 				Type:     schema.TypeList,
 				Required: true,
+				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"type": {
-							Type:         schema.TypeString,
-							Required:     true,
-							ValidateFunc: validation.StringInSlice(elbv2.ActionTypeEnum_Values(), true),
+							Type:     schema.TypeString,
+							Required: true,
+							ValidateFunc: validation.StringInSlice([]string{
+								elbv2.ActionTypeEnumForward,
+								elbv2.ActionTypeEnumRedirect,
+								elbv2.ActionTypeEnumFixedResponse,
+							}, true),
 						},
 						"order": {
 							Type:         schema.TypeInt,
@@ -78,23 +81,16 @@ func ResourceListenerRule() *schema.Resource {
 							ValidateFunc: validation.IntBetween(listenerActionOrderMin, listenerActionOrderMax),
 						},
 
-						"target_group_arn": {
-							Type:             schema.TypeString,
-							Optional:         true,
-							DiffSuppressFunc: suppressIfActionTypeNot(elbv2.ActionTypeEnumForward),
-							ValidateFunc:     verify.ValidARN,
-						},
-
 						"forward": {
 							Type:             schema.TypeList,
 							Optional:         true,
-							DiffSuppressFunc: suppressIfActionTypeNot(elbv2.ActionTypeEnumForward),
 							MaxItems:         1,
+							DiffSuppressFunc: suppressIfActionTypeNot(elbv2.ActionTypeEnumForward),
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"target_group": {
 										Type:     schema.TypeSet,
-										MinItems: 2,
+										MinItems: 1,
 										MaxItems: 5,
 										Required: true,
 										Elem: &schema.Resource{
@@ -106,7 +102,7 @@ func ResourceListenerRule() *schema.Resource {
 												},
 												"weight": {
 													Type:         schema.TypeInt,
-													ValidateFunc: validation.IntBetween(0, 999),
+													ValidateFunc: validation.IntBetween(0, 256),
 													Default:      1,
 													Optional:     true,
 												},
@@ -148,7 +144,7 @@ func ResourceListenerRule() *schema.Resource {
 										Type:         schema.TypeString,
 										Optional:     true,
 										Default:      "#{host}",
-										ValidateFunc: validation.StringLenBetween(1, 128),
+										ValidateFunc: validation.StringLenBetween(3, 255),
 									},
 
 									"path": {
@@ -218,8 +214,7 @@ func ResourceListenerRule() *schema.Resource {
 
 									"status_code": {
 										Type:         schema.TypeString,
-										Optional:     true,
-										Computed:     true,
+										Required:     true,
 										ValidateFunc: validation.StringMatch(regexp.MustCompile(`^[245]\d\d$`), ""),
 									},
 								},
@@ -357,7 +352,7 @@ func ResourceListenerRule() *schema.Resource {
 										MinItems: 1,
 										Elem: &schema.Schema{
 											Type:         schema.TypeString,
-											ValidateFunc: validation.StringLenBetween(1, 128),
+											ValidateFunc: validation.StringLenBetween(3, 255),
 										},
 										Set: schema.HashString,
 									},
@@ -461,12 +456,7 @@ func ResourceListenerRule() *schema.Resource {
 					},
 				},
 			},
-			"tags":     tftags.TagsSchema(),
-			"tags_all": tftags.TagsSchemaComputed(),
 		},
-		CustomizeDiff: customdiff.Sequence(
-			verify.SetTagsDiff,
-		),
 	}
 }
 
@@ -488,14 +478,9 @@ func suppressIfActionTypeNot(t string) schema.SchemaDiffSuppressFunc {
 func resourceListenerRuleCreate(d *schema.ResourceData, meta interface{}) error {
 	conn := meta.(*conns.AWSClient).ELBV2Conn
 	listenerArn := d.Get("listener_arn").(string)
-	defaultTagsConfig := meta.(*conns.AWSClient).DefaultTagsConfig
-	tags := defaultTagsConfig.MergeTags(tftags.New(d.Get("tags").(map[string]interface{})))
 
 	params := &elbv2.CreateRuleInput{
 		ListenerArn: aws.String(listenerArn),
-	}
-	if len(tags) > 0 {
-		params.Tags = Tags(tags.IgnoreAWS())
 	}
 
 	var err error
@@ -512,41 +497,17 @@ func resourceListenerRuleCreate(d *schema.ResourceData, meta interface{}) error 
 
 	resp, err := retryListenerRuleCreate(conn, d, params, listenerArn)
 
-	// Some partitions may not support tag-on-create
-	if params.Tags != nil && verify.CheckISOErrorTagsUnsupported(err) {
-		log.Printf("[WARN] ELBv2 Listener Rule (%s) create failed (%s) with tags. Trying create without tags.", listenerArn, err)
-		params.Tags = nil
-		resp, err = retryListenerRuleCreate(conn, d, params, listenerArn)
-	}
-
 	if err != nil {
-		return fmt.Errorf("Error creating LB Listener Rule: %w", err)
+		return fmt.Errorf("error creating LB Listener Rule: %w", err)
 	}
 
 	d.SetId(aws.StringValue(resp.Rules[0].RuleArn))
-
-	// Post-create tagging supported in some partitions
-	if params.Tags == nil && len(tags) > 0 {
-		err := UpdateTags(conn, d.Id(), nil, tags)
-
-		if v, ok := d.GetOk("tags"); (!ok || len(v.(map[string]interface{})) == 0) && verify.CheckISOErrorTagsUnsupported(err) {
-			// if default tags only, log and continue (i.e., should error if explicitly setting tags and they can't be)
-			log.Printf("[WARN] error adding tags after create for ELBv2 Listener Rule (%s): %s", d.Id(), err)
-			return resourceListenerRuleRead(d, meta)
-		}
-
-		if err != nil {
-			return fmt.Errorf("error creating ELBv2 Listener Rule (%s) tags: %w", d.Id(), err)
-		}
-	}
 
 	return resourceListenerRuleRead(d, meta)
 }
 
 func resourceListenerRuleRead(d *schema.ResourceData, meta interface{}) error {
 	conn := meta.(*conns.AWSClient).ELBV2Conn
-	defaultTagsConfig := meta.(*conns.AWSClient).DefaultTagsConfig
-	ignoreTagsConfig := meta.(*conns.AWSClient).IgnoreTagsConfig
 
 	var resp *elbv2.DescribeRulesOutput
 	var req = &elbv2.DescribeRulesInput{
@@ -610,30 +571,30 @@ func resourceListenerRuleRead(d *schema.ResourceData, meta interface{}) error {
 
 		switch actionMap["type"] {
 		case elbv2.ActionTypeEnumForward:
-			if aws.StringValue(action.TargetGroupArn) != "" {
-				actionMap["target_group_arn"] = aws.StringValue(action.TargetGroupArn)
-			} else {
-				targetGroups := make([]map[string]interface{}, 0, len(action.ForwardConfig.TargetGroups))
-				for _, targetGroup := range action.ForwardConfig.TargetGroups {
-					targetGroups = append(targetGroups,
-						map[string]interface{}{
-							"arn":    aws.StringValue(targetGroup.TargetGroupArn),
-							"weight": aws.Int64Value(targetGroup.Weight),
-						},
-					)
-				}
-				actionMap["forward"] = []map[string]interface{}{
+			targetGroups := make([]map[string]interface{}, 0, len(action.ForwardConfig.TargetGroups))
+			for _, targetGroup := range action.ForwardConfig.TargetGroups {
+				targetGroups = append(targetGroups,
+					map[string]interface{}{
+						"arn":    aws.StringValue(targetGroup.TargetGroupArn),
+						"weight": aws.Int64Value(targetGroup.Weight),
+					},
+				)
+			}
+
+			forwardConfig := map[string]interface{}{
+				"target_group": targetGroups,
+			}
+
+			if action.ForwardConfig.TargetGroupStickinessConfig != nil {
+				forwardConfig["stickiness"] = []map[string]interface{}{
 					{
-						"target_group": targetGroups,
-						"stickiness": []map[string]interface{}{
-							{
-								"enabled":  aws.BoolValue(action.ForwardConfig.TargetGroupStickinessConfig.Enabled),
-								"duration": aws.Int64Value(action.ForwardConfig.TargetGroupStickinessConfig.DurationSeconds),
-							},
-						},
+						"enabled":  aws.BoolValue(action.ForwardConfig.TargetGroupStickinessConfig.Enabled),
+						"duration": aws.Int64Value(action.ForwardConfig.TargetGroupStickinessConfig.DurationSeconds),
 					},
 				}
 			}
+
+			actionMap["forward"] = []map[string]interface{}{forwardConfig}
 
 		case elbv2.ActionTypeEnumRedirect:
 			actionMap["redirect"] = []map[string]interface{}{
@@ -764,29 +725,6 @@ func resourceListenerRuleRead(d *schema.ResourceData, meta interface{}) error {
 		return fmt.Errorf("error setting condition: %w", err)
 	}
 
-	// tags at the end because, if not supported, will skip the rest of Read
-	tags, err := ListTags(conn, d.Id())
-
-	if verify.CheckISOErrorTagsUnsupported(err) {
-		log.Printf("[WARN] Unable to list tags for ELBv2 Listener Rule %s: %s", d.Id(), err)
-		return nil
-	}
-
-	if err != nil {
-		return fmt.Errorf("error listing tags for (%s): %w", d.Id(), err)
-	}
-
-	tags = tags.IgnoreAWS().IgnoreConfig(ignoreTagsConfig)
-
-	//lintignore:AWSR002
-	if err := d.Set("tags", tags.RemoveDefaultConfig(defaultTagsConfig).Map()); err != nil {
-		return fmt.Errorf("error setting tags: %w", err)
-	}
-
-	if err := d.Set("tags_all", tags.Map()); err != nil {
-		return fmt.Errorf("error setting tags_all: %w", err)
-	}
-
 	return nil
 }
 
@@ -840,39 +778,6 @@ func resourceListenerRuleUpdate(d *schema.ResourceData, meta interface{}) error 
 
 		if len(resp.Rules) == 0 {
 			return errors.New("Error modifying creating LB Listener Rule: no rules returned in response")
-		}
-	}
-
-	if d.HasChange("tags_all") {
-		o, n := d.GetChange("tags_all")
-
-		err := resource.Retry(loadBalancerTagPropagationTimeout, func() *resource.RetryError {
-			err := UpdateTags(conn, d.Id(), o, n)
-
-			if tfawserr.ErrCodeEquals(err, elbv2.ErrCodeLoadBalancerNotFoundException) {
-				log.Printf("[DEBUG] Retrying tagging of LB Listener Rule (%s) after error: %s", d.Id(), err)
-				return resource.RetryableError(err)
-			}
-
-			if err != nil {
-				return resource.NonRetryableError(err)
-			}
-
-			return nil
-		})
-
-		if tfresource.TimedOut(err) {
-			err = UpdateTags(conn, d.Id(), o, n)
-		}
-
-		// ISO partitions may not support tagging, giving error
-		if verify.CheckISOErrorTagsUnsupported(err) {
-			log.Printf("[WARN] Unable to update tags for ELBv2 Listener Rule %s: %s", d.Id(), err)
-			return resourceListenerRuleRead(d, meta)
-		}
-
-		if err != nil {
-			return fmt.Errorf("error updating LB (%s) tags: %w", d.Id(), err)
 		}
 	}
 

@@ -65,6 +65,7 @@ func ResourceListener() *schema.Resource {
 			"default_action": {
 				Type:     schema.TypeList,
 				Required: true,
+				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"authenticate_cognito": {
@@ -219,6 +220,7 @@ func ResourceListener() *schema.Resource {
 							Optional:         true,
 							DiffSuppressFunc: suppressIfDefaultActionTypeNot(elbv2.ActionTypeEnumForward),
 							MaxItems:         1,
+							ConflictsWith:    []string{"default_action.0.target_group_arn"},
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"target_group": {
@@ -235,7 +237,7 @@ func ResourceListener() *schema.Resource {
 												},
 												"weight": {
 													Type:         schema.TypeInt,
-													ValidateFunc: validation.IntBetween(0, 999),
+													ValidateFunc: validation.IntBetween(0, 256),
 													Default:      1,
 													Optional:     true,
 												},
@@ -322,16 +324,17 @@ func ResourceListener() *schema.Resource {
 						"target_group_arn": {
 							Type:             schema.TypeString,
 							Optional:         true,
+							ConflictsWith:    []string{"default_action.0.forward"},
 							DiffSuppressFunc: suppressIfDefaultActionTypeNot(elbv2.ActionTypeEnumForward),
 							ValidateFunc:     verify.ValidARN,
+							Deprecated:       "Use the default_action.forward.target_group argument instead",
 						},
 						"type": {
 							Type:     schema.TypeString,
 							Required: true,
-							ValidateFunc: validation.StringInSlice(
-								elbv2.ActionTypeEnum_Values(),
-								true,
-							),
+							ValidateFunc: validation.StringInSlice([]string{
+								elbv2.ActionTypeEnumForward,
+							}, true),
 						},
 					},
 				},
@@ -344,17 +347,21 @@ func ResourceListener() *schema.Resource {
 			},
 			"port": {
 				Type:         schema.TypeInt,
-				Optional:     true,
+				Required:     true,
 				ValidateFunc: validation.IsPortNumber,
 			},
 			"protocol": {
 				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
+				Required: true,
 				StateFunc: func(v interface{}) string {
 					return strings.ToUpper(v.(string))
 				},
-				ValidateFunc: validation.StringInSlice(elbv2.ProtocolEnum_Values(), true),
+				ValidateFunc: validation.StringInSlice([]string{
+					elbv2.ProtocolEnumTcp,
+					elbv2.ProtocolEnumUdp,
+					elbv2.ProtocolEnumHttp,
+					elbv2.ProtocolEnumHttps,
+				}, true),
 			},
 			"ssl_policy": {
 				Type:     schema.TypeString,
@@ -545,7 +552,7 @@ func resourceListenerRead(d *schema.ResourceData, meta interface{}) error {
 
 	tags = tags.IgnoreAWS().IgnoreConfig(ignoreTagsConfig)
 
-	//lintignore:AWSR002
+	// lintignore:AWSR002
 	if err := d.Set("tags", tags.RemoveDefaultConfig(defaultTagsConfig).Map()); err != nil {
 		return fmt.Errorf("error setting tags: %w", err)
 	}
@@ -711,29 +718,29 @@ func expandLbListenerActions(l []interface{}) ([]*elbv2.Action, error) {
 	var actions []*elbv2.Action
 	var err error
 
-	for _, tfMapRaw := range l {
+	for i, tfMapRaw := range l {
 		tfMap, ok := tfMapRaw.(map[string]interface{})
 		if !ok {
 			continue
 		}
 
 		action := &elbv2.Action{
-			// Order: aws.Int64(int64(i + 1)),
-			Type: aws.String(tfMap["type"].(string)),
+			Order: aws.Int64(int64(i + 1)),
+			Type:  aws.String(tfMap["type"].(string)),
 		}
 
-		// if order, ok := tfMap["order"].(int); ok && order != 0 {
-		// 	action.Order = aws.Int64(int64(order))
-		// }
+		if order, ok := tfMap["order"].(int); ok && order != 0 {
+			action.Order = aws.Int64(int64(order))
+		}
 
 		switch tfMap["type"].(string) {
 		case elbv2.ActionTypeEnumForward:
 			if v, ok := tfMap["target_group_arn"].(string); ok && v != "" {
 				action.TargetGroupArn = aws.String(v)
-			} else if v, ok := tfMap["forward"].([]interface{}); ok {
+			} else if v, ok := tfMap["forward"].([]interface{}); ok && len(v) > 0 {
 				action.ForwardConfig = expandLbListenerActionForwardConfig(v)
 			} else {
-				err = errors.New("for actions of type 'forward', you must specify a 'forward' block or 'target_group_arn'")
+				err = errors.New("for actions of type 'forward', you must specify a 'forward' block")
 			}
 
 		case elbv2.ActionTypeEnumRedirect:
@@ -966,7 +973,8 @@ func flattenLbListenerActions(d *schema.ResourceData, Actions []*elbv2.Action) [
 
 		switch aws.StringValue(action.Type) {
 		case elbv2.ActionTypeEnumForward:
-			if aws.StringValue(action.TargetGroupArn) != "" {
+			// Set target_group_arn only if it was specified in the configuration.
+			if _, ok := d.GetOk("default_action.0.target_group_arn"); ok {
 				m["target_group_arn"] = aws.StringValue(action.TargetGroupArn)
 			} else {
 				m["forward"] = flattenLbListenerActionForwardConfig(action.ForwardConfig)

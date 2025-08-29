@@ -1,7 +1,6 @@
 package elbv2
 
 import (
-	"context"
 	"errors"
 	"fmt"
 	"log"
@@ -25,9 +24,7 @@ import (
 
 func ResourceTargetGroup() *schema.Resource {
 	return &schema.Resource{
-		// NLBs have restrictions on them at this time
 		CustomizeDiff: customdiff.Sequence(
-			resourceTargetGroupCustomizeDiff,
 			verify.SetTagsDiff,
 		),
 
@@ -69,14 +66,14 @@ func ResourceTargetGroup() *schema.Resource {
 						"healthy_threshold": {
 							Type:         schema.TypeInt,
 							Optional:     true,
-							Default:      3,
+							Computed:     true,
 							ValidateFunc: validation.IntBetween(2, 10),
 						},
 						"interval": {
 							Type:         schema.TypeInt,
 							Optional:     true,
 							Default:      30,
-							ValidateFunc: validation.IntInSlice([]int{10, 30}),
+							ValidateFunc: validation.IntBetween(5, 300),
 						},
 						"matcher": {
 							Type:     schema.TypeString,
@@ -90,22 +87,27 @@ func ResourceTargetGroup() *schema.Resource {
 							ValidateFunc: validTargetGroupHealthCheckPath,
 						},
 						"port": {
-							Type:             schema.TypeString,
-							Optional:         true,
-							Default:          "traffic-port",
-							ValidateFunc:     validTargetGroupHealthCheckPort,
+							Type:     schema.TypeString,
+							Optional: true,
+							Default:  "traffic-port",
+							ValidateFunc: validation.StringInSlice([]string{
+								"traffic-port",
+							}, true),
+							// FIXME: Uncomment validation if  ELB API supports notvalidTargetGroupHealthCheckPort only `traffic-port` value.
+							// ValidateFunc:     validTargetGroupHealthCheckPort,
 							DiffSuppressFunc: suppressIfTargetType(elbv2.TargetTypeEnumLambda),
 						},
 						"protocol": {
 							Type:     schema.TypeString,
 							Optional: true,
-							Default:  elbv2.ProtocolEnumTcp,
+							Computed: true,
 							StateFunc: func(v interface{}) string {
 								return strings.ToUpper(v.(string))
 							},
 							ValidateFunc: validation.StringInSlice([]string{
 								elbv2.ProtocolEnumTcp,
 								elbv2.ProtocolEnumUdp,
+								elbv2.ProtocolEnumHttp,
 							}, true),
 							DiffSuppressFunc: suppressIfTargetType(elbv2.TargetTypeEnumLambda),
 						},
@@ -118,7 +120,7 @@ func ResourceTargetGroup() *schema.Resource {
 						"unhealthy_threshold": {
 							Type:         schema.TypeInt,
 							Optional:     true,
-							Default:      3,
+							Computed:     true,
 							ValidateFunc: validation.IntBetween(2, 10),
 						},
 					},
@@ -155,9 +157,9 @@ func ResourceTargetGroup() *schema.Resource {
 			},
 			"port": {
 				Type:         schema.TypeInt,
-				Optional:     true,
+				Required:     true,
 				ForceNew:     true,
-				ValidateFunc: validation.IntBetween(1, 65535),
+				ValidateFunc: validation.IsPortNumber,
 			},
 			"preserve_client_ip": {
 				// Use TypeString to allow an "unspecified" value,
@@ -171,20 +173,24 @@ func ResourceTargetGroup() *schema.Resource {
 				ValidateFunc:     verify.ValidTypeStringNullableBoolean,
 			},
 			"protocol": {
-				Type:         schema.TypeString,
-				Optional:     true,
-				ForceNew:     true,
-				ValidateFunc: validation.StringInSlice(elbv2.ProtocolEnum_Values(), true),
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+				ValidateFunc: validation.StringInSlice([]string{
+					elbv2.ProtocolEnumTcp,
+					elbv2.ProtocolEnumUdp,
+					elbv2.ProtocolEnumHttp,
+				}, true),
 			},
 			"protocol_version": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+				ForceNew: true,
 				StateFunc: func(v interface{}) string {
 					return strings.ToUpper(v.(string))
 				},
 				ValidateFunc: validation.StringInSlice([]string{
-					"GRPC",
 					"HTTP1",
 					"HTTP2",
 				}, true),
@@ -257,17 +263,19 @@ func ResourceTargetGroup() *schema.Resource {
 				},
 			},
 			"target_type": {
-				Type:         schema.TypeString,
-				Optional:     true,
-				Default:      elbv2.TargetTypeEnumInstance,
-				ForceNew:     true,
-				ValidateFunc: validation.StringInSlice(elbv2.TargetTypeEnum_Values(), false),
+				Type:     schema.TypeString,
+				Optional: true,
+				Default:  elbv2.TargetTypeEnumInstance,
+				ForceNew: true,
+				ValidateFunc: validation.StringInSlice([]string{
+					elbv2.TargetTypeEnumInstance,
+				}, true),
 			},
 			"tags":     tftags.TagsSchema(),
 			"tags_all": tftags.TagsSchemaComputed(),
 			"vpc_id": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Required: true,
 				ForceNew: true,
 			},
 		},
@@ -327,8 +335,14 @@ func resourceTargetGroupCreate(d *schema.ResourceData, meta interface{}) error {
 
 		params.HealthCheckIntervalSeconds = aws.Int64(int64(healthCheck["interval"].(int)))
 
-		params.HealthyThresholdCount = aws.Int64(int64(healthCheck["healthy_threshold"].(int)))
-		params.UnhealthyThresholdCount = aws.Int64(int64(healthCheck["unhealthy_threshold"].(int)))
+		if v, ok := healthCheck["healthy_threshold"].(int); ok && v != 0 {
+			params.HealthyThresholdCount = aws.Int64(int64(v))
+		}
+
+		if v, ok := healthCheck["unhealthy_threshold"].(int); ok && v != 0 {
+			params.UnhealthyThresholdCount = aws.Int64(int64(v))
+		}
+
 		t := healthCheck["timeout"].(int)
 		if t != 0 {
 			params.HealthCheckTimeoutSeconds = aws.Int64(int64(t))
@@ -602,10 +616,16 @@ func resourceTargetGroupUpdate(d *schema.ResourceData, meta interface{}) error {
 			healthCheck := healthChecks[0].(map[string]interface{})
 
 			params = &elbv2.ModifyTargetGroupInput{
-				TargetGroupArn:          aws.String(d.Id()),
-				HealthCheckEnabled:      aws.Bool(healthCheck["enabled"].(bool)),
-				HealthyThresholdCount:   aws.Int64(int64(healthCheck["healthy_threshold"].(int))),
-				UnhealthyThresholdCount: aws.Int64(int64(healthCheck["unhealthy_threshold"].(int))),
+				TargetGroupArn:     aws.String(d.Id()),
+				HealthCheckEnabled: aws.Bool(healthCheck["enabled"].(bool)),
+			}
+
+			if v, ok := healthCheck["healthy_threshold"].(int); ok && v != 0 {
+				params.HealthyThresholdCount = aws.Int64(int64(v))
+			}
+
+			if v, ok := healthCheck["unhealthy_threshold"].(int); ok && v != 0 {
+				params.UnhealthyThresholdCount = aws.Int64(int64(v))
 			}
 
 			t := healthCheck["timeout"].(int)
@@ -616,16 +636,22 @@ func resourceTargetGroupUpdate(d *schema.ResourceData, meta interface{}) error {
 			healthCheckProtocol := healthCheck["protocol"].(string)
 			protocolVersion := d.Get("protocol_version").(string)
 			if healthCheckProtocol != elbv2.ProtocolEnumTcp && !d.IsNewResource() {
-				if protocolVersion == "GRPC" {
-					params.Matcher = &elbv2.Matcher{
-						GrpcCode: aws.String(healthCheck["matcher"].(string)),
-					}
-				} else {
-					params.Matcher = &elbv2.Matcher{
-						HttpCode: aws.String(healthCheck["matcher"].(string)),
+				if v, ok := healthCheck["matcher"].(string); ok && v != "" {
+					if protocolVersion == "GRPC" {
+						params.Matcher = &elbv2.Matcher{
+							GrpcCode: aws.String(v),
+						}
+					} else {
+						params.Matcher = &elbv2.Matcher{
+							HttpCode: aws.String(v),
+						}
 					}
 				}
-				params.HealthCheckPath = aws.String(healthCheck["path"].(string))
+
+				if v, ok := healthCheck["path"].(string); ok && v != "" {
+					params.HealthCheckPath = aws.String(v)
+				}
+
 				params.HealthCheckIntervalSeconds = aws.Int64(int64(healthCheck["interval"].(int)))
 			}
 			if d.Get("target_type").(string) != elbv2.TargetTypeEnumLambda {
@@ -858,7 +884,8 @@ func validateSlowStart(v interface{}, k string) (ws []string, errors []error) {
 	return
 }
 
-func validTargetGroupHealthCheckPort(v interface{}, k string) (ws []string, errors []error) {
+//nolint:unused // HealthCheckPort can have only `traffic-port` value.
+func validTargetGroupHealthCheckPort(v interface{}, k string) (ws []string, errors []error) { //nolint:unparam
 	value := v.(string)
 
 	if value == "traffic-port" {
@@ -989,7 +1016,7 @@ func flattenTargetGroupResource(d *schema.ResourceData, meta interface{}, target
 
 	tags = tags.IgnoreAWS().IgnoreConfig(ignoreTagsConfig)
 
-	//lintignore:AWSR002
+	// lintignore:AWSR002
 	if err := d.Set("tags", tags.RemoveDefaultConfig(defaultTagsConfig).Map()); err != nil {
 		return fmt.Errorf("error setting tags: %w", err)
 	}
@@ -1040,75 +1067,6 @@ func flattenTargetGroupStickiness(attributes []*elbv2.TargetGroupAttribute) ([]i
 	}
 
 	return []interface{}{m}, nil
-}
-
-func resourceTargetGroupCustomizeDiff(_ context.Context, diff *schema.ResourceDiff, v interface{}) error {
-	protocol := diff.Get("protocol").(string)
-
-	// Network Load Balancers have many special quirks to them.
-	// See http://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_CreateTargetGroup.html
-	if healthChecks := diff.Get("health_check").([]interface{}); len(healthChecks) == 1 {
-		healthCheck := healthChecks[0].(map[string]interface{})
-		protocol := healthCheck["protocol"].(string)
-
-		if protocol == elbv2.ProtocolEnumTcp {
-			// Cannot set custom matcher on TCP health checks
-			if m := healthCheck["matcher"].(string); m != "" {
-				return fmt.Errorf("%s: health_check.matcher is not supported for target_groups with TCP protocol", diff.Id())
-			}
-			// Cannot set custom path on TCP health checks
-			if m := healthCheck["path"].(string); m != "" {
-				return fmt.Errorf("%s: health_check.path is not supported for target_groups with TCP protocol", diff.Id())
-			}
-			// Cannot set custom timeout on TCP health checks
-			if t := healthCheck["timeout"].(int); t != 0 && diff.Id() == "" {
-				// timeout has a default value, so only check this if this is a network
-				// LB and is a first run
-				return fmt.Errorf("%s: health_check.timeout is not supported for target_groups with TCP protocol", diff.Id())
-			}
-			if healthCheck["healthy_threshold"].(int) != healthCheck["unhealthy_threshold"].(int) {
-				return fmt.Errorf("%s: health_check.healthy_threshold %d and health_check.unhealthy_threshold %d must be the same for target_groups with TCP protocol", diff.Id(), healthCheck["healthy_threshold"].(int), healthCheck["unhealthy_threshold"].(int))
-			}
-		}
-	}
-
-	if strings.Contains(protocol, elbv2.ProtocolEnumHttp) {
-		if healthChecks := diff.Get("health_check").([]interface{}); len(healthChecks) == 1 {
-			healthCheck := healthChecks[0].(map[string]interface{})
-			// HTTP(S) Target Groups cannot use TCP health checks
-			if p := healthCheck["protocol"].(string); strings.ToLower(p) == "tcp" {
-				return fmt.Errorf("HTTP Target Groups cannot use TCP health checks")
-			}
-		}
-	}
-
-	if diff.Id() == "" {
-		return nil
-	}
-
-	if protocol == elbv2.ProtocolEnumTcp {
-		if diff.HasChange("health_check.0.interval") {
-			if err := diff.ForceNew("health_check.0.interval"); err != nil {
-				return err
-			}
-		}
-		// The health_check configuration block protocol argument has Default: HTTP, however the block
-		// itself is Computed: true. When not configured, a TLS (Network LB) Target Group will default
-		// to health check protocol TLS. We do not want to trigger recreation in this scenario.
-		// ResourceDiff will show 0 changed keys for the configuration block, which we can use to ensure
-		// there was an actual change to trigger the ForceNew.
-		if diff.HasChange("health_check.0.protocol") && len(diff.GetChangedKeysPrefix("health_check.0")) != 0 {
-			if err := diff.ForceNew("health_check.0.protocol"); err != nil {
-				return err
-			}
-		}
-		if diff.HasChange("health_check.0.timeout") {
-			if err := diff.ForceNew("health_check.0.timeout"); err != nil {
-				return err
-			}
-		}
-	}
-	return nil
 }
 
 func flattenLbTargetGroupHealthCheck(targetGroup *elbv2.TargetGroup) []interface{} {

@@ -2,7 +2,6 @@ package elbv2
 
 import ( // nosemgrep: aws-sdk-go-multiple-service-imports
 	"bytes"
-	"context"
 	"errors"
 	"fmt"
 	"log"
@@ -33,9 +32,7 @@ func ResourceLoadBalancer() *schema.Resource {
 		Read:   resourceLoadBalancerRead,
 		Update: resourceLoadBalancerUpdate,
 		Delete: resourceLoadBalancerDelete,
-		// Subnets are ForceNew for Network Load Balancers
 		CustomizeDiff: customdiff.Sequence(
-			customizeDiffNLBSubnets,
 			verify.SetTagsDiff,
 		),
 		Importer: &schema.ResourceImporter{
@@ -84,11 +81,13 @@ func ResourceLoadBalancer() *schema.Resource {
 			},
 
 			"load_balancer_type": {
-				Type:         schema.TypeString,
-				ForceNew:     true,
-				Optional:     true,
-				Default:      elbv2.LoadBalancerTypeEnumApplication,
-				ValidateFunc: validation.StringInSlice(elbv2.LoadBalancerTypeEnum_Values(), false),
+				Type:     schema.TypeString,
+				ForceNew: true,
+				Optional: true,
+				ValidateFunc: validation.StringInSlice([]string{
+					elbv2.LoadBalancerTypeEnumApplication,
+					elbv2.LoadBalancerTypeEnumNetwork,
+				}, false),
 			},
 
 			"security_groups": {
@@ -100,29 +99,28 @@ func ResourceLoadBalancer() *schema.Resource {
 			},
 
 			"subnets": {
-				Type:     schema.TypeSet,
-				Elem:     &schema.Schema{Type: schema.TypeString},
-				Optional: true,
-				Computed: true,
-				Set:      schema.HashString,
+				Type:         schema.TypeSet,
+				Elem:         &schema.Schema{Type: schema.TypeString},
+				Optional:     true,
+				Computed:     true,
+				ExactlyOneOf: []string{"subnets", "subnet_mapping"},
+				Set:          schema.HashString,
 			},
 
 			"subnet_mapping": {
-				Type:     schema.TypeSet,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
+				Type:         schema.TypeSet,
+				Optional:     true,
+				Computed:     true,
+				ExactlyOneOf: []string{"subnets", "subnet_mapping"},
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"subnet_id": {
 							Type:     schema.TypeString,
 							Required: true,
-							ForceNew: true,
 						},
 						"ipv6_address": {
 							Type:         schema.TypeString,
 							Optional:     true,
-							ForceNew:     true,
 							ValidateFunc: validation.IsIPv6Address,
 						},
 						"outpost_id": {
@@ -132,12 +130,10 @@ func ResourceLoadBalancer() *schema.Resource {
 						"allocation_id": {
 							Type:     schema.TypeString,
 							Optional: true,
-							ForceNew: true,
 						},
 						"private_ipv4_address": {
 							Type:         schema.TypeString,
 							Optional:     true,
-							ForceNew:     true,
 							ValidateFunc: validation.IsIPv4Address,
 						},
 					},
@@ -324,28 +320,8 @@ func resourceLoadBalancerCreate(d *schema.ResourceData, meta interface{}) error 
 		elbOpts.Subnets = flex.ExpandStringSet(v.(*schema.Set))
 	}
 
-	if v, ok := d.GetOk("subnet_mapping"); ok {
-		rawMappings := v.(*schema.Set).List()
-		elbOpts.SubnetMappings = make([]*elbv2.SubnetMapping, len(rawMappings))
-		for i, mapping := range rawMappings {
-			subnetMap := mapping.(map[string]interface{})
-
-			elbOpts.SubnetMappings[i] = &elbv2.SubnetMapping{
-				SubnetId: aws.String(subnetMap["subnet_id"].(string)),
-			}
-
-			if subnetMap["allocation_id"].(string) != "" {
-				elbOpts.SubnetMappings[i].AllocationId = aws.String(subnetMap["allocation_id"].(string))
-			}
-
-			if subnetMap["private_ipv4_address"].(string) != "" {
-				elbOpts.SubnetMappings[i].PrivateIPv4Address = aws.String(subnetMap["private_ipv4_address"].(string))
-			}
-
-			if subnetMap["ipv6_address"].(string) != "" {
-				elbOpts.SubnetMappings[i].IPv6Address = aws.String(subnetMap["ipv6_address"].(string))
-			}
-		}
+	if v, ok := d.GetOk("subnet_mapping"); ok && v.(*schema.Set).Len() > 0 {
+		elbOpts.SubnetMappings = expandSubnetMappings(v.(*schema.Set).List())
 	}
 
 	if v, ok := d.GetOk("ip_address_type"); ok {
@@ -356,7 +332,7 @@ func resourceLoadBalancerCreate(d *schema.ResourceData, meta interface{}) error 
 		elbOpts.CustomerOwnedIpv4Pool = aws.String(v.(string))
 	}
 
-	log.Printf("[DEBUG] ALB create configuration: %#v", elbOpts)
+	log.Printf("[DEBUG] Creating Load Balancer: %s", elbOpts)
 
 	resp, err := conn.CreateLoadBalancer(elbOpts)
 
@@ -377,7 +353,6 @@ func resourceLoadBalancerCreate(d *schema.ResourceData, meta interface{}) error 
 
 	lb := resp.LoadBalancers[0]
 	d.SetId(aws.StringValue(lb.LoadBalancerArn))
-	log.Printf("[INFO] LB ID: %s", d.Id())
 
 	_, err = waitLoadBalancerActive(conn, aws.StringValue(lb.LoadBalancerArn), d.Timeout(schema.TimeoutCreate))
 	if err != nil {
@@ -395,7 +370,7 @@ func resourceLoadBalancerCreate(d *schema.ResourceData, meta interface{}) error 
 		}
 
 		if err != nil {
-			return fmt.Errorf("error creating ELBv2 Load Balancer (%s) tags: %w", d.Id(), err)
+			return fmt.Errorf("error creating Load Balancer (%s) tags: %w", d.Id(), err)
 		}
 	}
 
@@ -408,21 +383,20 @@ func resourceLoadBalancerRead(d *schema.ResourceData, meta interface{}) error {
 	lb, err := FindLoadBalancerByARN(conn, d.Id())
 
 	if !d.IsNewResource() && tfawserr.ErrCodeEquals(err, elbv2.ErrCodeLoadBalancerNotFoundException) {
-		// The ALB is gone now, so just remove it from the state
-		log.Printf("[WARN] ALB %s not found in AWS, removing from state", d.Id())
+		log.Printf("[WARN] Load Balancer (%s) not found, removing from state", d.Id())
 		d.SetId("")
 		return nil
 	}
 
 	if err != nil {
-		return fmt.Errorf("error retrieving ALB (%s): %w", d.Id(), err)
+		return fmt.Errorf("error retrieving Load Balancer (%s): %w", d.Id(), err)
 	}
 
 	if lb == nil {
 		if d.IsNewResource() {
-			return fmt.Errorf("error retrieving ALB (%s): empty output after creation", d.Id())
+			return fmt.Errorf("error retrieving Load Balancer (%s): empty output after creation", d.Id())
 		}
-		log.Printf("[WARN] ALB %s not found in AWS, removing from state", d.Id())
+		log.Printf("[WARN] Load Balancer (%s) not found, removing from state", d.Id())
 		d.SetId("")
 		return nil
 	}
@@ -576,15 +550,24 @@ func resourceLoadBalancerUpdate(d *schema.ResourceData, meta interface{}) error 
 	// and current subnets for new, so this change is redundant when the
 	// resource is just created, so we don't attempt if it is a newly created
 	// resource.
-	if d.HasChange("subnets") && !d.IsNewResource() {
-		subnets := flex.ExpandStringSet(d.Get("subnets").(*schema.Set))
-
-		params := &elbv2.SetSubnetsInput{
+	if d.HasChanges("subnet_mapping", "subnets") && !d.IsNewResource() {
+		input := &elbv2.SetSubnetsInput{
 			LoadBalancerArn: aws.String(d.Id()),
-			Subnets:         subnets,
 		}
 
-		_, err := conn.SetSubnets(params)
+		if d.HasChange("subnet_mapping") {
+			if v, ok := d.GetOk("subnet_mapping"); ok && v.(*schema.Set).Len() > 0 {
+				input.SubnetMappings = expandSubnetMappings(v.(*schema.Set).List())
+			}
+		}
+
+		if d.HasChange("subnets") {
+			if v, ok := d.GetOk("subnets"); ok && v.(*schema.Set).Len() > 0 {
+				input.Subnets = flex.ExpandStringSet(v.(*schema.Set))
+			}
+		}
+
+		_, err := conn.SetSubnets(input)
 		if err != nil {
 			return fmt.Errorf("failure Setting LB Subnets: %w", err)
 		}
@@ -788,6 +771,48 @@ func getLbNameFromArn(arn string) (string, error) {
 	return matches[1], nil
 }
 
+func expandSubnetMappings(tfList []any) []*elbv2.SubnetMapping {
+	if len(tfList) == 0 {
+		return nil
+	}
+
+	var subnetMappings []*elbv2.SubnetMapping
+	for _, tfMapRaw := range tfList {
+		tfMap, ok := tfMapRaw.(map[string]any)
+
+		if !ok || tfMap == nil {
+			continue
+		}
+
+		subnetMapping := expandSubnetMapping(tfMap)
+		subnetMappings = append(subnetMappings, subnetMapping)
+	}
+
+	return subnetMappings
+}
+
+func expandSubnetMapping(tfMap map[string]any) *elbv2.SubnetMapping {
+	subnetMapping := elbv2.SubnetMapping{}
+
+	if v, ok := tfMap["allocation_id"].(string); ok && v != "" {
+		subnetMapping.AllocationId = aws.String(v)
+	}
+
+	if v, ok := tfMap["ipv6_address"].(string); ok && v != "" {
+		subnetMapping.IPv6Address = aws.String(v)
+	}
+
+	if v, ok := tfMap["private_ipv4_address"].(string); ok && v != "" {
+		subnetMapping.PrivateIPv4Address = aws.String(v)
+	}
+
+	if v, ok := tfMap["subnet_id"].(string); ok && v != "" {
+		subnetMapping.SubnetId = aws.String(v)
+	}
+
+	return &subnetMapping
+}
+
 // flattenSubnetsFromAvailabilityZones creates a slice of strings containing the subnet IDs
 // for the ALB based on the AvailabilityZones structure returned by the API.
 func flattenSubnetsFromAvailabilityZones(availabilityZones []*elbv2.AvailabilityZone) []string {
@@ -940,50 +965,5 @@ func flattenResource(d *schema.ResourceData, meta interface{}, lb *elbv2.LoadBal
 		return fmt.Errorf("error setting tags_all: %w", err)
 	}
 
-	return nil
-}
-
-// Load balancers of type 'network' cannot have their subnets updated at
-// this time. If the type is 'network' and subnets have changed, mark the
-// diff as a ForceNew operation
-func customizeDiffNLBSubnets(_ context.Context, diff *schema.ResourceDiff, v interface{}) error {
-	// The current criteria for determining if the operation should be ForceNew:
-	// - lb of type "network"
-	// - existing resource (id is not "")
-	// - there are actual changes to be made in the subnets
-	//
-	// Any other combination should be treated as normal. At this time, subnet
-	// handling is the only known difference between Network Load Balancers and
-	// Application Load Balancers, so the logic below is simple individual checks.
-	// If other differences arise we'll want to refactor to check other
-	// conditions in combinations, but for now all we handle is subnets
-	if lbType := diff.Get("load_balancer_type").(string); lbType != elbv2.LoadBalancerTypeEnumNetwork {
-		return nil
-	}
-
-	if diff.Id() == "" {
-		return nil
-	}
-
-	o, n := diff.GetChange("subnets")
-	if o == nil {
-		o = new(schema.Set)
-	}
-	if n == nil {
-		n = new(schema.Set)
-	}
-	os := o.(*schema.Set)
-	ns := n.(*schema.Set)
-	remove := os.Difference(ns).List()
-	add := ns.Difference(os).List()
-	if len(remove) > 0 || len(add) > 0 {
-		if err := diff.SetNew("subnets", n); err != nil {
-			return err
-		}
-
-		if err := diff.ForceNew("subnets"); err != nil {
-			return err
-		}
-	}
 	return nil
 }
