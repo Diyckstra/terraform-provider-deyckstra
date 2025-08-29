@@ -1,3 +1,42 @@
+## 25.3.0
+
+FEATURES:
+
+* **New Resource:** `aws_lb_listener_certificate`
+* **New Resource:** `aws_lb_listener_rule`
+
+ENHANCEMENTS / BUG FIXES:
+
+* resource/aws_lb:
+  *  update valid values for `load_balancer_type`, remove default value
+  *  allow updating `subnets` and `subnet_mapping` arguments for ALB and NLB (only adding new subnets)
+  * `subnets` and `subnet_mapping` arguments can no longer be specified together
+* resource/aws_listener:
+  * `default_action`
+    * the block can only be specified once
+    * `forward` and `target_group_arn` arguments can no longer be specified together
+    * mark `target_group_arn` as deprecated:  it's recommended to use `forward` block instead
+    * update valid values for `type`
+    * introduce new argument: `order`
+    * change max `forward.weight` value to 256
+  * make `port` and `protocol` arguments required
+  * update valid values for `protocol`
+* resource/aws_target_group:
+  * `health_check`
+    * remove TCP default values for `healthy_threshold`, `protocol`, `unhealthy_threshold` arguments
+    * update valid values for `interval`, `port`, `protocol` arguments
+  * make `port`,  `protocol`, `vpc_id` arguments required
+  * update valid values for `protocol`, `protocol_version`, `target_type` arguments
+  * forbid updating `protocol_version`
+* resource/aws_target_group_attachment:
+  * set max and min `port` value
+* data-source/aws_availability_zone: delete unsupported attribute `name_sufix`
+
+DOCUMENTATION FIXES:
+
+* Upgrade documentation for the section **ELB (Elastic Load Balancing)**
+* Remove `aws.noregion` provider usage from documentation examples
+
 ## 25.2.0
 
 NOTES:
