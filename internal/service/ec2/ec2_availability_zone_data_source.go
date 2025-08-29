@@ -1,8 +1,6 @@
 package ec2
 
 import (
-	"strings"
-
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/ec2"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -27,10 +25,6 @@ func DataSourceAvailabilityZone() *schema.Resource {
 			"name": {
 				Type:     schema.TypeString,
 				Optional: true,
-				Computed: true,
-			},
-			"name_suffix": {
-				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"network_border_group": {
@@ -109,18 +103,9 @@ func dataSourceAvailabilityZoneRead(d *schema.ResourceData, meta interface{}) er
 		return tfresource.SingularDataSourceFindError("EC2 Availability Zone", err)
 	}
 
-	// As a convenience when working with AZs generically, we expose
-	// the AZ suffix alone, without the region name.
-	// This can be used e.g. to create lookup tables by AZ letter that
-	// work regardless of region.
-	nameSuffix := aws.StringValue(az.ZoneName)[len(aws.StringValue(az.RegionName)):]
-	// For Local and Wavelength zones, remove any leading "-".
-	nameSuffix = strings.TrimLeft(nameSuffix, "-")
-
 	d.SetId(aws.StringValue(az.ZoneName))
 	d.Set("group_name", az.GroupName)
 	d.Set("name", az.ZoneName)
-	d.Set("name_suffix", nameSuffix)
 	d.Set("network_border_group", az.NetworkBorderGroup)
 	d.Set("opt_in_status", az.OptInStatus)
 	d.Set("parent_zone_id", az.ParentZoneId)
