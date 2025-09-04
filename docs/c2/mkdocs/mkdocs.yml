@@ -7,7 +7,7 @@ repo_name: C2Devel/terraform-provider-rockitcloud
 repo_url: https://github.com/C2Devel/terraform-provider-rockitcloud
 edit_uri: "https://github.com/C2Devel/terraform-provider-rockitcloud/tree/develop/website/docs"
 nav:
-  - Welcome: ./index.md             
+  - Welcome: ./index.md
   - Auto Scaling:
     - Resources:
       - aws_autoscaling_policy: r/autoscaling_policy.md
@@ -52,6 +52,10 @@ nav:
       - aws_ami_from_instance: r/ami_from_instance.md
       - aws_ami_launch_permission: r/ami_launch_permission.md
       - aws_ec2_tag: r/ec2_tag.md
+      - aws_ec2_traffic_mirror_filter: r/ec2_traffic_mirror_filter.md
+      - aws_ec2_traffic_mirror_filter_rule: r/ec2_traffic_mirror_filter_rule.md
+      - aws_ec2_traffic_mirror_session: r/ec2_traffic_mirror_session.md
+      - aws_ec2_traffic_mirror_target: r/ec2_traffic_mirror_target.md
       - aws_eip: r/eip.md
       - aws_eip_association: r/eip_association.md
       - aws_instance: r/instance.md
@@ -210,8 +214,8 @@ nav:
     - Data Sources:
       - aws_customer_gateway: d/customer_gateway.md
       - aws_vpn_gateway: d/vpn_gateway.md
-             
-             
+
+
 theme:
   name: material
   logo: images/favicon.ico
