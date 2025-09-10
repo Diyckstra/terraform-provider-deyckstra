@@ -566,10 +566,7 @@ func ThirdRegion() string {
 }
 
 func Partition() string {
-	if partition, ok := endpoints.PartitionForRegion(endpoints.DefaultPartitions(), Region()); ok {
-		return partition.ID()
-	}
-	return "aws"
+	return "c2"
 }
 
 func PartitionDNSSuffix() string {
