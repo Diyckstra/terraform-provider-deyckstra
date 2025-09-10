@@ -1,29 +1,49 @@
 ---
 subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
-page_title: "AWS: aws_ec2_traffic_mirror_target"
+page_title: "aws_ec2_traffic_mirror_target"
 description: |-
-  Provides a Traffic mirror target
+  Manages a traffic mirror target.
 ---
+
+[default-tags]: https://registry.terraform.io/providers/hashicorp/aws/latest/docs#default_tags-configuration-block
+[traffic-mirroring]: https://docs.k2.cloud/en/services/interconnect/traffic_mirroring.html
 
 # Resource: aws_ec2_traffic_mirror_target
 
-Provides a Traffic mirror target.  
-Read [limits and considerations](https://docs.aws.amazon.com/vpc/latest/mirroring/traffic-mirroring-considerations.html) for traffic mirroring
+Manages a traffic mirror target. For details about traffic mirroring, see the [user documentation][traffic-mirroring].
 
 ## Example Usage
 
-To create a basic traffic mirror session
+To create a basic traffic mirror target, use:
 
 ```terraform
-resource "aws_ec2_traffic_mirror_target" "nlb" {
-  description               = "NLB target"
-  network_load_balancer_arn = aws_lb.lb.arn
+variable ami {}
+variable instance_type {}
+
+data "aws_availability_zones" "azs" {
+  state = "available"
+}
+
+resource "aws_vpc" "vpc" {
+  cidr_block = "10.0.0.0/16"
+}
+
+resource "aws_subnet" "sub1" {
+  vpc_id            = aws_vpc.vpc.id
+  cidr_block        = "10.0.0.0/24"
+  availability_zone = data.aws_availability_zones.azs.names[0]
+}
+
+resource "aws_instance" "dst" {
+  ami           = var.ami
+  instance_type = var.instance_type
+  subnet_id     = aws_subnet.sub1.id
 }
 
 resource "aws_ec2_traffic_mirror_target" "eni" {
   description          = "ENI target"
-  network_interface_id = aws_instance.test.primary_network_interface_id
+  network_interface_id = aws_instance.dst.primary_network_interface_id
 }
 ```
 
@@ -31,26 +51,32 @@ resource "aws_ec2_traffic_mirror_target" "eni" {
 
 The following arguments are supported:
 
-* `description` - (Optional, Forces new) A description of the traffic mirror session.
-* `network_interface_id` - (Optional, Forces new) The network interface ID that is associated with the target.
-* `network_load_balancer_arn` - (Optional, Forces new) The Amazon Resource Name (ARN) of the Network Load Balancer that is associated with the target.
-* `tags` - (Optional) Key-value map of resource tags. If configured with a provider [`default_tags` configuration block](https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block) present, tags with matching keys will overwrite those defined at the provider-level.
+* `network_interface_id` - (Required, Forces new resource) The network interface ID that is associated with the target.
+* `description` - (Optional, Forces new resource) Description of the traffic mirror target.
+* `tags` - (Optional, Editable) Map of tags to assign to the traffic mirror target. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
-**NOTE:** Either `network_interface_id` or `network_load_balancer_arn` should be specified and both should not be specified together
-
-## Attributes Reference
+## Attribute Reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `id` - The ID of the Traffic Mirror target.
-* `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block](https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block).
-* `arn` - The ARN of the traffic mirror target.
-* `owner_id` - The ID of the AWS account that owns the traffic mirror target.
+* `arn` - The Amazon Resource Name (ARN) of the traffic mirror target.
+* `id` - The ID of the traffic mirror target.
+* `owner_id` - The ID of the project that owns the traffic mirror target.
+* `tags_all` - Map of tags assigned to the traffic mirror target, including those inherited from the provider [`default_tags` configuration block][default-tags].
 
 ## Import
 
-Traffic mirror targets can be imported using the `id`, e.g.,
+In Terraform v1.5.0 or later, traffic mirror target can be imported by `id` using the `import` block.
 
+```terraform
+import {
+  to = aws_ec2_traffic_mirror_target.target
+  id = "tmt-12345678"
+}
 ```
-$ terraform import aws_ec2_traffic_mirror_target.target tmt-0c13a005422b86606
+
+In older Terraform versions, the traffic mirror target can be imported by its `id` using `terraform import`, e.g.:
+
+```console
+% terraform import aws_ec2_traffic_mirror_target.target tmt-12345678
 ```
