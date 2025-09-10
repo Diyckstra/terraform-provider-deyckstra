@@ -50,8 +50,6 @@ func roleUpdateTags(conn *iam.IAM, identifier string, oldTagsMap interface{}, ne
 
 // userUpdateTags updates IAM user tags.
 // The identifier is the user name.
-//
-//nolint:unused // User tags are unsupported.
 func userUpdateTags(conn *iam.IAM, identifier string, oldTagsMap interface{}, newTagsMap interface{}) error {
 	oldTags := tftags.New(oldTagsMap)
 	newTags := tftags.New(newTagsMap)

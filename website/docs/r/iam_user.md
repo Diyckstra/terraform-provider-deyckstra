@@ -6,6 +6,7 @@ description: |-
   Manages an IAM user.
 ---
 
+[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 [iam-users-and-projects]: https://docs.k2.cloud/en/services/iam/iam.html
 [RFC3339 format]: https://datatracker.ietf.org/doc/html/rfc3339#section-5.8
 
@@ -56,6 +57,7 @@ The following arguments are supported:
 * `password` - (Optional, Editable) The password of the user.
   If no value is specified, the password will be generated automatically.
 * `phone` - (Optional, Editable) The phone number of the user.
+* `tags` - (Optional, Editable) Map of tags to assign to the user. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
 ## Attribute Reference
 
@@ -69,6 +71,7 @@ In addition to all arguments above, the following attributes are exported:
 * `last_login_date` - The time in [RFC3339 format] when the user last logged in to the web interface.
 * `login` - The login of the user.
 * `secret_key` - The secret key of the user.
+* `tags_all` - Map of tags assigned to the user, including those inherited from the provider [`default_tags` configuration block][default-tags].
 * `update_date` - The time in [RFC3339 format] when the user was last updated.
 * `user_id` - The ID of the user.
 
