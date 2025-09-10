@@ -136,7 +136,7 @@ func TestAccVPCTrafficMirrorTarget_tags(t *testing.T) {
 func TestAccVPCTrafficMirrorTarget_disappears(t *testing.T) {
 	var v ec2.TrafficMirrorTarget
 	resourceName := "aws_ec2_traffic_mirror_target.test"
-	description := "test nlb target"
+	description := "test eni target"
 	rName := fmt.Sprintf("tf-acc-test-%s", sdkacctest.RandString(10))
 
 	resource.ParallelTest(t, resource.TestCase{
@@ -149,7 +149,7 @@ func TestAccVPCTrafficMirrorTarget_disappears(t *testing.T) {
 		CheckDestroy:      testAccCheckTrafficMirrorTargetDestroy,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccTrafficMirrorTargetConfigNlb(rName, description),
+				Config: testAccTrafficMirrorTargetConfigEni(rName, description),
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckTrafficMirrorTargetExists(resourceName, &v),
 					acctest.CheckResourceDisappears(acctest.Provider, tfec2.ResourceTrafficMirrorTarget(), resourceName),
@@ -223,7 +223,7 @@ resource "aws_subnet" "sub1" {
 resource "aws_subnet" "sub2" {
   vpc_id            = aws_vpc.vpc.id
   cidr_block        = "10.0.1.0/24"
-  availability_zone = data.aws_availability_zones.azs.names[1]
+  availability_zone = data.aws_availability_zones.azs.names[0]
 
   tags = {
     Name = %[1]q
@@ -258,12 +258,9 @@ resource "aws_ec2_traffic_mirror_target" "test" {
 func testAccTrafficMirrorTargetConfigEni(rName, description string) string {
 	return acctest.ConfigCompose(
 		testAccTrafficMirrorTargetConfigBase(rName),
-		acctest.ConfigLatestAmazonLinuxHvmEbsAmi(),
 		fmt.Sprintf(`
-resource "aws_instance" "src" {
-  ami           = data.aws_ami.amzn-ami-minimal-hvm-ebs.id
-  instance_type = "t2.micro"
-  subnet_id     = aws_subnet.sub1.id
+resource "aws_network_interface" "test" {
+  subnet_id = aws_subnet.sub1.id
 
   tags = {
     Name = %[1]q
@@ -272,7 +269,7 @@ resource "aws_instance" "src" {
 
 resource "aws_ec2_traffic_mirror_target" "test" {
   description          = %[2]q
-  network_interface_id = aws_instance.src.primary_network_interface_id
+  network_interface_id = aws_network_interface.test.id
 }
 `, rName, description))
 }

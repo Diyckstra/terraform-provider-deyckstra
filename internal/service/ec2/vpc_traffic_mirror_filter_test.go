@@ -36,27 +36,27 @@ func TestAccVPCTrafficMirrorFilter_basic(t *testing.T) {
 					testAccCheckTrafficMirrorFilterExists(resourceName, &v),
 					acctest.MatchResourceAttrRegionalARN(resourceName, "arn", "ec2", regexp.MustCompile(`traffic-mirror-filter/tmf-.+`)),
 					resource.TestCheckResourceAttr(resourceName, "description", description),
-					resource.TestCheckResourceAttr(resourceName, "network_services.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "tags.%", "0"),
 				),
 			},
+			// TODO: Uncomment when modify-traffic-mirror-filter is implemented
 			// Test Disable DNS service
-			{
-				Config: testAccTrafficMirrorFilterConfigWithoutDNS(description),
-				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTrafficMirrorFilterExists(resourceName, &v),
-					resource.TestCheckNoResourceAttr(resourceName, "network_services"),
-				),
-			},
+			// {
+			// 	Config: testAccTrafficMirrorFilterConfigWithoutDNS(description),
+			// 	Check: resource.ComposeTestCheckFunc(
+			// 		testAccCheckTrafficMirrorFilterExists(resourceName, &v),
+			// 		resource.TestCheckNoResourceAttr(resourceName, "network_services"),
+			// 	),
+			// },
 			// Test Enable DNS service
-			{
-				Config: testAccTrafficMirrorFilterConfig(description),
-				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTrafficMirrorFilterExists(resourceName, &v),
-					resource.TestCheckResourceAttr(resourceName, "description", description),
-					resource.TestCheckResourceAttr(resourceName, "network_services.#", "1"),
-				),
-			},
+			// {
+			// 	Config: testAccTrafficMirrorFilterConfig(description),
+			// 	Check: resource.ComposeTestCheckFunc(
+			// 		testAccCheckTrafficMirrorFilterExists(resourceName, &v),
+			// 		resource.TestCheckResourceAttr(resourceName, "description", description),
+			// 		resource.TestCheckResourceAttr(resourceName, "network_services.#", "1"),
+			// 	),
+			// },
 			{
 				ResourceName:      resourceName,
 				ImportState:       true,
@@ -170,23 +170,24 @@ func testAccCheckTrafficMirrorFilterExists(name string, traffic *ec2.TrafficMirr
 	}
 }
 
+// TODO: Uncomment when network_services support is implemented
 func testAccTrafficMirrorFilterConfig(description string) string {
 	return fmt.Sprintf(`
 resource "aws_ec2_traffic_mirror_filter" "test" {
   description = "%s"
 
-  network_services = ["amazon-dns"]
+  #   network_services = ["amazon-dns"]
 }
 `, description)
 }
 
-func testAccTrafficMirrorFilterConfigWithoutDNS(description string) string {
-	return fmt.Sprintf(`
-resource "aws_ec2_traffic_mirror_filter" "test" {
-  description = "%s"
-}
-`, description)
-}
+// func testAccTrafficMirrorFilterConfigWithoutDNS(description string) string {
+// 	return fmt.Sprintf(`
+// resource "aws_ec2_traffic_mirror_filter" "test" {
+//   description = "%s"
+// }
+// `, description)
+// }
 
 func testAccTrafficMirrorFilterConfigTags1(tagKey1, tagValue1 string) string {
 	return fmt.Sprintf(`

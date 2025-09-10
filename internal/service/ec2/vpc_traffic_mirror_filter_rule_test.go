@@ -52,9 +52,9 @@ func TestAccVPCTrafficMirrorFilterRule_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "source_cidr_block", srcCidr),
 					resource.TestCheckResourceAttr(resourceName, "traffic_direction", direction),
 					resource.TestCheckResourceAttr(resourceName, "description", ""),
-					resource.TestCheckNoResourceAttr(resourceName, "destination_port_range"),
+					resource.TestCheckResourceAttr(resourceName, "destination_port_range.#", "0"),
 					resource.TestCheckResourceAttr(resourceName, "protocol", "0"),
-					resource.TestCheckNoResourceAttr(resourceName, "source_port_range"),
+					resource.TestCheckResourceAttr(resourceName, "source_port_range.#", "0"),
 				),
 			},
 			// Add all optionals
