@@ -299,7 +299,7 @@ func resourceTrafficMirrorFilterRuleUpdate(d *schema.ResourceData, meta interfac
 	}
 
 	if d.HasChange("rule_number") {
-		input.RuleNumber = aws.Int64(int64(d.Get("rule_action").(int)))
+		input.RuleNumber = aws.Int64(int64(d.Get("rule_number").(int)))
 	}
 
 	if d.HasChange("traffic_direction") {
