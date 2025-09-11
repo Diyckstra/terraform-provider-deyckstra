@@ -106,6 +106,7 @@ func ResourceTransitGateway() *schema.Resource {
 			},
 			"shared_owners": {
 				Type:     schema.TypeSet,
+				Computed: true,
 				Optional: true,
 				Elem:     &schema.Schema{Type: schema.TypeString},
 			},
