@@ -648,6 +648,14 @@ $ scripts/build-docs.sh --push
 2. нажать на кнопку `Run workflow`
 3. в выпадающем меню снова нажать на кнопку `Run workflow`
 
+### Завершение процесса релиза
+
+После окончания работ по релизу провайдера необходимо подготовить репозиторий к последующим работам:
+
+1. поднять пулл реквест в ветку `develop` с указанием даты и уточнением версии последней версии в CHANGELOG.md.
+2. запустить экшен [update-changelog](https://github.com/C2Devel/terraform-provider-rockitcloud/actions/workflows/update-changelog.yml), указав номер только что выпущенного релиза без v (Пример: 25.4.0). Это создаст новое вхождение в CHANGELOG.md с пометкой (Unreleased)
+
+
 ## Использование провайдера
 
 Провайдер в terraform registry: https://registry.terraform.io/providers/C2Devel/rockitcloud
