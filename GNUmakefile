@@ -78,19 +78,19 @@ depscheck:
 
 docs-lint:
 	@echo "==> Checking docs against linters..."
-	@misspell -error -source=text docs/c2/ || (echo; \
+	@misspell -error -source=text dev-docs/c2/ || (echo; \
 		echo "Unexpected misspelling found in docs files."; \
 		echo "To automatically fix the misspelling, run 'make docs-lint-fix' and commit the changes."; \
 		exit 1)
-	@docker run --rm -v $(PWD):/markdown 06kellyjac/markdownlint-cli docs/c2/ || (echo; \
+	@docker run --rm -v $(PWD):/markdown 06kellyjac/markdownlint-cli dev-docs/c2/ || (echo; \
 		echo "Unexpected issues found in docs Markdown files."; \
 		echo "To apply any automatic fixes, run 'make docs-lint-fix' and commit the changes."; \
 		exit 1)
 
 docs-lint-fix:
 	@echo "==> Applying automatic docs linter fixes..."
-	@misspell -w -source=text docs/c2/
-	@docker run --rm -v $(PWD):/markdown 06kellyjac/markdownlint-cli --fix docs/c2/
+	@misspell -w -source=text dev-docs/c2/
+	@docker run --rm -v $(PWD):/markdown 06kellyjac/markdownlint-cli --fix dev-docs/c2/
 
 docscheck:
 	@tfproviderdocs check \

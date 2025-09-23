@@ -203,30 +203,23 @@ aws-sdk-go=<имя ветки в aws-sdk-go>
 
 Информация о провайдере расположена в директориях:
 
-- `docs/` - инструкции для разработки, roadmap;
-- `website/` - документация к провайдеру, которая публикуется в официальном terraform registry
+- `dev-docs/` - инструкции для разработки, roadmap;
+- `docs/` - документация к провайдеру, которая публикуется в официальном terraform registry
   ([инструкция](https://www.terraform.io/registry/providers/docs) по документированию от **Terraform**).
 
-Структура директории website:
+Структура директории docs:
 
 ```
-website/
-|-- docs/
-|    |-- d/                          # набор описаний для terraform data sources
-|    |    |-- <data source>.md
-|    |    |-- ...
-|    |-- r/                          # набор описаний для terraform resources
-|    |    |-- <resource>.md
-|    |    |-- ...
-|    |
-|    |-- index.md                    # стартовая страница
-|-- allowed-subcategories.txt        # разделы документации
+docs/
+|-- data-sources/                          # набор описаний для terraform data sources
+|    |-- <data source>.md
+|    |-- ...
+|-- resources/                          # набор описаний для terraform resources
+|    |-- <resource>.md
+|    |-- ...
+|
+|-- index.md                    # стартовая страница
 ```
-
-**Важно!** `allowed-subcategories.txt` генерируется при запуске таргета `make gen`
-и содержит информацию обо всех доступных разделах документации. После публикации отображаться будут только непустые разделы.
-
-Опубликованная документация: https://registry.terraform.io/providers/C2Devel/rockitcloud/latest/docs
 
 ### Запуск линтеров
 
@@ -239,7 +232,7 @@ website/
 $ make docs-lint
 ```
 
-`website/`: проверяется форматирование .md файлов, ошибки в тексте (English)
+`docs/`: проверяется форматирование .md файлов, ошибки в тексте (English)
 и соответствие документации спецификации terraform registry.
 
 ```
@@ -250,7 +243,7 @@ $ make docscheck
 ### Директория website_unsupported
 
 В `website_unsupported/` перенесены гайды и документация для ресурсов, которые не поддерживаются Rockit Cloud API.
-Для публикации требуется перенести нужную страницу в соответствующую директорию в `website/`.
+Для публикации требуется перенести нужную страницу в соответствующую директорию в `docs/`.
 
 ### Подготовка внутренней документации к выпуску
 

@@ -22,12 +22,12 @@ Please note: We take Terraform's security and our users' trust very seriously. I
 
 ## Terraform Provider for C2
 
-Documentation: [docs/c2/README](docs/c2/README.md)
+Documentation: [dev-docs/c2/README](dev-docs/c2/README.md)
 
 ## Quick Starts
 
 - [Using the provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
-- [Provider development](docs/contributing)
+- [Provider development](dev-docs/contributing)
 
 ## Documentation
 
@@ -41,10 +41,10 @@ Our roadmap for expanding support in Terraform for AWS resources can be found in
 
 ## Frequently Asked Questions
 
-Responses to our most frequently asked questions can be found in our [FAQ](docs/contributing/faq.md )
+Responses to our most frequently asked questions can be found in our [FAQ](dev-docs/contributing/faq.md )
 
 ## Contributing
 
 The Terraform AWS Provider is the work of thousands of contributors. We appreciate your help!
 
-To contribute, please read the contribution guidelines: [Contributing to Terraform - AWS Provider](docs/contributing)
+To contribute, please read the contribution guidelines: [Contributing to Terraform - AWS Provider](dev-docs/contributing)

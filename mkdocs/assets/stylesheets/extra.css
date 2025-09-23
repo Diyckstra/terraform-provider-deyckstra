@@ -187,13 +187,14 @@ table caption {
 .md-typeset h5 {
     font-family: "IBMPlexSans-Bold";
     color: #4D4D55 !important;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
+    text-transform: none;
 }
 
 .md-typeset h6 {
     font-family: "IBMPlexSans-Bold";
     color: #4D4D55 !important;
-    font-size: 0.5rem;
+    font-size: 0.7rem;
 }
 
 .md-typeset table:not([class]) td {
