@@ -216,15 +216,23 @@ nav:
       - aws_customer_gateway: d/customer_gateway.md
       - aws_vpn_gateway: d/vpn_gateway.md
 
-
 theme:
   name: material
   logo: images/favicon.ico
   favicon: images/favicon.ico
   palette:
-    scheme: hashicorp
-    primary: white
-    accent: blue
+    - scheme: hashicorp
+      primary: white
+      accent: blue
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - scheme: slate
+      primary: black
+      accent: blue
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
   icon:
     repo: fontawesome/brands/github
     admonition:
