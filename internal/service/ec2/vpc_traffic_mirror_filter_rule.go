@@ -74,8 +74,9 @@ func ResourceTrafficMirrorFilterRule() *schema.Resource {
 				}, false),
 			},
 			"rule_number": {
-				Type:     schema.TypeInt,
-				Required: true,
+				Type:         schema.TypeInt,
+				Required:     true,
+				ValidateFunc: validation.IntBetween(1, 128),
 			},
 			"source_cidr_block": {
 				Type:         schema.TypeString,

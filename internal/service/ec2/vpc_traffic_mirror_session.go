@@ -34,6 +34,7 @@ func ResourceTrafficMirrorSession() *schema.Resource {
 			"description": {
 				Type:     schema.TypeString,
 				Optional: true,
+				ForceNew: true,
 			},
 			"network_interface_id": {
 				Type:     schema.TypeString,
@@ -44,29 +45,32 @@ func ResourceTrafficMirrorSession() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"packet_length": {
-				Type:     schema.TypeInt,
-				Optional: true,
-			},
+			// "packet_length": {
+			//	Type:     schema.TypeInt,
+			//	Optional: true,
+			// },
 			"session_number": {
 				Type:         schema.TypeInt,
 				Required:     true,
-				ValidateFunc: validation.IntBetween(1, 32766),
+				ForceNew:     true,
+				ValidateFunc: validation.IntBetween(1, 128),
 			},
 			"traffic_mirror_filter_id": {
 				Type:     schema.TypeString,
 				Required: true,
+				ForceNew: true,
 			},
 			"traffic_mirror_target_id": {
 				Type:     schema.TypeString,
 				Required: true,
+				ForceNew: true,
 			},
-			"virtual_network_id": {
-				Type:         schema.TypeInt,
-				Optional:     true,
-				Computed:     true,
-				ValidateFunc: validation.IntBetween(1, 16777216),
-			},
+			// "virtual_network_id": {
+			//	Type:         schema.TypeInt,
+			//	Optional:     true,
+			//	Computed:     true,
+			//	ValidateFunc: validation.IntBetween(1, 16777216),
+			// },
 			"tags":     tftags.TagsSchema(),
 			"tags_all": tftags.TagsSchemaComputed(),
 		},
@@ -88,17 +92,17 @@ func resourceTrafficMirrorSessionCreate(d *schema.ResourceData, meta interface{}
 		input.Description = aws.String(v.(string))
 	}
 
-	if v, ok := d.GetOk("packet_length"); ok {
-		input.PacketLength = aws.Int64(int64(v.(int)))
-	}
+	// if v, ok := d.GetOk("packet_length"); ok {
+	//	input.PacketLength = aws.Int64(int64(v.(int)))
+	// }
 
 	if v, ok := d.GetOk("session_number"); ok {
 		input.SessionNumber = aws.Int64(int64(v.(int)))
 	}
 
-	if v, ok := d.GetOk("virtual_network_id"); ok {
-		input.VirtualNetworkId = aws.Int64(int64(v.(int)))
-	}
+	// if v, ok := d.GetOk("virtual_network_id"); ok {
+	//	input.VirtualNetworkId = aws.Int64(int64(v.(int)))
+	// }
 
 	if len(tags) > 0 {
 		input.TagSpecifications = ec2TagSpecificationsFromKeyValueTags(tags, ec2.ResourceTypeTrafficMirrorSession)
@@ -116,65 +120,65 @@ func resourceTrafficMirrorSessionCreate(d *schema.ResourceData, meta interface{}
 func resourceTrafficMirrorSessionUpdate(d *schema.ResourceData, meta interface{}) error {
 	conn := meta.(*conns.AWSClient).EC2Conn
 
-	sessionId := d.Id()
-	input := &ec2.ModifyTrafficMirrorSessionInput{
-		TrafficMirrorSessionId: &sessionId,
-	}
+	// sessionId := d.Id()
+	// input := &ec2.ModifyTrafficMirrorSessionInput{
+	// 	TrafficMirrorSessionId: &sessionId,
+	// }
 
-	if d.HasChange("session_number") {
-		n := d.Get("session_number")
-		input.SessionNumber = aws.Int64(int64(n.(int)))
-	}
+	// if d.HasChange("session_number") {
+	// 	n := d.Get("session_number")
+	// 	input.SessionNumber = aws.Int64(int64(n.(int)))
+	// }
 
-	if d.HasChange("traffic_mirror_filter_id") {
-		n := d.Get("traffic_mirror_filter_id")
-		input.TrafficMirrorFilterId = aws.String(n.(string))
-	}
+	// if d.HasChange("traffic_mirror_filter_id") {
+	// 	n := d.Get("traffic_mirror_filter_id")
+	// 	input.TrafficMirrorFilterId = aws.String(n.(string))
+	// }
 
-	if d.HasChange("traffic_mirror_target_id") {
-		n := d.Get("traffic_mirror_target_id")
-		input.TrafficMirrorTargetId = aws.String(n.(string))
-	}
+	// if d.HasChange("traffic_mirror_target_id") {
+	// 	n := d.Get("traffic_mirror_target_id")
+	// 	input.TrafficMirrorTargetId = aws.String(n.(string))
+	// }
 
-	var removeFields []*string
-	if d.HasChange("description") {
-		n := d.Get("description")
-		if "" != n {
-			input.Description = aws.String(n.(string))
-		} else {
-			removeFields = append(removeFields, aws.String("description"))
-		}
-	}
+	// var removeFields []*string
+	// if d.HasChange("description") {
+	// 	n := d.Get("description")
+	// 	if "" != n {
+	// 		input.Description = aws.String(n.(string))
+	// 	} else {
+	// 		removeFields = append(removeFields, aws.String("description"))
+	// 	}
+	// }
 
-	if d.HasChange("packet_length") {
-		n := d.Get("packet_length")
-		if nil != n && n.(int) > 0 {
-			input.PacketLength = aws.Int64(int64(n.(int)))
-		} else {
-			removeFields = append(removeFields, aws.String("packet-length"))
-		}
-	}
-	log.Printf("[DEBUG] removeFields %v", removeFields)
+	// if d.HasChange("packet_length") {
+	// 	n := d.Get("packet_length")
+	// 	if nil != n && n.(int) > 0 {
+	// 		input.PacketLength = aws.Int64(int64(n.(int)))
+	// 	} else {
+	// 		removeFields = append(removeFields, aws.String("packet-length"))
+	// 	}
+	// }
+	// log.Printf("[DEBUG] removeFields %v", removeFields)
 
-	if d.HasChange("virtual_network_id") {
-		n := d.Get("virtual_network_id")
-		log.Printf("[DEBUG] VNI has change %v", n)
-		if nil != n && n.(int) > 0 {
-			input.VirtualNetworkId = aws.Int64(int64(n.(int)))
-		} else {
-			removeFields = append(removeFields, aws.String("virtual-network-id"))
-		}
-	}
+	// if d.HasChange("virtual_network_id") {
+	// 	n := d.Get("virtual_network_id")
+	// 	log.Printf("[DEBUG] VNI has change %v", n)
+	// 	if nil != n && n.(int) > 0 {
+	// 		input.VirtualNetworkId = aws.Int64(int64(n.(int)))
+	// 	} else {
+	// 		removeFields = append(removeFields, aws.String("virtual-network-id"))
+	// 	}
+	// }
 
-	log.Printf("[DEBUG] removeFields %v", removeFields)
-	if len(removeFields) > 0 {
-		input.SetRemoveFields(removeFields)
-	}
+	// log.Printf("[DEBUG] removeFields %v", removeFields)
+	// if len(removeFields) > 0 {
+	// 	input.SetRemoveFields(removeFields)
+	// }
 
-	_, err := conn.ModifyTrafficMirrorSession(input)
-	if nil != err {
-		return fmt.Errorf("Error updating traffic mirror session %v", err)
-	}
+	// _, err := conn.ModifyTrafficMirrorSession(input)
+	// if nil != err {
+	// 	return fmt.Errorf("Error updating traffic mirror session %v", err)
+	// }
 
 	if d.HasChange("tags_all") {
 		o, n := d.GetChange("tags_all")
@@ -223,8 +227,8 @@ func resourceTrafficMirrorSessionRead(d *schema.ResourceData, meta interface{}) 
 	d.Set("traffic_mirror_filter_id", session.TrafficMirrorFilterId)
 	d.Set("traffic_mirror_target_id", session.TrafficMirrorTargetId)
 	d.Set("description", session.Description)
-	d.Set("packet_length", session.PacketLength)
-	d.Set("virtual_network_id", session.VirtualNetworkId)
+	// d.Set("packet_length", session.PacketLength)
+	// d.Set("virtual_network_id", session.VirtualNetworkId)
 
 	tags := KeyValueTags(session.Tags).IgnoreAWS().IgnoreConfig(ignoreTagsConfig)
 
