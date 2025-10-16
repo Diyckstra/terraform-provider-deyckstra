@@ -34,7 +34,7 @@ func TestAccVPCTrafficMirrorFilter_basic(t *testing.T) {
 				Config: testAccTrafficMirrorFilterConfig(description),
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckTrafficMirrorFilterExists(resourceName, &v),
-					acctest.MatchResourceAttrRegionalARN(resourceName, "arn", "ec2", regexp.MustCompile(`traffic-mirror-filter/tmf-.+`)),
+					acctest.MatchResourceAttrRegionalARNNoAccount(resourceName, "arn", "ec2", regexp.MustCompile(`traffic-mirror-filter/tmf-.+`)),
 					resource.TestCheckResourceAttr(resourceName, "description", description),
 					resource.TestCheckResourceAttr(resourceName, "tags.%", "0"),
 				),

@@ -44,7 +44,7 @@ func TestAccVPCTrafficMirrorFilterRule_basic(t *testing.T) {
 				Config: testAccEc2TrafficMirrorFilterRuleConfig(dstCidr, srcCidr, action, direction, ruleNum),
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckTrafficMirrorFilterRuleExists(resourceName),
-					acctest.MatchResourceAttrRegionalARN(resourceName, "arn", ec2.ServiceName, regexp.MustCompile(`traffic-mirror-filter-rule/tmfr-.+`)),
+					acctest.MatchResourceAttrRegionalARNNoAccount(resourceName, "arn", ec2.ServiceName, regexp.MustCompile(`traffic-mirror-filter-rule/tmfr-.+`)),
 					resource.TestMatchResourceAttr(resourceName, "traffic_mirror_filter_id", regexp.MustCompile("tmf-.*")),
 					resource.TestCheckResourceAttr(resourceName, "destination_cidr_block", dstCidr),
 					resource.TestCheckResourceAttr(resourceName, "rule_action", action),
