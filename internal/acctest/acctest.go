@@ -209,7 +209,15 @@ func PreCheck(t *testing.T) {
 		region := Region()
 		os.Setenv(conns.EnvVarDefaultRegion, region)
 
-		err := Provider.Configure(context.Background(), terraform.NewResourceConfigRaw(nil))
+		config := map[string]interface{}{
+			"access_key":             os.Getenv(conns.EnvVarAccessKeyId),
+			"secret_key":             os.Getenv(conns.EnvVarSecretAccessKey),
+			"profile":                os.Getenv(conns.EnvVarProfile),
+			"region":                 region,
+			"skip_get_ec2_platforms": true,
+		}
+
+		err := Provider.Configure(context.Background(), terraform.NewResourceConfigRaw(config))
 		if err != nil {
 			t.Fatal(err)
 		}
