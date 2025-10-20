@@ -22,7 +22,7 @@ Please note: We take Terraform's security and our users' trust very seriously. I
 
 ## Terraform Provider for C2
 
-Documentation: [dev-docs/c2/README](dev-docs/c2/README.md)
+Documentation: [dev-docs/README](dev-docs/README.md)
 
 ## Quick Starts
 

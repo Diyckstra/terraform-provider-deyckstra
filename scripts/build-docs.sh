@@ -16,14 +16,14 @@ help () {
 tools () {
   python3 -m venv .venv
   source .venv/bin/activate
-  pip install mkdocs mkdocs-material mkdocs-awesome-pages-plugin
+  pip3 install mkdocs mkdocs-material mkdocs-awesome-pages-plugin || pip install mkdocs mkdocs-material mkdocs-awesome-pages-plugin
   deactivate
 }
 
 # Copying of configuration for the documentatiion to the website folder
 copy () {
-  cp -r mkdocs/images docs/mkdocs_images
-  cp -r mkdocs/assets docs/mkdocs_assets
+  cp -r mkdocs/images docs/mkdocs-images
+  cp -r mkdocs/assets docs/mkdocs-assets
   cp mkdocs/mkdocs.yml ./
 }
 
@@ -31,7 +31,7 @@ copy () {
 build () {
   source .venv/bin/activate
   echo "Generation of the documentation"
-  mkdocs build -f ./mkdocs.yml -d $SOURCE_DIR--clean
+  mkdocs build -f ./mkdocs.yml -d $SOURCE_DIR --clean
   deactivate
 }
 
@@ -43,19 +43,19 @@ run_local () {
   deactivate
 }
 
-# Funtion to upload the documentation files to the bucket
+# Function to upload the documentation files to the bucket
 upload_other_files () {
     s3cmd sync "$SOURCE_DIR" "s3://$S3_DOCS_BUCKET_NAME" --acl-public
 }
 
-# Funtion to upload .css files to the bucket with specified Content-Type
+# Function to upload .css files to the bucket with specified Content-Type
 upload_css_files () {
     find "$SOURCE_DIR" -type f -name "*.css" | while read -r file; do
     s3cmd modify "s3://$S3_DOCS_BUCKET_NAME/${file#$SOURCE_DIR}" --add-header='Content-Type:text/css'
 done
 }
 
-# Funtion to upload .js files to the bucket with specified Content-Type
+# Function to upload .js files to the bucket with specified Content-Type
 upload_js_files () {
     find "$SOURCE_DIR" -type f -name "*.js" | while read -r file; do
     s3cmd modify "s3://$S3_DOCS_BUCKET_NAME/${file#$SOURCE_DIR}" --add-header='Content-Type:application/javascript'
@@ -65,7 +65,7 @@ done
 # Removing of the temp files
 cleanup () {
   echo "Removing of the temp files"
-  rm -fr docs/mkdocs_images docs/mkdocs_assets mkdocs.yml site
+  rm -fr docs/mkdocs-images docs/mkdocs-assets mkdocs.yml site
   echo Complete!
 }
 

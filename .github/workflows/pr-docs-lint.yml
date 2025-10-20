@@ -1,4 +1,4 @@
-name: Run linters for the website
+name: Run linters for the provider documentation
 
 on:
   pull_request_target:

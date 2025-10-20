@@ -216,12 +216,6 @@ nav:
     - Data Sources:
       - aws_customer_gateway: data-sources/customer_gateway.md
       - aws_vpn_gateway: data-sources/vpn_gateway.md
-
-exclude_docs: |
-  c2
-  contributing
-  roadmaps
-  README.md
   
 theme:
   name: material

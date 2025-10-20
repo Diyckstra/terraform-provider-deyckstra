@@ -76,19 +76,19 @@ depscheck:
 
 dev-docs-lint:
 	@echo "==> Checking docs against linters..."
-	@misspell -error -source=text dev-docs/c2/ || (echo; \
+	@misspell -error -source=text dev-docs/ || (echo; \
 		echo "Unexpected misspelling found in docs files."; \
 		echo "To automatically fix the misspelling, run 'make dev-docs-lint-fix' and commit the changes."; \
 		exit 1)
-	@docker run --rm -v $(PWD):/markdown --platform=linux/amd64 06kellyjac/markdownlint-cli dev-docs/c2/ || (echo; \
+	@docker run --rm -v $(PWD):/markdown --platform=linux/amd64 06kellyjac/markdownlint-cli dev-docs/ || (echo; \
 		echo "Unexpected issues found in docs Markdown files."; \
 		echo "To apply any automatic fixes, run 'make dev-docs-lint-fix' and commit the changes."; \
 		exit 1)
 
 dev-docs-lint-fix:
 	@echo "==> Applying automatic docs linter fixes..."
-	@misspell -w -source=text dev-docs/c2/
-	@docker run --rm -v $(PWD):/markdown --platform=linux/amd64 06kellyjac/markdownlint-cli --fix dev-docs/c2/
+	@misspell -w -source=text dev-docs/
+	@docker run --rm -v $(PWD):/markdown --platform=linux/amd64 06kellyjac/markdownlint-cli --fix dev-docs/
 
 docscheck:
 	@tfproviderdocs check \
@@ -174,7 +174,7 @@ docs-lint:
 		exit 1)
 	@terrafmt diff ./docs --check --pattern '*.md' --quiet || (echo; \
 		echo "Unexpected differences in docs HCL formatting."; \
-		echo "To see the full differences, run: terrafmt diff ./docs/resources --pattern '*.md'"; \
+		echo "To see the full differences, run: terrafmt diff ./docs/ --pattern '*.md'"; \
 		echo "To automatically fix the formatting, run 'make docs-lint-fix' and commit the changes."; \
 		exit 1)
 
