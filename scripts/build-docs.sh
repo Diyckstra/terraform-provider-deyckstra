@@ -16,7 +16,7 @@ help () {
 tools () {
   python3 -m venv .venv
   source .venv/bin/activate
-  pip3 install mkdocs mkdocs-material mkdocs-awesome-pages-plugin | pip install mkdocs mkdocs-material mkdocs-awesome-pages-plugin
+  pip install mkdocs mkdocs-material mkdocs-awesome-pages-plugin
   deactivate
 }
 
@@ -31,7 +31,7 @@ copy () {
 build () {
   source .venv/bin/activate
   echo "Generation of the documentation"
-  mkdocs build -f ./mkdocs.yml --clean
+  mkdocs build -f ./mkdocs.yml -d $SOURCE_DIR--clean
   deactivate
 }
 
@@ -43,19 +43,19 @@ run_local () {
   deactivate
 }
 
-#Funtion to upload the documentation files to the bucket
+# Funtion to upload the documentation files to the bucket
 upload_other_files () {
     s3cmd sync "$SOURCE_DIR" "s3://$S3_DOCS_BUCKET_NAME" --acl-public
 }
 
-#Funtion to upload .css files to the bucket with specified Content-Type
+# Funtion to upload .css files to the bucket with specified Content-Type
 upload_css_files () {
     find "$SOURCE_DIR" -type f -name "*.css" | while read -r file; do
     s3cmd modify "s3://$S3_DOCS_BUCKET_NAME/${file#$SOURCE_DIR}" --add-header='Content-Type:text/css'
 done
 }
 
-#Funtion to upload .js files to the bucket with specified Content-Type
+# Funtion to upload .js files to the bucket with specified Content-Type
 upload_js_files () {
     find "$SOURCE_DIR" -type f -name "*.js" | while read -r file; do
     s3cmd modify "s3://$S3_DOCS_BUCKET_NAME/${file#$SOURCE_DIR}" --add-header='Content-Type:application/javascript'
@@ -76,8 +76,8 @@ if [[ "$1" == "--push" ]]; then
         copy
         build
         upload_other_files
-        upload_css_files css text/css
-        upload_js_files js application/javascript
+        upload_css_files
+        upload_js_files
         cleanup
     else
         echo "Define S3_DOCS_BUCKET_NAME environment variable."
