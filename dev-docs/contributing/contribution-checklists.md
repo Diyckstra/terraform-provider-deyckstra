@@ -78,7 +78,7 @@ In addition to the below checklist and the items noted in the Extending Terrafor
 
 - [ ] _Resource Code Implementation_: In the resource code (e.g., `internal/service/{service}/{thing}.go`), implementation of `Importer` `State` function
 - [ ] _Resource Acceptance Testing Implementation_: In the resource acceptance testing (e.g., `internal/service/{service}/{thing}_test.go`), implementation of `TestStep`s with `ImportState: true`
-- [ ] _Resource Documentation Implementation_: In the resource documentation (e.g., `website/docs/r/service_thing.html.markdown`), addition of `Import` documentation section at the bottom of the page
+- [ ] _Resource Documentation Implementation_: In the resource documentation (e.g., `docs/resources/service_thing.md`), addition of `Import` documentation section at the bottom of the page
 
 ## Adding Resource Name Generation Support
 
@@ -88,7 +88,7 @@ Implementing name generation support for Terraform AWS Provider resources requir
 
 - [ ] _Resource Name Generation Code Implementation_: In the resource code (e.g., `internal/service/{service}/{thing}.go`), implementation of `name_prefix` attribute, along with handling in `Create` function.
 - [ ] _Resource Name Generation Testing Implementation_: In the resource acceptance testing (e.g., `internal/service/{service}/{thing}_test.go`), implementation of new acceptance test functions and configurations to exercise new naming logic.
-- [ ] _Resource Name Generation Documentation Implementation_: In the resource documentation (e.g., `website/docs/r/service_thing.html.markdown`), addition of `name_prefix` argument and update of `name` argument description.
+- [ ] _Resource Name Generation Documentation Implementation_: In the resource documentation (e.g., `docs/resources/service_thing.md`), addition of `name_prefix` argument and update of `name` argument description.
 
 ### Resource Name Generation Code Implementation
 
@@ -210,7 +210,7 @@ resource "aws_service_thing" "test" {
 
 ### Resource Name Generation Documentation Implementation
 
-- In the resource documentation (e.g., `website/docs/r/service_thing.html.markdown`), add the following to the arguments reference:
+- In the resource documentation (e.g., `docs/resources/service_thing.md`), add the following to the arguments reference:
 
 ```markdown
 * `name_prefix` - (Optional) Creates a unique name beginning with the specified prefix. Conflicts with `name`.
@@ -255,7 +255,7 @@ Thus, for in-flight and future contributions, implementing tagging support for T
 - [ ] _Generated Service Tagging Code_: Each service has a `generate.go` file where generator directives live. Through these directives and their flags, you can customize code generation for the service. You can find the code that the tagging generator generates in a `tags_gen.go` file in a service, such as `internal/service/ec2/tags_gen.go`. Unlike previously, you should generally _not_ need to edit the generator code (i.e., in `internal/generate/tags`).
 - [ ] _Resource Tagging Code Implementation_: In the resource code (e.g., `internal/service/{service}/{thing}.go`), implementation of `tags` and `tags_all` schema attributes, along with implementation of `CustomizeDiff` in the resource definition and handling in `Create`, `Read`, and `Update` functions.
 - [ ] _Resource Tagging Acceptance Testing Implementation_: In the resource acceptance testing (e.g., `internal/service/{service}/{thing}_test.go`), implementation of new acceptance test function and configurations to exercise new tagging logic.
-- [ ] _Resource Tagging Documentation Implementation_: In the resource documentation (e.g., `website/docs/r/service_thing.html.markdown`), addition of `tags` argument and `tags_all` attribute.
+- [ ] _Resource Tagging Documentation Implementation_: In the resource documentation (e.g., `docs/resources/service_thing.md`), addition of `tags` argument and `tags_all` attribute.
 
 ### Generating Tag Code for a Service
 
@@ -548,13 +548,13 @@ More details about this code generation, including fixes for potential error mes
 
 ### Resource Tagging Documentation Implementation
 
-- In the resource documentation (e.g., `website/docs/r/eks_cluster.html.markdown`), add the following to the arguments reference:
+- In the resource documentation (e.g., `docs/resources/eks_cluster.md`), add the following to the arguments reference:
 
   ```markdown
   * `tags` - (Optional) Key-value mapping of resource tags. If configured with a provider [`default_tags` configuration block](/docs/providers/aws/index.html#default_tags-configuration-block) present, tags with matching keys will overwrite those defined at the provider-level.
   ```
 
-- In the resource documentation (e.g., `website/docs/r/eks_cluster.html.markdown`), add the following to the attributes reference:
+- In the resource documentation (e.g., `docs/resources/eks_cluster.md`), add the following to the attributes reference:
 
   ```markdown
   * `tags_all` - Map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block](/docs/providers/aws/index.html#default_tags-configuration-block).
@@ -569,7 +569,7 @@ Implementing server-side filtering support for Terraform AWS Provider resources 
 
 - [ ] _Generated Service Filtering Code_: In the internal code generators (e.g., `internal/generate/namevaluesfilters`), implementation and customization of how a service handles filtering, which is standardized for the resources.
 - [ ] _Resource Filtering Code Implementation_: In the resource's equivalent data source code (e.g., `internal/service/{servicename}/thing_data_source.go`), implementation of `filter` schema attribute, along with handling in the `Read` function.
-- [ ] _Resource Filtering Documentation Implementation_: In the resource's equivalent data source documentation (e.g., `website/docs/d/service_thing.html.markdown`), addition of `filter` argument
+- [ ] _Resource Filtering Documentation Implementation_: In the resource's equivalent data source documentation (e.g., `docs/data-sources/service_thing.md`), addition of `filter` argument
 
 ### Adding Service to Filter Generating Code
 
@@ -604,7 +604,7 @@ input.Filters = filters.Ec2Filters()
 
 ### Resource Filtering Documentation Implementation
 
-- In the resource's equivalent data source documentation (e.g., `website/docs/d/internet_gateway.html.markdown`), add the following to the arguments reference:
+- In the resource's equivalent data source documentation (e.g., `docs/data-sources/internet_gateway.md`), add the following to the arguments reference:
 
 ```markdown
 * `filter` - (Optional) Custom filter block as described below.
@@ -655,8 +655,8 @@ guidelines.
 
 - [ ] __Arguments_and_Attributes__: The HCL for arguments and attributes should mimic the types and structs presented by the AWS API. API arguments should be converted from `CamelCase` to `camel_case`. The resource logic for handling these should follow the recommended implementations in the [Data Handling and Conversion](data-handling-and-conversion.md) documentation.
 - [ ] __Documentation__: Each data source and resource gets a page in the Terraform
-   documentation, which lives at `website/docs/d/<service>_<name>.html.markdown` and
-   `website/docs/r/<service>_<name>.html.markdown` respectively.
+   documentation, which lives at `docs/data-sources/<service>_<name>.md` and
+   `docs/resources/<service>_<name>.md` respectively.
 - [ ] __Well-formed Code__: Do your best to follow existing conventions you
    see in the codebase, and ensure your code is formatted with `go fmt`.
    The PR reviewers can help out on this front, and may provide comments with
@@ -790,7 +790,7 @@ resource "aws_{service}_tag" "test" {
 ```
 
 - Run `make testacc TESTS=TestAcc{Service}Tags_ PKG={Service}` and ensure there are no failures.
-- Create `website/docs/r/{service}_tag.html.markdown` with initial documentation similar to the following:
+- Create `docs/resources/{service}_tag.md` with initial documentation similar to the following:
 
 ``````markdown
 ---

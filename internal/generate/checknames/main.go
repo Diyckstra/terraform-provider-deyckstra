@@ -189,12 +189,12 @@ func main() {
 	fmt.Printf("  Performed %d checks on names_data.csv, 0 errors.\n", (allChecks * 36))
 
 	// DocPrefix needs to be reworked for compatibility with tfproviderdocs, in the meantime skip
-	err = checkDocDir("../../../website/docs/r/", docPrefixes)
+	err = checkDocDir("../../../docs/resources/", docPrefixes)
 	if err != nil {
 		log.Fatalf("while checking resource doc dir: %s", err)
 	}
 
-	err = checkDocDir("../../../website/docs/d/", docPrefixes)
+	err = checkDocDir("../../../docs/data-sources/", docPrefixes)
 	if err != nil {
 		log.Fatalf("while checking data source doc dir: %s", err)
 	}

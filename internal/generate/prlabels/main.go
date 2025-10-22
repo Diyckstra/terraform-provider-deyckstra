@@ -130,8 +130,8 @@ dependencies:
   - '.github/dependabot.yml'
 documentation:
   - '**/*.md'
+  - 'dev-docs/**/*'
   - 'docs/**/*'
-  - 'website/**/*'
 examples:
   - 'examples/**/*'
 flex:
@@ -164,10 +164,10 @@ provider:
   - '.gitignore'
   - '.go-version'
   - '*.md'
-  - 'docs/contributing/**/*'
+  - 'dev-docs/contributing/**/*'
   - 'internal/provider/**/*'
   - 'main.go'
-  - 'website/docs/index.html.markdown'
+  - 'docs/index.md'
 repository:
   - '.github/**/*'
   - 'GNUmakefile'

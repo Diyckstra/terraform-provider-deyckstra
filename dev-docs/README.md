@@ -45,7 +45,7 @@
 - [Terraform](https://www.terraform.io/downloads.html) 0.13+ (запуск приемочных тестов)
 - [Go](https://golang.org/doc/install) 1.21 (сборка провайдера)
 - [Docker](https://docs.docker.com/get-started/get-docker/) (запуск линтеров для документации)
-- [Python](https://www.python.org/downloads/release/python-380/) 3.8+ (установка сборки пользовательской документации)
+- [Python](https://www.python.org/downloads/release/python-380/) 3.8+ (локальный деплой документации провайдера)
 
 ## Общая информация
 
@@ -198,7 +198,7 @@ aws-sdk-go=<имя ветки в aws-sdk-go>
 - запуск конкретного теста: `make testacc TESTS=TestAccEC2EBSVolume_basic PKG=ec2`
 
 По запуску и написанию приемочных тестов есть
-[документация](../dev-docs/contributing/running-and-writing-acceptance-tests.md).
+[документация](contributing/running-and-writing-acceptance-tests.md).
 
 ## Документация
 
