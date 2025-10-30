@@ -124,7 +124,7 @@ An API endpoint can be set using the corresponding provider parameter.
 | EC2 (Elastic Compute Cloud)        | `ec2`              | `EC2_URL`            |
 | EKS (Elastic Kubernetes)           | `eks`              |                      |
 | ELB (Elastic Load Balancing)       | `elbv2`            |                      |
-| IAM (Identity & Access Management) | `iam`              |                      |
+| IAM (Identity & Access Management) | `iam`              | `IAM_URL`            |
 | PaaS                               | `paas`             | `PAAS_URL`           |
 | Route53                            | `route53`          |                      |
 | Transit Gateway                    | `ec2`              | `EC2_URL`            |
