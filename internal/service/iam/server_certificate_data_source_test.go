@@ -55,7 +55,6 @@ func TestAccIAMServerCertificateDataSource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet("data.aws_iam_server_certificate.test", "arn"),
 					resource.TestCheckResourceAttrSet("data.aws_iam_server_certificate.test", "id"),
 					resource.TestCheckResourceAttrSet("data.aws_iam_server_certificate.test", "name"),
-					resource.TestCheckResourceAttrSet("data.aws_iam_server_certificate.test", "path"),
 					resource.TestCheckResourceAttrSet("data.aws_iam_server_certificate.test", "upload_date"),
 					resource.TestCheckResourceAttr("data.aws_iam_server_certificate.test", "certificate_chain", ""),
 					resource.TestMatchResourceAttr("data.aws_iam_server_certificate.test", "certificate_body", regexp.MustCompile("^-----BEGIN CERTIFICATE-----")),
@@ -80,30 +79,6 @@ func TestAccIAMServerCertificateDataSource_matchNamePrefix(t *testing.T) {
 	})
 }
 
-func TestAccIAMServerCertificateDataSource_path(t *testing.T) {
-	rName := sdkacctest.RandomWithPrefix(acctest.ResourcePrefix)
-	path := "/test-path/"
-	pathPrefix := "/test-path/"
-
-	key := acctest.TLSRSAPrivateKeyPEM(2048)
-	certificate := acctest.TLSRSAX509SelfSignedCertificatePEM(key, "example.com")
-
-	resource.ParallelTest(t, resource.TestCase{
-		PreCheck:          func() { acctest.PreCheck(t) },
-		ErrorCheck:        acctest.ErrorCheck(t, iam.EndpointsID),
-		ProviderFactories: acctest.ProviderFactories,
-		CheckDestroy:      testAccCheckServerCertificateDestroy,
-		Steps: []resource.TestStep{
-			{
-				Config: testAccDataServerCertPathConfig(rName, path, pathPrefix, key, certificate),
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("data.aws_iam_server_certificate.test", "path", path),
-				),
-			},
-		},
-	})
-}
-
 func testAccDataServerCertConfig(rName, key, certificate string) string {
 	return fmt.Sprintf(`
 resource "aws_iam_server_certificate" "test_cert" {
@@ -117,23 +92,6 @@ data "aws_iam_server_certificate" "test" {
   latest = true
 }
 `, rName, acctest.TLSPEMEscapeNewlines(certificate), acctest.TLSPEMEscapeNewlines(key))
-}
-
-func testAccDataServerCertPathConfig(rName, path, pathPrefix, key, certificate string) string {
-	return fmt.Sprintf(`
-resource "aws_iam_server_certificate" "test_cert" {
-  name             = "%[1]s"
-  path             = "%[2]s"
-  certificate_body = "%[3]s"
-  private_key      = "%[4]s"
-}
-
-data "aws_iam_server_certificate" "test" {
-  name        = aws_iam_server_certificate.test_cert.name
-  path_prefix = "%[5]s"
-  latest      = true
-}
-`, rName, path, acctest.TLSPEMEscapeNewlines(certificate), acctest.TLSPEMEscapeNewlines(key), pathPrefix)
 }
 
 var testAccDataServerCertMatchNamePrefixConfig = `

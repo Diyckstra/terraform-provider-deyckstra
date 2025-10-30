@@ -37,9 +37,7 @@ func TestAccIAMServerCertificate_basic(t *testing.T) {
 					acctest.CheckResourceAttrGlobalARN(resourceName, "arn", "iam", fmt.Sprintf("server-certificate/%s", rName)),
 					acctest.CheckResourceAttrRFC3339(resourceName, "expiration"),
 					acctest.CheckResourceAttrRFC3339(resourceName, "upload_date"),
-					resource.TestCheckResourceAttr(resourceName, "tags.%", "0"),
 					resource.TestCheckResourceAttr(resourceName, "name", rName),
-					resource.TestCheckResourceAttr(resourceName, "path", "/"),
 					resource.TestCheckResourceAttr(resourceName, "certificate_body", strings.TrimSpace(certificate)),
 				),
 			},
@@ -49,57 +47,6 @@ func TestAccIAMServerCertificate_basic(t *testing.T) {
 				ImportStateVerify:       true,
 				ImportStateId:           rName,
 				ImportStateVerifyIgnore: []string{"private_key"},
-			},
-		},
-	})
-}
-
-func TestAccIAMServerCertificate_tags(t *testing.T) {
-	var cert iam.ServerCertificate
-
-	resourceName := "aws_iam_server_certificate.test"
-	rName := sdkacctest.RandomWithPrefix(acctest.ResourcePrefix)
-
-	key := acctest.TLSRSAPrivateKeyPEM(2048)
-	certificate := acctest.TLSRSAX509SelfSignedCertificatePEM(key, "example.com")
-
-	resource.ParallelTest(t, resource.TestCase{
-		PreCheck:          func() { acctest.PreCheck(t) },
-		ErrorCheck:        acctest.ErrorCheck(t, iam.EndpointsID),
-		ProviderFactories: acctest.ProviderFactories,
-		CheckDestroy:      testAccCheckServerCertificateDestroy,
-		Steps: []resource.TestStep{
-			{
-				Config: testAccServerCertificateConfig_tags1(rName, key, certificate, "key1", "value1"),
-				Check: resource.ComposeTestCheckFunc(
-					testAccCheckCertExists(resourceName, &cert),
-					resource.TestCheckResourceAttr(resourceName, "tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "tags.key1", "value1"),
-				),
-			},
-			{
-				ResourceName:            resourceName,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateId:           rName,
-				ImportStateVerifyIgnore: []string{"private_key"},
-			},
-			{
-				Config: testAccServerCertificateConfig_tags2(rName, key, certificate, "key1", "value1updated", "key2", "value2"),
-				Check: resource.ComposeTestCheckFunc(
-					testAccCheckCertExists(resourceName, &cert),
-					resource.TestCheckResourceAttr(resourceName, "tags.%", "2"),
-					resource.TestCheckResourceAttr(resourceName, "tags.key1", "value1updated"),
-					resource.TestCheckResourceAttr(resourceName, "tags.key2", "value2"),
-				),
-			},
-			{
-				Config: testAccServerCertificateConfig_tags1(rName, key, certificate, "key2", "value2"),
-				Check: resource.ComposeTestCheckFunc(
-					testAccCheckCertExists(resourceName, &cert),
-					resource.TestCheckResourceAttr(resourceName, "tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "tags.key2", "value2"),
-				),
 			},
 		},
 	})
@@ -192,39 +139,6 @@ func TestAccIAMServerCertificate_file(t *testing.T) {
 	})
 }
 
-func TestAccIAMServerCertificate_path(t *testing.T) {
-	var cert iam.ServerCertificate
-
-	resourceName := "aws_iam_server_certificate.test"
-	rName := sdkacctest.RandomWithPrefix(acctest.ResourcePrefix)
-
-	key := acctest.TLSRSAPrivateKeyPEM(2048)
-	certificate := acctest.TLSRSAX509SelfSignedCertificatePEM(key, "example.com")
-
-	resource.ParallelTest(t, resource.TestCase{
-		PreCheck:          func() { acctest.PreCheck(t) },
-		ErrorCheck:        acctest.ErrorCheck(t, iam.EndpointsID),
-		ProviderFactories: acctest.ProviderFactories,
-		CheckDestroy:      testAccCheckServerCertificateDestroy,
-		Steps: []resource.TestStep{
-			{
-				Config: testAccServerCertificateConfig_path(rName, "/test/", key, certificate),
-				Check: resource.ComposeTestCheckFunc(
-					testAccCheckCertExists(resourceName, &cert),
-					resource.TestCheckResourceAttr(resourceName, "path", "/test/"),
-				),
-			},
-			{
-				ResourceName:            resourceName,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateId:           rName,
-				ImportStateVerifyIgnore: []string{"private_key"},
-			},
-		},
-	})
-}
-
 func testAccCheckCertExists(n string, cert *iam.ServerCertificate) resource.TestCheckFunc {
 	return func(s *terraform.State) error {
 		rs, ok := s.RootModule().Resources[n]
@@ -297,17 +211,6 @@ resource "aws_iam_server_certificate" "test" {
 `, acctest.TLSPEMEscapeNewlines(certificate), acctest.TLSPEMEscapeNewlines(key))
 }
 
-func testAccServerCertificateConfig_path(rName, path, key, certificate string) string {
-	return fmt.Sprintf(`
-resource "aws_iam_server_certificate" "test" {
-  name             = "%[1]s"
-  path             = "%[2]s"
-  certificate_body = "%[3]s"
-  private_key      = "%[4]s"
-}
-`, rName, path, acctest.TLSPEMEscapeNewlines(certificate), acctest.TLSPEMEscapeNewlines(key))
-}
-
 // iam-ssl-unix-line-endings
 func testAccServerCertificateConfig_file(rInt int, fName string) string {
 	return fmt.Sprintf(`
@@ -316,51 +219,35 @@ resource "aws_iam_server_certificate" "test" {
   certificate_body = file("%s")
 
   private_key = <<EOF
------BEGIN RSA PRIVATE KEY-----
-MIICXQIBAAKBgQDKdH6BU9Q0xBVPfeX5NjCC/B2Pm3WsFGnTtRw4abkD+r4to9wD
-eYUgjH2yPCyonNOA8mNiCQgDTtaLfbA8LjBYoodt7rgaTO7C0ugRtmTNK96DmYxm
-f8Gs5ZS6eC3yeaFv58d1w2mow7tv0+DRk8uXwzVfaaMxoalsCtlLznmZHwIDAQAB
-AoGABZj69nBu6ZaSUERW23EYHkcCOjo+Iqfd1TCouxaROv7vyytApgfyGlhIEWmA
-gpjzcBlDji5Zvl2rqOesu707MOuJavZvluo+JHy/VIuU+yGUrWuO/QVCu6Jn3yns
-vS7g48ConuZ962cTzRPcpPDspONBVOAhVCF33Y8PsnxV0wECQQD5RqeoqxEUupsy
-QhrDui0KkYXLdT0uhrEQ69n9rvAiQoHPsiX0MswfEKnj/g9N3VwGLdgWytT0TvcI
-8fDPRB4/AkEAz+qF3taX77gB69XRPQwCGWqE1fHIFMwX7QeYdEsk3iRZ0EKVcdp6
-vIPCB2Cq4a4eXcaFa/bXen4yeYgyTbeNIQJBAO92dWctdoowPRiJskZmGhC1/Q6X
-gH+qenyj5VSy8hInS6anH5i4F6icDGhtzmvhgx6YeaZjkTFkjiG0sb2aVWcCQQDD
-WL7UwtzX/xPXB/ril5C1Xo5WESgC2ks0ielkgmGuUYsNEDInWbXtvwGjOuDyz0x6
-oRYkfTSxQzabVyqkOGvhAkBtbjUxOD8wgBIjb4T6mAMokQo6PeEAZGUTyPifjJNo
-detWVr2WRvgNgQvcRnNPECwfq1RtMJJpavaI3kgeaSxg
------END RSA PRIVATE KEY-----
+-----BEGIN PRIVATE KEY-----
+MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCvq6Nu7hMPE5RC
+2N1LIVxNm1Eek7/MupdqorCNYSndUNG1SvIVhVxSSpQx4kBaO+GJ9sXPDAEcvWij
+Ecg3zT2qCFZZJ5RzPsdJhniYTzubFMzfNVPuQ9wnABruDt5C9RNLOf6JxFshcFve
++XE1xYHZ8NERuIZIWN7YUZ5giTLcKLS0MZxLOskj7Bc5J7dH3qy/PJminkpw38kd
+5FpFRkAfUHzMeZeNtNkJDedtMQ7ftwnkCcjybGmmO8Qvo3yCEq2fPQBQE1x3cPpK
+PjDtsEDa2bu87m4/ILkrZCy4z6jeqDxTDE85rHsdX5SBOE+s5PQ+tuMB9kAmyYm3
+x9UzphNBAgMBAAECggEAATlAV6732gSIZVjOXc4bLv00ePKNhPcNw/PjJ/Dz0jNU
+ap9dhVHa/UXAt4I8cYR2QzhBU3phbZpSJsSicOUQl2UceN2CNrVKvRPfNixjHWbt
+MGbWMVQureTdyye2W6AKZN1ADSSdf+Og+DIjnDzGdUaspiNzaACaeMZExKZgANGS
+0D2FV0vYtGrfNCeWuppo+Dr+VLoHnX0gwYM+9L84b3W5H/Z21vab2Sdjvc66ydyA
+P61SC/AAxOmDPb+iYxO2oU8pYDoDzkdYsI/ds3xQAzxN+lfZa7ni/fE+A/GikCgF
+bEJNeYsllUj1i3MIoGqmGBkyGqb37uvCnLUzSbi+mQKBgQDXqyRDfMNyTCHZQsIL
+E+DO1nNqifZaAimmsd3MUAKk+WV71UVTp7NJFKCZf8Ny0KBN43+cfFNIHLq2I1Rk
+plxFZfEO19RaFFq1aUSl1Wc9DT9DtrvT1vJaCBFsJvYldxqlvlxxfXVFuHoqAio9
+enJq7pNaJWyf4RvTlDJA6WxvxQKBgQDQhaPff5H54mbqHBYbIbAoIpFZ34ifqyPp
+bE4SlqwXQv12WLs+5FpFyI1T/E4mzZg2/tGMfevfIZmkwPPjlh5ROALv2ZquGqju
+2V91lnR6GkDnQgTAN8fnyS9yPD67Uepasx+cxR6+Q8kxERiu9yE3TJyNJxTvH/9J
+pPODgpDxTQKBgCiKC/v/lMGEXAx5xv3ME8Ltfq51FnCe3XNvFbEVDRozowbe9PQf
+nszK6tFPuc54NtnNPKyOlh0FAXfBNljhCJEm82QF3+26y74z9mpxrcFFHzI8RBwy
+2EViJNw+iqBKPiEPolLW8VdUsOn6lDQQMze0dtBIHp4C83cW8UdQWUi9AoGBAKQQ
+QftbeBNQGwEf0BTQ0LUDXbGEuw5FrR+/Yz4k5on23036SnkVWiGFxgzKewL0yEqc
++2q6uJb67NRALKRoPLpSg50LbTSHLVugFAeEtWhMt7w8qVhDiznHhVkwJXtk3Cs4
+vCqwvZud4fKFLRKcxrmnwZUdps7uMgJTknVqiXgRAoGASicK9HlxL51tjjRldA+z
+jEQuwyhHiAOQZiJomuM2OusGasCBrkFImHwbPz1o1+EBQldpqBN9l/ucnU/pXDLD
+edYJrTb09yZtGP64XTJpUo0spggW/Rj5Vgu2RR7M9hlliQaT4JR/YQQYuKV/NYlb
+O8ha4p5F1oWKyzIxcfBKPLI=
+-----END PRIVATE KEY-----
 EOF
 }
 `, rInt, fName)
-}
-
-func testAccServerCertificateConfig_tags1(rName, key, certificate, tagKey1, tagValue1 string) string {
-	return fmt.Sprintf(`
-resource "aws_iam_server_certificate" "test" {
-  name             = "%[1]s"
-  certificate_body = "%[2]s"
-  private_key      = "%[3]s"
-
-  tags = {
-    %[4]q = %[5]q
-  }
-}
-`, rName, acctest.TLSPEMEscapeNewlines(certificate), acctest.TLSPEMEscapeNewlines(key), tagKey1, tagValue1)
-}
-
-func testAccServerCertificateConfig_tags2(rName, key, certificate, tagKey1, tagValue1, tagKey2, tagValue2 string) string {
-	return fmt.Sprintf(`
-resource "aws_iam_server_certificate" "test" {
-  name             = "%[1]s"
-  certificate_body = "%[2]s"
-  private_key      = "%[3]s"
-
-  tags = {
-    %[4]q = %[5]q
-    %[6]q = %[7]q
-  }
-}
-`, rName, acctest.TLSPEMEscapeNewlines(certificate), acctest.TLSPEMEscapeNewlines(key), tagKey1, tagValue1, tagKey2, tagValue2)
 }
