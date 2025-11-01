@@ -31,7 +31,6 @@ code {
     padding: 0.2em 0.4em;
     font-size: 85%;
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "JetBrains Mono", "Liberation Mono", monospace !important;
-    font-family: "IBMPlexSans-Light";
 }
 
 .text-yellow {
@@ -118,6 +117,10 @@ table caption {
     color: #f5f5f5 !important;
     background-color: #2d2d2d !important;
     border-color: #444444 !important;
+    border-radius: 3px;
+    padding: 0.2em 0.4em;
+    font-size: 85%;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "JetBrains Mono", "Liberation Mono", monospace !important;
 }
 
 [data-md-color-scheme="slate"] .note-block-yellow {
@@ -154,12 +157,6 @@ table caption {
     color: #4caf7d !important;
 }
 
-[data-md-color-scheme="slate"] h1,
-[data-md-color-scheme="slate"] h2,
-[data-md-color-scheme="slate"] h3,
-[data-md-color-scheme="slate"] h4 {
-    color: #ffffff !important;
-}
 .md-typeset h1 {
     font-family: "IBMPlexSans-Bold";
     color: #4D4D55 !important;
@@ -207,4 +204,18 @@ table caption {
 
 .md-typeset table:not([class]) {
     display: inline-table;
+}
+
+.md-sidebar--primary .md-sidebar__scrollwrap,
+.md-sidebar--secondary .md-sidebar__scrollwrap {
+  scrollbar-gutter: stable;
+}
+
+[data-md-color-scheme="slate"] h1,
+[data-md-color-scheme="slate"] h2,
+[data-md-color-scheme="slate"] h3,
+[data-md-color-scheme="slate"] h4,
+[data-md-color-scheme="slate"] h5,
+[data-md-color-scheme="slate"] h6 {
+    color: #ffffff !important;
 }
