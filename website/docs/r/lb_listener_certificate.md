@@ -59,12 +59,44 @@ resource "aws_lb_target_group" "example" {
   }
 }
 
+resource "aws_iam_server_certificate" "default" {
+  name_prefix = "default"
+
+  certificate_body = <<EOF
+-----BEGIN CERTIFICATE-----
+[......] # cert contents
+-----END CERTIFICATE-----
+EOF
+
+  private_key = <<EOF
+-----BEGIN RSA PRIVATE KEY-----
+[......] # private key contents
+-----END RSA PRIVATE KEY-----
+EOF
+}
+
+resource "aws_iam_server_certificate" "example" {
+  name_prefix = "example"
+
+  certificate_body = <<EOF
+-----BEGIN CERTIFICATE-----
+[......] # cert contents
+-----END CERTIFICATE-----
+EOF
+
+  private_key = <<EOF
+-----BEGIN RSA PRIVATE KEY-----
+[......] # private key contents
+-----END RSA PRIVATE KEY-----
+EOF
+}
+
 resource "aws_lb_listener" "example" {
   load_balancer_arn = aws_lb.example.arn
 
   port            = 1222
   protocol        = "HTTPS"
-  certificate_arn = "arn:c2:iam::customer_name:server-certificate/default"
+  certificate_arn = aws_iam_server_certificate.default.arn
 
   default_action {
     type = "forward"
@@ -83,7 +115,7 @@ resource "aws_lb_listener" "example" {
 
 resource "aws_lb_listener_certificate" "example" {
   listener_arn    = aws_lb_listener.example.arn
-  certificate_arn = "arn:c2:iam::customer_name:server-certificate/example"
+  certificate_arn = aws_iam_server_certificate.example.arn
 }
 ```
 
