@@ -22,7 +22,7 @@ jobs:
       run: make tools
 
     - name: Install Docker
-      uses: crazy-max/ghaction-setup-docker@v3
+      uses: docker/setup-docker-action@v4
 
     - name: Run linters for the website
       run: make website-lint
