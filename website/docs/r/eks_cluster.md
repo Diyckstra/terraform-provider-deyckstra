@@ -76,13 +76,58 @@ resource "aws_eks_cluster" "example" {
 }
 ```
 
+### EKS Cluster with extra services
+
+~> **Note**
+This example uses the same VPC and subnet as in the [EKS High-Availability Cluster example](#eks-high-availability-cluster).
+
+```terraform
+resource "aws_eks_cluster" "example" {
+  name    = "tf-cluster-extra-services"
+  version = "1.30.2"
+
+  legacy_cluster_params {
+    docker_registry_config {
+      volume_type = "gp2"
+      volume_size = 32
+    }
+
+    ebs_provider_config {
+      ebs_user = "ebs"
+    }
+
+    ingress_config {
+      instance_type = "c5.large"
+      volume_type   = "gp2"
+      volume_size   = 32
+    }
+
+    master_config {
+      high_availability = false
+      instance_type     = "c5.large"
+      volume_type       = "gp2"
+      volume_size       = 64
+    }
+
+    nlb_provider_config {
+      nlb_user = "nlb"
+    }
+  }
+
+  vpc_config {
+    subnet_ids = [aws_subnet.example.id]
+  }
+}
+```
+
 ## Argument Reference
 
 The following arguments are required:
 
 * `name` - (Required) The name of the cluster. Must be between 1-100 characters in length. Must begin with an alphanumeric character, and must only contain alphanumeric characters, dashes and underscores (`^[0-9A-Za-z][A-Za-z0-9\-_]+$`).
 * `version` - (Required) The Kubernetes server version for the cluster.
-* `vpc_config` - (Required) Configuration block for the VPC associated with your cluster. Detailed below. Also contains attributes detailed in the Attributes section.
+* `vpc_config` - (Required) Configuration block for the VPC associated with your cluster.
+  The structure of this block is [described below](#vpc_config).
 
 The following arguments are optional:
 
@@ -90,11 +135,6 @@ The following arguments are optional:
 * `legacy_cluster_params` - (Optional) The parameters for fine-tuning the Kubernetes cluster.
   The structure of this block is [described below](#legacy_cluster_params).
 * `tags` - (Optional) Map of tags to assign to the cluster. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
-
-### vpc_config Arguments
-
-* `security_group_ids` - (Optional) List of security group IDs.
-* `subnet_ids` - (Required) List of subnet IDs.
 
 ### kubernetes_network_config
 
@@ -112,8 +152,44 @@ The block must meet the following requirements:
 
 The `legacy_cluster_params` block has the following structure:
 
+* `docker_registry_config` – (Optional) The configuration of the Docker Registry.
+  The structure of this block is [described below](#docker_registry_config).
+* `ebs_provider_config` – (Optional) The configuration of the EBS Provider.
+  The structure of this block is [described below](#ebs_provider_config).
+* `ingress_config` – (Optional) The configuration of the Ingress controller.
+  The structure of this block is [described below](#ingress_config).
 * `master_config` - (Optional) The configuration of the master node of the cluster.
   The structure of this block is [described below](#master_config).
+* `nlb_provider_config` – (Optional) The configuration of the NLB Provider.
+  The structure of this block is [described below](#nlb_provider_config).
+
+#### docker_registry_config
+
+The `docker_registry_config` block has the following structure:
+
+* `volume_size` - (Required) The size of the Docker Registry volume in GiB.
+* `volume_type` - (Required) The type of the Docker Registry volume.
+    * _Valid values:_ `st2`, `gp2`, `io2`
+* `volume_iops` - (Optional) The number of read/write operations per second for the Docker Registry volume.
+    * _Constraints_: Required only when `volume_type` is `io2`
+
+#### ebs_provider_config
+
+The `ebs_provider_config` block has the following structure:
+
+* `ebs_user` - (Required) The EBS Provider user name.
+
+#### ingress_config
+
+The `ingress_config` block has the following structure:
+
+* `instance_type` - (Required) The instance type of the Ingress controller.
+* `volume_size` - (Required) The size of the Ingress controller volume in GiB.
+* `volume_type` - (Required) The type of the Ingress controller volume.
+    * _Valid values:_ `st2`, `gp2`, `io2`
+* `public_ip` - (Optional) The public IP address at which the Ingress controller can be accessed.
+* `volume_iops` - (Optional) The number of read/write operations per second for the Ingress controller volume.
+    * _Constraints_: Required only when `volume_type` is `io2`
 
 #### master_config
 
@@ -121,12 +197,23 @@ The `master_config` block has the following structure:
 
 * `high_availability` - (Required) Indicates whether to deploy a high-availability cluster.
 * `instance_type` - (Required) The instance type of the master node.
-* `public_ip` - (Optional) The public IP address at which the master node can be accessed.
-* `volume_iops` - (Optional) The number of read/write operations per second for the master node volume.
-  The parameter must be set if `volume_type` is `io2`.
 * `volume_size` - (Required) The size of the master node volume in GiB.
 * `volume_type` - (Required) The type of the master node volume.
     * _Valid values:_ `st2`, `gp2`, `io2`
+* `public_ip` - (Optional) The public IP address at which the master node can be accessed.
+* `volume_iops` - (Optional) The number of read/write operations per second for the master node volume.
+    * _Constraints_: Required only when `volume_type` is `io2`
+
+#### nlb_provider_config
+
+The `nlb_provider_config` block has the following structure:
+
+* `nlb_user` - (Required) The NLB Provider user name.
+
+### vpc_config
+
+* `subnet_ids` - (Required) List of subnet IDs.
+* `security_group_ids` - (Optional) List of security group IDs.
 
 ## Attribute Reference
 

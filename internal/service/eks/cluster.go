@@ -170,6 +170,80 @@ func ResourceCluster() *schema.Resource {
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"docker_registry_config": {
+							Type:     schema.TypeList,
+							Optional: true,
+							MaxItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"volume_iops": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										ForceNew: true,
+									},
+									"volume_size": {
+										Type:     schema.TypeInt,
+										Required: true,
+										ForceNew: true,
+									},
+									"volume_type": {
+										Type:         schema.TypeString,
+										Required:     true,
+										ForceNew:     true,
+										ValidateFunc: validation.StringInSlice(ec2.VolumeType_Values(), false),
+									},
+								},
+							},
+						},
+						"ebs_provider_config": {
+							Type:     schema.TypeList,
+							Optional: true,
+							MaxItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"ebs_user": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
+								},
+							},
+						},
+						"ingress_config": {
+							Type:     schema.TypeList,
+							Optional: true,
+							MaxItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"instance_type": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
+									"public_ip": {
+										Type:     schema.TypeString,
+										Optional: true,
+										ForceNew: true,
+									},
+									"volume_iops": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										ForceNew: true,
+									},
+									"volume_size": {
+										Type:     schema.TypeInt,
+										Required: true,
+										ForceNew: true,
+									},
+									"volume_type": {
+										Type:         schema.TypeString,
+										Required:     true,
+										ForceNew:     true,
+										ValidateFunc: validation.StringInSlice(ec2.VolumeType_Values(), false),
+									},
+								},
+							},
+						},
 						"master_config": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -206,6 +280,20 @@ func ResourceCluster() *schema.Resource {
 										Required:     true,
 										ForceNew:     true,
 										ValidateFunc: validation.StringInSlice(ec2.VolumeType_Values(), false),
+									},
+								},
+							},
+						},
+						"nlb_provider_config": {
+							Type:     schema.TypeList,
+							Optional: true,
+							MaxItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"nlb_user": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
 									},
 								},
 							},
@@ -765,7 +853,7 @@ func expandLoggingTypes(vEnabledLogTypes *schema.Set) *eks.Logging {
 	}
 }
 
-func expandLegacyClusterParams(tfList []interface{}) *eks.LegacyClusterParams {
+func expandLegacyClusterParams(tfList []interface{}) *eks.LegacyClusterParamsRequest {
 	if len(tfList) == 0 {
 		return nil
 	}
@@ -775,13 +863,116 @@ func expandLegacyClusterParams(tfList []interface{}) *eks.LegacyClusterParams {
 		return nil
 	}
 
-	legacyParams := &eks.LegacyClusterParams{}
+	legacyParams := &eks.LegacyClusterParamsRequest{}
+
+	if dockerRegistryConfig, ok := tfMap["docker_registry_config"].([]interface{}); ok && len(dockerRegistryConfig) > 0 {
+		legacyParams.DockerRegistryConfig = expandDockerRegistryConfig(dockerRegistryConfig)
+	}
+
+	if ebsProviderConfig, ok := tfMap["ebs_provider_config"].([]interface{}); ok && len(ebsProviderConfig) > 0 {
+		legacyParams.EbsProviderConfig = expandEbsProviderConfig(ebsProviderConfig)
+	}
+
+	if ingressConfig, ok := tfMap["ingress_config"].([]interface{}); ok && len(ingressConfig) > 0 {
+		legacyParams.IngressConfig = expandIngressConfig(ingressConfig)
+	}
 
 	if masterConfig, ok := tfMap["master_config"].([]interface{}); ok && len(masterConfig) > 0 {
 		legacyParams.MasterConfig = expandMasterConfig(masterConfig)
 	}
 
+	if nlbProviderConfig, ok := tfMap["nlb_provider_config"].([]interface{}); ok && len(nlbProviderConfig) > 0 {
+		legacyParams.NlbProviderConfig = expandNlbProviderConfig(nlbProviderConfig)
+	}
+
 	return legacyParams
+}
+
+func expandDockerRegistryConfig(tfList []interface{}) *eks.DockerRegistryConfig {
+	if len(tfList) == 0 {
+		return nil
+	}
+
+	tfMap, ok := tfList[0].(map[string]interface{})
+	if !ok || tfMap == nil {
+		return nil
+	}
+
+	dockerRegistryConfig := &eks.DockerRegistryConfig{
+		DockerRegistryRequired: aws.Bool(true),
+	}
+
+	if v, ok := tfMap["volume_iops"].(int); ok && v != 0 {
+		dockerRegistryConfig.DockerRegistryVolumeIops = aws.Int64(int64(v))
+	}
+
+	if v, ok := tfMap["volume_size"].(int); ok && v != 0 {
+		dockerRegistryConfig.DockerRegistryVolumeSize = aws.Int64(int64(v))
+	}
+
+	if v, ok := tfMap["volume_type"].(string); ok && v != "" {
+		dockerRegistryConfig.DockerRegistryVolumeType = aws.String(v)
+	}
+
+	return dockerRegistryConfig
+}
+
+func expandEbsProviderConfig(tfList []interface{}) *eks.EbsProviderConfigRequest {
+	if len(tfList) == 0 {
+		return nil
+	}
+
+	tfMap, ok := tfList[0].(map[string]interface{})
+	if !ok || tfMap == nil {
+		return nil
+	}
+
+	ebsProviderConfig := &eks.EbsProviderConfigRequest{
+		EbsProviderRequired: aws.Bool(true),
+	}
+
+	if v, ok := tfMap["ebs_user"].(string); ok && v != "" {
+		ebsProviderConfig.EbsUser = aws.String(v)
+	}
+
+	return ebsProviderConfig
+}
+
+func expandIngressConfig(tfList []interface{}) *eks.IngressConfig {
+	if len(tfList) == 0 {
+		return nil
+	}
+
+	tfMap, ok := tfList[0].(map[string]interface{})
+	if !ok || tfMap == nil {
+		return nil
+	}
+
+	ingressConfig := &eks.IngressConfig{
+		IngressRequired: aws.Bool(true),
+	}
+
+	if v, ok := tfMap["instance_type"].(string); ok && v != "" {
+		ingressConfig.IngressInstanceType = aws.String(v)
+	}
+
+	if v, ok := tfMap["public_ip"].(string); ok && v != "" {
+		ingressConfig.IngressPublicIp = aws.String(v)
+	}
+
+	if v, ok := tfMap["volume_iops"].(int); ok && v != 0 {
+		ingressConfig.IngressVolumeIops = aws.Int64(int64(v))
+	}
+
+	if v, ok := tfMap["volume_size"].(int); ok && v != 0 {
+		ingressConfig.IngressVolumeSize = aws.Int64(int64(v))
+	}
+
+	if v, ok := tfMap["volume_type"].(string); ok && v != "" {
+		ingressConfig.IngressVolumeType = aws.String(v)
+	}
+
+	return ingressConfig
 }
 
 func expandMasterConfig(tfList []interface{}) *eks.MasterConfig {
@@ -821,6 +1012,27 @@ func expandMasterConfig(tfList []interface{}) *eks.MasterConfig {
 	}
 
 	return masterConfig
+}
+
+func expandNlbProviderConfig(tfList []interface{}) *eks.NlbProviderConfigRequest {
+	if len(tfList) == 0 {
+		return nil
+	}
+
+	tfMap, ok := tfList[0].(map[string]interface{})
+	if !ok || tfMap == nil {
+		return nil
+	}
+
+	nlbProviderConfig := &eks.NlbProviderConfigRequest{
+		NlbProviderRequired: aws.Bool(true),
+	}
+
+	if v, ok := tfMap["nlb_user"].(string); ok && v != "" {
+		nlbProviderConfig.NlbUser = aws.String(v)
+	}
+
+	return nlbProviderConfig
 }
 
 func flattenCertificate(certificate *eks.Certificate) []map[string]interface{} {
@@ -938,13 +1150,95 @@ func flattenNetworkConfig(apiObject *eks.KubernetesNetworkConfigResponse) []inte
 	return []interface{}{tfMap}
 }
 
-func flattenLegacyClusterParams(legacyParams *eks.LegacyClusterParams) []interface{} {
+func flattenLegacyClusterParams(legacyParams *eks.LegacyClusterParamsResponse) []interface{} {
 	if legacyParams == nil {
 		return nil
 	}
 
 	tfMap := map[string]interface{}{
-		"master_config": flattenMasterConfig(legacyParams.MasterConfig),
+		"docker_registry_config": flattenDockerRegistryConfig(legacyParams.DockerRegistryConfig),
+		"ebs_provider_config":    flattenEbsProviderConfig(legacyParams.EbsProviderConfig),
+		"ingress_config":         flattenIngressConfig(legacyParams.IngressConfig),
+		"master_config":          flattenMasterConfig(legacyParams.MasterConfig),
+		"nlb_provider_config":    flattenNlbProviderConfig(legacyParams.NlbProviderConfig),
+	}
+
+	return []interface{}{tfMap}
+}
+
+func flattenDockerRegistryConfig(dockerRegistryConfig *eks.DockerRegistryConfig) []interface{} {
+	if dockerRegistryConfig == nil {
+		return nil
+	}
+
+	tfMap := map[string]interface{}{}
+
+	if v := dockerRegistryConfig.DockerRegistryVolumeIops; v != nil {
+		tfMap["volume_iops"] = aws.Int64Value(v)
+	}
+
+	if v := dockerRegistryConfig.DockerRegistryVolumeSize; v != nil {
+		tfMap["volume_size"] = aws.Int64Value(v)
+	}
+
+	if v := dockerRegistryConfig.DockerRegistryVolumeType; v != nil {
+		tfMap["volume_type"] = aws.StringValue(v)
+	}
+
+	if len(tfMap) == 0 {
+		return nil
+	}
+
+	return []interface{}{tfMap}
+}
+
+func flattenEbsProviderConfig(ebsProviderConfig *eks.EbsProviderConfigResponse) []interface{} {
+	if ebsProviderConfig == nil {
+		return nil
+	}
+
+	tfMap := map[string]interface{}{}
+
+	if v := ebsProviderConfig.EbsUserName; v != nil {
+		tfMap["ebs_user"] = aws.StringValue(v)
+	}
+
+	if len(tfMap) == 0 {
+		return nil
+	}
+
+	return []interface{}{tfMap}
+}
+
+func flattenIngressConfig(ingressConfig *eks.IngressConfig) []interface{} {
+	if ingressConfig == nil {
+		return nil
+	}
+
+	tfMap := map[string]interface{}{}
+
+	if v := ingressConfig.IngressInstanceType; v != nil {
+		tfMap["instance_type"] = aws.StringValue(v)
+	}
+
+	if v := ingressConfig.IngressPublicIp; v != nil {
+		tfMap["public_ip"] = aws.StringValue(v)
+	}
+
+	if v := ingressConfig.IngressVolumeIops; v != nil {
+		tfMap["volume_iops"] = aws.Int64Value(v)
+	}
+
+	if v := ingressConfig.IngressVolumeSize; v != nil {
+		tfMap["volume_size"] = aws.Int64Value(v)
+	}
+
+	if v := ingressConfig.IngressVolumeType; v != nil {
+		tfMap["volume_type"] = aws.StringValue(v)
+	}
+
+	if len(tfMap) == 0 {
+		return nil
 	}
 
 	return []interface{}{tfMap}
@@ -962,6 +1256,24 @@ func flattenMasterConfig(masterConfig *eks.MasterConfig) []interface{} {
 		"volume_iops":       aws.Int64Value(masterConfig.MastersVolumeIops),
 		"volume_size":       aws.Int64Value(masterConfig.MastersVolumeSize),
 		"volume_type":       aws.StringValue(masterConfig.MastersVolumeType),
+	}
+
+	return []interface{}{tfMap}
+}
+
+func flattenNlbProviderConfig(nlbProviderConfig *eks.NlbProviderConfigResponse) []interface{} {
+	if nlbProviderConfig == nil {
+		return nil
+	}
+
+	tfMap := map[string]interface{}{}
+
+	if v := nlbProviderConfig.NlbUserName; v != nil {
+		tfMap["nlb_user"] = aws.StringValue(v)
+	}
+
+	if len(tfMap) == 0 {
+		return nil
 	}
 
 	return []interface{}{tfMap}

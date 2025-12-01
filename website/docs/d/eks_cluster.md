@@ -36,8 +36,7 @@ In addition to all arguments above, the following attributes are exported:
 * `kubernetes_network_config` - The Kubernetes network configuration.
   The structure of this block is [described below](#kubernetes_network_config).
 * `legacy_cluster_params` - The parameters for fine-tuning the Kubernetes cluster.
-    * `master_config` - The configuration of the master node of the cluster.
-        The structure of this block is [described below](#master_config).
+  The structure of this block is [described below](#legacy_cluster_params).
 * `platform_version` - The platform version for the cluster.
 * `status` - The status of the EKS cluster. One of `CLAIMED`, `CREATING`, `DELETED`, `DELETING`, `ERROR`, `MODIFYING`, `PENDING`, `PROVISIONING`, `READY`, `REPAIRING`.
 * `version` - The Kubernetes server version for the cluster.
@@ -52,16 +51,64 @@ The `kubernetes_network_config` block has the following structure:
 * `ip_family` - The IP family used to assign Kubernetes pod and service addresses.
 * `service_ipv4_cidr` - The CIDR block to assign Kubernetes service IP addresses from.
 
-#### master_config
+#### legacy_cluster_params
+
+The `legacy_cluster_params` block has the following structure:
+
+* `docker_registry_config` – The configuration of the Docker Registry.
+  The structure of this block is [described below](#docker_registry_config).
+* `ebs_provider_config` – The configuration of the EBS Provider.
+  The structure of this block is [described below](#ebs_provider_config).
+* `ingress_config` – The configuration of the Ingress controller.
+  The structure of this block is [described below](#ingress_config).
+* `master_config` – The configuration of the master node of the cluster.
+  The structure of this block is [described below](#master_config).
+* `nlb_provider_config` – The configuration of the NLB Provider.
+  The structure of this block is [described below](#nlb_provider_config).
+
+##### docker_registry_config
+
+The `docker_registry_config` block has the following structure:
+
+* `volume_iops` - The number of read/write operations per second for the Docker Registry volume.
+* `volume_size` - The size of the Docker Registry volume in GiB.
+* `volume_type` - The type of the Docker Registry volume.
+    * _Valid values:_ `st2`, `gp2`, `io2`
+
+##### ebs_provider_config
+
+The `ebs_provider_config` block has the following structure:
+
+* `ebs_user` - The EBS Provider user name.
+
+##### ingress_config
+
+The `ingress_config` block has the following structure:
+
+* `instance_type` - The instance type of the Ingress controller.
+* `public_ip` - The public IP address at which the Ingress controller can be accessed.
+* `volume_iops` - The number of read/write operations per second for the Ingress controller volume.
+* `volume_size` - The size of the Ingress controller volume in GiB.
+* `volume_type` - The type of the Ingress controller volume.
+    * _Valid values:_ `st2`, `gp2`, `io2`
+
+##### master_config
 
 The `master_config` block has the following structure:
 
-* `high_availability` - Indicates whether this is a high-availability cluster.
+* `high_availability` - Indicates whether to deploy a high-availability cluster.
 * `instance_type` - The instance type of the master node.
-* `public_ip` - The public IP address at which the master node is accessed.
+* `public_ip` - The public IP address at which the master node can be accessed.
 * `volume_iops` - The number of read/write operations per second for the master node volume.
 * `volume_size` - The size of the master node volume in GiB.
 * `volume_type` - The type of the master node volume.
+    * _Valid values:_ `st2`, `gp2`, `io2`
+
+##### nlb_provider_config
+
+The `nlb_provider_config` block has the following structure:
+
+* `nlb_user` - The NLB Provider user name.
 
 #### vpc_config
 

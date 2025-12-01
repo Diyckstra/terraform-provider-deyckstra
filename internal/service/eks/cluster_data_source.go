@@ -85,6 +85,67 @@ func DataSourceCluster() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"docker_registry_config": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"volume_iops": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"volume_size": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"volume_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"ebs_provider_config": {
+							Type:     schema.TypeList,
+							Optional: true,
+							MaxItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"ebs_user": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"ingress_config": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"instance_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"public_ip": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"volume_iops": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"volume_size": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"volume_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"master_config": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -111,6 +172,18 @@ func DataSourceCluster() *schema.Resource {
 										Computed: true,
 									},
 									"volume_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"nlb_provider_config": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"nlb_user": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
