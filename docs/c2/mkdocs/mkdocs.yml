@@ -99,6 +99,7 @@ nav:
       - aws_iam_group_policy_attachment: r/iam_group_policy_attachment.md
       - aws_iam_policy: r/iam_policy.md
       - aws_iam_project: r/iam_project.md
+      - aws_iam_server_certificate: r/iam_server_certificate.md
       - aws_iam_user: r/iam_user.md
       - aws_iam_user_group_membership: r/iam_user_group_membership.md
       - aws_iam_user_policy_attachment: r/iam_user_policy_attachment.md
@@ -106,6 +107,7 @@ nav:
       - aws_iam_group: d/iam_group.md
       - aws_iam_policy: d/iam_policy.md
       - aws_iam_project: d/iam_project.md
+      - aws_iam_server_certificate: d/iam_server_certificate.md
       - aws_iam_user: d/iam_user.md
       - aws_iam_users: d/iam_users.md
   - PaaS:

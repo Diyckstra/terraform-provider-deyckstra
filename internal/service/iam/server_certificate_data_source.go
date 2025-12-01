@@ -9,9 +9,7 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/iam"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	"github.com/hashicorp/terraform-provider-aws/internal/conns"
 )
 
@@ -25,19 +23,12 @@ func DataSourceServerCertificate() *schema.Resource {
 				Optional:      true,
 				Computed:      true,
 				ConflictsWith: []string{"name_prefix"},
-				ValidateFunc:  validation.StringLenBetween(0, 128),
 			},
 
 			"name_prefix": {
 				Type:          schema.TypeString,
 				Optional:      true,
 				ConflictsWith: []string{"name"},
-				ValidateFunc:  validation.StringLenBetween(0, 128-resource.UniqueIDSuffixLength),
-			},
-
-			"path_prefix": {
-				Type:     schema.TypeString,
-				Optional: true,
 			},
 
 			"latest": {
@@ -47,11 +38,6 @@ func DataSourceServerCertificate() *schema.Resource {
 			},
 
 			"arn": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-
-			"path": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -107,9 +93,6 @@ func dataSourceServerCertificateRead(d *schema.ResourceData, meta interface{}) e
 
 	var metadatas []*iam.ServerCertificateMetadata
 	input := &iam.ListServerCertificatesInput{}
-	if v, ok := d.GetOk("path_prefix"); ok {
-		input.PathPrefix = aws.String(v.(string))
-	}
 	log.Printf("[DEBUG] Reading IAM Server Certificate")
 	err := conn.ListServerCertificatesPages(input, func(p *iam.ListServerCertificatesOutput, lastPage bool) bool {
 		for _, cert := range p.ServerCertificateMetadataList {
@@ -124,11 +107,11 @@ func dataSourceServerCertificateRead(d *schema.ResourceData, meta interface{}) e
 	}
 
 	if len(metadatas) == 0 {
-		return fmt.Errorf("Search for AWS IAM server certificate returned no results")
+		return fmt.Errorf("Search for IAM server certificate returned no results")
 	}
 	if len(metadatas) > 1 {
 		if !d.Get("latest").(bool) {
-			return fmt.Errorf("Search for AWS IAM server certificate returned too many results")
+			return fmt.Errorf("Search for IAM server certificate returned too many results")
 		}
 
 		sort.Sort(CertificateByExpiration(metadatas))
@@ -137,7 +120,6 @@ func dataSourceServerCertificateRead(d *schema.ResourceData, meta interface{}) e
 	metadata := metadatas[0]
 	d.SetId(aws.StringValue(metadata.ServerCertificateId))
 	d.Set("arn", metadata.Arn)
-	d.Set("path", metadata.Path)
 	d.Set("name", metadata.ServerCertificateName)
 	if metadata.Expiration != nil {
 		d.Set("expiration_date", metadata.Expiration.Format(time.RFC3339))
