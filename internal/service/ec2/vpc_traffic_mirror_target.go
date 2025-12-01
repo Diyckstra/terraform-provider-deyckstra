@@ -38,23 +38,23 @@ func ResourceTrafficMirrorTarget() *schema.Resource {
 			},
 			"network_interface_id": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Required: true,
 				ForceNew: true,
-				ExactlyOneOf: []string{
-					"network_interface_id",
-					"network_load_balancer_arn",
-				},
+				// ExactlyOneOf: []string{
+				// 	"network_interface_id",
+				// 	"network_load_balancer_arn",
+				// },
 			},
-			"network_load_balancer_arn": {
-				Type:     schema.TypeString,
-				Optional: true,
-				ForceNew: true,
-				ExactlyOneOf: []string{
-					"network_interface_id",
-					"network_load_balancer_arn",
-				},
-				ValidateFunc: verify.ValidARN,
-			},
+			// "network_load_balancer_arn": {
+			//	Type:     schema.TypeString,
+			//	Optional: true,
+			//	ForceNew: true,
+			//	ExactlyOneOf: []string{
+			//		"network_interface_id",
+			//		"network_load_balancer_arn",
+			//	},
+			//	ValidateFunc: verify.ValidARN,
+			// },
 			"owner_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -80,9 +80,9 @@ func resourceTrafficMirrorTargetCreate(d *schema.ResourceData, meta interface{})
 		input.NetworkInterfaceId = aws.String(v.(string))
 	}
 
-	if v, ok := d.GetOk("network_load_balancer_arn"); ok {
-		input.NetworkLoadBalancerArn = aws.String(v.(string))
-	}
+	// if v, ok := d.GetOk("network_load_balancer_arn"); ok {
+	//	input.NetworkLoadBalancerArn = aws.String(v.(string))
+	// }
 
 	if len(tags) > 0 {
 		input.TagSpecifications = ec2TagSpecificationsFromKeyValueTags(tags, ec2.ResourceTypeTrafficMirrorTarget)
@@ -142,7 +142,7 @@ func resourceTrafficMirrorTargetRead(d *schema.ResourceData, meta interface{}) e
 	target := out.TrafficMirrorTargets[0]
 	d.Set("description", target.Description)
 	d.Set("network_interface_id", target.NetworkInterfaceId)
-	d.Set("network_load_balancer_arn", target.NetworkLoadBalancerArn)
+	// d.Set("network_load_balancer_arn", target.NetworkLoadBalancerArn)
 
 	tags := KeyValueTags(target.Tags).IgnoreAWS().IgnoreConfig(ignoreTagsConfig)
 

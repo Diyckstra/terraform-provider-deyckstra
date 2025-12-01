@@ -74,8 +74,9 @@ func ResourceTrafficMirrorFilterRule() *schema.Resource {
 				}, false),
 			},
 			"rule_number": {
-				Type:     schema.TypeInt,
-				Required: true,
+				Type:         schema.TypeInt,
+				Required:     true,
+				ValidateFunc: validation.IntBetween(1, 128),
 			},
 			"source_cidr_block": {
 				Type:         schema.TypeString,
@@ -299,7 +300,7 @@ func resourceTrafficMirrorFilterRuleUpdate(d *schema.ResourceData, meta interfac
 	}
 
 	if d.HasChange("rule_number") {
-		input.RuleNumber = aws.Int64(int64(d.Get("rule_action").(int)))
+		input.RuleNumber = aws.Int64(int64(d.Get("rule_number").(int)))
 	}
 
 	if d.HasChange("traffic_direction") {

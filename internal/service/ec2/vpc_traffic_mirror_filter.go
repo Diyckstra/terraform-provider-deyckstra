@@ -9,9 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/ec2"
 	"github.com/hashicorp/aws-sdk-go-base/v2/awsv1shim/v2/tfawserr"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	"github.com/hashicorp/terraform-provider-aws/internal/conns"
-	"github.com/hashicorp/terraform-provider-aws/internal/flex"
 	tftags "github.com/hashicorp/terraform-provider-aws/internal/tags"
 	"github.com/hashicorp/terraform-provider-aws/internal/verify"
 )
@@ -37,16 +35,16 @@ func ResourceTrafficMirrorFilter() *schema.Resource {
 				Optional: true,
 				ForceNew: true,
 			},
-			"network_services": {
-				Type:     schema.TypeSet,
-				Optional: true,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
-					ValidateFunc: validation.StringInSlice([]string{
-						"amazon-dns",
-					}, false),
-				},
-			},
+			// "network_services": {
+			//	Type:     schema.TypeSet,
+			//	Optional: true,
+			//	Elem: &schema.Schema{
+			//		Type: schema.TypeString,
+			//		ValidateFunc: validation.StringInSlice([]string{
+			//			"amazon-dns",
+			//		}, false),
+			//	},
+			// },
 			"tags":     tftags.TagsSchema(),
 			"tags_all": tftags.TagsSchemaComputed(),
 		},
@@ -75,18 +73,18 @@ func resourceTrafficMirrorFilterCreate(d *schema.ResourceData, meta interface{})
 
 	d.SetId(aws.StringValue(out.TrafficMirrorFilter.TrafficMirrorFilterId))
 
-	if v, ok := d.GetOk("network_services"); ok {
-		input := &ec2.ModifyTrafficMirrorFilterNetworkServicesInput{
-			TrafficMirrorFilterId: aws.String(d.Id()),
-			AddNetworkServices:    flex.ExpandStringSet(v.(*schema.Set)),
-		}
+	// if v, ok := d.GetOk("network_services"); ok {
+	//	input := &ec2.ModifyTrafficMirrorFilterNetworkServicesInput{
+	//		TrafficMirrorFilterId: aws.String(d.Id()),
+	//		AddNetworkServices:    flex.ExpandStringSet(v.(*schema.Set)),
+	//	}
 
-		_, err := conn.ModifyTrafficMirrorFilterNetworkServices(input)
-		if err != nil {
-			return fmt.Errorf("error modifying EC2 Traffic Mirror Filter (%s) network services: %w", d.Id(), err)
-		}
+	//	_, err := conn.ModifyTrafficMirrorFilterNetworkServices(input)
+	//	if err != nil {
+	//		return fmt.Errorf("error modifying EC2 Traffic Mirror Filter (%s) network services: %w", d.Id(), err)
+	//	}
 
-	}
+	// }
 
 	return resourceTrafficMirrorFilterRead(d, meta)
 }
@@ -94,27 +92,27 @@ func resourceTrafficMirrorFilterCreate(d *schema.ResourceData, meta interface{})
 func resourceTrafficMirrorFilterUpdate(d *schema.ResourceData, meta interface{}) error {
 	conn := meta.(*conns.AWSClient).EC2Conn
 
-	if d.HasChange("network_services") {
-		input := &ec2.ModifyTrafficMirrorFilterNetworkServicesInput{
-			TrafficMirrorFilterId: aws.String(d.Id()),
-		}
+	// if d.HasChange("network_services") {
+	//	input := &ec2.ModifyTrafficMirrorFilterNetworkServicesInput{
+	//		TrafficMirrorFilterId: aws.String(d.Id()),
+	//	}
 
-		o, n := d.GetChange("network_services")
-		newServices := n.(*schema.Set).Difference(o.(*schema.Set))
-		if newServices.Len() > 0 {
-			input.AddNetworkServices = flex.ExpandStringSet(newServices)
-		}
+	//	o, n := d.GetChange("network_services")
+	//	newServices := n.(*schema.Set).Difference(o.(*schema.Set))
+	//	if newServices.Len() > 0 {
+	//		input.AddNetworkServices = flex.ExpandStringSet(newServices)
+	//	}
 
-		removeServices := o.(*schema.Set).Difference(n.(*schema.Set))
-		if removeServices.Len() > 0 {
-			input.RemoveNetworkServices = flex.ExpandStringSet(removeServices)
-		}
+	//	removeServices := o.(*schema.Set).Difference(n.(*schema.Set))
+	//	if removeServices.Len() > 0 {
+	//		input.RemoveNetworkServices = flex.ExpandStringSet(removeServices)
+	//	}
 
-		_, err := conn.ModifyTrafficMirrorFilterNetworkServices(input)
-		if err != nil {
-			return fmt.Errorf("error modifying EC2 Traffic Mirror Filter (%s) network services: %w", d.Id(), err)
-		}
-	}
+	//	_, err := conn.ModifyTrafficMirrorFilterNetworkServices(input)
+	//	if err != nil {
+	//		return fmt.Errorf("error modifying EC2 Traffic Mirror Filter (%s) network services: %w", d.Id(), err)
+	//	}
+	// }
 
 	if d.HasChange("tags_all") {
 		o, n := d.GetChange("tags_all")
@@ -168,9 +166,9 @@ func resourceTrafficMirrorFilterRead(d *schema.ResourceData, meta interface{}) e
 		return fmt.Errorf("error setting tags_all: %w", err)
 	}
 
-	if err := d.Set("network_services", aws.StringValueSlice(trafficMirrorFilter.NetworkServices)); err != nil {
-		return fmt.Errorf("error setting network_services for filter %v: %s", d.Id(), err)
-	}
+	// if err := d.Set("network_services", aws.StringValueSlice(trafficMirrorFilter.NetworkServices)); err != nil {
+	//	return fmt.Errorf("error setting network_services for filter %v: %s", d.Id(), err)
+	// }
 
 	arn := arn.ARN{
 		Partition: meta.(*conns.AWSClient).Partition,
