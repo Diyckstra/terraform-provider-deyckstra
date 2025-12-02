@@ -178,6 +178,22 @@ func DataSourceCluster() *schema.Resource {
 								},
 							},
 						},
+						"user_data_config": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"user_data": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"user_data_content_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"nlb_provider_config": {
 							Type:     schema.TypeList,
 							Computed: true,
