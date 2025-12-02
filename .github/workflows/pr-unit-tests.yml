@@ -35,7 +35,7 @@ jobs:
     - name: Define aws-sdk-go's branch
       if: contains(github.event.pull_request.labels.*.name, 'NeedSDK')
       run: |
-        SDK_BRANCH=$(echo "${{ github.event.pull_request.body }}" | grep -oE 'aws-sdk-go=[^\s]+' || true)
+        SDK_BRANCH=$(echo "${{ github.event.pull_request.body }}" | grep -oE 'aws-sdk-go=[^[:space:]]+' || true)
         if [[ -n "$SDK_BRANCH" ]]; then
           BRANCH=$(echo "$SDK_BRANCH" | cut -d '=' -f2 | tr -d '\r')
         else
