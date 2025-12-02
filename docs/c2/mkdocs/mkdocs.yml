@@ -154,6 +154,7 @@ nav:
   - Transit Gateway:
     - Resources:
       - aws_ec2_transit_gateway: r/ec2_transit_gateway.md
+      - aws_ec2_transit_gateway_project_access: r/ec2_transit_gateway_project_access.md
       - aws_ec2_transit_gateway_route: r/ec2_transit_gateway_route.md
       - aws_ec2_transit_gateway_route_table: r/ec2_transit_gateway_route_table.md
       - aws_ec2_transit_gateway_route_table_association: r/ec2_transit_gateway_route_table_association.md
