@@ -30,22 +30,21 @@ code {
     border-radius: 3px;
     padding: 0.2em 0.4em;
     font-size: 85%;
-    /* font-family: monospace; */
     font-family: "IBMPlexSans-Light";
 }
 
 .text-yellow {
-    color: #c69500; /* Более темный оттенок желтого */
+    color: #c69500;
     font-family: "IBMPlexSans-Light";
 }
 
 .text-blue {
-    color: #005b99 !important; /* Более темный оттенок синего */
+    color: #005b99 !important;
     font-family: "IBMPlexSans-Light";
 }
 
 .text-red {
-    color: #b52b21; /* Более темный оттенок красного */
+    color: #b52b21;
     font-family: "IBMPlexSans-Light";
 }
 
@@ -87,4 +86,81 @@ table caption {
     font-family: "IBMPlexSans-Bold";
     text-align: center;
     caption-side: top;
+}
+
+.note-block-yellow strong,
+.note-block-yellow .text-yellow {
+    color: #c69500 !important;
+}
+
+.note-block-blue strong,
+.note-block-blue .text-blue {
+    color: #005b99 !important;
+}
+
+.note-block-red strong,
+.note-block-red .text-red {
+    color: #b52b21 !important;
+}
+
+/* ТЕМНАЯ ТЕМА */
+[data-md-color-scheme="slate"] body {
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
+}
+
+[data-md-color-scheme="slate"] .md-main,
+[data-md-color-scheme="slate"] .md-content {
+    background-color: #1a1a1a !important;
+}
+
+[data-md-color-scheme="slate"] .md-typeset {
+    color: #e0e0e0 !important;
+}
+
+[data-md-color-scheme="slate"] code {
+    color: #f5f5f5 !important;
+    background-color: #2d2d2d !important;
+    border-color: #444444 !important;
+}
+
+[data-md-color-scheme="slate"] .note-block-yellow {
+    border: 1px solid #ffc107 !important;
+    background-color: #332900 !important;
+    color: #ffffff !important;
+}
+
+[data-md-color-scheme="slate"] .note-block-blue {
+    border: 1px solid #007acc !important;
+    background-color: #001f33 !important;
+    color: #ffffff !important;
+}
+
+[data-md-color-scheme="slate"] .note-block-red {
+    border: 1px solid #d9534f !important;
+    background-color: #331a1c !important;
+    color: #ffffff !important;
+}
+
+[data-md-color-scheme="slate"] .text-yellow {
+    color: #ffd700 !important;
+}
+
+[data-md-color-scheme="slate"] .text-blue {
+    color: #4dabf7 !important;
+}
+
+[data-md-color-scheme="slate"] .text-red {
+    color: #ff6b6b !important;
+}
+
+[data-md-color-scheme="slate"] th.head p {
+    color: #4caf7d !important;
+}
+
+[data-md-color-scheme="slate"] h1,
+[data-md-color-scheme="slate"] h2,
+[data-md-color-scheme="slate"] h3,
+[data-md-color-scheme="slate"] h4 {
+    color: #ffffff !important;
 }
