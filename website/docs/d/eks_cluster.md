@@ -65,6 +65,8 @@ The `legacy_cluster_params` block has the following structure:
   The structure of this block is [described below](#master_config).
 * `nlb_provider_config` – The configuration of the NLB Provider.
   The structure of this block is [described below](#nlb_provider_config).
+* `placement_config` - The placement of the cluster.
+  The structure of this block is [described below](#placement_config).
 
 ##### docker_registry_config
 
@@ -109,6 +111,19 @@ The `master_config` block has the following structure:
 The `nlb_provider_config` block has the following structure:
 
 * `nlb_user` - The NLB Provider user name.
+
+#### placement_config
+
+The `placement_config` block has the following structure:
+
+* `affinity` - The affinity setting for an instance on a dedicated host.
+    * _Constraints:_ The parameter could be set to `host` only if `tenancy` is `host`
+    * _Valid values:_ `default`, `host`
+    * _Default value:_ `default`
+* `host_id` - The ID of the dedicated host for the instance.
+* `tenancy` - The tenancy of the instance (if the instance is running in a VPC).
+    * _Valid values:_ `default`, `host`
+    * _Default value:_ `default`
 
 #### vpc_config
 
