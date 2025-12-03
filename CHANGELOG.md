@@ -1,3 +1,26 @@
+## 25.4.0
+
+NOTES:
+
+* acctest: use "c2" partition for acceptance testing
+
+FEATURES:
+
+* **New Data Source:** `aws_iam_server_certificate`
+* **New Resource:** `aws_iam_server_certificate`
+* **New Resource:** `aws_ec2_traffic_mirror_filter`
+* **New Resource:** `aws_ec2_traffic_mirror_filter_rule`
+* **New Resource:** `aws_ec2_traffic_mirror_session`
+* **New Resource:** `aws_ec2_traffic_mirror_target`
+* **New Resource:** `aws_ec2_transit_gateway_project_access`
+
+ENHANCEMENTS:
+
+* resource/aws_eks_cluster, data-source/aws_eks_cluster: add new `docker_registry_config`, `ebs_provider_config`,
+`ingress_config`, `nlb_provider_config`, `placement_config`, `user_data_config` blocks to the `legacy_cluster_params` block for EKS clusters
+* resource/aws_iam_user: add tags support for the IAM user
+* provider: support `IAM_URL` environment variable
+
 ## 25.3.0
 
 FEATURES:
