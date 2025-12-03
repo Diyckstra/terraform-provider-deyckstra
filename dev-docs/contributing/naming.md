@@ -21,7 +21,7 @@ In the AWS Provider, a service identifier should consistently identify an AWS se
 
 * The package name (e.g., `internal/service/<serviceidentifier>`)
 * In resource and data source names (e.g., `aws_<serviceidentifier>_thing`)
-* Documentation file names (e.g., `website/docs/r/<serviceidentifier>_thing`)
+* Documentation file names (e.g., `docs/resources/<serviceidentifier>_thing`)
 
 Typically, choosing the AWS Provider identifier for a service is simple. AWS consistently uses one name and we use that name as the identifier. However, some services are not simple. To provide consistency, and to help contributors and practitioners know what to expect, we provide this rule for defining a service identifier:
 
@@ -77,13 +77,13 @@ File names should follow Go and Markdown conventions with these additional point
 
 ### Resource and Data Source Documentation Rule
 
-1. Resource markdown goes in the `website/docs/r` directory. Data source markdown goes in the `website/docs/d` directory.
+1. Resource markdown goes in the `docs/resources` directory. Data source markdown goes in the `docs/data-sources` directory.
 2. Use the [service identifier](#service-identifier) and resource or data source name, separated by an underscore (`_`).
 3. All letters are lowercase.
-4. Use `.html.markdown` as the extension.
+4. Use `.md` as the extension.
 5. Do not include "aws" in the name.
 
-A correct example is `accessanalyzer_analyzer.html.markdown`. An incorrect example is `service_discovery_instance.html.markdown` because the [service identifier](#service-identifier) should not include an underscore.
+A correct example is `accessanalyzer_analyzer.md`. An incorrect example is `service_discovery_instance.md` because the [service identifier](#service-identifier) should not include an underscore.
 
 ### Go File Rule
 

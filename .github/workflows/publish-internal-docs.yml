@@ -22,4 +22,4 @@ jobs:
     - name: Run script
       env:
         S3_CMD_CFG_LOCATION: "./.s3cfg"
-      run: ./scripts/build-docs.sh
+      run: ./scripts/build-docs.sh --push

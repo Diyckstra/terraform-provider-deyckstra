@@ -10,10 +10,6 @@ bin/
 dist/
 modules-dev/
 /pkg/
-website/.vagrant
-website/.bundle
-website/build
-website/node_modules
 .vagrant/
 *.backup
 ./*.tfstate
@@ -33,6 +29,7 @@ changelog.tmp
 terraform-provider-aws
 terraform-provider-rockitcloud
 aws/testdata/service/cloudformation/examplecompany-exampleservice-exampleresource/bin/handler
+.venv/
 
 # Test exclusions
 !command/test-fixtures/**/*.tfstate

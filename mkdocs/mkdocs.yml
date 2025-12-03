@@ -1,0 +1,270 @@
+site_name: Terraform Rockit Cloud Provider - User Guide
+site_description: 'User documentation and reference for the
+                   Terraform Rockit Cloud Provider'
+use_directory_urls: false
+copyright: Rockit Cloud
+repo_name: C2Devel/terraform-provider-rockitcloud
+repo_url: https://github.com/C2Devel/terraform-provider-rockitcloud
+edit_uri: "https://github.com/C2Devel/terraform-provider-rockitcloud/tree/develop/docs"
+     
+nav:
+  - Welcome: index.md             
+  - Auto Scaling:
+    - Resources:
+      - aws_autoscaling_policy: resources/autoscaling_policy.md
+    - Data Sources:
+      - aws_autoscaling_group: data-sources/autoscaling_group.md
+  - Backup:
+    - Resources:
+      - aws_backup_plan: resources/backup_plan.md
+      - aws_backup_selection: resources/backup_selection.md
+      - aws_backup_vault_default: resources/backup_vault_default.md
+    - Data Sources:
+      - aws_backup_plan: data-sources/backup_plan.md
+      - aws_backup_selection: data-sources/backup_selection.md
+      - aws_backup_vault: data-sources/backup_vault.md
+  - CloudWatch:
+    - Resources:
+      - aws_cloudwatch_metric_alarm: resources/cloudwatch_metric_alarm.md
+  - Direct Connect:
+    - Resources:
+      - aws_dx_gateway: resources/dx_gateway.md
+      - aws_dx_gateway_association: resources/dx_gateway_association.md
+      - aws_dx_transit_virtual_interface: resources/dx_transit_virtual_interface.md
+    - Data Sources:
+      - aws_dx_connection: data-sources/dx_connection.md
+      - aws_dx_gateway: data-sources/dx_gateway.md
+      - aws_dx_lag: data-sources/dx_lag.md
+  - EBS (EC2):
+    - Resources:
+      - aws_ebs_snapshot: resources/ebs_snapshot.md
+      - aws_ebs_snapshot_import: resources/ebs_snapshot_import.md
+      - aws_ebs_volume: resources/ebs_volume.md
+      - aws_snapshot_create_volume_permission: resources/snapshot_create_volume_permission.md
+      - aws_volume_attachment: resources/volume_attachment.md
+    - Data Sources:
+      - aws_ebs_snapshot: data-sources/ebs_snapshot.md
+      - aws_ebs_snapshot_ids: data-sources/ebs_snapshot_ids.md
+      - aws_ebs_volume: data-sources/ebs_volume.md
+      - aws_ebs_volumes: data-sources/ebs_volumes.md
+  - EC2 (Elastic Compute Cloud):
+    - Resources:
+      - aws_ami: resources/ami.md
+      - aws_ami_from_instance: resources/ami_from_instance.md
+      - aws_ami_launch_permission: resources/ami_launch_permission.md
+      - aws_ec2_tag: resources/ec2_tag.md
+      - aws_ec2_traffic_mirror_filter: resources/ec2_traffic_mirror_filter.md
+      - aws_ec2_traffic_mirror_filter_rule: resources/ec2_traffic_mirror_filter_rule.md
+      - aws_ec2_traffic_mirror_session: resources/ec2_traffic_mirror_session.md
+      - aws_ec2_traffic_mirror_target: resources/ec2_traffic_mirror_target.md
+      - aws_eip: resources/eip.md
+      - aws_eip_association: resources/eip_association.md
+      - aws_instance: resources/instance.md
+      - aws_key_pair: resources/key_pair.md
+      - aws_launch_template: resources/launch_template.md
+      - aws_placement_group: resources/placement_group.md
+    - Data Sources:
+      - aws_ami: data-sources/ami.md
+      - aws_ami_ids: data-sources/ami_ids.md
+      - aws_availability_zones: data-sources/availability_zones.md
+      - aws_availability_zone: data-sources/availability_zone.md
+      - aws_ec2_host: data-sources/ec2_host.md
+      - aws_eip: data-sources/eip.md
+      - aws_eips: data-sources/eips.md
+      - aws_instance: data-sources/instance.md
+      - aws_instances: data-sources/instances.md
+      - aws_key_pair: data-sources/key_pair.md
+      - aws_launch_template: data-sources/launch_template.md
+  - EKS (Elastic Kubernetes):
+    - Resources:
+      - aws_eks_cluster: resources/eks_cluster.md
+      - aws_eks_node_group: resources/eks_node_group.md
+    - Data Sources:
+      - aws_eks_cluster: data-sources/eks_cluster.md
+      - aws_eks_cluster_auth: data-sources/eks_cluster_auth.md
+      - aws_eks_clusters: data-sources/eks_clusters.md
+      - aws_eks_node_group: data-sources/eks_node_group.md
+      - aws_eks_node_groups: data-sources/eks_node_groups.md
+  - ELB (Elastic Load Balancing):
+    - Resources:
+      - aws_lb: resources/lb.md
+      - aws_lb_listener: resources/lb_listener.md
+      - aws_lb_listener_certificate: resources/lb_listener_certificate.md
+      - aws_lb_listener_rule: resources/lb_listener_rule.md
+      - aws_lb_target_group: resources/lb_target_group.md
+      - aws_lb_target_group_attachment: resources/lb_target_group_attachment.md
+    - Data Sources:
+      - aws_lb: data-sources/lb.md
+      - aws_lb_listener: data-sources/lb_listener.md
+      - aws_lb_target_group: data-sources/lb_target_group.md
+  - IAM (Identity & Access Management):
+    - Resources:
+      - aws_iam_group: resources/iam_group.md
+      - aws_iam_group_membership: resources/iam_group_membership.md
+      - aws_iam_group_policy_attachment: resources/iam_group_policy_attachment.md
+      - aws_iam_policy: resources/iam_policy.md
+      - aws_iam_project: resources/iam_project.md
+      - aws_iam_server_certificate: resources/iam_server_certificate.md
+      - aws_iam_user: resources/iam_user.md
+      - aws_iam_user_group_membership: resources/iam_user_group_membership.md
+      - aws_iam_user_policy_attachment: resources/iam_user_policy_attachment.md
+    - Data Sources:
+      - aws_iam_group: data-sources/iam_group.md
+      - aws_iam_policy: data-sources/iam_policy.md
+      - aws_iam_project: data-sources/iam_project.md
+      - aws_iam_server_certificate: data-sources/iam_server_certificate.md
+      - aws_iam_user: data-sources/iam_user.md
+      - aws_iam_users: data-sources/iam_users.md
+  - PaaS:
+    - Resources:
+      - aws_paas_backup: resources/paas_backup.md
+      - aws_paas_service: resources/paas_service.md
+    - Data Sources:
+      - aws_paas_backup: data-sources/paas_backup.md
+      - aws_paas_backup_users: data-sources/paas_backup_users.md
+      - aws_paas_backups: data-sources/paas_backups.md
+      - aws_paas_service: data-sources/paas_service.md
+  - Route 53:
+    - Resources:
+      - aws_route53_record: resources/route53_record.md
+      - aws_route53_zone: resources/route53_zone.md
+    - Data Sources:
+      - aws_route53_zone: data-sources/route53_zone.md
+  - S3 (Simple Storage):
+    - Resources:
+      - aws_s3_bucket: resources/s3_bucket.md
+      - aws_s3_bucket_acl: resources/s3_bucket_acl.md
+      - aws_s3_bucket_cors_configuration: resources/s3_bucket_cors_configuration.md
+      - aws_s3_bucket_lifecycle_configuration: resources/s3_bucket_lifecycle_configuration.md
+      - aws_s3_bucket_object: resources/s3_bucket_object.md
+      - aws_s3_bucket_policy: resources/s3_bucket_policy.md
+      - aws_s3_bucket_request_payment_configuration: resources/s3_bucket_request_payment_configuration.md
+      - aws_s3_bucket_server_side_encryption_configuration: resources/s3_bucket_server_side_encryption_configuration.md
+      - aws_s3_bucket_versioning: resources/s3_bucket_versioning.md
+      - aws_s3_bucket_website_configuration: resources/s3_bucket_website_configuration.md
+      - aws_s3_object: resources/s3_object.md
+      - aws_s3_object_copy: resources/s3_object_copy.md
+    - Data Sources:
+      - aws_canonical_user_id: data-sources/canonical_user_id.md
+      - aws_s3_bucket: data-sources/s3_bucket.md
+      - aws_s3_bucket_object: data-sources/s3_bucket_object.md
+      - aws_s3_bucket_objects: data-sources/s3_bucket_objects.md
+      - aws_s3_bucket_policy: data-sources/s3_bucket_policy.md
+      - aws_s3_object: data-sources/s3_object.md
+      - aws_s3_objects: data-sources/s3_objects.md
+  - Transit Gateway:
+    - Resources:
+      - aws_ec2_transit_gateway: resources/ec2_transit_gateway.md
+      - aws_ec2_transit_gateway_project_access: resources/ec2_transit_gateway_project_access.md
+      - aws_ec2_transit_gateway_route: resources/ec2_transit_gateway_route.md
+      - aws_ec2_transit_gateway_route_table: resources/ec2_transit_gateway_route_table.md
+      - aws_ec2_transit_gateway_route_table_association: resources/ec2_transit_gateway_route_table_association.md
+      - aws_ec2_transit_gateway_route_table_propagation: resources/ec2_transit_gateway_route_table_propagation.md
+      - aws_ec2_transit_gateway_vpc_attachment: resources/ec2_transit_gateway_vpc_attachment.md
+    - Data Sources:
+      - aws_ec2_transit_gateway: data-sources/ec2_transit_gateway.md
+      - aws_ec2_transit_gateway_dx_gateway_attachment: data-sources/ec2_transit_gateway_dx_gateway_attachment.md
+      - aws_ec2_transit_gateway_route_table: data-sources/ec2_transit_gateway_route_table.md
+      - aws_ec2_transit_gateway_route_tables: data-sources/ec2_transit_gateway_route_tables.md
+      - aws_ec2_transit_gateway_vpc_attachment: data-sources/ec2_transit_gateway_vpc_attachment.md
+      - aws_ec2_transit_gateway_vpc_attachments: data-sources/ec2_transit_gateway_vpc_attachments.md
+  - VPC (Virtual Private Cloud):
+    - Resources:
+      - aws_default_network_acl: resources/default_network_acl.md
+      - aws_default_route_table: resources/default_route_table.md
+      - aws_default_security_group: resources/default_security_group.md
+      - aws_default_vpc: resources/default_vpc.md
+      - aws_default_vpc_dhcp_options: resources/default_vpc_dhcp_options.md
+      - aws_internet_gateway: resources/internet_gateway.md
+      - aws_internet_gateway_attachment: resources/internet_gateway_attachment.md
+      - aws_main_route_table_association: resources/main_route_table_association.md
+      - aws_network_acl: resources/network_acl.md
+      - aws_network_acl_association: resources/network_acl_association.md
+      - aws_network_acl_rule: resources/network_acl_rule.md
+      - aws_network_interface: resources/network_interface.md
+      - aws_network_interface_attachment: resources/network_interface_attachment.md
+      - aws_network_interface_sg_attachment: resources/network_interface_sg_attachment.md
+      - aws_route: resources/route.md
+      - aws_route_table: resources/route_table.md
+      - aws_route_table_association: resources/route_table_association.md
+      - aws_security_group: resources/security_group.md
+      - aws_security_group_rule: resources/security_group_rule.md
+      - aws_subnet: resources/subnet.md
+      - aws_vpc: resources/vpc.md
+      - aws_vpc_dhcp_options: resources/vpc_dhcp_options.md
+      - aws_vpc_dhcp_options_association: resources/vpc_dhcp_options_association.md
+    - Data Sources:
+      - aws_internet_gateway: data-sources/internet_gateway.md
+      - aws_network_acls: data-sources/network_acls.md
+      - aws_network_interface: data-sources/network_interface.md
+      - aws_network_interfaces: data-sources/network_interfaces.md
+      - aws_route: data-sources/route.md
+      - aws_route_table: data-sources/route_table.md
+      - aws_route_tables: data-sources/route_tables.md
+      - aws_security_group: data-sources/security_group.md
+      - aws_security_groups: data-sources/security_groups.md
+      - aws_subnet: data-sources/subnet.md
+      - aws_subnet_ids: data-sources/subnet_ids.md
+      - aws_subnets: data-sources/subnets.md
+      - aws_vpc: data-sources/vpc.md
+      - aws_vpc_dhcp_options: data-sources/vpc_dhcp_options.md
+      - aws_vpcs: data-sources/vpcs.md
+  - VPN (Site-to-Site):
+    - Resources:
+      - aws_customer_gateway: resources/customer_gateway.md
+      - aws_vpn_gateway_route_propagation: resources/vpn_gateway_route_propagation.md
+    - Data Sources:
+      - aws_customer_gateway: data-sources/customer_gateway.md
+      - aws_vpn_gateway: data-sources/vpn_gateway.md
+  
+theme:
+  name: material
+  logo: mkdocs-images/favicon.ico
+  favicon: mkdocs-images/favicon.ico
+  palette:
+    - scheme: hashicorp
+      primary: white
+      accent: blue
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - scheme: slate
+      primary: black
+      accent: blue
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+  icon:
+    repo: fontawesome/brands/github
+    admonition:
+      note: octicons/tag-16
+      info: octicons/info-16
+      tip: octicons/squirrel-16
+      warning: octicons/alert-16
+
+  features:
+    - content.tabs.link
+    - content.code.copy
+
+plugins:
+  - search:
+      lang:
+        - en
+  - awesome-pages
+
+markdown_extensions:
+  - admonition
+  - footnotes
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.inlinehilite
+  - toc:
+      permalink: "#"
+
+extra_css:
+     - 'mkdocs-assets/stylesheets/extra.css'
+     - "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+extra_javascript:
+     - 'mkdocs-assets/stylesheets/extra.js'

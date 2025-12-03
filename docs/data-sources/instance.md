@@ -79,7 +79,7 @@ In addition to all arguments above, the following attributes are exported:
 * `secondary_private_ips` - The secondary private IPv4 addresses assigned to the instance's primary network interface in a VPC.
 * `public_dns` - The public DNS name assigned to the instance.
 * `public_ip` - The public IP address assigned to the instance, if applicable.
-    ~> **Note** If you are using an [`aws_eip`](../r/eip.md) with your instance, you should refer to the EIP's address directly and not use `public_ip`, as this field will change after the EIP is attached.
+    ~> **Note** If you are using an [`aws_eip`](../resources/eip.md) with your instance, you should refer to the EIP's address directly and not use `public_ip`, as this field will change after the EIP is attached.
 * `root_block_device` - The root block device mappings of the instance.
   The structure of this block is [described below](#root_block_device).
 * `security_groups` - The associated security groups.

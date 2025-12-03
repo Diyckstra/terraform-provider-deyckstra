@@ -1,4 +1,4 @@
-name: Run linters for the documentation
+name: Run linters for the provider documentation
 
 on:
   pull_request_target:
@@ -6,7 +6,7 @@ on:
     paths: 'docs/**'
 
 jobs:
-  doc-linter:
+  docs-linter:
     runs-on: ubuntu-22.04
     steps:
     - name: Setup Go
@@ -24,5 +24,5 @@ jobs:
     - name: Install Docker
       uses: docker/setup-docker-action@v4
 
-    - name: Run linters for the documentation
+    - name: Run linters for the docs
       run: make docs-lint

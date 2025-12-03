@@ -44,7 +44,8 @@
 
 - [Terraform](https://www.terraform.io/downloads.html) 0.13+ (запуск приемочных тестов)
 - [Go](https://golang.org/doc/install) 1.21 (сборка провайдера)
-- [Docker](https://docs.docker.com/get-docker/) (запуск линтеров для документации)
+- [Docker](https://docs.docker.com/get-started/get-docker/) (запуск линтеров для документации)
+- [Python](https://www.python.org/downloads/release/python-380/) 3.8+ (локальный деплой документации провайдера)
 
 ## Общая информация
 
@@ -161,7 +162,7 @@ replace github.com/aws/aws-sdk-go => <path-to-aws-sdk-go>
 В проекте есть два типа тестов: **unit** и **acceptance**. Они лежат рядом с функционалом (файлы: *_test.go).
 
 Тесты написаны с помощью [go testing](https://go.dev/doc/code#Testing), для приемочных дополнительно используется
-пакет [acctest](../../internal/acctest/acctest.go).
+пакет [acctest](../internal/acctest/acctest.go).
 
 ### Unit
 
@@ -197,64 +198,71 @@ aws-sdk-go=<имя ветки в aws-sdk-go>
 - запуск конкретного теста: `make testacc TESTS=TestAccEC2EBSVolume_basic PKG=ec2`
 
 По запуску и написанию приемочных тестов есть
-[документация](../../docs/contributing/running-and-writing-acceptance-tests.md).
+[документация](contributing/running-and-writing-acceptance-tests.md).
 
 ## Документация
 
 Информация о провайдере расположена в директориях:
 
-- `docs/` - инструкции для разработки, roadmap;
-- `website/` - документация к провайдеру, которая публикуется в официальном terraform registry
+- `dev-docs/` - инструкции для разработки;
+- `docs/` - документация к провайдеру, которая публикуется в официальном terraform registry
   ([инструкция](https://www.terraform.io/registry/providers/docs) по документированию от **Terraform**).
 
-Структура директории website:
+Структура директории docs:
 
 ```
-website/
-|-- docs/
-|    |-- d/                          # набор описаний для terraform data sources
-|    |    |-- <data source>.md
-|    |    |-- ...
-|    |-- r/                          # набор описаний для terraform resources
-|    |    |-- <resource>.md
-|    |    |-- ...
-|    |
-|    |-- index.md                    # стартовая страница
-|-- allowed-subcategories.txt        # разделы документации
+docs/
+|-- data-sources/                          # набор описаний для terraform data sources
+|    |-- <data source>.md
+|    |-- ...
+|-- resources/                          # набор описаний для terraform resources
+|    |-- <resource>.md
+|    |-- ...
+|
+|-- index.md                    # стартовая страница
 ```
-
-**Важно!** `allowed-subcategories.txt` генерируется при запуске таргета `make gen`
-и содержит информацию обо всех доступных разделах документации. После публикации отображаться будут только непустые разделы.
-
-Опубликованная документация: https://registry.terraform.io/providers/C2Devel/rockitcloud/latest/docs
 
 ### Запуск линтеров
 
-Для запуска линтеров требуется установка [Docker](https://golang.org/doc/install) и собственно линтеров
+Для запуска линтеров требуется установка [Docker](https://docs.docker.com/get-started/get-docker/) и собственно линтеров
 (см. [установка линтеров](#установка-и-запуск-линтеров)).
 
-`docs/`: проверяется форматирование markdown файлов и ошибки в тексте (English).
+`dev-docs/`: проверяется форматирование markdown файлов и ошибки в тексте (English).
 
 ```
-$ make docs-lint
+$ make dev-docs-lint
 ```
 
-`website/`: проверяется форматирование .md файлов, ошибки в тексте (English)
+`docs/`: проверяется форматирование .md файлов, ошибки в тексте (English)
 и соответствие документации спецификации terraform registry.
 
 ```
-$ make website-lint
+$ make docs-lint
 $ make docscheck
 ```
 
 ### Директория website_unsupported
 
 В `website_unsupported/` перенесены гайды и документация для ресурсов, которые не поддерживаются Rockit Cloud API.
-Для публикации требуется перенести нужную страницу в соответствующую директорию в `website/`.
+Для публикации требуется перенести нужную страницу в соответствующую директорию в `docs/`.
 
 ### Подготовка внутренней документации к выпуску
 
-Для выпуска внутренней документации нужно удостовериться, что все страницы из `website/docs/r` и `website/docs/d` добавлены в секцию `nav:` файла `docs/c2/mkdocs.yml` и проставлены в соответствующие разделы. Например, ресурс **aws_autoscaling_policy** в раздел **Auto Scaling**.
+Для выпуска внутренней документации нужно удостовериться, что все страницы из `docs/resources` и `docs/data-sources` добавлены в секцию `nav:` файла `mkdocs/mkdocs.yml` и проставлены в соответствующие разделы. Например, ресурс **aws_autoscaling_policy** в раздел **Auto Scaling**.
+
+Для локальной проверки внутренней документации можно использовать скрипт
+
+```
+$ scripts/build-docs.sh --local
+```
+
+**Важно!** Если скрипт используется впервые, возможно понадобится установить необходимые зависимости.
+
+Для работы с провайдером требуется установка [Python](https://www.python.org/downloads/release/python-380/) (см. [требования](#требования)).
+
+```
+$ scripts/build-docs.sh --tools
+```
 
 ## Выпуск релиза
 
@@ -338,7 +346,7 @@ $ make docscheck
 (пример: [v24.1.0](https://github.com/C2Devel/terraform-provider-rockitcloud/pull/49))
    - **Опционально.** Обновление версии **aws-sdk-go**, если требуется
      (см. [изменение версии aws-sdk-go](#изменение-версии-aws-sdk-go))
-   - Обновление [CHANGELOG.md](../../CHANGELOG.md)
+   - Обновление [CHANGELOG.md](../CHANGELOG.md)
 3. Мердж релизного PR'a
 4. Установка релизного тега с версией (см. [версионирование](#версионирование)) и его публикация
 
@@ -367,13 +375,13 @@ $ make docscheck
 (пример: [v24.1.0](https://github.com/C2Devel/terraform-provider-rockitcloud/pull/49))
    - **Опционально.** Обновление версии **aws-sdk-go**, если требуется
      (см. [изменение версии aws-sdk-go](#изменение-версии-aws-sdk-go))
-   - Обновление [CHANGELOG.md](../../CHANGELOG.md)
+   - Обновление [CHANGELOG.md](../CHANGELOG.md)
 3. Локальный запуск линтеров и unit тестов на ветке **develop** + релизный PR
 
    ```
    $ make lint
+   $ make dev-docs-lint
    $ make docs-lint
-   $ make website-lint
    $ make test
    ```
 
@@ -554,7 +562,7 @@ providers/
 #### Ручной запуск скрипта
 
 Для автоматизации процесса загрузки новых версий в s3 бакет из официального terraform registry
-можно использовать [bash скрипт](../../scripts/update-s3-registry.sh).
+можно использовать [bash скрипт](../scripts/update-s3-registry.sh).
 
 Скрипт анализирует файлы с версиями провайдера в s3 бакете и в официальном registry
 и для всех версий, которые отсутствуют в бакете, загружает из официального registry файлы с
@@ -578,14 +586,13 @@ providers/
 Запуск скрипта:
 
 ```
-$ cd scripts
-$ ./update-s3-registry.sh
+$ scripts/update-s3-registry.sh
 ...
 ```
 
 #### Запуск скрипта средствами автоматизации
 
-Для упрощения процесса запуска скрипта по публикации новых версий в private terraform registry из официального terraform registry можно использовать автоматизацию [private_release](../../.github/workflows/private_release.yml).
+Для упрощения процесса запуска скрипта по публикации новых версий в private terraform registry из официального terraform registry можно использовать автоматизацию [private_release](../.github/workflows/private_release.yml).
 
 В секретах репозитория уже должны быть преднастроены(делается один раз в рамках одного репозитория):
 
@@ -600,7 +607,7 @@ $ ./update-s3-registry.sh
 ## Загрузка сторонних провайдеров в зеркало
 
 Иногда необходимо загрузить сторонние провайдеры в зеркало, чтобы их можно было использовать при недоступности `https://releses.hashicorp.com`.
-В таком случае можно использовать [скрипт](../../scripts/upload-providers-hc-releases.sh).
+В таком случае можно использовать [скрипт](../scripts/upload-providers-hc-releases.sh).
 
 Для запуска скрипта требуется установка и настройка утилиты [s3cmd](https://s3tools.org/s3cmd)
 ([инструкция](https://docs.k2.cloud/ru/api/tools/s3cmd.html))
@@ -613,8 +620,7 @@ $ ./update-s3-registry.sh
 Запуск скрипта:
 
 ```
-$ cd scripts
-$ ./upload-providers-hc-relesaes.sh
+$ scripts/upload-providers-hc-relesaes.sh
 ...
 ```
 
@@ -630,7 +636,7 @@ $ ./upload-providers-hc-relesaes.sh
 
 ```
 $ export S3_DOCS_BUCKET_NAME="docs.tf.k2.cloud"
-$ scripts/build-docs.sh
+$ scripts/build-docs.sh --push
 ```
 
 

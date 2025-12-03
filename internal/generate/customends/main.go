@@ -19,7 +19,7 @@ import (
 )
 
 const (
-	filename      = `../../../website/docs/guides/custom-service-endpoints.html.md`
+	filename      = `../../../docs/guides/custom-service-endpoints.html.md`
 	namesDataFile = "../../../names/names_data.csv"
 )
 
