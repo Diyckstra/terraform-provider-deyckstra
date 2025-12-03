@@ -36,7 +36,7 @@ The following arguments are supported:
 * `iops` - (Optional) The amount of IOPS to provision for the disk. Only valid for `type` of `io2`.
 * `size` - (Optional) The size of the drive in GiB.
 * `snapshot_id` (Optional) A snapshot to base the EBS volume on.
-* `type` - (Optional) The type of EBS volume. Can be `st2`, `gp2` or `io2` (Default: `st2`).
+* `type` - (Optional) The type of EBS volume.
 * `tags` - (Optional) Map of tags to assign to the volume. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
 ## Attribute Reference

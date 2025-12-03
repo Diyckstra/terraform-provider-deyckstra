@@ -248,13 +248,6 @@ func (lt *opsworksLayerType) SchemaResource() *schema.Resource {
 						Type:     schema.TypeString,
 						Optional: true,
 						Default:  "standard",
-						ValidateFunc: validation.StringInSlice([]string{
-							"standard",
-							"io1",
-							"gp2",
-							"st1",
-							"sc1",
-						}, false),
 					},
 					"encrypted": {
 						Type:     schema.TypeBool,

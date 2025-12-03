@@ -177,7 +177,6 @@ The `docker_registry_config` block has the following structure:
 
 * `volume_size` - (Required) The size of the Docker Registry volume in GiB.
 * `volume_type` - (Required) The type of the Docker Registry volume.
-    * _Valid values:_ `st2`, `gp2`, `io2`
 * `volume_iops` - (Optional) The number of read/write operations per second for the Docker Registry volume.
     * _Constraints_: Required only when `volume_type` is `io2`
 
@@ -194,7 +193,6 @@ The `ingress_config` block has the following structure:
 * `instance_type` - (Required) The instance type of the Ingress controller.
 * `volume_size` - (Required) The size of the Ingress controller volume in GiB.
 * `volume_type` - (Required) The type of the Ingress controller volume.
-    * _Valid values:_ `st2`, `gp2`, `io2`
 * `public_ip` - (Optional) The public IP address at which the Ingress controller can be accessed.
 * `volume_iops` - (Optional) The number of read/write operations per second for the Ingress controller volume.
     * _Constraints_: Required only when `volume_type` is `io2`
@@ -207,7 +205,6 @@ The `master_config` block has the following structure:
 * `instance_type` - (Required) The instance type of the master node.
 * `volume_size` - (Required) The size of the master node volume in GiB.
 * `volume_type` - (Required) The type of the master node volume.
-    * _Valid values:_ `st2`, `gp2`, `io2`
 * `public_ip` - (Optional) The public IP address at which the master node can be accessed.
 * `volume_iops` - (Optional) The number of read/write operations per second for the master node volume.
     * _Constraints_: Required only when `volume_type` is `io2`

@@ -77,7 +77,6 @@ The `docker_registry_config` block has the following structure:
 * `volume_iops` - The number of read/write operations per second for the Docker Registry volume.
 * `volume_size` - The size of the Docker Registry volume in GiB.
 * `volume_type` - The type of the Docker Registry volume.
-    * _Valid values:_ `st2`, `gp2`, `io2`
 
 ##### ebs_provider_config
 
@@ -94,7 +93,6 @@ The `ingress_config` block has the following structure:
 * `volume_iops` - The number of read/write operations per second for the Ingress controller volume.
 * `volume_size` - The size of the Ingress controller volume in GiB.
 * `volume_type` - The type of the Ingress controller volume.
-    * _Valid values:_ `st2`, `gp2`, `io2`
 
 ##### master_config
 
@@ -106,7 +104,6 @@ The `master_config` block has the following structure:
 * `volume_iops` - The number of read/write operations per second for the master node volume.
 * `volume_size` - The size of the master node volume in GiB.
 * `volume_type` - The type of the master node volume.
-    * _Valid values:_ `st2`, `gp2`, `io2`
 
 ##### nlb_provider_config
 

@@ -106,7 +106,6 @@ The `ebs` block has the following structure:
 * `snapshot_id` - (Optional) The ID of the snapshot to mount.
 * `volume_size` - (Optional) The size of the volume, in GiB.
 * `volume_type` - (Optional) The type of the volume.
-    * _Valid values:_ `st2`, `gp2`, `io2`
 
 ### monitoring
 
