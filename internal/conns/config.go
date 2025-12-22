@@ -3,6 +3,7 @@ package conns
 import (
 	"context"
 	"log"
+	"os"
 	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/feature/ec2/imds"
@@ -146,30 +147,38 @@ func (c *Config) Client(ctx context.Context) (interface{}, diag.Diagnostics) {
 
 	// FIXME: A temporary solution for building correct ARNs while yet resolving via IAM not implemented
 	if c.SkipCredsValidation && c.SkipRequestingAccountId {
-		if c.AccessKey == "" {
+		var accessKey string
+
+		if c.AccessKey != "" {
+			accessKey = c.AccessKey
+		} else {
+			accessKey = os.Getenv(EnvVarAccessKeyId)
+		}
+
+		if accessKey == "" {
 			accountID = ""
 		} else {
 			errMsg := "The provided access key is in an invalid form: %s. Expected format: project:user@customer."
-			accessKeyParts := strings.Split(c.AccessKey, ":")
+			accessKeyParts := strings.Split(accessKey, ":")
 			if len(accessKeyParts) != 2 {
-				return nil, diag.Errorf(errMsg, c.AccessKey)
+				return nil, diag.Errorf(errMsg, accessKey)
 			}
 			projectName := accessKeyParts[0]
 			userLogin := accessKeyParts[1]
 
 			if projectName == "" || userLogin == "" {
-				return nil, diag.Errorf(errMsg, c.AccessKey)
+				return nil, diag.Errorf(errMsg, accessKey)
 			}
 
 			userLoginParts := strings.Split(userLogin, "@")
 			if len(userLoginParts) != 2 {
-				return nil, diag.Errorf(errMsg, c.AccessKey)
+				return nil, diag.Errorf(errMsg, accessKey)
 			}
 
 			username := userLoginParts[0]
 			customerName := userLoginParts[1]
 			if username == "" || customerName == "" {
-				return nil, diag.Errorf(errMsg, c.AccessKey)
+				return nil, diag.Errorf(errMsg, accessKey)
 			}
 
 			accountID = strings.Join([]string{projectName, customerName}, "@")
