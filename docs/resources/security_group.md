@@ -122,7 +122,7 @@ The following arguments are optional:
 * `cidr_blocks` - (Optional) List of CIDR blocks.
 * `description` - (Optional) Description of this ingress rule.
 * `ipv6_cidr_blocks` - (Optional) List of IPv6 CIDR blocks.
-* `security_groups` - (Optional) List of security group names or group IDs.
+* `security_groups` - (Optional) List of security group IDs.
 * `self` - (Optional) Whether the security group itself will be added as a source to this ingress rule.
 
 ### egress
@@ -140,7 +140,7 @@ The following arguments are optional:
 * `description` - (Optional) Description of this egress rule.
 * `ipv6_cidr_blocks` - (Optional) List of IPv6 CIDR blocks.
 * `protocol` - (Required) Protocol. If you select a protocol of "-1" (semantically equivalent to `all`, which is not a valid value here), you must specify a `from_port` and `to_port` equal to `0`. If not `icmp`, `tcp`, `udp`, or `-1` use the [protocol number](https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml).
-* `security_groups` - (Optional) List of security group names or group IDs.
+* `security_groups` - (Optional) List of security group IDs.
 * `self` - (Optional) Whether the security group itself will be added as a source to this egress rule.
 
 ## Attribute Reference
