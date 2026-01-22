@@ -24,7 +24,6 @@ changelog-misspell: ## [CI] CHANGELOG Misspell / misspell
 	@misspell -error -source text CHANGELOG.md .changelog
 
 gen:
-	rm -f .github/labeler-pr-triage.yml
 	rm -f infrastructure/repository/labels-service.tf
 	rm -f internal/conns/*_gen.go
 	rm -f internal/service/**/*_gen.go
