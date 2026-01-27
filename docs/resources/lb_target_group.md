@@ -84,7 +84,7 @@ The `health_check` block has the following structure:
 * `healthy_threshold` - (Optional, Editable) Number of consecutive successful health checks after which the target status changes to healthy.
     * _Valid values:_ From 2 to 10
     * _Constraints:_ For TCP and UDP target groups, `healthy_threshold` and `unhealthy_threshold` must be the same
-* `interval` - (Optional, Editable) The amount of time, in seconds, between health checks on an individual target.
+* `interval` - (Optional, Editable) The amount of time in seconds between health checks on an individual target.
     * _Valid values:_ From 5 to 300
     * _Default value:_ 30
 * `port` - (Optional, Editable) The port used to perform health checks on targets.
@@ -94,7 +94,7 @@ The `health_check` block has the following structure:
 * `protocol` - (Optional, Editable) The protocol used to perform health checks on targets.
     * _Valid values:_ `TCP`, `UDP`, `HTTP`
     * _Constraints:_ `health_check.protocol` and target group `protocol` must be the same
-* `timeout` - (Optional, Editable) The amount of time, in seconds, after which no response indicates a failed health check.
+* `timeout` - (Optional, Editable) The amount of time in seconds, after which no response indicates a failed health check.
     * _Valid values:_ From 2 to 120
     * _Constraints:_ You can set a custom timeout value for HTTP target groups only
 * `unhealthy_threshold` - (Optional, Editable) Number of consecutive failed health checks after which the target status changes to unhealthy.

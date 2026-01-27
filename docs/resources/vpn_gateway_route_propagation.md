@@ -6,7 +6,7 @@ description: |-
   Requests automatic route propagation between a VPN gateway and a route table.
 ---
 
-[timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
+[timeouts]: https://developer.hashicorp.com/terraform/plugin/framework/resources/timeouts
 
 # Resource: aws_vpn_gateway_route_propagation
 
@@ -43,8 +43,8 @@ resource "aws_vpn_gateway_route_propagation" "example" {
 
 The following arguments are required:
 
-* `vpn_gateway_id` - ID of the VPN gateway to propagate routes from.
-* `route_table_id` - ID of the route table to propagate routes into.
+* `route_table_id` - The ID of the route table to propagate routes into.
+* `vpn_gateway_id` - The ID of the VPN gateway to propagate routes from.
 
 ## Attribute Reference
 

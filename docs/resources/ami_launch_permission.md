@@ -57,7 +57,10 @@ The following attributes are not currently supported:
 
 `organization_arn`, `organizational_unit_arn`.
 
+## Timeouts
+
+Timeouts usage for launch permissions is not currently supported.
+
 ## Import
 
--> **Unsupported operation**
-Import image launch permission is currently unsupported.
+Import of the image launch permissions is not currently supported.

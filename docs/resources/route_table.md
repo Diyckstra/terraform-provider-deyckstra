@@ -9,7 +9,7 @@ description: |-
 [attribute-as-blocks]: https://www.terraform.io/docs/configuration/attr-as-blocks.html
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 [route-tables]: https://docs.k2.cloud/en/services/networking/routetables.html
-[timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
+[timeouts]: https://developer.hashicorp.com/terraform/plugin/framework/resources/timeouts
 
 # Resource: aws_route_table
 

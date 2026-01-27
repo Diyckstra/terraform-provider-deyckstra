@@ -13,7 +13,7 @@ description: |-
 
 Manages an IAM group. For details about IAM groups, see the [user documentation][iam-policies-and-groups].
 
-~> **User management in groups**
+## User management in groups
 
 Manually managing user/group membership via the cloud console alongside using
 the [`aws_iam_group_membership`](iam_group_membership.md) or

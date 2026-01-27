@@ -3,17 +3,17 @@ subcategory: "EBS (EC2)"
 layout: "aws"
 page_title: "aws_ebs_volume"
 description: |-
-  Manages a single EBS volume.
+  Manages a single volume.
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
+[timeouts]: https://developer.hashicorp.com/terraform/plugin/framework/resources/timeouts
 
 # Resource: aws_ebs_volume
 
-Manages a single EBS volume.
+Manages a single volume.
 
-## Example Usage
+## Example usage
 
 ```terraform
 resource "aws_ebs_volume" "example" {
@@ -26,29 +26,34 @@ resource "aws_ebs_volume" "example" {
 }
 ```
 
-~> **Note** At least one of `size` or `snapshot_id` is required when specifying an EBS volume
+## Argument reference
 
-## Argument Reference
+The following arguments are required:
 
-The following arguments are supported:
+* `availability_zone` - (Required, Forces new resource, String) The availability zone to create the volume in.
 
-* `availability_zone` - (Required) The AZ where the EBS volume will exist.
-* `iops` - (Optional) The amount of IOPS to provision for the disk. Only valid for `type` of `io2`.
-* `size` - (Optional) The size of the drive in GiB.
-* `snapshot_id` (Optional) A snapshot to base the EBS volume on.
-* `type` - (Optional) The type of EBS volume.
-* `tags` - (Optional) Map of tags to assign to the volume. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
+The following arguments are optional:
 
-## Attribute Reference
+* `iops` - (Optional, Editable, Integer) The amount of IOPS to provision for the volume.
+    * _Constrains:_ Can be applied to volumes only with `type` set to `io2`
+* `size` - (Optional, Editable, Integer) The size of the volume in GiB.
+    * _Constraints:_ This argument is required if the `snapshot_id` argument is not specified
+* `snapshot_id` (Optional, Forces new resource, String) The ID of the snapshot.
+    * _Constraints:_ This argument is required if the `size` argument is not specified
+* `tags` - (Optional, Editable, Map of tags) Key-value pairs to assign to the volume. If the [`default_tags` configuration block][default-tags] is used within a provider configuration, the tags with matching keys will overwrite those defined at the provider level.
+* `type` - (Optional, Editable, String) The type of the volume.
+
+## Attribute reference
 
 ### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` - The Amazon Resource Name (ARN) of the volume.
-* `id` - The volume ID (e.g., `vol-12345678`).
-* `tags_all` - Map of tags assigned to the volume, including those inherited from the provider [`default_tags` configuration block][default-tags].
-* `throughput` - The throughput that the volume supports, in MiB/s.
+* `arn` - (String) The Amazon Resource Name (ARN) of the volume.
+* `id` - (String) The ID of the volume.
+    * _Example:_ `vol-12345678`
+* `tags_all` - (Map of strings) Key-value pairs assigned to the volume, including any tags inherited from the [`default_tags` configuration block][default-tags] if used within a provider configuration.
+* `throughput` - (Integer) The throughput that the volume supports in MiB/s.
 
 ### Unsupported attributes
 
@@ -62,13 +67,13 @@ The following attributes are not currently supported:
 
 The `timeouts` block allows you to specify [timeouts] for certain actions:
 
-- `create` - (Default `5 minutes`) Used for creating volumes. This includes the time required for the volume to become available.
-- `update` - (Default `5 minutes`) Used for `size`, `type`, or `iops` volume changes.
-- `delete` - (Default `5 minutes`) Used for destroying volumes.
+- `create` - (Default `5 minutes`) Used for creating the volume. This includes the time required for the volume to become available.
+- `update` - (Default `5 minutes`) Used for updating the volume.
+- `delete` - (Default `5 minutes`) Used for destroying the volume.
 
 ## Import
 
-EBS volumes can be imported using `id`, e.g.,
+The volume can be imported using `id`, for example:
 
 ```
 $ terraform import aws_ebs_volume.id vol-12345678

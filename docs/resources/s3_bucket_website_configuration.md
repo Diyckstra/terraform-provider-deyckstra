@@ -76,8 +76,8 @@ The `redirect_all_requests_to` configuration block supports the following argume
 
 The `routing_rule` configuration block supports the following arguments:
 
-* `condition` - (Optional) A configuration block for describing a condition that must be met for the specified redirect to apply [detailed below](#condition).
 * `redirect` - (Required) A configuration block for redirect information [detailed below](#redirect).
+* `condition` - (Optional) A configuration block for describing a condition that must be met for the specified redirect to apply [detailed below](#condition).
 
 ### condition
 
@@ -104,7 +104,7 @@ The `redirect` configuration block supports the following arguments:
 
 In addition to all arguments above, the following attributes are exported:
 
-* `id` - The `bucket`.
+* `id` - The bucket name.
 
 ### Unsupported attributes
 

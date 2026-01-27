@@ -3,17 +3,17 @@ subcategory: "EBS (EC2)"
 layout: "aws"
 page_title: "aws_ebs_snapshot"
 description: |-
-  Creates a snapshot of an EBS volume.
+  Creates a snapshot of a volume.
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
+[timeouts]: https://developer.hashicorp.com/terraform/plugin/framework/resources/timeouts
 
 # Resource: aws_ebs_snapshot
 
-Creates a snapshot of an EBS volume.
+Creates a snapshot of a volume.
 
-## Example Usage
+## Example usage
 
 ```terraform
 resource "aws_ebs_volume" "example" {
@@ -34,26 +34,30 @@ resource "aws_ebs_snapshot" "example_snapshot" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
-The following arguments are supported:
+The following arguments are required:
 
-* `volume_id` - (Required) The volume ID of which to make a snapshot.
-* `description` - (Optional) A description of what the snapshot is.
-* `tags` - (Optional) Map of tags to assign to the snapshot. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
+* `volume_id` - (Required, Forces new resource, String) The ID of the volume.
 
-## Attribute Reference
+The following arguments are optional:
+
+* `description` - (Optional, Editable, String) The description of the snapshot.
+* `tags` - (Optional, Editable, Map of strings) Key-value pairs to assign to the snapshot. If the [`default_tags` configuration block][default-tags] is used within a provider configuration, the tags with matching keys will overwrite those defined at the provider level.
+
+## Attribute reference
 
 ### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` - The Amazon Resource Name (ARN) of the EBS snapshot.
-* `id` - The snapshot ID (e.g., snap-12345678).
-* `owner_id` - The project ID.
-* `owner_alias` - The alias of the EBS snapshot owner.
-* `volume_size` - The size of the drive in GiB.
-* `tags_all` - Map of tags assigned to the snapshot, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `arn` - (String) The Amazon Resource Name (ARN) of the snapshot.
+* `id` - (String) The ID of the snapshot.
+    * _Example:_ `snap-12345678`
+* `owner_alias` - (String) The alias of the snapshot owner.
+* `owner_id` - (String) The ID of the project that owns the snapshot.
+* `tags_all` - (Map of strings) Key-value pairs assigned to the snapshot, including any tags inherited from the [`default_tags` configuration block][default-tags] if used within a provider configuration.
+* `volume_size` - (Integer) The size of the volume in GiB.
 
 ### Unsupported attributes
 
@@ -67,12 +71,12 @@ The following attributes are not currently supported:
 
 The `timeouts` block allows you to specify [timeouts] for certain actions:
 
-- `create` - (Default `10 minutes`) Used for creating the ebs snapshot.
-- `delete` - (Default `10 minutes`) Used for deleting the ebs snapshot.
+- `create` - (Default `10 minutes`) Used for creating the snapshot.
+- `delete` - (Default `10 minutes`) Used for deleting the snapshot.
 
 ## Import
 
-EBS snapshot can be imported using `id`, e.g.,
+The snapshot can be imported using `id`, for example:
 
 ```
 $ terraform import aws_ebs_snapshot.id snap-12345678

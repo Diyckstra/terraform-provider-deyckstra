@@ -104,7 +104,7 @@ The `ebs` block has the following structure:
 * `iops` - (Optional) The amount of provisioned IOPS.
     * _Constraints:_ This must be set with the volume_type of `io2`
 * `snapshot_id` - (Optional) The ID of the snapshot to mount.
-* `volume_size` - (Optional) The size of the volume, in GiB.
+* `volume_size` - (Optional) The size of the volume in GiB.
 * `volume_type` - (Optional) The type of the volume.
 
 ### monitoring

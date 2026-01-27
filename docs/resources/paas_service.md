@@ -25,7 +25,7 @@ description: |-
 [rabbitmq-version]: https://docs.k2.cloud/en/api/paas/parameters/rabbitmq.html#version
 [redis-version]: https://docs.k2.cloud/en/api/paas/parameters/redis.html#version
 [technical support]: https://support.k2int.ru/app/#/project/CS
-[timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
+[timeouts]: https://developer.hashicorp.com/terraform/plugin/framework/resources/timeouts
 
 [Elasticsearch]: #elasticsearch-argument-reference
 [Kafka]: #kafka-argument-reference
@@ -481,9 +481,20 @@ resource "aws_paas_service" "redis" {
 
 ~> **Note** Arguments are not editable (changes lead to a new resource) except for the blocks with service parameters and `backup_settings`.
 
+The following arguments are required:
+
+* `instance_type` - (Required) The instance type.
+* `name` - (Required) The service name. The value must start and end with a Latin letter or number and
+  can only contain lowercase Latin letters, numbers, periods (.) and hyphens (-).
+* `root_volume` - (Required) The root volume parameters for the service. The structure of this block is [described below](#root_volume).
+* `security_group_ids` - (Required) List of security group IDs.
+* `ssh_key_name` - (Required) The name of the SSH key for accessing instances.
+
+The following arguments are optional:
+
 * `arbitrator_required` - (Optional) Indicates whether to create a cluster with an arbitrator.
     * _Default value:_ `false`
-    * _Constraints:_ The parameter can be set to `true` only if `high_availability` is `true`.
+    * _Constraints:_ The parameter can be set to `true` only if `high_availability` is `true`
       The parameter is supported only for [Elasticsearch], [MongoDB], [MySQL] and [PostgreSQL] services.
 * `additional_roles` - (Optional, ForceNew) Additional roles for broker nodes.
     * _Valid values:_ `coordinator`
@@ -499,14 +510,8 @@ resource "aws_paas_service" "redis" {
 * `high_availability` - (Optional) Indicates whether to create a high availability service.
   The parameter is supported only for [Elasticsearch], [Kafka], [MongoDB], [MySQL], [PostgreSQL], [RabbitMQ] and [Redis] services.
     * _Default value:_ `false`
-* `instance_type` - (Required) The instance type.
-* `name` - (Required) The service name. The value must start and end with a Latin letter or number and
-  can only contain lowercase Latin letters, numbers, periods (.) and hyphens (-).
 * `network_interface_ids` - (Optional) List of network interface IDs.
     * _Constraints:_ Required if `subnet_ids` is not specified
-* `root_volume` - (Required) The root volume parameters for the service. The structure of this block is [described below](#root_volume).
-* `security_group_ids` - (Required) List of security group IDs.
-* `ssh_key_name` - (Required) The name of the SSH key for accessing instances.
 * `subnet_ids` - (Optional) List of subnet IDs.
     * _Constraints:_ Required if `network_interface_ids` is not specified
 * `user_data` - (Optional) User data.
@@ -585,7 +590,13 @@ The `root_volume` block has the following structure:
 ## Elasticsearch Argument Reference
 
 In addition to the common arguments for all services [described above](#argument-reference),
-the `elasticsearch` block can contain the following arguments:
+the `elasticsearch` block can contain the following arguments as described below.
+
+The following arguments are required:
+
+* `version` - (Required) The version to install. The list of supported versions is available in the [user documentation][elasticsearch-version].
+
+The following arguments are optional:
 
 * `allow_anonymous` - (Optional) Indicates whether anonymous access is enabled.
   The parameter can be set only if `kibana` is `true` and `password` is specified.
@@ -607,8 +618,6 @@ If you need to use such a parameter, contact [technical support].
 
 * `password` - (Optional) The Elasticsearch user password.
   The value must not contain `-`, `!`, `:`, `;`, `%`, `'`, `"`, `` ` `` and `\`.
-* `version` - (Required) The version to install.
-  The list of supported versions is available in the [user documentation][elasticsearch-version].
 
 ## Memcached Argument Reference
 
@@ -624,7 +633,13 @@ the `memcached` block can contain the following arguments:
 ## MongoDB Argument Reference
 
 In addition to the common arguments for all services [described above](#argument-reference),
-the `mongodb` block can contain the following arguments:
+the `mongodb` block can contain arguments as described below.
+
+The following arguments are required:
+
+* `version` - (Required) The version to install. The list of supported versions is available in the [user documentation][mongodb-version].
+
+The following arguments are optional:
 
 * `class` - (Optional) The service class.
     * _Valid values:_ `database`
@@ -654,8 +669,6 @@ If you need to use such a parameter, contact [technical support].
     * _Default value:_ `false`
 * `verbositylevel` - (Optional, Editable) The level of message detail in the message log.
     * _Valid values:_ `v`, `vv`, `vvv`, `vvvv`, `vvvvv`
-* `version` - (Required) The version to install.
-  The list of supported versions is available in the [user documentation][mongodb-version].
 
 ### MongoDB database
 
@@ -685,7 +698,15 @@ The `database` block has the following structure:
 ## MySQL Argument Reference
 
 In addition to the common arguments for all services [described above](#argument-reference),
-the `mysql` block can contain the following arguments:
+the `mysql` block can contain arguments as described below.
+
+The following arguments are required:
+
+* `vendor` - (Required) The engine vendor.
+    * _Valid values:_ `mariadb`, `percona`, `mysql`
+* `version` - (Required) The version to install. The list of supported versions is available in the [user documentation][mysql-version].
+
+The following arguments are optional:
 
 * `class` - (Optional) The service class.
     * _Valid values:_ `database`
@@ -700,7 +721,7 @@ the `mysql` block can contain the following arguments:
 ~> **Note** If a parameter name includes a dot, it cannot be passed in `galera_options`.
 If you need to use such a parameter, contact [technical support].
 
-* `gcache_size` - (Optional) A Galera parameter. The size of GCache circular buffer storage preallocated on startup, in bytes.
+* `gcache_size` - (Optional) A Galera parameter. The size of GCache circular buffer storage preallocated on startup in bytes.
     * _Valid values:_ From 128 MiB
     * _Constraints:_ The parameter can be set only if `high_availability` is `true`
 * `gcs_fc_factor` - (Optional) A Galera parameter. The fraction of `gcs_fc_limit` at which replication is resumed
@@ -726,7 +747,7 @@ This parameter is relevant for Percona 8.0, MySQL 8.0, and MariaDB 10.4, 10.5, 1
 * `innodb_buffer_pool_instances` - (Optional) The number of regions that `innodb_buffer_pool_size` is divided into
   when `innodb_buffer_pool_size` > 1 GiB. This parameter is relevant for Percona 5.7, 8.0 и MariaDB 10.2, 10.3, 10.4.
     * _Valid values:_ From 1 to 64
-* `innodb_buffer_pool_size` - (Optional) The size, in bytes, of the buffer pool used to cache table data and indexes.
+* `innodb_buffer_pool_size` - (Optional) The size in bytes of the buffer pool used to cache table data and indexes.
     * _Valid values:_ From 128 MiB
 * `innodb_change_buffering` - (Optional) Operations for which change buffering optimization is enabled.
     * _Valid values:_ `inserts`, `deletes`, `changes`, `purges`, `all`, `none`
@@ -737,7 +758,7 @@ This parameter is relevant for Percona 8.0, MySQL 8.0, and MariaDB 10.4, 10.5, 1
     * _Valid values:_ From 100 to 9223372036854775807
 * `innodb_io_capacity_max` - (Optional) The maximum number of IOPS that InnoDB background tasks can perform.
     * _Valid values:_ From 100 to 9223372036854775807
-* `innodb_log_file_size` - (Optional) The size of a single file, in bytes, in the redo system log
+* `innodb_log_file_size` - (Optional) The size of a single file in bytes in the redo system log.
     * _Valid values:_ From 4 MiB to 4 GiB
 * `innodb_log_files_in_group` - (Optional) The number of system log files in a log group.
     * _Valid values:_ From 2 to 100
@@ -760,7 +781,7 @@ This parameter is relevant for Percona 8.0, MySQL 8.0, and MariaDB 10.4, 10.5, 1
     * _Valid values:_ From 1 to 9223372036854775807
 * `max_connections` - (Optional) The maximum permitted number of simultaneous client connections that a host can handle.
     * _Valid values:_ From 10 to 100000
-* `max_heap_table_size` - (Optional) The maximum size, in bytes, to which user-created `MEMORY` tables are permitted to grow.
+* `max_heap_table_size` - (Optional) The maximum size in bytes, to which user-created `MEMORY` tables are permitted to grow.
     * _Valid values:_ From 16 KiB to 4 GiB
 * `logging` - (Optional, Editable) The logging settings for the service. The structure of this block is [described below](#logging).
 * `monitoring` - (Optional, Editable) The monitoring settings for the service. The structure of this block is [described below](#monitoring).
@@ -784,10 +805,6 @@ If you need to use such a parameter, contact [technical support].
     * _Valid values:_ `READ-UNCOMMITTED`, `READ-COMMITTED`, `REPEATABLE-READ`, `SERIALIZABLE`
 * `user` - (Optional, Editable) List of MySQL users with parameters. The maximum number of users is 1000.
   The structure of this block is [described below](#mysql-user).
-* `vendor` - (Required) The engine vendor.
-    * _Valid values:_ `mariadb`, `percona`, `mysql`
-* `version` - (Required) The version to install.
-  The list of supported versions is available in the [user documentation][mysql-version].
 * `wait_timeout` - (Optional) The number of seconds the server waits for activity on a noninteractive connection before closing it.
     * _Valid values:_ From 1 to 31536000
 
@@ -795,7 +812,13 @@ If you need to use such a parameter, contact [technical support].
 
 ~> **Note** All the parameters in the `database` block are editable.
 
-The `database` block has the following structure:
+The `database` block structure is described below.
+
+The following arguments are required:
+
+* `name` - (Required) The database name.
+
+The following arguments are optional:
 
 * `backup_enabled` - (Optional) Indicates whether backup is enabled for the database.
     * _Default value:_ `false`
@@ -809,7 +832,6 @@ The `database` block has the following structure:
     * _Valid values:_ Depend on `vendor`.
       For `mariadb` see the [MariaDB documentation][doc-mariadb-charset-collate].
       For `percona` and `mysql` see the [MySQL documentation][doc-mysql-charset-collate].
-* `name` - (Required) The database name.
 * `user` - (Optional) List of database users with parameters. The maximum number of users is 1000.
   The structure of this block is [described below](#mysql-database-user).
 
@@ -817,9 +839,14 @@ The `database` block has the following structure:
 
 ~> **Note** All the parameters in the `user` block are editable.
 
-The `user` block has the following structure:
+The `user` block structure is described below.
+
+The following arguments are required:
 
 * `name` - (Required) The MySQL user name.
+
+The following arguments are optional:
+
 * `options` - (Optional) List of user options.
     * _Valid values:_ `ALTER`, `ALTER ROUTINE`, `CREATE`, `CREATE ROUTINE`, `CREATE TEMPORARY TABLES`, `CREATE VIEW`, `DELETE`, `DROP`, `EVENT`, `EXECUTE`, `INDEX`, `INSERT`, `LOCK TABLES`, `SELECT`, `SHOW VIEW`, `TRIGGER`, `UPDATE`
 * `privileges` - (Optional) List of user privileges.
@@ -829,16 +856,27 @@ The `user` block has the following structure:
 
 ~> **Note** All the parameters in the `user` block are editable.
 
-The `user` block has the following structure:
+The `user` block structure is described below.
 
-* `host` - (Optional) The hostname or IP address. The value must be 1 to 60 characters long.
+The following arguments are required:
+
 * `name` - (Required) The MySQL user name.
 * `password` - (Required) The MySQL user password. The value must not contain `'`, `"`, `` ` `` and `\`.
+
+The following arguments are optional:
+
+* `host` - (Optional) The hostname or IP address. The value must be 1 to 60 characters long.
 
 ## PostgreSQL Argument Reference
 
 In addition to the common arguments for all services [described above](#argument-reference),
-the `pgsql` block can contain the following arguments:
+the `pgsql` block can contain arguments described below.
+
+The following arguments are required:
+
+* `version` - (Required) The version to install. The list of supported versions is available in the [user documentation][pgsql-version].
+
+The following arguments are optional:
 
 * `autovacuum` - (Optional) Indicates whether the server must run the autovacuum launcher daemon.
     * _Valid values:_ `ON`, `OFF`
@@ -860,18 +898,18 @@ the `pgsql` block can contain the following arguments:
     * _Default value:_ `database`
 * `database` - (Optional, Editable) List of PostgreSQL databases with parameters. The maximum number of databases is 1000.
   The structure of this block is [described below](#postgresql-database).
-* `effective_cache_size` - (Optional) The planner’s assumption about the effective size of the disk cache, in bytes (multiple of 1 KiB),
+* `effective_cache_size` - (Optional) The planner’s assumption about the effective size of the disk cache (in bytes, multiple of 1 KiB),
   that is available to a single query.
     * _Valid values:_ From 8 to 17179869176 KiB
   For more information about the parameter, see the [PostgreSQL documentation][doc-effective_cache_size].
 * `effective_io_concurrency` - (Optional) The number of concurrent disk I/O operations.
     * _Valid values:_ From 0 to 1000
 * `logging` - (Optional, Editable) The logging settings for the service. The structure of this block is [described below](#logging).
-* `maintenance_work_mem` - (Optional) The maximum amount of memory, in bytes (multiple of 1 KiB), used by maintenance operations, such as `VACUUM`, `CREATE INDEX`, and `ALTER TABLE ADD FOREIGN KEY`.
+* `maintenance_work_mem` - (Optional) The maximum amount of memory (in bytes, multiple of 1 KiB) used by maintenance operations, such as `VACUUM`, `CREATE INDEX`, and `ALTER TABLE ADD FOREIGN KEY`.
     * _Valid values:_ From 1 MiB to 2 GiB
 * `max_connections` - (Optional) The maximum number of simultaneous connections to the database server.
     * _Valid values:_ From 1 to 262143
-* `max_wal_size` - (Optional, **Deprecated**) The maximum size, in bytes (multiple of 1 MiB), that WAL can reach at automatic checkpoints.
+* `max_wal_size` - (Optional, **Deprecated**) The maximum size (in bytes, multiple of 1 MiB) that WAL can reach at automatic checkpoints.
     * _Valid values:_ From 2 to 2147483647 MiB
 
 ~> **Note** The parameter `max_wal_size` is marked as deprecated since it is not supported for PostgreSQL services
@@ -885,7 +923,7 @@ starting with the _paas_v4_0_ environment version.
     * _Valid values:_ From 0 to 1024
 * `max_worker_processes` - (Optional) The maximum number of background processes that the system can support.
     * _Valid values:_ From 0 to 262143
-* `min_wal_size` - (Optional, **Deprecated**) The minimum size, in bytes (multiple of 1 MiB), to shrink the WAL to. As long as WAL disk usage stays below this setting, old WAL files are always recycled for future use at a checkpoint, rather than removed.
+* `min_wal_size` - (Optional, **Deprecated**) The minimum size (in bytes, multiple of 1 MiB) to shrink the WAL to. As long as WAL disk usage stays below this setting, old WAL files are always recycled for future use at a checkpoint, rather than removed.
     * _Valid values:_ From 32 to 2147483647 MiB
 
 ~> **Note** The parameter `min_wal_size` is marked as deprecated since it is not supported for PostgreSQL services
@@ -901,27 +939,30 @@ If you need to use such a parameter, contact [technical support].
 * `replication_mode` - (Optional) The replication mode in the _Patroni_ cluster.
     * _Valid values:_ `asynchronous`, `synchronous`, `synchronous_strict`
     * _Constraints:_ The parameter must be set if `high_availability` is `true`
-* `shared_buffers` - (Optional) The amount of memory, in bytes (multiple of 1 KiB), the database server uses for shared memory buffers.
+* `shared_buffers` - (Optional) The amount of memory (in bytes, multiple of 1 KiB) the database server uses for shared memory buffers.
     * _Valid values:_ From 128 to 8589934584 KiB
   For more information about the parameter, see the [PostgreSQL documentation][doc-shared_buffers].
 * `user` - (Optional, Editable) List of PostgreSQL users with parameters. The maximum number of users is 1000.
   The structure of this block is [described below](#postgresql-user).
-* `version` - (Required) The version to install.
-  The list of supported versions is available in the [user documentation][pgsql-version].
 * `wal_buffers` - (Optional) The amount of shared memory in 8 KiB pages used for WAL data not yet written to a volume.
     * _Valid values:_ From 8 to 262143
 * `wal_keep_segments` - (Optional) The minimum number of log files segments that must be kept in the _pg_xlog_ directory, in case a standby server needs to fetch them for streaming replication.
     * _Valid values:_ From 0 to 2147483647
     * _Constraints:_ This parameter is relevant only for PostgreSQL version 12
-
-* `work_mem` - (Optional) The base maximum amount of memory, in bytes (multiple of 1 KiB), to be used by a query operation (such as a sort or hash table) before writing to temporary disk files.
+* `work_mem` - (Optional) The base maximum amount of memory (in bytes, multiple of 1 KiB) to be used by a query operation (such as a sort or hash table) before writing to temporary disk files.
     * _Valid values:_ From 64 to 2147483647 KiB
 
 ### PostgreSQL database
 
 ~> **Note** All the parameters in the `database` block are editable.
 
-The `database` block has the following structure:
+The `database` block structure is described below.
+
+The following arguments are required:
+
+* `name` - (Required) The database name.
+
+The following arguments are optional:
 
 * `backup_enabled` - (Optional) Indicates whether backup is enabled for the database.
     * _Default value:_ `false`
@@ -931,7 +972,6 @@ The `database` block has the following structure:
 * `extensions` - (Optional) List of extensions for the database.
     * _Valid values:_ `address_standardizer`, `address_standardizer_data_us`, `amcheck`, `autoinc`, `bloom`, `btree_gin`, `btree_gist`, `citext`,`cube`, `dblink`, `dict_int`, `dict_xsyn`, `earthdistance`, `fuzzystrmatch`, `hstore`, `intarray`, `isn`, `lo`, `ltree`, `moddatetime`, `pg_buffercache`, `pg_trgm`, `pg_visibility `, `pgcrypto`, `pgrowlocks`, `pgstattuple`, `postgis`, `postgis_tiger_geocoder`, `postgis_topology`, `postgres_fdw`, `seg`, `tablefunc`, `tcn`, `timescaledb`,  `tsm_system_rows`, `tsm_system_time`, `unaccent`, `uuid-ossp`, `xml2`
 * `locale` - (Optional) The database locale.
-* `name` - (Required) The database name.
 * `owner` - (Required) The name of the user who is the database owner. This must be one of the existing users.
   Such a user cannot be deleted as long as it is the database owner.
 * `user` - (Optional) List of PostgreSQL users with parameters. The maximum number of users is 1000.
@@ -992,6 +1032,9 @@ kafka {
 In addition to the common arguments for all services [described above](#argument-reference),
 the `rabbitmq` block can contain the following arguments:
 
+* `password` - (Required, Editable) The RabbitMQ admin password.
+  The value must be 8 to 32 characters long and must not contain `-`, `|`, `[`, `]`, `'`, `"`, `;` and `\`.
+* `version` - (Required) The version to install. The list of supported versions is available in the [user documentation][rabbitmq-version].
 * `class` - (Optional) The service class.
     * _Valid values:_ `message_broker`
     * _Default value:_ `message_broker`
@@ -1003,15 +1046,16 @@ the `rabbitmq` block can contain the following arguments:
 ~> **Note** If a parameter name includes a dot, it cannot be passed in the `options`.
 If you need to use such a parameter, contact [technical support].
 
-* `password` - (Required, Editable) The RabbitMQ admin password.
-  The value must be 8 to 32 characters long and must not contain `-`, `|`, `[`, `]`, `'`, `"`, `;` and `\`.
-* `version` - (Required) The version to install.
-  The list of supported versions is available in the [user documentation][rabbitmq-version].
-
 ## Redis Argument Reference
 
 In addition to the common arguments for all services [described above](#argument-reference),
-the `redis` block can contain the following arguments:
+the `redis` block can contain arguments as described below.
+
+The following arguments are required:
+
+* `version` - (Required) The version to install. The list of supported versions is available in the [user documentation][redis-version].
+
+The following arguments are optional:
 
 * `class` - (Optional) The service class.
     * _Valid values:_ `cacher`, `database`
@@ -1042,8 +1086,6 @@ If you need to use such a parameter, contact [technical support].
     * _Valid values:_ From 1 to 4096
 * `tcp_keepalive` - (Optional, Editable) The time in seconds during which the service sends ACKs to detect dead peers (unreachable clients).
   The value must be non-negative.
-* `version` - (Required) The version to install.
-  The list of supported versions is available in the [user documentation][redis-version].
 
 ## Common Service Argument Reference
 
@@ -1051,9 +1093,14 @@ If you need to use such a parameter, contact [technical support].
 
 ~> **Note** All the parameters in the `logging` block are editable.
 
-The `logging` block has the following structure:
+The `logging` block structure is described below.
+
+The following arguments are required:
 
 * `log_to` - (Required) The ID of the logging service. It must run in the same VPC as the service.
+
+The following arguments are optional:
+
 * `logging_tags` - (Optional) List of tags that are assigned to the log records of the service.
   Each value in the list must be 1 to 256 characters long.
 
@@ -1061,9 +1108,14 @@ The `logging` block has the following structure:
 
 ~> **Note** All the parameters in the `monitoring` block are editable.
 
-The `monitoring` block has the following structure:
+The `monitoring` block structure is described below.
+
+The following arguments are required:
 
 * `monitor_by` - (Required) The ID of the monitoring service. It must run in the same VPC as the service.
+
+The following arguments are optional:
+
 * `monitoring_labels` - (Optional) Map containing labels that are assigned to the metrics of the service.
   Keys must be 1 to 64 characters long.
 

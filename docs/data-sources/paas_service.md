@@ -205,19 +205,19 @@ the following attributes are exported only for a MySQL service:
 * `connect_timeout` - The number of seconds that the _mysqld_ server waits for a connect packet before responding with **Bad handshake**.
 * `database` - List of MySQL databases with parameters. The structure of this block is [described below](#mysql-database).
 * `galera_options` - Other Galera parameters.
-* `gcache_size` - A Galera parameter. The size of GCache circular buffer storage preallocated on startup, in bytes.
+* `gcache_size` - A Galera parameter. The size of GCache circular buffer storage preallocated on startup in bytes.
 * `gcs_fc_factor` - A Galera parameter. The fraction of `gcs_fc_limit` at which replication is resumed
   when the recv queue length falls below this value.
 * `gcs_fc_limit` - A Galera parameter. The number of writesets. If the recv queue length exceeds it replication is suspended.
 * `gcs_fc_master_slave` - A Galera parameter. Indicates whether the cluster has only one source node.
 * `gcs_fc_single_primary` - A Galera parameter. Indicates whether there is more than one replication source.
 * `innodb_buffer_pool_instances` - The number of regions that `innodb_buffer_pool_size` is divided into when `innodb_buffer_pool_size` > 1 GiB.
-* `innodb_buffer_pool_size` - The size, in bytes, of the buffer pool used to cache table data and indexes.
+* `innodb_buffer_pool_size` - The size in bytes of the buffer pool used to cache table data and indexes.
 * `innodb_change_buffering` - Operations for which change buffering optimization is enabled.
 * `innodb_flush_log_at_trx_commit` - The value of the parameter controls the behaviour for transaction commit operations.
 * `innodb_io_capacity` - The number of I/O operations per second (IOPS) available to InnoDB background tasks.
 * `innodb_io_capacity_max` - The maximum number of IOPS that InnoDB background tasks can perform.
-* `innodb_log_file_size` - The size of a single file, in bytes, in the redo system log.
+* `innodb_log_file_size` - The size of a single file in bytes in the redo system log.
 * `innodb_log_files_in_group` - The number of system log files in a log group.
 * `innodb_purge_threads` - The number of background threads allocated for the InnoDB purge operation.
 * `innodb_thread_concurrency` - The maximum number of threads permitted inside of InnoDB.
@@ -227,7 +227,7 @@ the following attributes are exported only for a MySQL service:
   or any parameter sent by the _mysql_stmt_send_long_data()_ C API function.
 * `max_connect_errors` - The maximum number of connection errors, at which the server blocks the host from further connections.
 * `max_connections` - The maximum permitted number of simultaneous client connections that a host can handle.
-* `max_heap_table_size` - The maximum size, in bytes, to which user-created `MEMORY` tables are permitted to grow.
+* `max_heap_table_size` - The maximum size in bytes, to which user-created `MEMORY` tables are permitted to grow.
 * `logging` - The logging settings for the service. The structure of this block is [described below](#logging).
 * `monitoring` - The monitoring settings for the service. The structure of this block is [described below](#monitoring).
 * `options` - Other MySQL parameters.
@@ -290,30 +290,30 @@ the following attributes are exported only for a PostgreSQL service:
   when deciding whether to trigger `VACUUM`.
 * `class` - The service class.
 * `database` - List of PostgreSQL databases with parameters. The structure of this block is [described below](#postgresql-database).
-* `effective_cache_size` - The planner’s assumption about the effective size of the disk cache, in bytes,
+* `effective_cache_size` - The planner’s assumption about the effective size of the disk cache in bytes,
   that is available to a single query.
 * `effective_io_concurrency` - The number of concurrent disk I/O operations.
 * `logging` - The logging settings for the service. The structure of this block is [described below](#logging).
-* `maintenance_work_mem` - The maximum amount of memory, in bytes, used by maintenance operations,
+* `maintenance_work_mem` - The maximum amount of memory in bytes, used by maintenance operations,
   such as `VACUUM`, `CREATE INDEX`, and `ALTER TABLE ADD FOREIGN KEY`.
 * `max_connections` - The maximum number of simultaneous connections to the database server.
-* `max_wal_size` - The maximum size, in bytes, that WAL can reach at automatic checkpoints.
+* `max_wal_size` - The maximum size in bytes, that WAL can reach at automatic checkpoints.
 * `max_parallel_maintenance_workers` - The maximum number of parallel workers that a single utility command can start.
 * `max_parallel_workers` - The maximum number of workers that the system can support for parallel operations.
 * `max_parallel_workers_per_gather` - The maximum number of workers that a single _Gather_ node can start.
 * `max_worker_processes` - The maximum number of background processes that the system can support.
-* `min_wal_size` - The minimum size, in bytes, to shrink the WAL to. As long as WAL disk usage stays below this setting,
+* `min_wal_size` - The minimum size in bytes to shrink the WAL to. As long as WAL disk usage stays below this setting,
   old WAL files are always recycled for future use at a checkpoint, rather than removed.
 * `monitoring` - The monitoring settings for the service. The structure of this block is [described below](#monitoring).
 * `options` - Other PostgreSQL parameters.
 * `replication_mode` - The replication mode in the _Patroni_ cluster.
-* `shared_buffers` - The amount of memory, in bytes, the database server uses for shared memory buffers.
+* `shared_buffers` - The amount of memory in bytes, the database server uses for shared memory buffers.
 * `user` - List of PostgreSQL users with parameters. The structure of this block is [described below](#postgresql-user).
 * `version` - The installed version.
 * `wal_buffers` - The amount of shared memory used for WAL data not yet written to a volume.
 * `wal_keep_segments` - The minimum number of log files segments that must be kept in the _pg_xlog_ directory,
   in case a standby server needs to fetch them for streaming replication.
-* `work_mem` - The base maximum amount of memory, in bytes, to be used by a query operation (such as a sort or hash table)
+* `work_mem` - The base maximum amount of memory in bytes to be used by a query operation (such as a sort or hash table)
   before writing to temporary disk files.
 
 ### PostgreSQL database

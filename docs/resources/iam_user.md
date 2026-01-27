@@ -43,15 +43,15 @@ output "user-password" {
 
 The following arguments are supported:
 
-* `display_name` - (Optional, Editable) The displayed name of the user.
-  If no value is specified, `name` will be used as the displayed name.
-* `email` - (Optional, Editable) The email of the user.
 * `name` - (Required) The name of the user. The value must start with a Latin letter and
   can only contain Latin letters, numbers, underscores (_), periods (.) and hyphens (-) (`^[a-zA-Z][a-zA-Z0-9_.-]*$`).
   The value must be 1 to 40 characters long.
 
-~> **Note** User names are not case-sensitive. For example, you cannot create user names "TESTUSER" and "testuser" at the same time.
+    ~> **Note** User names are not case-sensitive. For example, you cannot create user names "TESTUSER" and "testuser" at the same time.
 
+* `display_name` - (Optional, Editable) The displayed name of the user.
+  If no value is specified, `name` will be used as the displayed name.
+* `email` - (Optional, Editable) The email of the user.
 * `otp_required` - (Optional) Indicates whether the user is required to use two-factor authentication to log in to the web interface.
     * _Default value:_ `false`
 * `password` - (Optional, Editable) The password of the user.

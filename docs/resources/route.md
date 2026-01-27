@@ -6,7 +6,7 @@ description: |-
   Creates a routing entry in a VPC routing table.
 ---
 
-[timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
+[timeouts]: https://developer.hashicorp.com/terraform/plugin/framework/resources/timeouts
 
 # Resource: aws_route
 

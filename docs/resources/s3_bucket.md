@@ -216,13 +216,13 @@ resource "aws_s3_bucket" "example" {
 
 The following arguments are supported:
 
+* `acl` - (Optional, **Deprecated**, Conflicts with `grant`) The [canned ACL][canned-acl] to apply.  Terraform will only perform drift detection if a configuration value is provided. Use the resource [`aws_s3_bucket_acl`](s3_bucket_acl.md) instead.
+    * _Valid values:_  `authenticated-read`, `private`, `public-read`, `public-read-write`
+    * _Default value:_ `private`
 * `bucket` - (Optional, Forces new resource) The name of the bucket. If omitted, Terraform will assign a random, unique name. Must be lowercase and less than or equal to 63 characters in length. A full list of bucket naming rules may be found in [user documentation][bucket-naming].
 * `bucket_prefix` - (Optional, Conflicts with `bucket`, Forces new resource) Creates a unique bucket name beginning with the specified prefix. Must be lowercase and less than or equal to 37 characters in length. A full list of bucket naming rules may be found in [user documentation][bucket-naming].
-* `acl` - (Optional, **Deprecated**, Conflicts with `grant`) The [canned ACL][canned-acl] to apply.  Terraform will only perform drift detection if a configuration value is provided. Use the resource [`aws_s3_bucket_acl`](s3_bucket_acl.md) instead.
-    * _Valid values:_ `private`, `public-read`, `public-read-write`, `authenticated-read`
-    * _Default value:_ `private`
-* `grant` - (Optional, **Deprecated**, Conflicts with `acl`) An ACL policy grant. See [Grant](#grant) below for details. Terraform will only perform drift detection if a configuration value is provided. Use the resource [`aws_s3_bucket_acl`](s3_bucket_acl.md) instead.
 * `cors_rule` - (Optional, **Deprecated**) A rule of [Cross-Origin Resource Sharing][cors]. See [CORS rule](#cors-rule) below for details. Terraform will only perform drift detection if a configuration value is provided. Use the resource [`aws_s3_bucket_cors_configuration`](s3_bucket_cors_configuration.md) instead.
+* `grant` - (Optional, **Deprecated**, Conflicts with `acl`) An ACL policy grant. See [Grant](#grant) below for details. Terraform will only perform drift detection if a configuration value is provided. Use the resource [`aws_s3_bucket_acl`](s3_bucket_acl.md) instead.
 * `force_destroy` - (Optional) A boolean that indicates all objects should be deleted from the bucket so that the bucket can be destroyed without error.
     * _Default value:_ `false`
 * `lifecycle_rule` - (Optional, **Deprecated**) A configuration of [object lifecycle management][lifecycle-management]. See [Lifecycle Rule](#lifecycle-rule) below for details. Terraform will only perform drift detection if a configuration value is provided.
@@ -257,8 +257,8 @@ The `grant` configuration block supports the following arguments:
 * `type` - (Required) Type of grantee to apply for.  `AmazonCustomerByEmail` is not supported.
     * _Valid values:_ `CanonicalUser` and `Group`
 * `permissions` - (Required) List of permissions to apply for grantee.
-    * _Valid values:_ `READ`, `WRITE`, `READ_ACP`, `WRITE_ACP`, `FULL_CONTROL`
-* `uri` - (Optional) Uri address to grant for. Supported groups are `http://acs.amazonaws.com/groups/global/AllUsers` and `http://acs.amazonaws.com/groups/global/AuthenticatedUsers`. Used only when `type` is `Group`.
+    * _Valid values:_  `FULL_CONTROL`, `READ_ACP`, `READ`, `WRITE`, `WRITE_ACP`
+* `uri` - (Optional) URI address to grant for. Supported groups are `http://acs.amazonaws.com/groups/global/AllUsers` and `http://acs.amazonaws.com/groups/global/AuthenticatedUsers`. Used only when `type` is `Group`.
 
 ### Lifecycle Rule
 

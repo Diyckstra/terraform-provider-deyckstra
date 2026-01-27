@@ -3,14 +3,14 @@ subcategory: "EBS (EC2)"
 layout: "aws"
 page_title: "aws_snapshot_create_volume_permission"
 description: |-
-  Adds the permission to create volumes from a given EBS snapshot.
+  Adds a permission to create volumes from a given snapshot.
 ---
 
 # Resource: aws_snapshot_create_volume_permission
 
-Adds the permission to create volumes from a given EBS snapshot.
+Adds a permission to create volumes from a given snapshot.
 
-## Example Usage
+## Example usage
 
 ```terraform
 resource "aws_snapshot_create_volume_permission" "example_perm" {
@@ -28,15 +28,24 @@ resource "aws_ebs_snapshot" "example_snapshot" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
 The following arguments are supported:
 
-* `snapshot_id` - (required) A snapshot ID.
-* `account_id` - (required) The project ID (`project@customer`).
+* `account_id` - (Required, Forces new resource, String) The ID of the project.
+    * _Valid values:_ `project@customer`
+* `snapshot_id` - (Required, Forces new resource, String) The ID of the snapshot.
 
-## Attribute Reference
+## Attribute reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `id` - A combination of "`snapshot_id`-`account_id`".
+* `id` - A combination of `snapshot_id` and `account_id` separated by a hyphen (`-`).
+
+## Timeouts
+
+Timeouts usage for creating volume permissions is not currently supported.
+
+## Import
+
+Import of the volume permissions is not currently supported.

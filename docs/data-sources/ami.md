@@ -31,9 +31,9 @@ data "aws_ami" "example" {
 ## Argument Reference
 
 * `owners` - (Required) List of image owners to limit search. At least one value must be specified.
-    * _Valid values:_ Project ID (`project@customer`) or `self`
+    * _Valid values:_ `project@customer` or `self`
 * `executable_users` - (Optional) Limits search to project with the _explicit_ launch permission on the image.
-    * _Valid values:_ Project ID (`project@customer`), `all`, or `self`
+    * _Valid values:_ `project@customer`, `all`, or `self`
 * `filter` - (Optional) One or more name/value pairs to use as filters.
     * _Valid values:_ See supported names and values in [EC2 API documentation][describe-images]
 * `most_recent` - (Optional) If more than one result is returned, use the most recent image.
@@ -91,7 +91,7 @@ The `ebs` block is a part of the [`block_device_mappings`](#block_device_mapping
 * `delete_on_termination` - `true` if the EBS volume will be deleted on termination.
 * `iops` - `0` if the EBS volume is not a provisioned IOPS image, otherwise the supported IOPS count.
 * `snapshot_id` - The ID of the snapshot.
-* `volume_size` - The size of the volume, in GiB.
+* `volume_size` - The size of the volume in GiB.
 * `volume_type` - The volume type.
 
 ### Unsupported attributes

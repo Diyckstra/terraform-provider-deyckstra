@@ -261,7 +261,7 @@ The `rule` configuration block supports the following arguments:
 The `expiration` configuration block supports the following arguments:
 
 * `date` - (Optional) The date the object is to be moved or deleted. Should be in [RFC3339 format]. The time is always midnight UTC, for example, `2015-11-10T00:00:00.000Z`.
-* `days` - (Optional) The lifetime, in days, of the objects that are subject to the rule. The value must be a non-zero positive integer.
+* `days` - (Optional) The lifetime (in days) of the objects that are subject to the rule. The value must be a non-zero positive integer.
 * `expired_object_delete_marker` - (Optional, Conflicts with `date` and `days`) Indicates whether S3 will remove a delete marker with no noncurrent versions. If set to `true`, the delete marker will be expired; if set to `false` the policy takes no action.
 
 ### filter

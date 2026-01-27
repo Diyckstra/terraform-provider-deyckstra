@@ -9,7 +9,7 @@ description: |-
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 [eks-clusters]: https://docs.k2.cloud/en/services/kubernetes/eks_cluster.html
 [ha-clusters]: https://docs.k2.cloud/en/services/kubernetes/overview.html#ha-control-plane
-[timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
+[timeouts]: https://developer.hashicorp.com/terraform/plugin/framework/resources/timeouts
 [eks-kubeconfig-ds]: ../data-sources/eks_cluster_kubeconfig.md
 
 # Resource: aws_eks_cluster
@@ -161,7 +161,11 @@ kubectl get nodes
 
 The following arguments are required:
 
-* `name` - (Required) The name of the cluster. Must be between 1-100 characters in length. Must begin with an alphanumeric character, and must only contain alphanumeric characters, dashes and underscores (`^[0-9A-Za-z][A-Za-z0-9\-_]+$`).
+* `name` - (Required) The name of the cluster.
+    * _Value length:_ From 1 to 100 symbols
+    * _Constraints:_
+        * The value can contain only Latin letters, numbers, hyphens (`-`), and underscores (`_`)
+        * The value must start with a Latin letter or a number
 * `version` - (Required) The Kubernetes server version for the cluster.
 * `vpc_config` - (Required) Configuration block for the VPC associated with your cluster.
   The structure of this block is [described below](#vpc_config).
@@ -197,12 +201,13 @@ The `legacy_cluster_params` block has the following structure:
   The structure of this block is [described below](#ingress_config).
 * `master_config` - (Optional) The configuration of the master node of the cluster.
   The structure of this block is [described below](#master_config).
-* `user_data_config` - (Optional) The configuration of the cluster user data.
-  The structure of this block is [described below](#user_data_config).
 * `nlb_provider_config` – (Optional) The configuration of the NLB Provider.
   The structure of this block is [described below](#nlb_provider_config).
 * `placement_config` - (Optional) The placement of the cluster.
   The structure of this block is [described below](#placement_config).
+* `user_data_config` - (Optional) The configuration of the cluster user data.
+  The structure of this block is [described below](#user_data_config).
+
 
 #### docker_registry_config
 
