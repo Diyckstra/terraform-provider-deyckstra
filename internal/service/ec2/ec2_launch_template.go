@@ -101,10 +101,9 @@ func ResourceLaunchTemplate() *schema.Resource {
 										Computed: true,
 									},
 									"volume_type": {
-										Type:         schema.TypeString,
-										Optional:     true,
-										Computed:     true,
-										ValidateFunc: validation.StringInSlice(ec2.VolumeType_Values(), false),
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
 									},
 								},
 							},

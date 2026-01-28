@@ -498,7 +498,6 @@ The `data_volume` block has the following structure:
 * `size` - (Optional) The size of the data volume in GiB.
     * _Default value:_ `32`
 * `type` - (Optional) The type of the data volume.
-    * _Valid values:_ `st2`, `gp2`, `io2`
     * _Default value:_ `st2`
 
 ### root_volume
@@ -510,7 +509,6 @@ The `root_volume` block has the following structure:
 * `size` - (Optional) The size of the root volume in GiB.
     * _Default value:_ `32`
 * `type` - (Optional) The type of the root volume.
-    * _Valid values:_ `st2`, `gp2`, `io2`
     * _Default value:_ `st2`
 
 ## Elasticsearch Argument Reference

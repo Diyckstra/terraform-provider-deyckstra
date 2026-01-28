@@ -158,7 +158,6 @@ The `ebs_block_device` block has the following structure:
 * `tags` - (Optional) Map of tags to assign to the device.
 * `volume_size` - (Optional) Size of the volume, in GiB.
 * `volume_type` - (Optional) Type of volume.
-    * _Valid values:_ `st2`, `gp2`, `io2`
 
 ~> **Note** Currently, changes to the `ebs_block_device` configuration of _existing_ resources cannot be automatically detected by Terraform.
 To manage changes and attachments of an EBS block to an instance, use the [`aws_ebs_volume`](ebs_volume.md) and [`aws_volume_attachment`](volume_attachment.md) resources instead.
@@ -216,7 +215,6 @@ The `root_block_device` block has the following structure:
 * `tags` - (Optional) Map of tags to assign to the device.
 * `volume_size` - (Optional) Size of the volume in GiB.
 * `volume_type` - (Optional) Type of volume.
-    * _Valid values:_ `st2`, `gp2`, `io2`
 
 ## Attribute Reference
 

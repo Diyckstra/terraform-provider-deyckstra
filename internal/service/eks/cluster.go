@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/service/ec2"
 	"github.com/aws/aws-sdk-go/service/eks"
 	"github.com/hashicorp/aws-sdk-go-base/v2/awsv1shim/v2/tfawserr"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/customdiff"
@@ -187,10 +186,9 @@ func ResourceCluster() *schema.Resource {
 										ForceNew: true,
 									},
 									"volume_type": {
-										Type:         schema.TypeString,
-										Required:     true,
-										ForceNew:     true,
-										ValidateFunc: validation.StringInSlice(ec2.VolumeType_Values(), false),
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
 									},
 								},
 							},
@@ -236,10 +234,9 @@ func ResourceCluster() *schema.Resource {
 										ForceNew: true,
 									},
 									"volume_type": {
-										Type:         schema.TypeString,
-										Required:     true,
-										ForceNew:     true,
-										ValidateFunc: validation.StringInSlice(ec2.VolumeType_Values(), false),
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
 									},
 								},
 							},
@@ -276,10 +273,9 @@ func ResourceCluster() *schema.Resource {
 										ForceNew: true,
 									},
 									"volume_type": {
-										Type:         schema.TypeString,
-										Required:     true,
-										ForceNew:     true,
-										ValidateFunc: validation.StringInSlice(ec2.VolumeType_Values(), false),
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
 									},
 								},
 							},

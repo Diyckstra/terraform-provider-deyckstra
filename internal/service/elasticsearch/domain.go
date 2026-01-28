@@ -390,10 +390,9 @@ func ResourceDomain() *schema.Resource {
 							Optional: true,
 						},
 						"volume_type": {
-							Type:         schema.TypeString,
-							Optional:     true,
-							Computed:     true,
-							ValidateFunc: validation.StringInSlice(elasticsearch.VolumeType_Values(), false),
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
 						},
 					},
 				},

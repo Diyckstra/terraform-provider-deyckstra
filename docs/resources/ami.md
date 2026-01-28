@@ -74,7 +74,6 @@ The `ebs_block_device` blocks has the following structure:
 * `volume_size` - (Optional) The size of created volumes, in GiB.
     * _Constraints:_ Required unless `snapshot_id` is set. If `snapshot_id` is set and `volume_size` is omitted then the volume will have the same size as the selected snapshot
 * `volume_type` - (Optional) The type of EBS volume to create.
-    * _Valid values:_ `st2`, `gp2`, `io2`
     * _Default value:_ `st2`
 
 ### ephemeral_block_device
