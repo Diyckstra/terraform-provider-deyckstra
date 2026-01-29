@@ -1,4 +1,9 @@
-## 25.5.0 (Unreleased)
+## 25.4.1 (January 29, 2026)
+
+ENHANCEMENTS / BUG FIXES:
+
+* resource/aws_ami, resource/aws_eks_cluster, resource/aws_instance, resource/aws_launch_template, resource/aws_paas_service: remove volume type validation
+* resource/aws_eks_node_group: add `CLAIMED` as pending status when updating or deleting a nodegroup
 
 ## 25.4.0
 
