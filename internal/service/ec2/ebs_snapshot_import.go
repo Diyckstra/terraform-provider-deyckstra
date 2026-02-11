@@ -88,10 +88,9 @@ func ResourceEBSSnapshotImport() *schema.Resource {
 							Optional: true,
 						},
 						"format": {
-							Type:         schema.TypeString,
-							Required:     true,
-							ForceNew:     true,
-							ValidateFunc: validation.StringInSlice(ec2.DiskImageFormat_Values(), false),
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
 						},
 						"url": {
 							Type:         schema.TypeString,
