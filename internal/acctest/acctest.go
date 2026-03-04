@@ -406,10 +406,16 @@ func MatchResourceAttrGlobalHostname(resourceName, attributeName, serviceName st
 }
 
 // CheckResourceAttrGlobalARN ensures the Terraform state exactly matches a formatted ARN without region
+// Uses customer name as account ID to match the generated ARN
 func CheckResourceAttrGlobalARN(resourceName, attributeName, arnService, arnResource string) resource.TestCheckFunc {
 	return func(s *terraform.State) error {
+		customerName, err := CustomerName()
+		if err != nil {
+			return err
+		}
+
 		attributeValue := arn.ARN{
-			AccountID: AccountID(),
+			AccountID: customerName,
 			Partition: Partition(),
 			Resource:  arnResource,
 			Service:   arnService,
@@ -559,6 +565,22 @@ func PrimaryInstanceState(s *terraform.State, name string) (*terraform.InstanceS
 // Must be used within a resource.TestCheckFunc
 func AccountID() string {
 	return providerAccountID(Provider)
+}
+
+func CustomerName() (string, error) {
+	accountID := AccountID()
+	errMsg := "Failed to extract customer name from account id '%s'. Expected format: project@customer."
+
+	if !strings.Contains(accountID, "@") {
+		return "", fmt.Errorf(errMsg, accountID)
+	}
+
+	parts := strings.Split(accountID, "@")
+	if len(parts) != 2 {
+		return "", fmt.Errorf(errMsg, accountID)
+	}
+
+	return parts[1], nil
 }
 
 func Region() string {
