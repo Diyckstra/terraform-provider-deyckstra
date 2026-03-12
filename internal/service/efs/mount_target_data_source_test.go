@@ -23,14 +23,11 @@ func TestAccEFSMountTargetDataSource_basic(t *testing.T) {
 			{
 				Config: testAccMountTargetByMountTargetIDConfig(rName),
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrPair(dataSourceName, "file_system_arn", resourceName, "file_system_arn"),
 					resource.TestCheckResourceAttrPair(dataSourceName, "file_system_id", resourceName, "file_system_id"),
 					resource.TestCheckResourceAttrPair(dataSourceName, "ip_address", resourceName, "ip_address"),
 					resource.TestCheckResourceAttrPair(dataSourceName, "subnet_id", resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrPair(dataSourceName, "network_interface_id", resourceName, "network_interface_id"),
 					resource.TestCheckResourceAttrPair(dataSourceName, "dns_name", resourceName, "dns_name"),
-					resource.TestCheckResourceAttrPair(dataSourceName, "mount_target_dns_name", resourceName, "mount_target_dns_name"),
-					resource.TestCheckResourceAttrPair(dataSourceName, "availability_zone_name", resourceName, "availability_zone_name"),
 					resource.TestCheckResourceAttrPair(dataSourceName, "availability_zone_id", resourceName, "availability_zone_id"),
 					resource.TestCheckResourceAttrPair(dataSourceName, "owner_id", resourceName, "owner_id"),
 					resource.TestCheckResourceAttrPair(dataSourceName, "security_groups", resourceName, "security_groups"),
@@ -53,14 +50,11 @@ func TestAccEFSMountTargetDataSource_byAccessPointID(t *testing.T) {
 			{
 				Config: testAccMountTargetByAccessPointIDConfig(rName),
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrPair(dataSourceName, "file_system_arn", resourceName, "file_system_arn"),
 					resource.TestCheckResourceAttrPair(dataSourceName, "file_system_id", resourceName, "file_system_id"),
 					resource.TestCheckResourceAttrPair(dataSourceName, "ip_address", resourceName, "ip_address"),
 					resource.TestCheckResourceAttrPair(dataSourceName, "subnet_id", resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrPair(dataSourceName, "network_interface_id", resourceName, "network_interface_id"),
 					resource.TestCheckResourceAttrPair(dataSourceName, "dns_name", resourceName, "dns_name"),
-					resource.TestCheckResourceAttrPair(dataSourceName, "mount_target_dns_name", resourceName, "mount_target_dns_name"),
-					resource.TestCheckResourceAttrPair(dataSourceName, "availability_zone_name", resourceName, "availability_zone_name"),
 					resource.TestCheckResourceAttrPair(dataSourceName, "availability_zone_id", resourceName, "availability_zone_id"),
 					resource.TestCheckResourceAttrPair(dataSourceName, "owner_id", resourceName, "owner_id"),
 					resource.TestCheckResourceAttrPair(dataSourceName, "security_groups", resourceName, "security_groups"),
@@ -83,14 +77,11 @@ func TestAccEFSMountTargetDataSource_byFileSystemID(t *testing.T) {
 			{
 				Config: testAccMountTargetByFileSystemIDConfig(rName),
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrPair(dataSourceName, "file_system_arn", resourceName, "file_system_arn"),
 					resource.TestCheckResourceAttrPair(dataSourceName, "file_system_id", resourceName, "file_system_id"),
 					resource.TestCheckResourceAttrPair(dataSourceName, "ip_address", resourceName, "ip_address"),
 					resource.TestCheckResourceAttrPair(dataSourceName, "subnet_id", resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrPair(dataSourceName, "network_interface_id", resourceName, "network_interface_id"),
 					resource.TestCheckResourceAttrPair(dataSourceName, "dns_name", resourceName, "dns_name"),
-					resource.TestCheckResourceAttrPair(dataSourceName, "mount_target_dns_name", resourceName, "mount_target_dns_name"),
-					resource.TestCheckResourceAttrPair(dataSourceName, "availability_zone_name", resourceName, "availability_zone_name"),
 					resource.TestCheckResourceAttrPair(dataSourceName, "availability_zone_id", resourceName, "availability_zone_id"),
 					resource.TestCheckResourceAttrPair(dataSourceName, "owner_id", resourceName, "owner_id"),
 					resource.TestCheckResourceAttrPair(dataSourceName, "security_groups", resourceName, "security_groups"),
