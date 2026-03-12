@@ -75,6 +75,13 @@ nav:
       - aws_instances: data-sources/instances.md
       - aws_key_pair: data-sources/key_pair.md
       - aws_launch_template: data-sources/launch_template.md
+  - EFS (Elastic File System):
+    - Resources:
+      - aws_efs_file_system: resources/efs_file_system.md
+      - aws_efs_mount_target: resources/efs_mount_target.md
+    - Data Sources:
+      - aws_efs_file_system: data-sources/efs_file_system.md
+      - aws_efs_mount_target: data-sources/efs_mount_target.md
   - EKS (Elastic Kubernetes):
     - Resources:
       - aws_eks_cluster: resources/eks_cluster.md
