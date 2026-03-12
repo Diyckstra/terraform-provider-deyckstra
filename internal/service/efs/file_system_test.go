@@ -438,24 +438,6 @@ resource "aws_efs_file_system" "test" {
 `, rName)
 }
 
-func testAccFileSystemAvailabilityZoneNameConfig(rName string) string {
-	return fmt.Sprintf(`
-data "aws_availability_zones" "available" {
-  state = "available"
-
-  filter {
-    name   = "opt-in-status"
-    values = ["opt-in-not-required"]
-  }
-}
-
-resource "aws_efs_file_system" "test" {
-  creation_token         = %q
-  availability_zone_name = data.aws_availability_zones.available.names[0]
-}
-`, rName)
-}
-
 func testAccFileSystemTags1Config(rName, tagKey1, tagValue1 string) string {
 	return fmt.Sprintf(`
 resource "aws_efs_file_system" "test" {

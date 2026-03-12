@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/arn"
 	"github.com/aws/aws-sdk-go/service/efs"
 	"github.com/hashicorp/aws-sdk-go-base/v2/awsv1shim/v2/tfawserr"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
@@ -33,10 +32,6 @@ func ResourceMountTarget() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"file_system_arn": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"file_system_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -69,14 +64,6 @@ func ResourceMountTarget() *schema.Resource {
 				Computed: true,
 			},
 			"dns_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"mount_target_dns_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"availability_zone_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -209,20 +196,10 @@ func resourceMountTargetRead(d *schema.ResourceData, meta interface{}) error {
 
 	log.Printf("[DEBUG] Found EFS mount target: %#v", mt)
 
-	fsARN := arn.ARN{
-		AccountID: meta.(*conns.AWSClient).AccountID,
-		Partition: meta.(*conns.AWSClient).Partition,
-		Region:    meta.(*conns.AWSClient).Region,
-		Resource:  fmt.Sprintf("file-system/%s", aws.StringValue(mt.FileSystemId)),
-		Service:   "elasticfilesystem",
-	}.String()
-
-	d.Set("file_system_arn", fsARN)
 	d.Set("file_system_id", mt.FileSystemId)
 	d.Set("ip_address", mt.IpAddress)
 	d.Set("subnet_id", mt.SubnetId)
 	d.Set("network_interface_id", mt.NetworkInterfaceId)
-	d.Set("availability_zone_name", mt.AvailabilityZoneName)
 	d.Set("availability_zone_id", mt.AvailabilityZoneId)
 	d.Set("owner_id", mt.OwnerId)
 
@@ -238,8 +215,7 @@ func resourceMountTargetRead(d *schema.ResourceData, meta interface{}) error {
 		return err
 	}
 
-	d.Set("dns_name", meta.(*conns.AWSClient).RegionalHostname(fmt.Sprintf("%s.efs", aws.StringValue(mt.FileSystemId))))
-	d.Set("mount_target_dns_name", meta.(*conns.AWSClient).RegionalHostname(fmt.Sprintf("%s.%s.efs", aws.StringValue(mt.AvailabilityZoneName), aws.StringValue(mt.FileSystemId))))
+	d.Set("dns_name", mt.DnsName)
 
 	return nil
 }

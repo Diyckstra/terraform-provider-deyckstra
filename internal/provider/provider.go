@@ -20,6 +20,7 @@ import (
 	"github.com/hashicorp/terraform-provider-aws/internal/service/cloudwatch"
 	"github.com/hashicorp/terraform-provider-aws/internal/service/directconnect"
 	"github.com/hashicorp/terraform-provider-aws/internal/service/ec2"
+	"github.com/hashicorp/terraform-provider-aws/internal/service/efs"
 	"github.com/hashicorp/terraform-provider-aws/internal/service/eks"
 	"github.com/hashicorp/terraform-provider-aws/internal/service/elbv2"
 	"github.com/hashicorp/terraform-provider-aws/internal/service/iam"
@@ -461,8 +462,8 @@ func Provider() *schema.Provider {
 			//
 			// "aws_efs_access_point":  efs.DataSourceAccessPoint(),
 			// "aws_efs_access_points": efs.DataSourceAccessPoints(),
-			// "aws_efs_file_system":   efs.DataSourceFileSystem(),
-			// "aws_efs_mount_target":  efs.DataSourceMountTarget(),
+			"aws_efs_file_system":  efs.DataSourceFileSystem(),
+			"aws_efs_mount_target": efs.DataSourceMountTarget(),
 
 			// "aws_eks_addon":         eks.DataSourceAddon(),
 			// "aws_eks_addon_version": eks.DataSourceAddonVersion(),
@@ -1209,9 +1210,9 @@ func Provider() *schema.Provider {
 			//
 			// "aws_efs_access_point":       efs.ResourceAccessPoint(),
 			// "aws_efs_backup_policy":      efs.ResourceBackupPolicy(),
-			// "aws_efs_file_system":        efs.ResourceFileSystem(),
+			"aws_efs_file_system": efs.ResourceFileSystem(),
 			// "aws_efs_file_system_policy": efs.ResourceFileSystemPolicy(),
-			// "aws_efs_mount_target":       efs.ResourceMountTarget(),
+			"aws_efs_mount_target": efs.ResourceMountTarget(),
 
 			// "aws_eks_addon":                    eks.ResourceAddon(),
 			"aws_eks_cluster": eks.ResourceCluster(),
