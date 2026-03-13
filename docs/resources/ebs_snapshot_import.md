@@ -43,7 +43,7 @@ The following arguments are supported:
 ### disk_container Configuration Block
 
 * `description` - (Optional) The description of the disk image being imported.
-* `format` - (Required) The format of the disk image being imported. One of `VHD`, `VMDK` or `RAW`.
+* `format` - (Required) The format of the disk image being imported. One of `VHD`, `VMDK`, `QCOW2` or `RAW`.
 * `user_bucket` - (Required) The S3 bucket for the disk image.
 
 ### user_bucket Configuration Block
