@@ -3,7 +3,7 @@ subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
 page_title: "aws_vpc_dhcp_options"
 description: |-
-  Provides information about an DHCP options configuration.
+  Provides information about the DHCP options configuration.
 ---
 
 [describe-dhcp-options]: https://docs.k2.cloud/en/api/ec2/actions/dhcp_options/DescribeDhcpOptions.html
@@ -11,11 +11,11 @@ description: |-
 
 # Data Source: aws_vpc_dhcp_options
 
-Provides information about an DHCP options configuration.
+Provides information about the DHCP options configuration.
 
-## Example Usage
+## Example usage
 
-### Lookup by DHCP options ID
+### Specific example: performing a lookup by DHCP options ID
 
 ```terraform
 variable dopts_id {}
@@ -25,7 +25,7 @@ data "aws_vpc_dhcp_options" "example" {
 }
 ```
 
-### Lookup by Filter
+### Specific example: performing a lookup by filter
 
 ```terraform
 data "aws_vpc_dhcp_options" "example" {
@@ -41,27 +41,33 @@ data "aws_vpc_dhcp_options" "example" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
-* `dhcp_options_id` - (Optional) The DHCP options ID.
-* `filter` - (Optional) One or more name/value pairs to use as filters.
+* `dhcp_options_id` - (Optional, String) The ID of the DHCP options set.
+* `filter` - (Optional, [Block](#filter)) One or more name/value pairs to use as filters.
     * _Valid values:_ See supported names and values in [EC2 API documentation][describe-dhcp-options]
 
-## Attribute Reference
+### filter
+
+* `name` - (Required, String) The name of the filter.
+    * _Constraints:_ Filter names are case-sensitive
+* `values` - (Required, List of strings) One or more filter values.
+    * _Constraints:_ Filter values are case-sensitive
+
+## Attribute reference
 
 ### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` - The Amazon Resource Name (ARN) of the DHCP options set.
-* `dhcp_options_id` - DHCP options ID.
-* `domain_name` - The suffix domain name to used when resolving non fully qualified domain names e.g., the `search` value in the `/etc/resolv.conf` file.
-* `domain_name_servers` - List of name servers.
-* `id` - DHCP options ID.
-* `netbios_name_servers` - List of NETBIOS name servers.
-* `netbios_node_type` - The NetBIOS node type (1, 2, 4, or 8). For more information about these node types, see [RFC 2132][rfc-2132].
-* `ntp_servers` - List of NTP servers.
-* `tags` - Map of tags assigned to the DHCP options set.
+* `arn` - (String) The Amazon Resource Name (ARN) of the DHCP options set.
+* `domain_name` - (String) The suffix domain name to be used when resolving non-fully qualified domain names (for example, the `search` value in the `/etc/resolv.conf` file).
+* `domain_name_servers` - (List of strings) The list of name servers set.
+* `id` - (String) The ID of the DHCP options set.
+* `netbios_name_servers` - (List of strings) The List of NetBIOS name servers.
+* `netbios_node_type` - (String) The NetBIOS node type (1, 2, 4, or 8). For more information about these node types, see [RFC 2132][rfc-2132].
+* `ntp_servers` - (List of strings) The list of NTP servers.
+* `tags` - (Map of strings) Key-value pairs assigned to the resource.
 
 ### Unsupported attributes
 

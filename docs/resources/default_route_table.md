@@ -21,7 +21,9 @@ Every VPC has a default route table that can be managed but not destroyed. When 
 
 For more information, see the documentation on [route tables][route-tables]. For information about managing normal route tables in Terraform, see [`aws_route_table`](route_table.md).
 
-## Example Usage
+## Example usage
+
+### Basic example
 
 ```terraform
 resource "aws_vpc" "example" {
@@ -52,7 +54,7 @@ resource "aws_default_route_table" "example" {
 }
 ```
 
-To subsequently remove all managed routes:
+### Specific example: removing all managed routes subsequently
 
 ```terraform
 resource "aws_default_route_table" "example" {
@@ -66,43 +68,42 @@ resource "aws_default_route_table" "example" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
 The following arguments are required:
 
-* `default_route_table_id` - (Required) ID of the default route table.
+* `default_route_table_id` - (Required, Forces new resource, String) The ID of the default route table.
 
 The following arguments are optional:
 
-* `propagating_vgws` - (Optional) List of virtual gateways for propagation.
-* `route` - (Optional) Configuration block of routes. Detailed below. This argument is processed in [attribute-as-blocks mode][attribute-as-blocks]. This means that omitting this argument is interpreted as ignoring any existing routes. To remove all managed routes an empty list should be specified. See the example above.
-* `tags` - (Optional) Map of tags to assign to the route table. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
+* `propagating_vgws` - (Optional, Editable, List of strings) The list of virtual gateways for propagation.
+* `route` - (Optional, Editable, [Block](#route)) One or more route objects. This argument is processed in [attribute-as-blocks mode][attribute-as-blocks].
+It means that omitting this argument is interpreted as ignoring any existing routes. To remove all managed routes an empty list should be specified. See the [example above](#specific-example-removing-all-managed-routes-subsequently).
+* `tags` - (Optional, Editable, Map of strings) Key-value pairs to assign to the resource. If the [`default_tags` configuration block][default-tags] block is used within a provider configuration, the tags with matching keys will overwrite those defined at the provider level.
 
 ### route
 
-This argument is processed in [attribute-as-blocks mode][attribute-as-blocks].
+The following destination argument must be supplied:
 
-One of the following destination arguments must be supplied:
-
-* `cidr_block` - (Required) The CIDR block of the route.
+* `cidr_block` - (Required, Editable, String) The CIDR block of the route.
 
 One of the following target arguments must be supplied:
 
-* `gateway_id` - (Optional) The ID of an internet gateway.
-* `instance_id` - (Optional) The ID of an EC2 instance.
-* `network_interface_id` - (Optional) The ID of an EC2 network interface.
-* `transit_gateway_id` - (Optional) The ID of the transit gateway.
+* `gateway_id` - (Optional, Editable, String) The ID of the internet gateway.
+* `instance_id` - (Optional, Editable, String) The ID of the instance.
+* `network_interface_id` - (Optional, Editable, String) The ID of the network interface.
+* `transit_gateway_id` - (Optional, Editable, String) The ID of the transit gateway.
 
-## Attribute Reference
+## Attribute reference
 
 ### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
-* `id` - The ID of the route table.
-* `arn` - The Amazon Resource Name (ARN) of the route table.
-* `tags_all` - Map of tags assigned to the route table, including those inherited from the provider [`default_tags` configuration block][default-tags].
-* `vpc_id` - The ID of the VPC.
+* `arn` - (String) The Amazon Resource Name (ARN) of the route table.
+* `id` - (String) The ID of the route table.
+* `tags_all` - (Map of strings) Key-value pairs assigned to the resource, including any tags inherited from the  [`default_tags` configuration block][default-tags] if used within a provider configuration.
+* `vpc_id` - (String) The ID of the VPC.
 
 ### Unsupported attributes
 
@@ -110,7 +111,7 @@ In addition to all arguments above, the following attributes are exported:
 
 The following attributes are not currently supported:
 
-`destination_prefix_list_id`, `ipv6_cidr_block`, `owner_id`, `route.core_network_arn`, `route.egress_only_gateway_id`, `route.nat_gateway_id`, `route.vpc_endpoint_id`, `route.vpc_peering_connection_id`.
+`owner_id`, `route.core_network_arn`, `route.destination_prefix_list_id`, `route.egress_only_gateway_id`, `route.ipv6_cidr_block`, `route.nat_gateway_id`, `route.vpc_endpoint_id`, `route.vpc_peering_connection_id`.
 
 ## Timeouts
 
@@ -121,7 +122,7 @@ The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 ## Import
 
-Default VPC route tables can be imported using the `vpc_id`, e.g.,
+Default VPC route tables can be imported using the `vpc_id`, for example:
 
 ```
 $ terraform import aws_default_route_table.example vpc-12345678

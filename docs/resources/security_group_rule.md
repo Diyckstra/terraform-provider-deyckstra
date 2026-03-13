@@ -11,18 +11,16 @@ description: |-
 Manages a security group rule.
 Represents a single `ingress` or `egress` group rule, which can be added to external security groups.
 
-~> **Note on security groups and security group rules:** Terraform currently
-provides both a standalone security group rule resource (a single `ingress` or
-`egress` rule), and a [`aws_security_group`](security_group.md) with `ingress` and `egress` rules
-defined in-line. At this time you cannot use a security group with in-line rules
-in conjunction with any security group rule resources. Doing so will cause
-a conflict of rule settings and will overwrite rules.
+~> **Note** Terraform currently provides both a standalone security group rule resource (a single `ingress` or `egress` rule), and a [`aws_security_group`](security_group.md) with `ingress` and `egress` rules defined inline.
+At this time you cannot use a security group with inline rules in conjunction with any security group rule resources.
+Doing so will cause a conflict of rule settings and will overwrite rules.
 
-~> **Note** Setting `protocol = "all"` or `protocol = -1` with `from_port` and `to_port` will result in the EC2 API creating a security group rule with all ports open. This API behavior cannot be controlled by Terraform and may generate warnings in the future.
+~> **Note** Setting `protocol` to `all` or `-1` will result in the EC2 API creating a security group rule with all ports open.
+This API behavior cannot be controlled by Terraform and may generate warnings in the future.
 
-## Example Usage
+## Example usage
 
-Basic usage
+### Specific example
 
 ```terraform
 resource "aws_vpc" "example" {
@@ -45,32 +43,38 @@ resource "aws_security_group_rule" "example" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
 The following arguments are required:
 
-* `from_port` - (Required) Start port (or ICMP type number if protocol is "icmp" or "icmpv6").
-* `protocol` - (Required) Protocol. If not icmp, icmpv6, tcp, udp, or all use the [protocol number](https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml)
-* `security_group_id` - (Required) Security group to apply this rule to.
-* `to_port` - (Required) End port (or ICMP code if protocol is "icmp").
-* `type` - (Required) Type of rule being created. Valid options are `ingress` (inbound)
-or `egress` (outbound).
+* `from_port` - (Required, Forces new resource, Integer) The start of the port range (or ICMP message type number if the `protocol` value is `icmp`).
+* `protocol` - (Required, Forces new resource, String) The protocol to match.
+    * _Constraints:_ If the value is not `icmp`, `tcp`, `udp`, or `all`, then use the [protocol number](https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml)
+* `security_group_id` - (Required, Forces new resource, String) The ID of the security group to apply this rule to.
+* `to_port` - (Required, Forces new resource, Integer) The end of the port range (or ICMP message code if the `protocol` value is `icmp`).
+* `type` - (Required, Forces new resource, String) The type of the rule being created.
+    * _Valid values:_ `egress`, `ingress`
 
 The following arguments are optional:
 
-* `cidr_blocks` - (Optional) List of CIDR blocks. Cannot be specified with `source_security_group_id` or `self`.
-* `description` - (Optional) Description of the rule.
-* `ipv6_cidr_blocks` - (Optional) List of IPv6 CIDR blocks. Cannot be specified with `source_security_group_id` or `self`.
-* `self` - (Optional) Whether the security group itself will be added as a source to this ingress rule. Cannot be specified with `cidr_blocks`, `ipv6_cidr_blocks`, or `source_security_group_id`.
-* `source_security_group_id` - (Optional) ID of the security group to allow access to/from, depending on the `type`. Cannot be specified with `cidr_blocks`, `ipv6_cidr_blocks`, or `self`.
+* `cidr_blocks` - (Optional, Forces new resource, List of strings) The list of CIDR blocks.
+    * _Constraints:_ Cannot be specified with `source_security_group_id` or `self`
+* `description` - (Optional, Editable, String) The description of the rule.
+* `ipv6_cidr_blocks` - (Optional, Forces new resource, List of strings) The list of IPv6 CIDR blocks.
+    * _Constraints:_ Cannot be specified with `source_security_group_id` or `self`
+* `self` - (Optional, Forces new resource, Boolean) Indicated whether the security group itself will be added as a source to this ingress rule.
+    * _Default value:_ `false`
+    * _Constraints:_ Cannot be specified with `cidr_blocks`, `ipv6_cidr_blocks`, or `source_security_group_id`
+* `source_security_group_id` - (Optional, Forces new resource, String) The ID of the security group to allow access to/from, depending on the `type`.
+    * _Constraints:_ Cannot be specified with `cidr_blocks`, `ipv6_cidr_blocks`, or `self`
 
-## Attribute Reference
+## Attribute reference
 
 ### Supported attributes
 
-In addition to all arguments above, the following attributes are exported:
+In addition to all arguments above, the following attribute is exported:
 
-* `id` - ID of the security group rule.
+* `id` - (String) The ID of the security group rule.
 
 ### Unsupported attributes
 
@@ -78,7 +82,10 @@ In addition to all arguments above, the following attributes are exported:
 
 The following attribute is not currently supported: `prefix_list_ids`.
 
+## Timeouts
+
+Timeouts usage for security group rules is not currently supported.
+
 ## Import
 
--> **Unsupported operation**
-Import security group rules is currently unsupported.
+Import of the security group rules is not currently supported.

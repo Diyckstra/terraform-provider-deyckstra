@@ -10,11 +10,11 @@ description: |-
 
 Provides information about a route.
 
-This resource can be used when finding the resource associated with a CIDR. For example, finding the peering connection associated with a CIDR value.
+## Example usage
 
-## Example Usage
+### Basic example
 
-The following example shows how one might use a CIDR value to find the ID of a network interface and use this to create a data source of that network interface.
+The following example shows how a CIDR value may be used to find the ID of a network interface and read the network interface data using the data source.
 
 ```terraform
 variable "subnet_id" {}
@@ -33,20 +33,22 @@ data "aws_network_interface" "interface" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
-The arguments of this data source act as filters for querying the available route in the current region. The given filters must match exactly oneRoute whose data will be exported as attributes.
+The arguments of this data source act as filters for querying specific routes in the current region.
 
-* `route_table_id` - (Required) ID of the specific route table containing the route entry.
-* `destination_cidr_block` - (Optional) CIDR block of the route belonging to the route table.
-* `gateway_id` - (Optional) Gateway ID of the route belonging to the route table.
-* `instance_id` - (Optional) Instance ID of the route belonging to the route table.
-* `network_interface_id` - (Optional) Network interface ID of the route belonging to the route table.
-* `transit_gateway_id` - (Optional) The ID of the transit gateway.
+~> **Note** The given filters must exactly match the resource whose data will be exported as attributes.
 
-## Attribute Reference
+* `route_table_id` - (Required, String) The ID of the specific route table containing the route entry.
+* `destination_cidr_block` - (Optional, String) The CIDR block of the route.
+* `gateway_id` - (Optional, String) The ID of the internet gateway.
+* `instance_id` - (Optional, String) The ID of the instance.
+* `network_interface_id` - (Optional, String) The ID of the network interface.
+* `transit_gateway_id` - (Optional, String) The ID of the transit gateway.
 
-All the argument attributes are also exported as result attributes.
+## Attribute reference
+
+All arguments are exported as attributes.
 
 ### Unsupported attributes
 

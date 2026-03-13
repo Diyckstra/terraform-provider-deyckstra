@@ -10,7 +10,9 @@ description: |-
 
 Creates an association between a route table and a subnet.
 
-## Example Usage
+## Example usage
+
+### Basic example
 
 ```terraform
 resource "aws_vpc" "example" {
@@ -34,20 +36,20 @@ resource "aws_route_table_association" "example" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
 The following arguments are supported:
 
-* `subnet_id` - (Required) Subnet ID to create an association.
-* `route_table_id` - (Required) ID of the routing table to associate with.
+* `subnet_id` - (Required, Forces new resource, String) The ID of the subnet to create an association with.
+* `route_table_id` - (Required, Editable, String) The ID of the route table to associate with.
 
-## Attribute Reference
+## Attribute reference
 
 ### Supported attributes
 
-In addition to all arguments above, the following attributes are exported:
+In addition to all arguments above, the following attribute is exported:
 
-* `id` - ID of the association
+* `id` - (String) The ID of the association.
 
 ### Unsupported attributes
 
@@ -55,13 +57,14 @@ In addition to all arguments above, the following attributes are exported:
 
 The following attribute is not currently supported: `gateway_id`.
 
+## Timeouts
+
+Timeouts usage for the route table associations is not currently supported.
+
 ## Import
 
-EC2 route table associations can be imported using the associated resource ID and route table ID
-separated by a forward slash (`/`).
-
-For example with EC2 subnets:
+Route table associations can be imported using the associated resource ID and route table ID separated by a forward slash (`/`).
 
 ```
-$ terraform import aws_route_table_association.assoc subnet-12345678/rtb-6F78E00
+$ terraform import aws_route_table_association.example subnet-12345678/rtb-12345678
 ```

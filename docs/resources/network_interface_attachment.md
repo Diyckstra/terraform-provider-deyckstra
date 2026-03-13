@@ -10,7 +10,9 @@ description: |-
 
 Attaches an elastic network interface (ENI) with an EC2 instance.
 
-## Example Usage
+## Example usage
+
+### Basic example
 
 ```terraform
 resource "aws_network_interface_attachment" "test" {
@@ -20,19 +22,26 @@ resource "aws_network_interface_attachment" "test" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
-The following arguments are supported:
+The following arguments are required:
 
-* `instance_id` - (Required) Instance ID to attach.
-* `network_interface_id` - (Required) ENI ID to attach.
-* `device_index` - (Required) Network interface index (int).
+* `instance_id` - (Required, Forces new resource, String) The ID of the instance to attach.
+* `network_interface_id` - (Required, Forces new resource, String) The ID of the network interface to attach.
+* `device_index` - (Required, Forces new resource, Integer) The network interface index.
 
-## Attribute Reference
+## Attribute reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `instance_id` - Instance ID.
-* `network_interface_id` - Network interface ID.
-* `attachment_id` - The ENI attachment ID.
-* `status` - The status of the network interface attachment.
+* `attachment_id` - (String) The ID of the network interface attachment.
+* `id` - (String) The ID of the network interface attachment.
+* `status` - (String) The status of the network interface attachment.
+
+## Timeouts
+
+Timeouts usage for network interface attachments is not currently supported.
+
+## Import
+
+Import for network interface attachments is not currently supported.

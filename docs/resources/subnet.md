@@ -13,11 +13,12 @@ description: |-
 # Resource: aws_subnet
 
 Manages a subnet.
-For more information, see the documentation on [Subnets][subnets].
 
-## Example Usage
+For more information about subnets, see the documentation on [Subnets][subnets].
 
-### Basic Usage
+## Example usage
+
+### Basic example
 
 ```terraform
 resource "aws_vpc" "example" {
@@ -34,24 +35,25 @@ resource "aws_subnet" "example" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
 The following arguments are supported:
 
-* `availability_zone` - (Optional) AZ for the subnet.
-* `cidr_block` - (Required) The IPv4 CIDR block for the subnet.
-* `map_public_ip_on_launch` - (Optional) Indicates whether public IP addresses will be associated with instances created in this subnet. Addresses are associated only if there are available allocated Elastic IP addresses. Default is `false`.
-* `tags` - (Optional) Map of tags to assign to the subnet. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
-* `vpc_id` - (Required) The VPC ID.
+* `vpc_id` - (Required, Forces new resource, String) The ID of the VPC.
+* `availability_zone` - (Optional, Forces new resource, String) The availability zone for the subnet.
+* `cidr_block` - (Required, Forces new resource, String) The IPv4 CIDR block for the subnet.
+* `map_public_ip_on_launch` - (Optional, Editable, Boolean) Indicates whether public IP addresses will be associated with instances created in this subnet. Addresses are associated only if there are available allocated Elastic IP addresses.
+    * _Default value:_ `false`
+* `tags` - (Optional, Editable, Map of strings) Key-value pairs to assign to the resource. If the [`default_tags` configuration block][default-tags] block is used within a provider configuration, the tags with matching keys will overwrite those defined at the provider level.
 
-## Attribute Reference
+## Attribute reference
 
 ### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
-* `id` - The ID of the subnet
-* `tags_all` - Map of tags assigned to the subnet, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `id` - (String) The ID of the subnet.
+* `tags_all` - (Map of strings) Key-value pairs assigned to the resource, including any tags inherited from the [`default_tags` configuration block][default-tags] if used within a provider configuration.
 
 ### Unsupported attributes
 
@@ -59,7 +61,7 @@ In addition to all arguments above, the following attributes are exported:
 
 The following attributes are not currently supported:
 
-`arn`, `assign_ipv6_address_on_creation`, `availability_zone_id`, `customer_owned_ipv4_pool`, `enable_dns64`, `enable_resource_name_dns_aaaa_record_on_launch`, `enable_resource_name_dns_a_record_on_launch`, `ipv6_cidr_block_association_id`, `ipv6_native`, `map_customer_owned_ip_on_launch`, `outpost_arn`, `owner_id`, `private_dns_hostname_type_on_launch`.
+`arn`, `assign_ipv6_address_on_creation`, `availability_zone_id`, `customer_owned_ipv4_pool`, `enable_dns64`, `enable_resource_name_dns_a_record_on_launch`, `enable_resource_name_dns_aaaa_record_on_launch`, `ipv6_cidr_block`, `ipv6_cidr_block_association_id`, `ipv6_native`, `map_customer_owned_ip_on_launch`, `outpost_arn`, `owner_id`, `private_dns_hostname_type_on_launch`.
 
 ## Timeouts
 
@@ -70,7 +72,7 @@ The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 ## Import
 
-Subnets can be imported using the `subnet id`, e.g.,
+Subnets can be imported using the `id`, for example:
 
 ```
 $ terraform import aws_subnet.public_subnet subnet-12345678

@@ -12,7 +12,9 @@ description: |-
 
 Provides information about an internet gateway.
 
-## Example Usage
+## Example usage
+
+### Basic example
 
 ```terraform
 data "aws_internet_gateway" "selected" {
@@ -23,30 +25,37 @@ data "aws_internet_gateway" "selected" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
-The arguments of this data source act as filters for querying the available
-internet gateway. The given filters must match exactly one
-internet gateway whose data will be exported as attributes.
+The arguments of this data source act as filters for querying the available internet gateway.
 
-* `filter` - (Optional) One or more name/value pairs to use as filters.
+~> **Note** The given filters must exactly match the resource whose data will be exported as attributes.
+
+* `filter` - (Optional, [Block](#filter)) One or more name/value pairs to use as filters.
     * _Valid values:_ See supported names and values in [EC2 API documentation][describe-igws]
-* `internet_gateway_id` - (Optional) The ID of the internet gateway.
-* `tags` - (Optional) Map of tags. Each tag must exactly match a tag on the desired internet gateway.
+* `internet_gateway_id` - (Optional, String) The ID of the internet gateway.
+* `tags` - (Optional, Map of strings) Key-value pairs. Must exactly match pairs on the required resource.
 
-## Attribute Reference
+### filter
 
-All arguments except `filter` block are also exported as result attributes.
-If any fields are missing from the configuration,
-then this data source will populate them with data for the selected internet gateway.
+* `name` - (Required, String) The name of the filter.
+    * _Constraints:_ Filter names are case-sensitive
+* `values` - (Required, List of strings) One or more filter values.
+    * _Constraints:_ Filter values are case-sensitive
 
-* `arn` - The Amazon Resource Name (ARN) of the internet gateway.
-* `attachments` - List of VPC attachments to the internet gateway. It can contain 0 or 1 element.
-  The structure of this block is [described below](#attachments).
-* `id` - The ID of the internet gateway.
-* `owner_id` - The ID of the project that the internet gateway belongs to.
+## Attribute reference
+
+If any fields are missing from the configuration, then this data source will populate them with data for the selected internet gateway.
+
+In addition to all arguments above, the following attributes are exported:
+
+* `arn` - (String) The Amazon Resource Name (ARN) of the internet gateway.
+* `attachments` - ([Block](#attachments)) The list of VPC attachments to the internet gateway. The list can contain 0 or 1 element.
+* `id` - (String) The ID of the internet gateway.
+* `owner_id` - (String) The ID of the project that owns the internet gateway.
 
 ### attachments
 
-* `state` - The current state of the VPC attachment to the internet gateway.
-* `vpc_id` - The ID of the attached VPC.
+* `state` - (String) The current state of the VPC attachment to the internet gateway.
+    * _Valid values:_ `attached`, `attaching`, `available`, `detached`, `detaching`
+* `vpc_id` - (String) The ID of the attached VPC.

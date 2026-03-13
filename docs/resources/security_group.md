@@ -8,6 +8,7 @@ description: |-
 
 [attribute-as-blocks]: https://www.terraform.io/docs/configuration/attr-as-blocks.html
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
+[protocol-number]: https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
 [security-groups]: https://docs.k2.cloud/en/services/security/securitygroups.html
 [timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
 
@@ -15,18 +16,15 @@ description: |-
 
 Manages a security group.
 
-~> **Note on security groups and security group rules:** Terraform currently
-provides both a standalone [`aws_security_group_rule`](security_group_rule.md) (a single `ingress` or
-`egress` rule), and a security group resource with `ingress` and `egress` rules
-defined in-line. At this time you cannot use a security group with in-line rules
-in conjunction with any security group rule resources. Doing so will cause
-a conflict of rule settings and will overwrite rules.
+~> **Note** Terraform currently provides both a standalone resource [`aws_security_group_rule`](security_group_rule.md) (a single `ingress` or `egress` rule), and a security group resource with `ingress` and `egress` rules defined inline.
+            At this time you cannot use a security group with inline rules in conjunction with any security group rule resources.
+            Doing so will cause a conflict of rule settings and will overwrite rules.
 
-For more information, see the documentation on [Security groups][security-groups].
+For more information about security groups, see the documentation on [Security groups][security-groups].
 
-## Example Usage
+## Example usage
 
-### Basic Usage
+### Specific example
 
 ```terraform
 resource "aws_vpc" "main" {
@@ -59,7 +57,7 @@ resource "aws_security_group" "allow_tls" {
 }
 ```
 
-~> **Note on Egress Rules:** By default, the cloud creates an `ALLOW ALL` egress rule when creating a new security group inside a VPC. When creating a new security group inside a VPC, **Terraform will remove this default rule**, and require you specifically re-create it if you desire that rule. We feel this leads to fewer surprises in terms of controlling your egress rules. If you desire this rule to be in place, you can use this `egress` block:
+~> **Note on egress rules** By default, the cloud creates an `ALLOW ALL` egress rule when creating a new security group inside a VPC. When creating a new security group inside a VPC, **Terraform will remove this default rule**, and require you specifically re-create it if you desire that rule. We feel this leads to fewer surprises in terms of controlling your egress rules. If you desire this rule to be in place, you can use this `egress` block:
 
 ```terraform
 resource "aws_security_group" "example" {
@@ -92,38 +90,24 @@ resource "aws_security_group" "sg_with_changeable_name" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
 The following arguments are supported:
 
-* `description` - (Optional, Forces new resource) Security group description.
+* `description` - (Optional, Editable, String) The description of the security group.
     * _Default value:_ `Managed by Terraform`
-* `egress` - (Optional, VPC only) Configuration block for egress rules. Can be specified multiple times for each egress rule. Each egress block supports fields documented below. This argument is processed in [attribute-as-blocks mode][attribute-as-blocks].
-* `ingress` - (Optional) Configuration block for ingress rules. Can be specified multiple times for each ingress rule. Each ingress block supports fields documented below. This argument is processed in [attribute-as-blocks mode][attribute-as-blocks].
-* `name_prefix` - (Optional, Forces new resource) Creates a unique name beginning with the specified prefix. Conflicts with `name`.
-* `name` - (Optional, Forces new resource) Name of the security group. If omitted, Terraform will assign a random, unique name.
-* `revoke_rules_on_delete` - (Optional) Instruct Terraform to revoke all the security groups attached ingress and egress rules before deleting the rule itself.
+* `egress` - (Optional, Editable, [Block](#egress)) One or more egress rules (for outgoing traffic).
+* `ingress` - (Optional, Editable, [Block](#ingress)) One or more ingress rules (for incoming traffic).
+* `name` - (Optional, Forces new resource, String) The name of the security group. If omitted, Terraform will assign a random unique name.
+    * _Constraints:_ Conflicts with `name`.
+* `name_prefix` - (Optional, Forces new resource, String) This argument allows to create a unique name beginning with the specified prefix.
+    * _Constraints:_ Conflicts with `name`.
+* `revoke_rules_on_delete` - (Optional, Editable, Boolean) The argument that instructs Terraform to revoke all the security groups attached ingress and egress rules before deleting the rule itself.
     * _Default value:_ `false`
-* `tags` - (Optional) Map of tags to assign to the security group. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
-* `vpc_id` - (Optional, Forces new resource) VPC ID.
+* `tags` - (Optional, Editable, Map of strings) Key-value pairs to assign to the resource. If the [`default_tags` configuration block][default-tags] block is used within a provider configuration, the tags with matching keys will overwrite those defined at the provider level.
+* `vpc_id` - (Optional, Forces new resource, String) The ID of the VPC.
 
-### ingress
-
-This argument is processed in [attribute-as-blocks mode][attribute-as-blocks].
-
-The following arguments are required:
-
-* `from_port` - (Required) Start port (or ICMP type number if protocol is `icmp` or `icmpv6`).
-* `to_port` - (Required) End range port (or ICMP code if protocol is `icmp`).
-* `protocol` - (Required) Protocol. If you select a protocol of "-1" (semantically equivalent to `all`, which is not a valid value here), you must specify a `from_port` and `to_port` equal to `0`. If not `icmp`, `tcp`, `udp`, or `-1` use the [protocol number](https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml).
-
-The following arguments are optional:
-
-* `cidr_blocks` - (Optional) List of CIDR blocks.
-* `description` - (Optional) Description of this ingress rule.
-* `ipv6_cidr_blocks` - (Optional) List of IPv6 CIDR blocks.
-* `security_groups` - (Optional) List of security group IDs.
-* `self` - (Optional) Whether the security group itself will be added as a source to this ingress rule.
+~> **Note** The `name` and `name_prefix` arguments cannot be specified within one configuration due to incompatibility.
 
 ### egress
 
@@ -131,34 +115,62 @@ This argument is processed in [attribute-as-blocks mode][attribute-as-blocks].
 
 The following arguments are required:
 
-* `from_port` - (Required) Start port (or ICMP type number if protocol is `icmp`)
-* `to_port` - (Required) End range port (or ICMP code if protocol is `icmp`).
+* `from_port` - (Required, Editable, Integer) The start of the port range (or ICMP message type number if the `protocol` value is `icmp`).
+* `protocol` - (Required, Editable, String) The protocol to match.
+    * _Constraints:_
+        * If using the `-1` value (semantically equivalent to `all`, which is not a valid value here), you must specify the `from_port` and `to_port` arguments values equal to `0`
+        * If the `protocol` value is not `icmp`, `tcp`, `udp`, or `-1`, then refer to the [protocol number][protocol-number] for detailed information
+* `to_port` - (Required, Editable, Integer) The end of the port range (or ICMP message code if the `protocol` value is `icmp`).
 
 The following arguments are optional:
 
-* `cidr_blocks` - (Optional) List of CIDR blocks.
-* `description` - (Optional) Description of this egress rule.
-* `ipv6_cidr_blocks` - (Optional) List of IPv6 CIDR blocks.
-* `protocol` - (Required) Protocol. If you select a protocol of "-1" (semantically equivalent to `all`, which is not a valid value here), you must specify a `from_port` and `to_port` equal to `0`. If not `icmp`, `tcp`, `udp`, or `-1` use the [protocol number](https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml).
-* `security_groups` - (Optional) List of security group IDs.
-* `self` - (Optional) Whether the security group itself will be added as a source to this egress rule.
+* `cidr_blocks` - (Optional, Editable, List of strings) The list of CIDR blocks.
+* `description` - (Optional, Editable, String) The description of this egress rule.
+* `ipv6_cidr_blocks` - (Optional, Editable, List of strings) The list of IPv6 CIDR blocks.
+* `security_groups` - (Optional, Editable, List of strings) The list of security group IDs.
+* `self` - (Optional, Editable, Boolean) Indicates whether the security group itself will be added as a source to this egress rule.
+    * _Default value:_ `false`
 
-## Attribute Reference
+### ingress
+
+This argument is processed in [attribute-as-blocks mode][attribute-as-blocks].
+
+The following arguments are required:
+
+* `from_port` - (Required, Editable, Integer) The start of the port range (or ICMP message type number if the `protocol` value is `icmp`).
+* `protocol` - (Required, Editable, String) The protocol to match.
+    * _Constraints:_
+        * If using the `-1` value (semantically equivalent to `all`, which is not a valid value here), you must specify the `from_port` and `to_port` arguments values equal to `0`
+        * If the `protocol` value is not `icmp`, `tcp`, `udp`, or `-1`, then refer to the [protocol number][protocol-number] for detailed information
+* `to_port` - (Required, Editable, Integer) The end of the port range (or ICMP message code if the `protocol` value is `icmp`).
+
+The following arguments are optional:
+
+* `cidr_blocks` - (Optional, Editable, List of strings) The list of CIDR blocks.
+* `description` - (Optional, Editable, String) The description of this ingress rule.
+* `ipv6_cidr_blocks` - (Optional, Editable, List of strings) The list of IPv6 CIDR blocks.
+* `security_groups` - (Optional, Editable, List of strings) The list of security group IDs.
+* `self` - (Optional, Editable, Boolean) Indicates whether the security group itself will be added as a source to this ingress rule.
+    * _Default value:_ `false`
+
+## Attribute reference
 
 ### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` - The Amazon Resource Name (ARN) of the security group.
-* `id` - ID of the security group.
-* `owner_id` - The project ID.
-* `tags_all` - Map of tags assigned to the security group, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `arn` - (String) The Amazon Resource Name (ARN) of the security group.
+* `id` - (String) The ID of the security group.
+* `owner_id` - (String) The ID of the project that owns this security group.
+* `tags_all` - (Map of strings) Key-value pairs assigned to the resource, including any tags inherited from the [`default_tags` configuration block][default-tags] if used within a provider configuration.
 
 ### Unsupported attributes
 
 ~> **Note** This attribute may be present in the `terraform.tfstate` file, but it has a preset value and cannot be specified in configuration files.
 
-The following attribute is not currently supported: `prefix_list_ids`.
+The following attributes are not currently supported:
+
+`egress.prefix_list_ids`, `ingress.prefix_list_ids`.
 
 ## Timeouts
 
@@ -169,7 +181,7 @@ The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 ## Import
 
-Security groups can be imported using the `security group id`, e.g.,
+Security groups can be imported using the `id`, for example:
 
 ```
 $ terraform import aws_security_group.elb_sg sg-12345678

@@ -10,7 +10,9 @@ description: |-
 
 Attaches an internet gateway to a VPC.
 
-## Example Usage
+## Example usage
+
+### Basic example
 
 ```terraform
 resource "aws_vpc" "example" {
@@ -33,22 +35,26 @@ resource "aws_internet_gateway_attachment" "example" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
 The following arguments are supported:
 
-* `internet_gateway_id` - (Required) The ID of the internet gateway.
-* `vpc_id` - (Required) The ID of the VPC.
+* `internet_gateway_id` - (Required, Forces new resource, String) The ID of the internet gateway.
+* `vpc_id` - (Required, Forces new resource, String) The ID of the VPC.
 
-## Attribute Reference
+## Attribute reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `id` - The ID of the VPC and internet gateway separated by a colon (`:`).
+* `id` - (String) The ID of the internet gateway and VPC separated by a colon (`:`).
+
+## Timeouts
+
+Timeouts usage for the internet gateway attachments is not currently supported.
 
 ## Import
 
-Internet gateway attachments can be imported using `id`, e.g.
+Internet gateway attachments can be imported using `id`, for example:
 
 ```
 $ terraform import aws_internet_gateway_attachment.example igw-12345678:vpc-12345678

@@ -12,7 +12,12 @@ description: |-
 
 Provides a list of subnet IDs for a VPC.
 
-## Example Usage
+!> The `aws_subnet_ids` data source has been deprecated and will be removed in future versions.
+   Use the [aws_subnets](subnets.md) data source instead.
+
+## Example usage
+
+### Specific examples
 
 The following shows all CIDR blocks for every subnet ID in a VPC.
 
@@ -36,9 +41,8 @@ output "subnet_cidr_blocks" {
 }
 ```
 
-The following example retrieves a set of all subnets in a VPC with a custom
-tag of `Tier` set to a value of "Private" so that the `aws_instance` resource
-can loop through the subnets, putting instances across availability zones.
+The following example retrieves a set of all subnets in a VPC with a custom `Tier` tag set to `Private`.
+So the `aws_instance` resource can loop through the subnets, putting instances across availability zones.
 
 ```terraform
 variable vpc_id {}
@@ -73,16 +77,28 @@ data "aws_subnet_ids" "selected" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
-* `vpc_id` - (Required) The VPC ID that you want to filter from.
-* `filter` - (Optional) One or more name/value pairs to use as filters.
+The following arguments are required:
+
+* `vpc_id` - (Required, String) The VPC that has attached subnets to filter from.
+
+The following arguments are optional:
+
+* `filter` - (Optional, [Block](#filter)) One or more name/value pairs to use as filters.
     * _Valid values:_ See supported names and values in [EC2 API documentation][describe-subnets]
-* `tags` - (Optional) Map of tags, each pair of which must exactly match
-  a pair on the desired subnets.
+* `tags` - (Optional, Map of strings) Key-value pairs. Must exactly match pairs on the required resources.
 
-## Attribute Reference
+### filter
+
+* `name` - (Required, String) The name of the filter.
+    * _Constraints:_ Filter names are case-sensitive
+* `values` - (Required, List of strings) One or more filter values.
+    * _Constraints:_ Filter values are case-sensitive
+
+## Attribute reference
 
 In addition to all arguments above, the following attribute is exported:
 
-* `ids` - Set of found subnet IDs.
+* `id` - (String) The ID of the VPC.
+* `ids` - (List of strings) The list of found subnet IDs.

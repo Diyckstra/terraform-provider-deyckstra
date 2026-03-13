@@ -7,12 +7,17 @@ description: |-
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
+[internet-gateways]: https://docs.k2.cloud/en/services/networking/igw.html
 
 # Resource: aws_internet_gateway
 
 Manages an internet gateway.
 
-## Example Usage
+For more information about internet gateways, see the documentation on [Internet gateways][internet-gateways].
+
+## Example usage
+
+### Basic example
 
 ```terraform
 resource "aws_vpc" "example" {
@@ -32,18 +37,15 @@ resource "aws_internet_gateway" "example" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
 The following arguments are supported:
 
-* `tags` - (Optional) Map of tags to assign to the internet gateway.
-  If a provider [`default_tags` configuration block][default-tags] is used,
-  tags with matching keys will overwrite those defined at the provider level.
-* `vpc_id` - (Optional) The ID of the VPC to which the internet gateway will be attached.
+* `tags` - (Optional, Editable, Map of strings) Key-value pairs to assign to the resource. If the [`default_tags` configuration block][default-tags] block is used within a provider configuration, the tags with matching keys will overwrite those defined at the provider level.
+* `vpc_id` - (Optional, Editable, String) The ID of the VPC to which the internet gateway will be attached.
   See the [aws_internet_gateway_attachment](internet_gateway_attachment.md) resource for another way to attach an internet gateway to a VPC.
 
--> **Note** It's recommended to explicitly specify an internet gateway as a dependency
-  for the resources that require Internet access. For example:
+-> **Note** It's recommended to explicitly specify an internet gateway as a dependency for the resources that require Internet access. For example:
 
 ```terraform
 resource "aws_internet_gateway" "example" {
@@ -61,19 +63,22 @@ resource "aws_instance" "example" {
 }
 ```
 
-## Attribute Reference
+## Attribute reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` - The Amazon Resource Name (ARN) of the internet gateway.
-* `id` - The ID of the internet gateway.
-* `owner_id` - The ID of the project that the internet gateway belongs to.
-* `tags_all` - Map of tags assigned to the internet gateway,
-  including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `arn` - (String) The Amazon Resource Name (ARN) of the internet gateway.
+* `id` - (String) The ID of the internet gateway.
+* `owner_id` - (String) The ID of the project that owns the internet gateway.
+* `tags_all` - (Map of strings) Key-value pairs assigned to the resource, including any tags inherited from the [`default_tags` configuration block][default-tags] if used within a provider configuration.
+
+## Timeouts
+
+Timeouts usage for internet gateways is not currently supported.
 
 ## Import
 
-Internet gateways can be imported using `id`, e.g.,
+Internet gateways can be imported using `id`, for example:
 
 ```
 $ terraform import aws_internet_gateway.example igw-12345678

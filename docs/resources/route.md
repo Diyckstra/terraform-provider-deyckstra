@@ -12,9 +12,11 @@ description: |-
 
 Creates a routing table entry (a route) in a VPC routing table.
 
-~> **Note on route tables and routes:** Terraform currently provides both a standalone route resource and a [`aws_route_table`](route_table.md) resource with routes defined in-line. At this time you cannot use a route table with in-line routes in conjunction with any route resources. Doing so will cause a conflict of rule settings and will overwrite rules.
+~> **Note on route tables and routes** Terraform currently provides both a standalone route resource and a [`aws_route_table`](route_table.md) resource with routes defined inline. At this time you cannot use a route table with inline routes in conjunction with any route resources. Doing so will cause a conflict of rule settings and will overwrite rules.
 
-## Example Usage
+## Example usage
+
+### Basic example
 
 ```terraform
 variable route_table_id {}
@@ -27,24 +29,27 @@ resource "aws_route" "example" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
-The following arguments are supported:
+The following argument is supported:
 
-* `route_table_id` - (Required) ID of the routing table.
+* `route_table_id` - (Required, Forces new resource, String) The ID of the routing table.
 
-One of the following destination arguments must be supplied:
+The following destination argument must be supplied:
 
-* `destination_cidr_block` - (Required) The destination CIDR block.
+* `destination_cidr_block` - (Required, Forces new resource, String) The destination CIDR block.
 
 One of the following target arguments must be supplied:
 
-* `gateway_id` - (Optional) The ID of an internet gateway.
-* `instance_id` - (Optional) The ID of an EC2 instance.
-* `network_interface_id` - (Optional) The ID of an EC2 network interface.
-* `transit_gateway_id` - (Optional) The ID of the transit gateway.
+* `gateway_id` - (Optional, Editable, String) The ID of the internet gateway.
+* `network_interface_id` - (Optional, Editable, String) The ID of the network interface.
+* `transit_gateway_id` - (Optional, Editable, String) The ID of the transit gateway.
 
-## Attribute Reference
+This argument is **deprecated** and should not be used:
+
+* `instance_id` - (Optional, Editable, String) The ID of the instance. Use the `network_interface_id` argument instead.
+
+## Attribute reference
 
 ### Supported attributes
 
@@ -52,10 +57,10 @@ In addition to all arguments above, the following attributes are exported:
 
 ~> **Note** Only the arguments that are configured (one of the above) will be exported as an attribute once the resource is created.
 
-* `id` - Route identifier computed from the routing table identifier and route destination.
-* `instance_owner_id` - The project ID that owns the EC2 instance.
-* `origin` - How the route was created - `CreateRouteTable`, `CreateRoute` or `EnableVgwRoutePropagation`.
-* `state` - The state of the route - `active` or `blackhole`.
+* `id` - (String) The route identifier computed from the routing table identifier and route destination.
+* `instance_owner_id` - (String) The ID of the project that owns the instance.
+* `origin` - (String) Describes how the route was created - by `CreateRouteTable`, `CreateRoute` or `EnableVgwRoutePropagation`.
+* `state` - (String) The state of the route - `active` or `blackhole`.
 
 ### Unsupported attributes
 
@@ -76,7 +81,6 @@ The `timeouts` block allows you to specify [timeouts] for certain actions:
 ## Import
 
 Individual routes can be imported using `ROUTETABLEID_DESTINATION`.
-
 For example, import a route in route table `rtb-12345678` with an IPv4 destination CIDR of `10.1.0.0/16` like this:
 
 ```console
