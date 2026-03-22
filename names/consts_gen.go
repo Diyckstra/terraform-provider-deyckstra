@@ -97,6 +97,7 @@ const (
 	ECS                          = "ecs"
 	EFS                          = "efs"
 	EKS                          = "eks"
+	EKSLegacy                    = "ekslegacy"
 	ELB                          = "elb"
 	ELBV2                        = "elbv2"
 	EMR                          = "emr"
