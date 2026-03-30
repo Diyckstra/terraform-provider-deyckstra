@@ -1,0 +1,15 @@
+```release-note:new-resource
+aws_efs_file_system
+```
+
+```release-note:new-resource
+aws_efs_mount_target
+```
+
+```release-note:new-data-source
+aws_efs_file_system
+```
+
+```release-note:new-data-source
+aws_efs_mount_target
+```
