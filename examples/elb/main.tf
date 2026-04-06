@@ -1,62 +1,59 @@
 terraform {
   required_version = ">= 0.12"
-}
 
-provider "aws" {
-  region = var.aws_region
-}
-
-resource "aws_vpc" "default" {
-  cidr_block           = "10.0.0.0/16"
-  enable_dns_hostnames = true
-
-  tags = {
-    Name = "tf_test"
+  required_providers {
+    aws = {
+      source  = "c2devel/rockitcloud"
+      version = "~> 25.4"
+    }
   }
 }
 
-resource "aws_subnet" "tf_test_subnet" {
-  vpc_id                  = aws_vpc.default.id
+provider "aws" {
+  # For K2 Cloud, specify one of the supported regions.
+  # For other cloud platforms, enter a non-empty string,
+  # for example, "region-1", and API endpoints.
+  region = var.region
+}
+
+resource "aws_vpc" "example" {
+  cidr_block           = "10.0.0.0/16"
+
+  tags = {
+    Name = "terraform-elb-example"
+  }
+}
+
+resource "aws_internet_gateway" "example" {
+  vpc_id = aws_vpc.example.id
+
+  tags = {
+    Name = "terraform-elb-example"
+  }
+}
+
+resource "aws_route" "igw_route" {
+  route_table_id         = aws_vpc.example.main_route_table_id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = aws_internet_gateway.example.id
+}
+
+resource "aws_subnet" "example" {
+  vpc_id                  = aws_vpc.example.id
   cidr_block              = "10.0.0.0/24"
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "tf_test_subnet"
+    Name = "terraform-elb-example"
   }
 }
 
-resource "aws_internet_gateway" "gw" {
-  vpc_id = aws_vpc.default.id
-
-  tags = {
-    Name = "tf_test_ig"
-  }
-}
-
-resource "aws_route_table" "r" {
-  vpc_id = aws_vpc.default.id
-
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.gw.id
-  }
-
-  tags = {
-    Name = "aws_route_table"
-  }
-}
-
-resource "aws_route_table_association" "a" {
-  subnet_id      = aws_subnet.tf_test_subnet.id
-  route_table_id = aws_route_table.r.id
-}
-
-# Our default security group to access
+# Default security group to access
 # the instances over SSH and HTTP
-resource "aws_security_group" "default" {
-  name        = "instance_sg"
+resource "aws_security_group" "example" {
+  name        = "terraform-elb-example"
   description = "Used in the terraform"
-  vpc_id      = aws_vpc.default.id
+  vpc_id      = aws_vpc.example.id
 
   # SSH access from anywhere
   ingress {
@@ -74,32 +71,7 @@ resource "aws_security_group" "default" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # outbound internet access
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
-# Our elb security group to access
-# the ELB over HTTP
-resource "aws_security_group" "elb" {
-  name        = "elb_sg"
-  description = "Used in the terraform"
-
-  vpc_id = aws_vpc.default.id
-
-  # HTTP access from anywhere
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  # outbound internet access
+  # Outbound internet access
   egress {
     from_port   = 0
     to_port     = 0
@@ -107,71 +79,100 @@ resource "aws_security_group" "elb" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # ensure the VPC has an Internet gateway or this step will fail
-  depends_on = [aws_internet_gateway.gw]
+  tags = {
+    Name = "terraform-elb-example"
+  }
 }
 
-resource "aws_elb" "web" {
-  name = "example-elb"
+resource "aws_lb" "example" {
+  name               = "terraform-elb-example"
+  internal           = false
+  load_balancer_type = "application"
+  subnets            = [aws_subnet.example.id]
 
-  # The same availability zone as our instance
-  subnets = [aws_subnet.tf_test_subnet.id]
+  # Ensure the VPC has an internet gateway with a configured route or this step will fail
+  depends_on = [aws_route.igw_route]
 
-  security_groups = [aws_security_group.elb.id]
-
-  listener {
-    instance_port     = 80
-    instance_protocol = "http"
-    lb_port           = 80
-    lb_protocol       = "http"
+  tags = {
+    Name = "terraform-elb-example"
   }
+}
+
+resource "aws_lb_target_group" "example" {
+  name = "terraform-elb-example"
+
+  target_type = "instance"
+  port        = 80
+  protocol    = "HTTP"
+  vpc_id      = aws_vpc.example.id
 
   health_check {
     healthy_threshold   = 2
     unhealthy_threshold = 2
     timeout             = 3
-    target              = "HTTP:80/"
     interval            = 30
   }
 
-  # The instance is registered automatically
-
-  instances                   = [aws_instance.web.id]
-  cross_zone_load_balancing   = true
-  idle_timeout                = 400
-  connection_draining         = true
-  connection_draining_timeout = 400
+  tags = {
+    Name = "terraform-elb-example"
+  }
 }
 
-resource "aws_lb_cookie_stickiness_policy" "default" {
-  name                     = "lbpolicy"
-  load_balancer            = aws_elb.web.id
-  lb_port                  = 80
-  cookie_expiration_period = 600
+resource "aws_lb_target_group_attachment" "example" {
+  target_group_arn = aws_lb_target_group.example.arn
+  target_id        = aws_instance.example.id
 }
 
-resource "aws_instance" "web" {
-  instance_type = "t2.micro"
+resource "aws_lb_listener" "example" {
+  load_balancer_arn = aws_lb.example.arn
 
-  # Lookup the correct AMI based on the region
-  # we specified
-  ami = var.aws_amis[var.aws_region]
+  port     = 80
+  protocol = "HTTP"
 
-  # The name of our SSH keypair you've created and downloaded
-  # from the AWS console.
-  #
-  # https://console.aws.amazon.com/ec2/v2/home?region=us-west-2#KeyPairs:
-  #
-  key_name = var.key_name
+  default_action {
+    type = "forward"
 
-  # Our Security group to allow HTTP and SSH access
-  vpc_security_group_ids = [aws_security_group.default.id]
-  subnet_id              = aws_subnet.tf_test_subnet.id
-  user_data              = file("userdata.sh")
-
-  #Instance tags
+    forward {
+      target_group {
+        arn = aws_lb_target_group.example.arn
+      }
+    }
+  }
 
   tags = {
-    Name = "elb-example"
+    Name = "terraform-elb-example"
+  }
+}
+
+data "aws_ami" "selected" {
+  most_recent = true
+
+  name_regex = "Ubuntu 24.04 [Cloud Image]*"
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  owners = ["k2"]
+}
+
+resource "aws_instance" "example" {
+  instance_type = "c5.large"
+  ami           = data.aws_ami.selected.id
+
+  # The name of the SSH keypair created in the cloud console
+  key_name = var.key_name
+
+  # Once the instance is created, a remote provisioner is launched on it.
+  # In this case, it installs nginx and starts it. By default,
+  # this should be on port 80
+  user_data = file("userdata.sh")
+
+  subnet_id              = aws_subnet.example.id
+  vpc_security_group_ids = [aws_security_group.example.id]
+
+  tags = {
+    Name = "terraform-elb-example"
   }
 }

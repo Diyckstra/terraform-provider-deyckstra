@@ -1,17 +1,24 @@
-# ELB with stickiness Example
+# ELB Example
 
-The example launches a web server, installs nginx, creates an ELB for instance. It also creates security groups for the ELB and EC2 instance. 
+The ELB (Elastic Load Balancing) example launches the nginx web server on the target instance and creates an ELB with necessary network resources.
 
-To run, configure your AWS provider as described in https://www.terraform.io/docs/providers/aws/index.html
+This example assumes that an SSH key pair was created in the cloud console.
 
-This example assumes you have created a Key Pair. Visit
-https://console.aws.amazon.com/ec2/v2/home?region=us-east-1#KeyPairs:sort=keyName
-to create a key if you do not have one. 
+Running the example:
 
-Run this example using:
+```
+$ export AWS_ACCESS_KEY_ID="your-access-key"
+$ export AWS_SECRET_ACCESS_KEY="your-secret-key"
+$ terraform init
+$ terraform apply -var="key_name=your-key-name"
+```
 
-    terraform apply -var 'key_name=YOUR_KEY_NAME'
+In a few minutes, you can reach the nginx welcome page at the ELB DNS name.
 
-Alternatively to using `-var` with each command, the `terraform.template.tfvars` file can be copied to `terraform.tfvars` and updated.
+Destroying the example:
 
-Wait a couple of minutes for the EC2 userdata to install nginx, and then type the ELB DNS Name from outputs in your browser and see the nginx welcome page
+```
+$ terraform destroy -var="key_name=your-key-name"
+```
+
+Instead of using `-var`, you can copy `terraform.template.tfvars` to `terraform.tfvars` and use it to specify variable values.
