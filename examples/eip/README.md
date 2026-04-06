@@ -1,13 +1,24 @@
 # Elastic IP Example
 
-The eip example launches a web server, installs nginx. It also creates security group 
+The EIP example launches the nginx web server and creates a security group.
 
-To run, configure your AWS provider as described in https://www.terraform.io/docs/providers/aws/index.html
+This example assumes that an SSH key pair was created in the cloud console.
 
-Running the example
+Running the example:
 
-run `terraform apply -var 'key_name={your_key_name}'` 
+```
+$ export AWS_ACCESS_KEY_ID="your-access-key"
+$ export AWS_SECRET_ACCESS_KEY="your-secret-key"
+$ terraform init
+$ terraform apply -var="key_name=your-key-name"
+```
 
-Alternatively to using `-var` with each command, the `terraform.template.tfvars` file can be copied to `terraform.tfvars` and updated.
+In a few minutes, you can reach the nginx welcome page at the Elastic IP address.
 
-Give couple of mins for userdata to install nginx, and then type the Elastic IP from outputs in your browser and see the nginx welcome page
+Destroying the example:
+
+```
+$ terraform destroy -var="key_name=your-key-name"
+```
+
+Instead of using `-var`, you can copy `terraform.template.tfvars` to `terraform.tfvars` and use it to specify variable values.
