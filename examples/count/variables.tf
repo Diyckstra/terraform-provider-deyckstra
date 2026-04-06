@@ -1,4 +1,4 @@
-variable "aws_region" {
-  description = "The AWS region to create things in."
-  default     = "us-west-2"
+variable "region" {
+  description = "The region to create the infrastructure in."
+  default     = "ru-msk"
 }
