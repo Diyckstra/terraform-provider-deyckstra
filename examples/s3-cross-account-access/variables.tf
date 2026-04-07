@@ -1,11 +1,24 @@
-variable "prod_access_key" {}
+variable "region" {
+  description = "The region to create the infrastructure in."
+  default     = "ru-msk"
+}
 
-variable "prod_secret_key" {}
+variable "first_access_key" {
+  type        = string
+  description = "First account access key."
+}
 
-variable "test_account_id" {}
+variable "first_secret_key" {
+  type        = string
+  description = "First account secret key."
+}
 
-variable "test_access_key" {}
+variable "second_access_key" {
+  type        = string
+  description = "Second account access key."
+}
 
-variable "test_secret_key" {}
-
-variable "bucket_name" {}
+variable "second_secret_key" {
+  type        = string
+  description = "Second account secret key."
+}
