@@ -1,7 +1,23 @@
-# EKS Getting Started Guide Configuration
+[Terraform http provider]: https://www.terraform.io/docs/providers/http/index.html
 
-This is the full configuration from https://www.terraform.io/docs/providers/aws/guides/eks-getting-started.html
+# EKS Example
 
-See that guide for additional information.
+The EKS (Elastic Kubernetes Service) example launches an EKS cluster and EKS node group with necessary network resources in all availability zones in the region.
 
-NOTE: This full configuration utilizes the [Terraform http provider](https://www.terraform.io/docs/providers/http/index.html) to call out to icanhazip.com to determine your local workstation external IP for easily configuring EC2 Security Group access to the Kubernetes servers. Feel free to replace this as necessary.
+Running the example:
+
+```
+$ export AWS_ACCESS_KEY_ID="your-access-key"
+$ export AWS_SECRET_ACCESS_KEY="your-secret-key"
+$ terraform init
+$ terraform apply
+```
+
+Destroying the example:
+
+```
+$ terraform destroy
+```
+
+This example uses [Terraform http provider] to send a request to https://icanhazip.com/ to determine the local workstation external IP for the security group configuration.
+This request is optional and can be replaced by specifying the IP address manually in the [workstation-external-ip.tf](workstation-external-ip.tf).

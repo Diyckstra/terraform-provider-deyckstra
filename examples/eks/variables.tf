@@ -1,8 +1,4 @@
-variable "aws_region" {
-  default = "us-west-2"
-}
-
-variable "cluster-name" {
-  default = "terraform-eks-demo"
-  type    = string
+variable "region" {
+  description = "The region to create the infrastructure in."
+  default     = "ru-msk"
 }
