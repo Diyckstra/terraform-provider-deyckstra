@@ -1,11 +1,19 @@
 resource "aws_subnet" "main" {
-  cidr_block        = cidrsubnet(data.aws_vpc.target.cidr_block, 2, var.az_numbers[data.aws_availability_zone.target.name_suffix])
+  cidr_block        = cidrsubnet(data.aws_vpc.target.cidr_block, 2, var.subnet_index)
   vpc_id            = var.vpc_id
   availability_zone = var.availability_zone
+
+  tags = {
+    Name = "terraform-networking-example"
+  }
 }
 
 resource "aws_route_table" "main" {
   vpc_id = var.vpc_id
+
+  tags = {
+    Name = "terraform-networking-example"
+  }
 }
 
 resource "aws_route_table_association" "main" {

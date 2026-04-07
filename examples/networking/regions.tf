@@ -1,11 +1,11 @@
-module "us-east-1" {
+module "ru-msk" {
   source          = "./region"
-  region          = "us-east-1"
+  region          = "ru-msk"
   base_cidr_block = var.base_cidr_block
 }
 
-module "us-west-2" {
+module "ru-spb" {
   source          = "./region"
-  region          = "us-west-2"
+  region          = "ru-spb"
   base_cidr_block = var.base_cidr_block
 }
