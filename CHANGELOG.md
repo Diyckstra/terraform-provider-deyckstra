@@ -1,4 +1,8 @@
-## 25.5.0 (Unreleased)
+## 25.4.2 (April 07, 2026)
+
+ENHANCEMENTS:
+
+* resource/aws_ebs_snapshot_import: remove image type validation
 
 ## 25.4.1 (January 29, 2026)
 
