@@ -55,6 +55,7 @@ In addition to all arguments above, the following attributes are exported:
     * `mongodb` - MongoDB parameters. The structure of this block is [described below](#mongodb-attribute-reference).
     * `mysql` - MySQL parameters. The structure of this block is [described below](#mysql-attribute-reference).
     * `pgsql` - PostgreSQL parameters. The structure of this block is [described below](#postgresql-attribute-reference).
+    * `prometheus` - Prometheus parameters. The structure of this block is [described below](#prometheus-attribute-reference).
     * `rabbitmq` - RabbitMQ parameters. The structure of this block is [described below](#rabbitmq-attribute-reference).
     * `redis` - Redis parameters. The structure of this block is [described below](#redis-attribute-reference).
 * `ssh_key_name` - The name of the SSH key for accessing instances.
@@ -358,6 +359,17 @@ the following attributes are exported only for a Kafka service:
 * `monitoring` - The monitoring settings for the service. The structure of this block is [described below](#monitoring).
 * `options` - Other Kafka parameters.
 * `version` - The installed version.
+
+## Prometheus Attribute Reference
+
+~> **Note** Prometheus is a single-node service, so `high_availability` is `false`.
+
+In addition to the common attributes for all services [described above](#attribute-reference),
+the following attributes are exported only for a Prometheus service:
+
+* `class` - The service class. Its value is `monitoring`.
+* `remote_write_receiver` - Indicates whether the Prometheus service accepts metrics through the Remote Write protocol.
+  This attribute is available for Prometheus environment versions `paas_v4_0` and later.
 
 ## RabbitMQ Attribute Reference
 

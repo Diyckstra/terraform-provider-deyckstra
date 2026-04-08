@@ -12,6 +12,7 @@ const (
 	ServiceTypeMongoDB       = "mongodb"
 	ServiceTypeMySQL         = "mysql"
 	ServiceTypePostgreSQL    = "pgsql"
+	ServiceTypePrometheus    = "prometheus"
 	ServiceTypeRabbitMQ      = "rabbitmq"
 	ServiceTypeRedis         = "redis"
 )
@@ -24,6 +25,7 @@ func ServiceTypeValues() []string {
 		ServiceTypeMongoDB,
 		ServiceTypeMySQL,
 		ServiceTypePostgreSQL,
+		ServiceTypePrometheus,
 		ServiceTypeRabbitMQ,
 		ServiceTypeRedis,
 	}
@@ -33,6 +35,7 @@ const (
 	ServiceClassCacher        = "cacher"
 	ServiceClassDatabase      = "database"
 	ServiceClassMessageBroker = "message_broker"
+	ServiceClassMonitoring    = "monitoring"
 	ServiceClassSearch        = "search"
 )
 
@@ -41,6 +44,7 @@ func ServiceClassValues() []string {
 		ServiceClassCacher,
 		ServiceClassDatabase,
 		ServiceClassMessageBroker,
+		ServiceClassMonitoring,
 		ServiceClassSearch,
 	}
 }
@@ -101,6 +105,7 @@ var managers = map[string]ServiceManager{
 	MongoDB.ServiceType():       MongoDB,
 	MySQL.ServiceType():         MySQL,
 	PostgreSQL.ServiceType():    PostgreSQL,
+	Prometheus.ServiceType():    Prometheus,
 	Redis.ServiceType():         Redis,
 	RabbitMQ.ServiceType():      RabbitMQ,
 }

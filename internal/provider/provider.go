@@ -1636,8 +1636,11 @@ func Provider() *schema.Provider {
 			// "aws_route53_resolver_rule":                            route53resolver.ResourceRule(),
 			// "aws_route53_resolver_rule_association":                route53resolver.ResourceRuleAssociation(),
 
-			"aws_paas_backup":  paas.ResourceBackup(),
-			"aws_paas_service": paas.ResourceService(),
+			"aws_paas_backup":                          paas.ResourceBackup(),
+			"aws_paas_prometheus_notification_channel": paas.ResourcePrometheusNotificationChannel(),
+			"aws_paas_prometheus_route":                paas.ResourcePrometheusRoute(),
+			"aws_paas_prometheus_scrape_job":           paas.ResourcePrometheusScrapeJob(),
+			"aws_paas_service":                         paas.ResourceService(),
 
 			"aws_paas_kafka_topic": paas.ResourceKafkaTopic(),
 

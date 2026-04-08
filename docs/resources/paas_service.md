@@ -33,6 +33,7 @@ description: |-
 [MongoDB]: #mongodb-argument-reference
 [MySQL]: #mysql-argument-reference
 [PostgreSQL]: #postgresql-argument-reference
+[Prometheus]: #prometheus-argument-reference
 [RabbitMQ]: #rabbitmq-argument-reference
 [Redis]: #redis-argument-reference
 
@@ -398,6 +399,48 @@ resource "aws_paas_service" "kafka" {
 
 To create topics in this service, use the [aws_paas_kafka_topic](paas_kafka_topic.md) resource.
 
+### Prometheus Service
+
+~> **Note** This example uses the VPC and subnet defined in the [Elasticsearch Service example](#elasticsearch-service).
+
+~> **Note** K2 Cloud supports Prometheus only as a single-node service, so `high_availability` must be `false`.
+
+```terraform
+resource "aws_paas_service" "prometheus" {
+  name              = "tf-prometheus"
+  high_availability = false
+  instance_type     = "c5.large"
+
+  root_volume {
+    type = "gp2"
+    size = 32
+  }
+
+  data_volume {
+    type = "gp2"
+    size = 32
+  }
+
+  delete_interfaces_on_destroy = true
+  security_group_ids           = [aws_vpc.example.default_security_group_id]
+  subnet_ids                   = [aws_subnet.example.id]
+
+  ssh_key_name = "tf-key"
+
+  prometheus {
+    class                 = "monitoring"
+    remote_write_receiver = true
+  }
+}
+```
+
+The `remote_write_receiver` argument is supported for Prometheus environment versions `paas_v4_0` and later.
+
+To configure alert delivery and metric collection, use the
+[aws_paas_prometheus_notification_channel](paas_prometheus_notification_channel.md),
+[aws_paas_prometheus_route](paas_prometheus_route.md), and
+[aws_paas_prometheus_scrape_job](paas_prometheus_scrape_job.md) resources.
+
 ### RabbitMQ Service
 
 ~> **Note** This example uses the VPC and subnet defined in the [Elasticsearch Service example](#elasticsearch-service).
@@ -504,11 +547,13 @@ The following arguments are optional:
 * `coordinator` - (Optional, ForceNew) Dedicated coordinator node parameters. The structure of this block is [described below](#coordinator).
     * _Constraints:_ Supported only for [Kafka]. Cannot be used together with `additional_roles`.
 * `data_volume` - (Optional) The data volume parameters for the service. The structure of this block is [described below](#data_volume).
-  The parameter is required for [Elasticsearch], [Kafka], [Memcached], [MongoDB], [MySQL], [PostgreSQL], [RabbitMQ] and [Redis] services.
+  The provider schema requires this parameter for [Elasticsearch], [Kafka], [Memcached], [MongoDB], [MySQL], [PostgreSQL],
+  [Prometheus], [RabbitMQ] and [Redis] services.
 * `delete_interfaces_on_destroy` - (Optional) Indicates whether to delete the instance network interfaces when the service is destroyed.
     * _Default value:_ `false`
 * `high_availability` - (Optional) Indicates whether to create a high availability service.
   The parameter is supported only for [Elasticsearch], [Kafka], [MongoDB], [MySQL], [PostgreSQL], [RabbitMQ] and [Redis] services.
+  For [Prometheus], the value must remain `false`.
     * _Default value:_ `false`
 * `network_interface_ids` - (Optional) List of network interface IDs.
     * _Constraints:_ Required if `subnet_ids` is not specified
@@ -528,6 +573,7 @@ One of the following blocks with service parameters must be specified:
 * `mongodb` - MongoDB parameters. The structure of this block is [described below](#mongodb-argument-reference).
 * `mysql` - MySQL parameters. The structure of this block is [described below](#mysql-argument-reference).
 * `pgsql` - PostgreSQL parameters. The structure of this block is [described below](#postgresql-argument-reference).
+* `prometheus` - Prometheus parameters. The structure of this block is [described below](#prometheus-argument-reference).
 * `rabbitmq` - RabbitMQ parameters. The structure of this block is [described below](#rabbitmq-argument-reference).
 * `redis` - Redis parameters. The structure of this block is [described below](#redis-argument-reference).
 
@@ -1026,6 +1072,20 @@ kafka {
   }
 }
 ```
+
+## Prometheus Argument Reference
+
+In addition to the common arguments for all services [described above](#argument-reference),
+the `prometheus` block can contain the following arguments:
+
+* `class` - (Optional) The service class.
+    * _Valid values:_ `monitoring`
+    * _Default value:_ `monitoring`
+* `remote_write_receiver` - (Optional, Editable) Whether the Prometheus service accepts metrics through the Remote Write protocol.
+    * _Default value:_ `false`
+    * _Constraints:_ Supported for Prometheus environment versions `paas_v4_0` and later
+
+~> **Note** Prometheus supports only a single-node configuration. Set the common `high_availability` argument to `false`.
 
 ## RabbitMQ Argument Reference
 
