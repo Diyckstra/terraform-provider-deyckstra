@@ -122,6 +122,7 @@ An API endpoint can be set using the corresponding provider parameter.
 | Direct Connect                     | `directconnect`    | `DIRECT_CONNECT_URL` |
 | EBS (EC2)                          | `ec2`              | `EC2_URL`            |
 | EC2 (Elastic Compute Cloud)        | `ec2`              | `EC2_URL`            |
+| EFS (Elastic File System)          | `efs`              |                      |
 | EKS (Elastic Kubernetes)           | `eks`              |                      |
 | ELB (Elastic Load Balancing)       | `elbv2`            |                      |
 | IAM (Identity & Access Management) | `iam`              | `IAM_URL`            |

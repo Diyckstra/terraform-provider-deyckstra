@@ -18,73 +18,25 @@ func DataSourceFileSystem() *schema.Resource {
 		Read: dataSourceFileSystemRead,
 
 		Schema: map[string]*schema.Schema{
-			"arn": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"availability_zone_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"availability_zone_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"creation_token": {
 				Type:         schema.TypeString,
 				Optional:     true,
 				Computed:     true,
 				ValidateFunc: validation.StringLenBetween(0, 64),
 			},
-			"encrypted": {
-				Type:     schema.TypeBool,
-				Computed: true,
-			},
 			"file_system_id": {
 				Type:     schema.TypeString,
 				Optional: true,
-				Computed: true,
-			},
-			"kms_key_id": {
-				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"performance_mode": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"dns_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"tags": tftags.TagsSchemaComputed(),
-			"throughput_mode": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"provisioned_throughput_in_mibps": {
-				Type:     schema.TypeFloat,
-				Computed: true,
-			},
 			"size_in_bytes": {
 				Type:     schema.TypeInt,
 				Computed: true,
-			},
-			"lifecycle_policy": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						"transition_to_ia": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"transition_to_primary_storage_class": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
 			},
 		},
 	}
@@ -143,16 +95,9 @@ func dataSourceFileSystemRead(d *schema.ResourceData, meta interface{}) error {
 	fs := results[0]
 
 	d.SetId(aws.StringValue(fs.FileSystemId))
-	d.Set("availability_zone_id", fs.AvailabilityZoneId)
-	d.Set("availability_zone_name", fs.AvailabilityZoneName)
 	d.Set("creation_token", fs.CreationToken)
 	d.Set("performance_mode", fs.PerformanceMode)
-	d.Set("arn", fs.FileSystemArn)
 	d.Set("file_system_id", fs.FileSystemId)
-	d.Set("encrypted", fs.Encrypted)
-	d.Set("kms_key_id", fs.KmsKeyId)
-	d.Set("provisioned_throughput_in_mibps", fs.ProvisionedThroughputInMibps)
-	d.Set("throughput_mode", fs.ThroughputMode)
 	if fs.SizeInBytes != nil {
 		d.Set("size_in_bytes", fs.SizeInBytes.Value)
 	}
@@ -160,20 +105,6 @@ func dataSourceFileSystemRead(d *schema.ResourceData, meta interface{}) error {
 	if err := d.Set("tags", KeyValueTags(fs.Tags).IgnoreAWS().IgnoreConfig(ignoreTagsConfig).Map()); err != nil {
 		return fmt.Errorf("error setting tags: %w", err)
 	}
-
-	res, err := conn.DescribeLifecycleConfiguration(&efs.DescribeLifecycleConfigurationInput{
-		FileSystemId: fs.FileSystemId,
-	})
-	if err != nil {
-		return fmt.Errorf("Error describing lifecycle configuration for EFS file system (%s): %w",
-			aws.StringValue(fs.FileSystemId), err)
-	}
-
-	if err := d.Set("lifecycle_policy", flattenFileSystemLifecyclePolicies(res.LifecyclePolicies)); err != nil {
-		return fmt.Errorf("error setting lifecycle_policy: %w", err)
-	}
-
-	d.Set("dns_name", meta.(*conns.AWSClient).RegionalHostname(fmt.Sprintf("%s.efs", aws.StringValue(fs.FileSystemId))))
 
 	return nil
 }

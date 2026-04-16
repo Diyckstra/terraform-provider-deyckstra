@@ -5,7 +5,6 @@ import (
 	"log"
 
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/arn"
 	"github.com/aws/aws-sdk-go/service/efs"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-provider-aws/internal/conns"
@@ -17,23 +16,11 @@ func DataSourceMountTarget() *schema.Resource {
 		Read: dataSourceMountTargetRead,
 
 		Schema: map[string]*schema.Schema{
-			"access_point_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
 			"availability_zone_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"availability_zone_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"dns_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"file_system_arn": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -49,10 +36,6 @@ func DataSourceMountTarget() *schema.Resource {
 			"mount_target_id": {
 				Type:     schema.TypeString,
 				Optional: true,
-				Computed: true,
-			},
-			"mount_target_dns_name": {
-				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"network_interface_id": {
@@ -81,10 +64,6 @@ func dataSourceMountTargetRead(d *schema.ResourceData, meta interface{}) error {
 
 	input := &efs.DescribeMountTargetsInput{}
 
-	if v, ok := d.GetOk("access_point_id"); ok {
-		input.AccessPointId = aws.String(v.(string))
-	}
-
 	if v, ok := d.GetOk("file_system_id"); ok {
 		input.FileSystemId = aws.String(v.(string))
 	}
@@ -110,21 +89,10 @@ func dataSourceMountTargetRead(d *schema.ResourceData, meta interface{}) error {
 
 	d.SetId(aws.StringValue(mt.MountTargetId))
 
-	fsARN := arn.ARN{
-		AccountID: meta.(*conns.AWSClient).AccountID,
-		Partition: meta.(*conns.AWSClient).Partition,
-		Region:    meta.(*conns.AWSClient).Region,
-		Resource:  fmt.Sprintf("file-system/%s", aws.StringValue(mt.FileSystemId)),
-		Service:   "elasticfilesystem",
-	}.String()
-
 	d.Set("availability_zone_id", mt.AvailabilityZoneId)
-	d.Set("availability_zone_name", mt.AvailabilityZoneName)
-	d.Set("dns_name", meta.(*conns.AWSClient).RegionalHostname(fmt.Sprintf("%s.efs", aws.StringValue(mt.FileSystemId))))
-	d.Set("file_system_arn", fsARN)
+	d.Set("dns_name", mt.DnsName)
 	d.Set("file_system_id", mt.FileSystemId)
 	d.Set("ip_address", mt.IpAddress)
-	d.Set("mount_target_dns_name", meta.(*conns.AWSClient).RegionalHostname(fmt.Sprintf("%s.%s.efs", aws.StringValue(mt.AvailabilityZoneName), aws.StringValue(mt.FileSystemId))))
 	d.Set("mount_target_id", mt.MountTargetId)
 	d.Set("network_interface_id", mt.NetworkInterfaceId)
 	d.Set("owner_id", mt.OwnerId)
