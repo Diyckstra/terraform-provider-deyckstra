@@ -1,5 +1,12 @@
 ## 25.5.0 (Unreleased)
 
+FEATURES:
+
+* **New Data Source:** `aws_efs_file_system` ([#140](https://github.com/C2Devel/terraform-provider-rockitcloud/issues/140))
+* **New Data Source:** `aws_efs_mount_target` ([#140](https://github.com/C2Devel/terraform-provider-rockitcloud/issues/140))
+* **New Resource:** `aws_efs_file_system` ([#140](https://github.com/C2Devel/terraform-provider-rockitcloud/pull/140))
+* **New Resource:** `aws_efs_mount_target` ([#140](https://github.com/C2Devel/terraform-provider-rockitcloud/pull/140))
+
 ## 25.4.2 (April 07, 2026)
 
 ENHANCEMENTS:
