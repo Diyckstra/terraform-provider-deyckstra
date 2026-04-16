@@ -1,23 +1,39 @@
-# EC2 Transit Gateway Cross-Account VPC Attachment
+# EC2 transit gateway cross-account VPC attachment example
 
-This example demonstrates how to create a Transit Gateway in one AWS account, share it with a second AWS account, and attach a VPC in the second account to the Transit Gateway.
+This example demonstrates how to create a transit gateway in one account and share it with a second account to attach it to a VPC.
+To access infrastructure in different accounts, two providers are configured with different aliases.
 
-See [more in the Transit Gateway documentation](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-transit-gateways.html).
-
-## Running this example
-
-Either `cp terraform.template.tfvars terraform.tfvars` and modify that new file accordingly or provide variables via CLI:
+The example uses several variables. You can copy `terraform.template.tfvars` to `terraform.tfvars` and specify their values in this file.
 
 ```
-terraform apply \
-	-var="aws_first_access_key=AAAAAAAAAAAAAAAAAAA" \
-	-var="aws_first_secret_key=SuperSecretKeyForAccount1" \
-	-var="aws_second_access_key=BBBBBBBBBBBBBBBBBBB" \
-	-var="aws_second_secret_key=SuperSecretKeyForAccount2" \
-	-var="aws_region=us-east-1"
+$ cp terraform.template.tfvars terraform.tfvars 
 ```
 
-## Prerequisites
+Running the example:
 
-- This example requires two AWS accounts within the same AWS Organizations Organization
-- Ensure Resource Access Manager is enabled in your organization. For more information, see the [Resource Access Manager User Guide](https://docs.aws.amazon.com/ram/latest/userguide/getting-started-sharing.html).
+```
+$ terraform init
+$ terraform apply
+
+# or
+$ terraform apply \
+	-var="first_access_key=your-first-access-key" \
+	-var="first_secret_key=your-first-secret-key" \
+	-var="second_access_key=your-second-access-key" \
+	-var="second_secret_key=your-second-secret-key" \
+	-var="second_account_id=your-second-account-id"
+```
+
+Destroying the example:
+
+```
+$ terraform destroy
+
+# or
+$ terraform destroy \
+	-var="first_access_key=your-first-access-key" \
+	-var="first_secret_key=your-first-secret-key" \
+	-var="second_access_key=your-second-access-key" \
+	-var="second_secret_key=your-second-secret-key" \
+	-var="second_account_id=your-second-account-id"
+```

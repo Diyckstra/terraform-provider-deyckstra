@@ -1,20 +1,33 @@
 terraform {
   required_version = ">= 0.12"
+
+  required_providers {
+    aws = {
+      source  = "c2devel/rockitcloud"
+      version = "~> 25.4"
+    }
+  }
 }
 
 provider "aws" {
-  region = var.aws_region
+  # For K2 Cloud, specify one of the supported regions.
+  # For other cloud platforms, enter a non-empty string,
+  # for example, "region-1", and API endpoints.
+  region = var.region
 }
 
-resource "aws_eip" "default" {
-  instance = aws_instance.web.id
-  vpc      = true
+resource "aws_eip" "example" {
+  instance = aws_instance.example.id
+
+  tags = {
+    Name = "terraform-eip-example"
+  }
 }
 
-# Our default security group to access
+# Default security group to access
 # the instances over SSH and HTTP
-resource "aws_security_group" "default" {
-  name        = "eip_example"
+resource "aws_security_group" "example" {
+  name        = "terraform-eip-example"
   description = "Used in the terraform"
 
   # SSH access from anywhere
@@ -33,39 +46,47 @@ resource "aws_security_group" "default" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # outbound internet access
+  # Outbound internet access
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  tags = {
+    Name = "terraform-eip-example"
+  }
 }
 
-resource "aws_instance" "web" {
-  instance_type = "t2.micro"
+data "aws_ami" "selected" {
+  most_recent = true
 
-  # Lookup the correct AMI based on the region
-  # we specified
-  ami = var.aws_amis[var.aws_region]
+  name_regex = "Ubuntu 24.04 [Cloud Image]*"
 
-  # The name of our SSH keypair you've created and downloaded
-  # from the AWS console.
-  #
-  # https://console.aws.amazon.com/ec2/v2/home?region=us-west-2#KeyPairs:
-  #
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  owners = ["k2"]
+}
+
+resource "aws_instance" "example" {
+  instance_type = "c5.large"
+  ami           = data.aws_ami.selected.id
+
+  # The name of the SSH keypair created in the cloud console
   key_name = var.key_name
 
-  # Our Security group to allow HTTP and SSH access
-  security_groups = [aws_security_group.default.name]
-
-  # We run a remote provisioner on the instance after creating it.
-  # In this case, we just install nginx and start it. By default,
+  # Once the instance is created, a remote provisioner is launched on it.
+  # In this case, it installs nginx and starts it. By default,
   # this should be on port 80
   user_data = file("userdata.sh")
 
-  #Instance tags
+  vpc_security_group_ids = [aws_security_group.example.id]
+
   tags = {
-    Name = "eip-example"
+    Name = "terraform-eip-example"
   }
 }

@@ -1,4 +1,3 @@
-output "address" {
-  value = "Instances: ${element(aws_instance.web.*.id, 0)}"
+output "ids" {
+  value = "Instances: ${join(", ", aws_instance.example.*.id)}"
 }
-

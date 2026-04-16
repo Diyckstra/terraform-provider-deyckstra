@@ -1,1 +1,1 @@
-key_name = "terraform-aws-provider-example"
+key_name = "your-key-name"

@@ -1,70 +1,106 @@
 terraform {
   required_version = ">= 0.12"
-}
 
-provider "aws" {
-  alias = "prod"
-
-  region     = "us-east-1"
-  access_key = var.prod_access_key
-  secret_key = var.prod_secret_key
-}
-
-resource "aws_s3_bucket" "prod" {
-  provider = aws.prod
-
-  bucket = var.bucket_name
-}
-
-resource "aws_s3_bucket_acl" "prod_bucket_acl" {
-  bucket = aws_s3_bucket.prod.id
-  acl    = "private"
-}
-
-resource "aws_s3_bucket_policy" "prod_bucket_policy" {
-  bucket = aws_s3_bucket.prod.id
-  policy = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "AllowTest",
-      "Effect": "Allow",
-      "Principal": {
-        "AWS": "arn:aws:iam::${var.test_account_id}:root"
-      },
-      "Action": "s3:*",
-      "Resource": "arn:aws:s3:::${var.bucket_name}/*"
+  required_providers {
+    aws = {
+      source  = "c2devel/rockitcloud"
+      version = "~> 25.4"
     }
-  ]
-}
-POLICY
-}
-
-resource "aws_s3_object" "prod" {
-  provider = aws.prod
-
-  depends_on = [aws_s3_bucket_policy.prod_bucket_policy]
-
-  bucket = aws_s3_bucket.prod.id
-  key    = "object-uploaded-via-prod-creds"
-  source = "${path.module}/prod.txt"
+  }
 }
 
 provider "aws" {
-  alias = "test"
+  alias = "first"
 
-  region     = "us-east-1"
-  access_key = var.test_access_key
-  secret_key = var.test_secret_key
+  # For K2 Cloud, specify one of the supported regions.
+  # For other cloud platforms, enter a non-empty string,
+  # for example, "region-1", and API endpoints.
+  region     = var.region
+  access_key = var.first_access_key
+  secret_key = var.first_secret_key
 }
 
-resource "aws_s3_object" "test" {
-  provider = aws.test
+provider "aws" {
+  alias = "second"
 
-  depends_on = [aws_s3_bucket_policy.prod_bucket_policy]
+  # For K2 Cloud, specify one of the supported regions.
+  # For other cloud platforms, enter a non-empty string,
+  # for example, "region-1", and API endpoints.
+  region     = var.region
+  access_key = var.second_access_key
+  secret_key = var.second_secret_key
+}
 
-  bucket = aws_s3_bucket.prod.id
-  key    = "object-uploaded-via-test-creds"
-  source = "${path.module}/test.txt"
+data "aws_canonical_user_id" "first" {
+  provider = aws.first
+}
+
+data "aws_canonical_user_id" "second" {
+  provider = aws.second
+}
+
+resource "aws_s3_bucket" "example" {
+  provider = aws.first
+
+  bucket = "terraform-s3-example"
+
+  tags = {
+    Name = "terraform-s3-example"
+  }
+}
+
+resource "aws_s3_bucket_acl" "example" {
+  provider = aws.first
+
+  bucket = aws_s3_bucket.example.id
+
+  access_control_policy {
+    grant {
+      grantee {
+        id   = data.aws_canonical_user_id.first.id
+        type = "CanonicalUser"
+      }
+      permission = "FULL_CONTROL"
+    }
+
+    grant {
+      grantee {
+        id   = data.aws_canonical_user_id.second.id
+        type = "CanonicalUser"
+      }
+      permission = "FULL_CONTROL"
+    }
+
+    owner {
+      id = data.aws_canonical_user_id.first.id
+    }
+  }
+}
+
+resource "aws_s3_object" "first" {
+  provider = aws.first
+
+  depends_on = [aws_s3_bucket_acl.example]
+
+  bucket = aws_s3_bucket.example.id
+  key    = "object-uploaded-via-first-creds"
+  source = "${path.module}/first.txt"
+
+  tags = {
+    Name = "terraform-s3-example"
+  }
+}
+
+resource "aws_s3_object" "second" {
+  provider = aws.second
+
+  depends_on = [aws_s3_bucket_acl.example]
+
+  bucket = aws_s3_bucket.example.id
+  key    = "object-uploaded-via-second-creds"
+  source = "${path.module}/second.txt"
+
+  tags = {
+    Name = "terraform-s3-example"
+  }
 }

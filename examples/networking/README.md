@@ -1,11 +1,29 @@
-# AWS Networking Example
+# Networking Example
 
-This example creates AWS VPC resources, making a VPC in each of two regions and
-then two subnets in each VPC in two different availability zones.
+This example creates various network resources:
 
-This example also demonstrates the use of modules to create several copies of
-the same resource set with different arguments. The child modules in this
-directory are:
+* VPCs in each of the two regions;
+* one or two subnets in each VPC, depending on the number of availability zones in region;
+* security groups for different networks.
 
-* `region`: container module for all of the network resources within a region. This is instantiated once per region.
-* `subnet`: represents a subnet within a given availability zone. This is instantiated twice per region, using the first two availability zones supported within the target AWS account.
+This example also demonstrates the use of modules to create several copies of the same resource set with different arguments.
+The child modules in this directory are:
+
+* `region`: a module for all the network resources within a region. This module is instantiated once per region;
+* `subnet`: a module for all the subnet resources within the given availability zone.
+  This module is instantiated once or twice per region, depending on the number of availability zones.
+
+Running the example:
+
+```
+$ export AWS_ACCESS_KEY_ID="your-access-key"
+$ export AWS_SECRET_ACCESS_KEY="your-secret-key"
+$ terraform init
+$ terraform apply
+```
+
+Destroying the example:
+
+```
+$ terraform destroy
+```

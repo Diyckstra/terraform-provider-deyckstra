@@ -1,10 +1,7 @@
-# prod account
-prod_access_key = "AAAAAAAAAAAAAAAAAAA"
-prod_secret_key = "SuperSecretKeyForAccountA"
+# first account
+first_access_key = "your-first-access-key"
+first_secret_key = "your-first-secret-key"
 
-# test account
-test_account_id = "123456789012"
-test_access_key = "BBBBBBBBBBBBBBBBBBB"
-test_secret_key = "SuperSecretKeyForAccountB"
-
-bucket_name = "tf-test-bucket-in-prod"
+# second account
+second_access_key = "your-second-access-key"
+second_secret_key = "your-second-secret-key"

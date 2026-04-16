@@ -1,9 +1,9 @@
-# First account
-aws_first_access_key = "AAAAAAAAAAAAAAAAAAA"
-aws_first_secret_key = "SuperSecretKeyForAccount1"
+# first account
+first_access_key = "your-first-access-key"
+first_secret_key = "your-first-secret-key"
 
-# Second account
-aws_second_access_key = "BBBBBBBBBBBBBBBBBBB"
-aws_second_secret_key = "SuperSecretKeyForAccount2"
-
-aws_region = "us-east-1"
+# second account
+second_access_key = "your-second-access-key"
+second_secret_key = "your-second-secret-key"
+# project@customer
+second_account_id = "your-second-account-id"

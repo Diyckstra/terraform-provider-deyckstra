@@ -1,9 +1,29 @@
-variable "aws_first_access_key" {}
+variable "region" {
+  description = "The region to create the infrastructure in."
+  default     = "ru-msk"
+}
 
-variable "aws_first_secret_key" {}
+variable "first_access_key" {
+  type        = string
+  description = "First account access key."
+}
 
-variable "aws_second_access_key" {}
+variable "first_secret_key" {
+  type        = string
+  description = "First account secret key."
+}
 
-variable "aws_second_secret_key" {}
+variable "second_access_key" {
+  type        = string
+  description = "Second account access key."
+}
 
-variable "aws_region" {}
+variable "second_secret_key" {
+  type        = string
+  description = "Second account secret key."
+}
+
+variable "second_account_id" {
+  type        = string
+  description = "Second account id (project@customer)."
+}
