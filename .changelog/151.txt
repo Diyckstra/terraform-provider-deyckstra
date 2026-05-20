@@ -1,0 +1,6 @@
+```release-note:enhancement
+resource/aws_paas_service: Support in-place updates for `instance_type`, `data_volume.size`, and `data_volume.iops`
+```
+
+```release-note:breaking-change
+resource/aws_paas_backup: Remove `databases.backup_enabled` and `databases.id` attributes, which are no longer returned by the API

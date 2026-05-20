@@ -100,21 +100,18 @@ func ResourceService() *schema.Resource {
 			"data_volume": {
 				Type:     schema.TypeList,
 				Optional: true,
-				ForceNew: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"iops": {
 							Type:             schema.TypeInt,
 							Optional:         true,
-							ForceNew:         true,
 							Computed:         true,
 							DiffSuppressFunc: iopsDiffSuppressFunc,
 						},
 						"size": {
 							Type:     schema.TypeInt,
 							Optional: true,
-							ForceNew: true,
 							Default:  32,
 						},
 						"type": {
@@ -221,7 +218,38 @@ func ResourceService() *schema.Resource {
 			"instance_type": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
+			},
+			"nodes": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"main": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"role": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"coordinator": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"role": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 			"name": {
 				Type:     schema.TypeString,
@@ -470,6 +498,7 @@ func resourceServiceRead(ctx context.Context, d *schema.ResourceData, meta inter
 
 	d.Set("instances", flattenInstances(service.Instances))
 	d.Set("instance_type", service.InstanceType)
+	d.Set("nodes", flattenNodes(service.Nodes))
 
 	d.Set("name", service.Name)
 
@@ -536,6 +565,86 @@ func resourceServiceUpdate(ctx context.Context, d *schema.ResourceData, meta int
 	}
 
 	serviceType := manager.ServiceType()
+
+	if d.HasChange("data_volume.0.size") && !d.IsNewResource() {
+		oldRaw, newRaw := d.GetChange("data_volume.0.size")
+		oldSize, newSize := oldRaw.(int), newRaw.(int)
+
+		if err := validateIncreaseOnly("data_volume.size", oldSize, newSize); err != nil {
+			return diag.FromErr(err)
+		}
+
+		input := &paas.ModifyInstanceVolumeSizeInput{
+			ServiceId: aws.String(id),
+			Size:      aws.Int64(int64(newSize)),
+		}
+
+		log.Printf("[DEBUG] Modifying PaaS Service data volume size: %+v", input)
+		_, err := conn.ModifyInstanceVolumeSize(input)
+
+		if err != nil {
+			return diag.Errorf("error modifying PaaS Service (%s) data volume size: %s", id, err)
+		}
+
+		_, err = waitServiceUpdated(ctx, conn, id, d.Timeout(schema.TimeoutUpdate))
+
+		if err != nil {
+			return diag.Errorf("error waiting for PaaS Service (%s) data volume size to update: %s", id, err)
+		}
+	}
+
+	if d.HasChange("data_volume.0.iops") && !d.IsNewResource() {
+		if volumeType := d.Get("data_volume.0.type").(string); strings.ToLower(volumeType) != ec2.VolumeTypeIo2 {
+			return diag.Errorf("data_volume.iops can only be updated when data_volume.type is %q", ec2.VolumeTypeIo2)
+		}
+
+		input := &paas.ModifyInstanceVolumeIopsInput{
+			ServiceId: aws.String(id),
+			Iops:      aws.Int64(int64(d.Get("data_volume.0.iops").(int))),
+		}
+
+		log.Printf("[DEBUG] Modifying PaaS Service data volume IOPS: %+v", input)
+		_, err := conn.ModifyInstanceVolumeIops(input)
+
+		if err != nil {
+			return diag.Errorf("error modifying PaaS Service (%s) data volume IOPS: %s", id, err)
+		}
+
+		_, err = waitServiceUpdated(ctx, conn, id, d.Timeout(schema.TimeoutUpdate))
+
+		if err != nil {
+			return diag.Errorf("error waiting for PaaS Service (%s) data volume IOPS to update: %s", id, err)
+		}
+	}
+
+	if d.HasChange("instance_type") && !d.IsNewResource() {
+		nodeRoles, ok := serviceInstanceTypeNodeRolesFromState(d)
+
+		if !ok {
+			return diag.Errorf("error determining PaaS Service (%s) node roles for instance type update: nodes not in state, run terraform refresh first", id)
+		}
+
+		for _, nodeRole := range nodeRoles {
+			input := &paas.ModifyInstanceTypeInput{
+				ServiceId:    aws.String(id),
+				InstanceType: aws.String(d.Get("instance_type").(string)),
+				NodeRole:     aws.String(nodeRole),
+			}
+
+			log.Printf("[DEBUG] Modifying PaaS Service instance type: %+v", input)
+			_, err := conn.ModifyInstanceType(input)
+
+			if err != nil {
+				return diag.Errorf("error modifying PaaS Service (%s) instance type for node role %s: %s", id, nodeRole, err)
+			}
+
+			_, err = waitServiceUpdated(ctx, conn, id, d.Timeout(schema.TimeoutUpdate))
+
+			if err != nil {
+				return diag.Errorf("error waiting for PaaS Service (%s) instance type for node role %s to update: %s", id, nodeRole, err)
+			}
+		}
+	}
 
 	if d.HasChange(serviceType) && !d.IsNewResource() {
 		input := &paas.ModifyServiceParametersInput{
@@ -642,6 +751,27 @@ func resourceServiceDelete(ctx context.Context, d *schema.ResourceData, meta int
 func iopsDiffSuppressFunc(k, old, new string, d *schema.ResourceData) bool {
 	volumeType := d.Get(strings.Replace(k, "iops", "type", 1)).(string)
 	return strings.ToLower(volumeType) != ec2.VolumeTypeIo2 && new == "0"
+}
+
+func validateIncreaseOnly(name string, oldValue, newValue int) error {
+	if newValue < oldValue {
+		return fmt.Errorf("%s can only be increased in-place, got decrease from %d to %d", name, oldValue, newValue)
+	}
+
+	return nil
+}
+
+func serviceInstanceTypeNodeRolesFromState(d *schema.ResourceData) ([]string, bool) {
+	v, ok := d.GetOk("nodes.0.main.0.role")
+	if !ok {
+		return nil, false
+	}
+
+	roles := []string{v.(string)}
+	if v2, ok := d.GetOk("nodes.0.coordinator.0.role"); ok {
+		roles = append(roles, v2.(string))
+	}
+	return roles, true
 }
 
 func serviceManager(d *schema.ResourceData) services.ServiceManager {
@@ -759,6 +889,32 @@ func flattenServiceEndpoints(endpoints []*paas.ServiceEndpoint) []map[string]int
 	}
 
 	return tfList
+}
+
+func flattenNodes(nodes *paas.Nodes) []map[string]interface{} {
+	if nodes == nil {
+		return []map[string]interface{}{}
+	}
+
+	tfMap := map[string]interface{}{}
+
+	if nodes.Main != nil {
+		if role := aws.StringValue(nodes.Main.Role); role != "" {
+			tfMap["main"] = []map[string]interface{}{{"role": role}}
+		}
+	}
+
+	if nodes.Coordinator != nil {
+		if role := aws.StringValue(nodes.Coordinator.Role); role != "" {
+			tfMap["coordinator"] = []map[string]interface{}{{"role": role}}
+		}
+	}
+
+	if len(tfMap) == 0 {
+		return []map[string]interface{}{}
+	}
+
+	return []map[string]interface{}{tfMap}
 }
 
 func flattenInstances(instances []*paas.Instance) []map[string]interface{} {

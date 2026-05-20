@@ -35,14 +35,6 @@ func ResourceBackup() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"backup_enabled": {
-							Type:     schema.TypeBool,
-							Computed: true,
-						},
-						"id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
 						"location": {
 							Type:     schema.TypeString,
 							Computed: true,

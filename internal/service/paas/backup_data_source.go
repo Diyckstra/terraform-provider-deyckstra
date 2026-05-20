@@ -24,14 +24,6 @@ func DataSourceBackup() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"backup_enabled": {
-							Type:     schema.TypeBool,
-							Computed: true,
-						},
-						"id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
 						"location": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -243,14 +235,6 @@ func flattenDatabaseBackups(backups []*paas.DatabaseBackup) []map[string]interfa
 		}
 
 		tfMap := map[string]interface{}{}
-
-		if v := backup.BackupEnabled; v != nil {
-			tfMap["backup_enabled"] = v
-		}
-
-		if v := backup.Id; v != nil {
-			tfMap["id"] = v
-		}
 
 		if v := backup.Location; v != nil {
 			tfMap["location"] = v
