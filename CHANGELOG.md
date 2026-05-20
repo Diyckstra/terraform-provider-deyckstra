@@ -1,4 +1,4 @@
-## 25.6.0 (Unreleased)
+## 25.5.1 (May 20, 2026)
 
 ENHANCEMENTS:
 
