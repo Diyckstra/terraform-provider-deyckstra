@@ -1,5 +1,9 @@
 ## 25.6.0 (Unreleased)
 
+ENHANCEMENTS:
+
+* resource/aws_paas_service: Support in-place updates for `instance_type`, `data_volume.size`, and `data_volume.iops` ([#151](https://github.com/C2Devel/terraform-provider-rockitcloud/issues/151))
+
 ## 25.5.0 (April 16, 2026)
 
 FEATURES:
