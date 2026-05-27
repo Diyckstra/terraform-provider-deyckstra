@@ -467,11 +467,13 @@ func Provider() *schema.Provider {
 
 			// "aws_eks_addon":         eks.DataSourceAddon(),
 			// "aws_eks_addon_version": eks.DataSourceAddonVersion(),
-			"aws_eks_cluster":      eks.DataSourceCluster(),
-			"aws_eks_clusters":     eks.DataSourceClusters(),
-			"aws_eks_cluster_auth": eks.DataSourceClusterAuth(),
-			"aws_eks_node_group":   eks.DataSourceNodeGroup(),
-			"aws_eks_node_groups":  eks.DataSourceNodeGroups(),
+			"aws_eks_cluster":            eks.DataSourceCluster(),
+			"aws_eks_clusters":           eks.DataSourceClusters(),
+			"aws_eks_cluster_auth":       eks.DataSourceClusterAuth(),
+			"aws_eks_cluster_kubeconfig": eks.DataSourceClusterKubeconfig(),
+
+			"aws_eks_node_group":  eks.DataSourceNodeGroup(),
+			"aws_eks_node_groups": eks.DataSourceNodeGroups(),
 
 			// "aws_elasticache_cluster":           elasticache.DataSourceCluster(),
 			// "aws_elasticache_replication_group": elasticache.DataSourceReplicationGroup(),

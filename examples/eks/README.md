@@ -13,6 +13,12 @@ $ terraform init
 $ terraform apply
 ```
 
+Get kubeconfig for the created cluster:
+
+```
+$ terraform output -raw kubeconfig > ~/.kube/config
+```
+
 Destroying the example:
 
 ```

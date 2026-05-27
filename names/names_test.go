@@ -96,6 +96,7 @@ func TestServicesForDirectories(t *testing.T) {
 		"dynamodbstreams",
 		"ebs",
 		"ec2instanceconnect",
+		"ekslegacy",
 		"elasticinference",
 		"emrcontainers",
 		"evidently",

@@ -98,6 +98,7 @@ variable "service_labels" {
     "ecs",
     "efs",
     "eks",
+    "ekslegacy",
     "elasticache",
     "elasticbeanstalk",
     "elasticinference",

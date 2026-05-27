@@ -105,6 +105,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/ecs"
 	"github.com/aws/aws-sdk-go/service/efs"
 	"github.com/aws/aws-sdk-go/service/eks"
+	"github.com/aws/aws-sdk-go/service/ekslegacy"
 	"github.com/aws/aws-sdk-go/service/elasticache"
 	"github.com/aws/aws-sdk-go/service/elasticbeanstalk"
 	"github.com/aws/aws-sdk-go/service/elasticinference"
@@ -417,6 +418,7 @@ type AWSClient struct {
 	ECSConn                          *ecs.ECS
 	EFSConn                          *efs.EFS
 	EKSConn                          *eks.EKS
+	EKSLegacyConn                    *ekslegacy.EKSLegacy
 	ELBConn                          *elb.ELB
 	ELBV2Conn                        *elbv2.ELBV2
 	EMRConn                          *emr.EMR

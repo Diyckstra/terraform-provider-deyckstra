@@ -46,3 +46,12 @@ resource "aws_eks_cluster" "example" {
     Name = "terraform-eks-example"
   }
 }
+
+data "aws_eks_cluster_kubeconfig" "example_config" {
+  name = "terraform-eks-example"
+}
+
+output "kubeconfig" {
+  value     = data.aws_eks_cluster_kubeconfig.example_config.kubeconfig
+  sensitive = true
+}
