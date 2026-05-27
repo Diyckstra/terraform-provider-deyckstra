@@ -10,6 +10,7 @@ description: |-
 [eks-clusters]: https://docs.k2.cloud/en/services/kubernetes/eks_cluster.html
 [ha-clusters]: https://docs.k2.cloud/en/services/kubernetes/overview.html#ha-control-plane
 [timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
+[eks-kubeconfig-ds]: ../data-sources/eks_cluster_kubeconfig.md
 
 # Resource: aws_eks_cluster
 
@@ -122,6 +123,38 @@ resource "aws_eks_cluster" "example" {
     subnet_ids = [aws_subnet.example.id]
   }
 }
+```
+
+### Get kubeconfig for the cluster
+
+Use the [aws_eks_cluster_kubeconfig data source][eks-kubeconfig-ds] to generate a kubeconfig
+for the created cluster and export it for `kubectl`:
+
+```terraform
+resource "aws_eks_cluster" "example" {
+  name    = "tf-cluster-ha"
+  version = "1.30.2"
+
+  vpc_config {
+    subnet_ids = [aws_subnet.example.id]
+  }
+}
+
+data "aws_eks_cluster_kubeconfig" "example" {
+  name = aws_eks_cluster.example.name
+}
+
+output "kubeconfig" {
+  value     = data.aws_eks_cluster_kubeconfig.example.kubeconfig
+  sensitive = true
+}
+```
+
+Then save it locally:
+
+```bash
+terraform output -raw kubeconfig > ~/.kube/config
+kubectl get nodes
 ```
 
 ## Argument Reference
