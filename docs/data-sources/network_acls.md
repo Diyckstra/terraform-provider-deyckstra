@@ -12,7 +12,9 @@ description: |-
 
 Provides a list of network ACL IDs for a VPC.
 
-## Example Usage
+## Example usage
+
+### Basic example
 
 The following example shows all network ACL IDs in a VPC.
 
@@ -28,8 +30,9 @@ output "example" {
 }
 ```
 
-The following example retrieves a list of all network ACL IDs in a VPC with a custom
-tag of `Tier` set to a value of "Private".
+### Specific examples
+
+The following example retrieves a list of all network ACLs associated with a VPC with a custom `Tier` tag set to `Private`.
 
 ```terraform
 variable vpc_id {}
@@ -59,18 +62,24 @@ data "aws_network_acls" "example" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
-* `filter` - (Optional) One or more name/value pairs to use as filters.
+* `filter` - (Optional, [Block](#filter)) One or more name/value pairs to use as filters.
     * _Valid values:_ See supported names and values in [EC2 API documentation][describe-network-acls]
-* `tags` - (Optional) Map of tags, each pair of which must exactly match
-  a pair on the desired network ACLs.
-* `vpc_id` - (Optional) The VPC ID that you want to filter from.
+* `tags` - (Optional, Map of strings) Key-value pairs. Must exactly match pairs on the required resources.
+* `vpc_id` - (Optional, String) The ID of the VPC that you want to filter from.
 
+### filter
 
-## Attribute Reference
+* `name` - (Required, String) The name of the filter.
+    * _Constraints:_ Filter names are case-sensitive
+* `values` - (Required, List of strings) One or more filter values.
+    * _Constraints:_ Filter values are case-sensitive
+
+## Attribute reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `id` - The region.
-* `ids` - List of all the network ACL IDs found.
+* `id` - (String) The region.
+    * _Example:_ `ru-spb`
+* `ids` - (List of strings) The list of all the network ACL IDs found.

@@ -12,11 +12,13 @@ description: |-
 
 Provides information about a route table.
 
-This resource can be used when a module accepts a subnet ID as an input variable and needs to, for example, add a route in the route table.
+This data source can be used when a module accepts a subnet ID as an input variable and needs to, for example, add a route to a route table.
 
-## Example Usage
+## Example usage
 
-The following example shows how one might accept a route table ID as a variable and use this data source to obtain the data necessary to create a route.
+### Specific example
+
+The following example shows how to accept a route table ID as an input variable and use this data source to obtain the data necessary to create a route.
 
 ```terraform
 variable "vpc_id" {}
@@ -33,54 +35,53 @@ resource "aws_route" "example" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
-The arguments of this data source act as filters for querying the available route table in the current region. The given filters must match exactly one route table whose data will be exported as attributes.
+The arguments of this data source act as filters for querying route tables in the current region.
+
+~> **Note** The given filters must exactly match the resource whose data will be exported as attributes.
 
 The following arguments are optional:
 
-* `filter` - (Optional) One or more name/value pairs to use as filters.
+* `filter` - (Optional, [Block](#filter)) One or more name/value pairs to use as filters.
     * _Valid values:_ See supported names and values in [EC2 API documentation][describe-route-tables]
-* `subnet_id` - (Optional) ID of a subnet which is associated with the route table (not exported if not passed as a parameter).
-* `tags` - (Optional) Map of tags, each pair of which must exactly match a pair on the desired route table.
-* `vpc_id` - (Optional) ID of the VPC that the desired route table belongs to.
+* `subnet_id` - (Optional, String) The ID of the subnet which is associated with the route table (not exported if not passed as a parameter).
+* `tags` - (Optional, Map of strings) Key-value pairs. Must exactly match pairs on the required resource.
+* `vpc_id` - (Optional, String) The ID of the VPC that owns the desired route table.
 
-## Attribute Reference
+### filter
+
+* `name` - (Required, String) The name of the filter.
+    * _Constraints:_ Filter names are case-sensitive
+* `values` - (Required, List of strings) One or more filter values.
+    * _Constraints:_ Filter values are case-sensitive
+
+## Attribute reference
 
 ### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` - The Amazon Resource Name (ARN) of the route table.
-* `associations` - List of associations.
-  The structure of this block is [described below](#associations).
-* `routes` - List of routes.
-  The structure of this block is [described below](#routes).
+* `arn` - (String) The Amazon Resource Name (ARN) of the route table.
+* `id` - (String) The ID of the route table.
+* `associations` - ([Block](#associations)) The list of associations.
+* `route_table_id` - (String) The ID of the route table.
+* `routes` - ([Block](#routes)) The list of routes.
 
 #### associations
 
-Associations are also exported with the following attributes:
-
-* `gateway_id` - The ID of the internet gateway.
-* `main` - Whether the association is due to the main route table.
-* `route_table_association_id` - The ID of the association.
-* `route_table_id` - The ID of the route table.
-* `subnet_id` - The ID of the subnet. Only set when associated with a subnet.
+* `main` - (Boolean) Indicates whether the route table is the main route table for the VPC.
+* `route_table_association_id` - (String) The ID of the route table association.
+* `route_table_id` - (String) The ID of the route table.
+* `subnet_id` - (String) The ID of the subnet the route table is associated with. Only set when associated with a subnet.
 
 #### routes
 
-When relevant, routes are also exported with the following attributes:
-
-For destinations:
-
-* `cidr_block` - CIDR block of the route.
-
-For targets:
-
-* `gateway_id` - The ID of the internet gateway or virtual private gateway.
-* `instance_id` - The ID of the instance.
-* `network_interface_id` - The ID of the network interface.
-* `transit_gateway_id` - The ID of the transit gateway.
+* `cidr_block` - (String) The CIDR block of the route.
+* `gateway_id` - (String) The ID of the gateway.
+* `instance_id` - (String) The ID of the instance.
+* `network_interface_id` - (String) The ID of the network interface.
+* `transit_gateway_id` - (String) The ID of the transit gateway.
 
 ### Unsupported attributes
 
@@ -88,4 +89,4 @@ For targets:
 
 The following attributes are not currently supported:
 
-`owner_id`, `routes.carrier_gateway_id`, `routes.core_network_arn`, `routes.destination_prefix_list_id`, `routes.egress_only_gateway_id`, `routes.ipv6_cidr_block`, `routes.local_gateway_id`, `routes.nat_gateway_id`, `routes.vpc_endpoint_id`, `routes.vpc_peering_connection_id`.
+`associations.gateway_id`, `gateway_id`, `owner_id`, `routes.carrier_gateway_id`, `routes.core_network_arn`, `routes.destination_prefix_list_id`, `routes.egress_only_gateway_id`, `routes.ipv6_cidr_block`, `routes.local_gateway_id`, `routes.nat_gateway_id`, `routes.vpc_endpoint_id`, `routes.vpc_peering_connection_id`.

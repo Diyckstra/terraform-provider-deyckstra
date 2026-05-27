@@ -17,7 +17,7 @@ Instances also support [provisioning].
 
 ## Example Usage
 
-### Basic Example Using Image Lookup
+### Basic example: using image lookup
 
 ```terraform
 data "aws_ami" "selected" {

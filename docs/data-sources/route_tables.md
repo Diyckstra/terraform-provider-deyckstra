@@ -12,7 +12,9 @@ description: |-
 
 Provides a list of route table IDs matching the specified criteria.
 
-## Example Usage
+## Example usage
+
+### Basic example
 
 ```terraform
 variable vpc_id {}
@@ -27,15 +29,22 @@ data "aws_route_tables" "rts" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
-* `filter` - (Optional) One or more name/value pairs to use as filters.
+* `filter` - (Optional, [Block](#filter)) One or more name/value pairs to use as filters.
     * _Valid values:_ See supported names and values in [EC2 API documentation][describe-route-tables]
-* `vpc_id` - (Optional) The VPC ID that you want to filter from.
-* `tags` - (Optional) Map of tags, each pair of which must exactly match
-  a pair on the desired route tables.
+* `tags` - (Optional, Map of strings) Key-value pairs. Must exactly match pairs on the required resources.
+* `vpc_id` - (Optional, String) The VPC ID for filtering the route tables related to this VPC.
 
-## Attribute Reference
+### filter
 
-* `id` - The region.
-* `ids` - List of all the route table IDs found.
+* `name` - (Required, String) The name of the filter.
+    * _Constraints:_ Filter names are case-sensitive
+* `values` - (Required, List of strings) One or more filter values.
+    * _Constraints:_ Filter values are case-sensitive
+
+## Attribute reference
+
+* `id` - (String) The region.
+    * _Example:_ `ru-spb`
+* `ids` - (List of strings) The list of all the route table IDs found.

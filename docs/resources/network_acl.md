@@ -9,26 +9,26 @@ description: |-
 [attribute-as-blocks]: https://www.terraform.io/docs/configuration/attr-as-blocks.html
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 [icmp-parameters]:  https://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml
-[network-acl]: https://docs.k2.cloud/en/services/networks/networkacl.html
+[network-acl]: https://docs.k2.cloud/en/services/security/networkacl.html
 
 # Resource: aws_network_acl
 
-Creates a network ACL. You might set up network ACLs with rules similar
-to your security groups in order to add an additional layer of security to your VPC.
+Creates a network ACL.
+You might set up network ACLs with rules similar to your security groups to add another layer of security to your VPC.
 
-~> **Note on Network ACLs and Network ACL Rules:** Terraform currently
-provides both a standalone [`aws_network_acl_rule`](network_acl_rule.md) resource and a network ACL resource with rules
-defined in-line. At this time you cannot use a network ACL with in-line rules
-in conjunction with any network ACL rule resources. Doing so will cause
-a conflict of rule settings and will overwrite rules.
+~> **Note on network ACLs and network ACL rules** Terraform currently provides both a standalone [`aws_network_acl_rule`](network_acl_rule.md) resource and a network ACL resource with rules defined inline.
+At this time you cannot use a network ACL with inline rules in conjunction with any network ACL rule resources.
+Doing so will cause a conflict of rule settings and will overwrite rules.
 
-~> **Note on Network ACLs and Network ACL Associations:** Terraform provides both a standalone [aws_network_acl_association](network_acl_association.md)
-resource and a network ACL resource with a `subnet_ids` attribute. Do not use the same subnet ID in both a network ACL
-resource and a network ACL association resource. Doing so will cause a conflict of associations and will overwrite the association.
+~> **Note on network ACLs and network ACL associations** Terraform provides both a standalone [aws_network_acl_association](network_acl_association.md) resource and a network ACL resource with a `subnet_ids` attribute.
+Do not use the same subnet ID in both a network ACL resource and a network ACL association resource.
+Doing so will cause a conflict of associations and will overwrite the association.
 
 For more information about network ACLs, see the documentation on [Network ACL][network-acl].
 
-## Example Usage
+## Example usage
+
+### Specific example
 
 ```terraform
 resource "aws_vpc" "example" {
@@ -62,17 +62,18 @@ resource "aws_network_acl" "example" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
-The following arguments are supported:
+The following arguments are required:
 
-* `vpc_id` - (Required) ID of the associated VPC.
-* `subnet_ids` - (Optional) A list of subnet IDs to apply the ACL to.
-* `ingress` - (Optional) Specifies an ingress rule. Parameters defined below.
-  This argument is processed in [attribute-as-blocks mode][attribute-as-blocks].
-* `egress` - (Optional) Specifies an egress rule. Parameters defined below.
-  This argument is processed in [attribute-as-blocks mode][attribute-as-blocks].
-* `tags` - (Optional) Map of tags to assign to the ACL. If a provider [`default_tags`][default-tags] configuration block is used, tags with matching keys will overwrite those defined at the provider level.
+* `vpc_id` - (Required, Forces new resource, String) The ID of the associated VPC.
+
+The following arguments are optional:
+
+* `egress` - (Optional, Editable, [Block](#egress-and-ingress)) One or more egress rules (for outgoing traffic).
+* `ingress` - (Optional, Editable, [Block](#egress-and-ingress)) One or more ingress rules (for incoming traffic).
+* `subnet_ids` - (Optional, Editable, List of strings) The list of subnet IDs to apply the ACL to.
+* `tags` - (Optional, Editable, Map of strings) Key-value pairs to assign to the resource. If the [`default_tags` configuration block][default-tags] block is used within a provider configuration, the tags with matching keys will overwrite those defined at the provider level.
 
 ### egress and ingress
 
@@ -80,28 +81,30 @@ Both arguments are processed in [attribute-as-blocks mode][attribute-as-blocks].
 
 Both `egress` and `ingress` support the following keys:
 
-* `from_port` - (Required) The from port to match.
-* `to_port` - (Required) The to port to match.
-* `rule_no` - (Required) The rule number. Used for ordering.
-* `action` - (Required) The action to take.
-* `protocol` - (Required) The protocol to match. If using the -1 'all'
-protocol, you must specify a from and to port of 0.
-* `cidr_block` - (Optional) The CIDR block to match. This must be a
-valid network mask.
-* `icmp_type` - (Optional) The ICMP type to be used. Default 0.
-* `icmp_code` - (Optional) The ICMP type code to be used. Default 0.
+* `action` - (Required, Editable, String) The action to take.
+    * _Valid values:_ `allow`, `deny`
+* `from_port` - (Required, Editable, Integer) The start of the port range.
+* `protocol` - (Required, Editable, String) The protocol to match. If using the `-1` (`all`) value, then you must specify a start and end numbers of `0`.
+* `rule_no` - (Required, Editable, Integer) The rule number. Used for ordering. Rules are processed in ascending order.
+    * _Valid values:_ From 1 to 32766
+* `to_port` - (Required, Editable, Integer) The end of the port range.
+* `cidr_block` - (Optional, Editable, String) The CIDR block to match. This must be a valid network mask.
+* `icmp_code` - (Optional, Editable, Integer) The ICMP message code to be used.
+    * _Default value:_ `0`
+* `icmp_type` - (Optional, Editable, Integer) The ICMP message type to be used.
+    * _Default value:_ `0`
 
-~> **Note** For more information on ICMP types and codes, see [ICMP Parameters][icmp-parameters]
+~> **Note** For more information on ICMP message types and codes, see [ICMP Parameters][icmp-parameters]
 
-## Attribute Reference
+## Attribute reference
 
 ### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
-* `id` - The ID of the network ACL.
-* `arn` - The Amazon Resource Name (ARN) of the network ACL.
-* `tags_all` - Map of tags assigned to the network ACL, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `arn` - (String) The Amazon Resource Name (ARN) of the network ACL.
+* `id` - (String) The ID of the network ACL.
+* `tags_all` - (Optional, Map of strings) Key-value pairs assigned to the resource,  including any tags inherited from the [`default_tags` configuration block][default-tags] if used within a provider configuration.
 
 ### Unsupported attributes
 
@@ -109,11 +112,15 @@ In addition to all arguments above, the following attributes are exported:
 
 The following attributes are not currently supported:
 
-`ipv6_cidr_block`, `owner_id`.
+`egress.ipv6_cidr_block`, `ingress.ipv6_cidr_block`, `owner_id`.
+
+## Timeouts
+
+Timeouts usage for the network ACLs is not currently supported.
 
 ## Import
 
-Network ACLs can be imported using `id`, e.g.,
+Network ACLs can be imported using `id`, for example:
 
 ```
 $ terraform import aws_network_acl.main acl-12345678

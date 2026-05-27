@@ -12,11 +12,11 @@ description: |-
 
 Provides a list of VPC IDs.
 
-The following example retrieves a list of VPC IDs with a custom tag of `service` set to a value of "production".
+## Example usage
 
-## Example Usage
+### Basic example
 
-The following shows outputing all VPC IDs.
+The following example retrieves a list of VPC IDs with a custom `service` tag set to `production`.
 
 ```terraform
 data "aws_vpcs" "foo" {
@@ -30,16 +30,23 @@ output "foo" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
-* `filter` - (Optional) One or more name/value pairs to use as filters.
+* `filter` - (Optional, [Block](#filter)) One or more name/value pairs to use as filters.
     * _Valid values:_ See supported names and values in [EC2 API documentation][describe-vpcs]
-* `tags` - (Optional) Map of tags, each pair of which must exactly match
-  a pair on the desired VPCs.
+* `tags` - (Optional, Map of strings) Key-value pairs. Must exactly match pairs on the required resources.
 
-## Attribute Reference
+### filter
+
+* `name` - (Required, String) The name of the filter.
+    * _Constraints:_ Filter names are case-sensitive
+* `values` - (Required, List of strings) One or more filter values.
+    * _Constraints:_ Filter values are case-sensitive
+
+## Attribute reference
 
 Provides a list of VPC IDs in a region.
 
-* `id` - A region.
-* `ids` - A list of all the VPC IDs found.
+* `id` - (String) The region.
+    * _Example_: `ru-spb`
+* `ids` - (List of strings) The list of VPC IDs found.

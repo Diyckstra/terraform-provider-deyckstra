@@ -10,9 +10,11 @@ description: |-
 
 # Data Source: aws_security_groups
 
-Provides information about IDs and VPC membership of security groups.
+Provides information about IDs of security groups and their association to any VPC.
 
-## Example Usage
+## Example usage
+
+### Basic example
 
 ```terraform
 data "aws_security_groups" "test" {
@@ -22,6 +24,8 @@ data "aws_security_groups" "test" {
   }
 }
 ```
+
+### Specific example
 
 ```terraform
 variable vpc_id {}
@@ -39,17 +43,25 @@ data "aws_security_groups" "test" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
-* `tags` - (Optional) Map of tags, each pair of which must exactly match for desired security groups.
-* `filter` - (Optional) One or more name/value pairs to use as filters.
+* `filter` - (Optional, [Block](#filter)) One or more name/value pairs to use as filters.
     * _Valid values:_ See supported names and values in [EC2 API documentation][describe-security-groups]
+* `tags` - (Optional, Map of strings) Key-value pairs. Must exactly match pairs on the required resources.
 
-## Attribute Reference
+### filter
+
+* `name` - (Required, String) The name of the filter.
+    * _Constraints:_ Filter names are case-sensitive
+* `values` - (Required, List of strings) One or more filter values.
+    * _Constraints:_ Filter values are case-sensitive
+
+## Attribute reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arns` - The Amazon Resource Names (ARNs) of the matched security groups.
-* `id` - The region.
-* `ids` - IDs of the matched security groups.
-* `vpc_ids` - The VPC IDs of the matched security groups. The data source's tag or filter *will span VPCs* unless the `vpc-id` filter is also used.
+* `arns` - (String) The Amazon Resource Names (ARNs) of the matched security groups.
+* `id` - (String) The region.
+    * _Example:_ `ru-spb`
+* `ids` - (List of strings) The IDs of the matched security groups.
+* `vpc_ids` - (String) The VPC IDs of the matched security groups. The data source's tag or filter *will span VPCs* unless the `vpc-id` filter is also used.

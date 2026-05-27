@@ -83,7 +83,7 @@ In addition to all arguments above, the following attributes are exported:
 * `root_block_device` - The root block device mappings of the instance.
   The structure of this block is [described below](#root_block_device).
 * `security_groups` - The associated security groups.
-* `source_dest_check` - Whether the network interface performs source/destination checking.
+* `source_dest_check` - Indicates whether the network interface performs source/destination checking.
 * `subnet_id` - The ID of the subnet.
 * `user_data` - SHA-1 hash of user data supplied to the instance.
 * `user_data_base64` - Base64 encoded contents of user data supplied to the instance. Valid UTF-8 contents can be decoded with the [`base64decode` function][base64decode-function].

@@ -12,14 +12,13 @@ description: |-
 
 Provides information about a security group.
 
-This resource can be used when a module accepts the ID of a security group as
-an input variable and needs to, for example, determine the ID of the
-VPC that the security group belongs to.
+This data source can be used when a module accepts the ID of a security group as an input variable and needs to, for example, determine the ID of the VPC that owns the security group.
 
-## Example Usage
+## Example usage
 
-The following example shows how one might accept the ID of a security group as a variable
-and use this data source to obtain the data necessary to create a subnet.
+### Specific example
+
+The following example shows how to accept the ID of a security group as a variable and use this data source to obtain the data necessary to create a subnet.
 
 ```terraform
 variable "security_group_id" {}
@@ -34,31 +33,35 @@ resource "aws_subnet" "subnet" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
-The arguments of this data source act as filters for querying the available
-security group in the current region. The given filters must match exactly one
-security group whose data will be exported as attributes.
+The arguments of this data source act as filters for querying the available security group in the current region.
 
+~> **Note** The given filters must exactly match the resource whose data will be exported as attributes.
 
-* `filter` - (Optional) One or more name/value pairs to use as filters.
+* `filter` - (Optional, [Block](#filter)) One or more name/value pairs to use as filters.
     * _Valid values:_ See supported names and values in [EC2 API documentation][describe-security-groups]
-* `id` - (Optional) ID of the specific security group to retrieve.
-* `name` - (Optional) The name that the desired security group must have.
-* `tags` - (Optional) Map of tags, each pair of which must exactly match
-  a pair on the desired security group.
-* `vpc_id` - (Optional) The ID of the VPC that the desired security group belongs to.
+* `id` - (Optional, String) The ID of the specific security group to retrieve.
+* `name` - (Optional, String) The name that the desired security group must have.
 
-## Attribute Reference
+    -> **Info** The default security group for a VPC has the name `default`.
 
-All argument attributes except `filter` blocks are also exported as
-result attributes. This data source will complete the data by populating
-any fields that are not included in the configuration with the data for
-the selected security group.
+* `tags` - (Optional, Map of strings) Key-value pairs. Must exactly match pairs on the required resource.
+* `vpc_id` - (Optional, String) The ID of the VPC that owns the desired security group.
+
+### filter
+
+* `name` - (Required, String) The name of the filter.
+    * _Constraints:_ Filter names are case-sensitive
+* `values` - (Required, List of strings) One or more filter values.
+    * _Constraints:_ Filter values are case-sensitive
+
+## Attribute reference
+
+This data source will complete the data by populating any fields that are not included in the configuration with the data for the selected security group.
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` - The Amazon Resource Name (ARN) of the security group.
-* `description` - The description of the security group.
+* `arn` - (String) The Amazon Resource Name (ARN) of the security group.
+* `description` - (String) The description of the security group.
 
-~> **Note** The default security group for a VPC has the name `default`.

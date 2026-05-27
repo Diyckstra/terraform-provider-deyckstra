@@ -12,14 +12,13 @@ description: |-
 
 Provides information about a VPC.
 
-This resource can be useful when a module accepts the ID of a VPC as
-an input variable and needs to, for example, determine the CIDR block of that VPC.
+This data source can be used when a module accepts the ID of a VPC as an input variable and needs to, for example, determine the CIDR block of that VPC.
 
-## Example Usage
+## Example usage
 
-The following example shows how one might accept the ID of a VPC as a variable
-and use this data source to obtain the data necessary to create a subnet
-within it.
+### Specific example
+
+The following example shows how to accept the ID of a VPC as a variable and use this data source to obtain the data necessary to create a subnet within it.
 
 ```terraform
 variable "vpc_id" {}
@@ -35,42 +34,46 @@ resource "aws_subnet" "example" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
-The arguments of this data source act as filters for querying the available
-VPCs in the current region. The given filters must match exactly one
-VPC whose data will be exported as attributes.
+The arguments of this data source act as filters for querying available VPCs in the current region.
 
-* `cidr_block` - (Optional) The CIDR block of the desired VPC.
-* `dhcp_options_id` - (Optional) The ID of the DHCP options for the desired VPC.
-* `filter` - (Optional) One or more name/value pairs to use as filters.
+~> **Note** The given filters must exactly match the resource whose data will be exported as attributes.
+
+* `cidr_block` - (Optional, String) The CIDR block of the desired VPC.
+* `dhcp_options_id` - (Optional, String) The ID of the DHCP options set for the desired VPC.
+* `filter` - (Optional, [Block](#filter)) One or more name/value pairs to use as filters.
     * _Valid values:_ See supported names and values in [EC2 API documentation][describe-vpcs]
-* `id` - (Optional) The ID of the specific VPC to retrieve.
-* `state` - (Optional) The current state of the desired VPC.
-  Can be either `pending` or `available`.
-* `tags` - (Optional) Map of tags, each pair of which must exactly match
-  a pair on the desired VPC.
+* `id` - (Optional, String) The ID of the specific VPC to retrieve.
+* `state` - (Optional, String) The current state of the desired VPC.
+    * _Valid values:_ `available`, `pending`
+* `tags` - (Optional, Map of strings) Key-value pairs. Must exactly match pairs on the required resource.
 
-## Attribute Reference
+### filter
+
+* `name` - (Required, String) The name of the filter.
+    * _Constraints:_ Filter names are case-sensitive
+* `values` - (Required, List of strings) One or more filter values.
+    * _Constraints:_ Filter values are case-sensitive
+
+## Attribute reference
 
 ### Supported attributes
 
-All argument attributes except `filter` blocks are also exported as
-result attributes. This data source will complete the data by populating
-any fields that are not included in the configuration with the data for
-the selected VPC.
+This data source will complete the data by populating any fields that are not included in the configuration with the data for the selected VPC.
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` - The Amazon Resource Name (ARN) of VPC.
-* `enable_dns_support` - Whether the VPC has DNS support.
-* `main_route_table_id` - ID of the main route table associated with this VPC.
+* `arn` - (String) The Amazon Resource Name (ARN) of VPC.
+* `cidr_block_associations` - ([Block](#cidr_block_associations)) The IPv4 CIDR blocks associated with the VPC.
+* `enable_dns_support` - (Boolean) Indicates whether the VPC has DNS support.
+* `main_route_table_id` - (String) The ID of the main route table associated with this VPC.
 
-`cidr_block_associations` is also exported with the following attributes:
+#### cidr_block_associations
 
-* `association_id` - The association ID for the IPv4 CIDR block.
-* `cidr_block` - The CIDR block for the association.
-* `state` - The state of the association.
+* `association_id` - (String) The association ID for the IPv4 CIDR block.
+* `cidr_block` - (String) The CIDR block for the association.
+* `state` - (String) The state of the association.
 
 ### Unsupported attributes
 

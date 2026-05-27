@@ -12,9 +12,11 @@ description: |-
 
 Provides a list of network interface IDs matching the specified criteria.
 
-## Example Usage
+## Example usage
 
-The following shows all network interface IDs.
+### Basic examples
+
+The following example retrieves the IDs of all network interfaces.
 
 ```terraform
 data "aws_network_interfaces" "example" {}
@@ -24,7 +26,7 @@ output "example" {
 }
 ```
 
-The following example retrieves a list of all network interface IDs with a custom tag of `Name` set to a value of `test`.
+The following example retrieves the IDs of network interfaces with a custom `Name` tag set to `test`.
 
 ```terraform
 data "aws_network_interfaces" "example1" {
@@ -38,7 +40,7 @@ output "example1" {
 }
 ```
 
-The following example retrieves a network interface IDs which associated with specific subnet.
+The following example retrieves the IDs of network interfaces associated with the specific subnet.
 
 ```terraform
 data "aws_network_interfaces" "example2" {
@@ -53,16 +55,23 @@ output "example2" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
-* `filter` - (Optional) One or more name/value pairs to use as filters.
+* `filter` - (Optional, [Block](#filter)) One or more name/value pairs to use as filters.
     * _Valid values:_ See supported names and values in [EC2 API documentation][describe-network-interfaces]
-* `tags` - (Optional) Map of tags, each pair of which must exactly match
-  a pair on the desired network interfaces.
+* `tags` - (Optional, Map of strings) Key-value pairs. Must exactly match pairs on the required resources.
 
-## Attribute Reference
+### filter
+
+* `name` - (Required, String) The name of the filter.
+    * _Constraints:_ Filter names are case-sensitive
+* `values` - (Required, List of strings) One or more filter values.
+    * _Constraints:_ Filter values are case-sensitive
+
+## Attribute reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `id` - The region.
-* `ids` - A list of all the network interface IDs found.
+* `id` - (String) The region.
+    * _Example:_ `ru-spb`
+* `ids` - (List of strings) The list of all the network interface IDs found.

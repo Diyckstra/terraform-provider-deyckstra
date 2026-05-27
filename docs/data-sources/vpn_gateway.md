@@ -45,4 +45,4 @@ The given filters must match exactly one VPN gateway whose data will be exported
 
 ## Attribute Reference
 
-All the argument attributes are also exported as result attributes.
+All aare also exported as result attributes.

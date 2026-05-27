@@ -10,7 +10,9 @@ description: |-
 
 Manages a VPC DHCP options association.
 
-## Example Usage
+## Example usage
+
+### Basic example
 
 ```terraform
 resource "aws_vpc" "example" {
@@ -27,28 +29,33 @@ resource "aws_vpc_dhcp_options_association" "example" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
 The following arguments are supported:
 
-* `vpc_id` - (Required) ID of the VPC to which we would like to associate a DHCP options set.
-* `dhcp_options_id` - (Required) ID of the DHCP options set to associate to the VPC.
+* `dhcp_options_id` - (Required, Editable, String) The ID of the DHCP options set to associate to the VPC.
+* `vpc_id` - (Required, Forces new resource, String) The ID of the VPC to associate with the DHCP options set.
 
-## Remarks
+## Notes
 
 * You can only associate one DHCP options set to a given VPC ID.
-* Removing the DHCP options association automatically sets `default` DHCP options set to the VPC.
+* Removing the DHCP options association automatically sets the `default` DHCP options set to the VPC.
 
-## Attribute Reference
+## Attribute reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `id` - ID of the DHCP options set association.
+* `id` - (String) Consists of the ID of the DHCP options set and VPC ID separated by the hyphen.
+    * _Example:_ `dopt-12345678-vpc-12345678`
+
+## Timeouts
+
+Timeouts usage for the DHCP options associations is not currently supported.
 
 ## Import
 
-DHCP associations can be imported by providing the VPC ID associated with the options:
+DHCP associations can be imported by providing the VPC ID associated with the DHCP options set:
 
 ```
-$ terraform import aws_vpc_dhcp_options_association.imported vpc-CFE7ADB5
+$ terraform import aws_vpc_dhcp_options_association.example vpc-12345678
 ```

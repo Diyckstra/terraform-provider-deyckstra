@@ -14,9 +14,9 @@ description: |-
 Manages a VPC.
 For more information, see the documentation on [VPC][vpc].
 
-## Example Usage
+## Example usage
 
-Basic usage:
+### Basic example
 
 ```terraform
 resource "aws_vpc" "main" {
@@ -24,7 +24,7 @@ resource "aws_vpc" "main" {
 }
 ```
 
-Basic usage with tags:
+### Basic example with tags
 
 ```terraform
 resource "aws_vpc" "main" {
@@ -36,29 +36,29 @@ resource "aws_vpc" "main" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
 The following arguments are supported:
 
-* `cidr_block` - (Optional) The IPv4 CIDR block for the VPC.
-* `enable_dns_support` - (Optional) A boolean flag to enable/disable DNS support in the VPC. Defaults true.
-* `tags` - (Optional) Map of tags to assign to the VPC. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
+* `cidr_block` - (Optional, Forces new resource, String) The IPv4 CIDR block for the VPC.
+* `enable_dns_support` - (Optional, Editable, Boolean) The flag to enable or disable the DNS support in the VPC.
+    * _Default value:_ `true`
+* `tags` - (Optional, Editable, Map of strings) Key-value pairs to assign to the resource. If the [`default_tags` configuration block][default-tags] block is used within a provider configuration, the tags with matching keys will overwrite those defined at the provider level.
 
-## Attribute Reference
+## Attribute reference
 
 ### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` - The Amazon Resource Name (ARN) of the VPC.
-* `id` - The ID of the VPC.
-* `main_route_table_id` - The ID of the main route table associated with
-     this VPC. Note that you can change a VPC's main route table by using an
-     [`aws_main_route_table_association`](main_route_table_association.md).
-* `default_network_acl_id` - The ID of the network ACL created by default on VPC creation.
-* `default_security_group_id` - The ID of the security group created by default on VPC creation.
-* `default_route_table_id` - The ID of the route table created by default on VPC creation.
-* `tags_all` - Map of tags assigned to the VPC, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `arn` - (String) The Amazon Resource Name (ARN) of the VPC.
+* `default_network_acl_id` - (String) The ID of the network ACL created by default on VPC creation.
+* `default_route_table_id` - (String) The ID of the route table created by default on VPC creation.
+* `default_security_group_id` - (String) The ID of the security group created by default on VPC creation.
+* `dhcp_options_id` - (String) The ID of the DHCP options set associated to the VPC.
+* `id` - (String) The ID of the VPC.
+* `main_route_table_id` - (String) The ID of the main route table associated with this VPC. Note that you can change a VPC's main route table by using an [`aws_main_route_table_association`](main_route_table_association.md).
+* `tags_all` - (Map of strings) Key-value pairs assigned to the resource, including any tags inherited from the [`default_tags` configuration block][default-tags] if used within a provider configuration.
 
 ### Unsupported attributes
 
@@ -68,9 +68,13 @@ The following attributes are not currently supported:
 
 `assign_generated_ipv6_cidr_block`, `enable_classiclink`, `enable_classiclink_dns_support`, `enable_dns_hostnames`, `instance_tenancy`, `ipv4_ipam_pool_id`, `ipv4_netmask_length`, `ipv6_association_id`, `ipv6_cidr_block`, `ipv6_cidr_block_network_border_group`, `ipv6_ipam_pool_id`, `ipv6_netmask_length`, `owner_id`.
 
+## Timeouts
+
+Timeouts usage for VPCs is not currently supported.
+
 ## Import
 
-VPCs can be imported using the `vpc id`, e.g.,
+VPCs can be imported using the `id`, for example:
 
 ```
 $ terraform import aws_vpc.test_vpc vpc-12345678

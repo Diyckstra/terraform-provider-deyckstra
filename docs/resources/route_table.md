@@ -15,22 +15,24 @@ description: |-
 
 Creates a VPC routing table.
 
-~> **Note on Route Tables and Routes:** Terraform currently
-provides both a standalone [`aws_route` resource](route.md) and a Route Table resource with routes
-defined in-line. At this time you cannot use a route table with in-line routes
+~> **Note on route tables and routes** Terraform currently
+provides both a standalone [`aws_route` resource](route.md) and a route table resource with routes
+defined inline. At this time you cannot use a route table with inline routes
 in conjunction with any route resources. Doing so will cause
 a conflict of rule settings and will overwrite rules.
 
-~> **Note on `propagating_vgws` and the `aws_vpn_gateway_route_propagation` resource:**
+~> **Note on `propagating_vgws` and the `aws_vpn_gateway_route_propagation` resource**
 If the `propagating_vgws` argument is present, it's not supported to _also_
 define route propagations using [`aws_vpn_gateway_route_propagation`](vpn_gateway_route_propagation.md), since
 this resource will delete any propagating gateways not explicitly listed in
 `propagating_vgws`. Omit this argument when defining route propagation using
 the separate resource.
 
-For more information, see the documentation on [Route Tables][route-tables].
+For more information about route tables, see the documentation on [Route tables][route-tables].
 
-## Example Usage
+## Example usage
+
+### Basic example
 
 ```terraform
 resource "aws_vpc" "example" {
@@ -61,7 +63,9 @@ resource "aws_route_table" "example" {
 }
 ```
 
-To subsequently remove all managed routes:
+### Specific example: removing all managed routes subsequently
+
+~> **Note** This example deletes routes created in the [example above](#basic-example).
 
 ```terraform
 resource "aws_route_table" "example" {
@@ -75,32 +79,36 @@ resource "aws_route_table" "example" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
-The following arguments are supported:
+The following arguments are required:
 
-* `vpc_id` - (Required) ID of the VPC.
-* `route` - (Optional) A list of route objects. Their keys are documented below. This argument is processed in [attribute-as-blocks mode][attribute-as-blocks]).
-This means that omitting this argument is interpreted as ignoring any existing routes. To remove all managed routes an empty list should be specified. See the example above.
-* `tags` - (Optional) Map of tags to assign to the route table. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
-* `propagating_vgws` - (Optional) A list of virtual gateways for propagation.
+* `vpc_id` - (Required, Forces new resource, String) The ID of the VPC.
 
-### route Argument Reference
+The following arguments are optional:
 
-This argument is processed in [attribute-as-blocks mode][attribute-as-blocks].
+* `propagating_vgws` - (Optional, List of strings) The list of virtual gateways for propagation.
+* `route` - (Optional, [Block](#route)) One or more route objects. This argument is processed in [attribute-as-blocks mode][attribute-as-blocks].
+It means that omitting this argument is interpreted as ignoring any existing routes. To remove all managed routes an empty list should be specified. See the [example above](#specific-example-removing-all-managed-routes-subsequently).
+* `tags` - (Optional, Map of strings) Key-value pairs to assign to the resource. If a provider [default_tags configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
-One of the following destination arguments must be supplied:
+### route
 
-* `cidr_block` - (Required) The CIDR block of the route.
+The following destination argument must be supplied:
+
+* `cidr_block` - (Required, Editable, String) The CIDR block of the route.
 
 One of the following target arguments must be supplied:
 
-* `gateway_id` - (Optional) The ID of an internet gateway.
-* `instance_id` - (Optional) The ID of an EC2 instance.
-* `network_interface_id` - (Optional) The ID of an EC2 network interface.
-* `transit_gateway_id` - (Optional) The ID of the transit gateway.
+* `gateway_id` - (Optional, Editable, String) The ID of an internet gateway.
+* `network_interface_id` - (Optional, Editable, String) The ID of the network interface.
+* `transit_gateway_id` - (Optional, Editable, String) The ID of the transit gateway.
 
-## Attributes Reference
+This argument is **deprecated** and should not be used:
+
+* `instance_id` - (Optional, Editable, String) The ID of the instance. Use `network_interface_id` instead.
+
+## Attribute reference
 
 ### Supported attributes
 
@@ -109,17 +117,17 @@ In addition to all arguments above, the following attributes are exported:
 ~> **Note** Only the target that is entered is exported as a readable
 attribute once the route resource is created.
 
-* `id` - The ID of the route table.
-* `arn` - The Amazon Resource Name (ARN) of the route table.
-* `tags_all` - Map of tags assigned to the route table, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `arn` - (String) The Amazon Resource Name (ARN) of the route table.
+* `id` - (String) The ID of the route table.
+* `tags_all` - (Map of strings) Key-value pairs assigned to the resource, including any tags inherited from the provider [default_tags configuration block][default-tags].
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 
-`carrier_gateway_id`, `destination_prefix_list_id`, `ipv6_cidr_block`, `owner_id`, `route.core_network_arn`, `route.egress_only_gateway_id`, `route.nat_gateway_id`, `route.vpc_endpoint_id`, `route.vpc_peering_connection_id`.
+`owner_id`, `route.carrier_gateway_id`, `route.core_network_arn`, `route.destination_prefix_list_id`, `route.egress_only_gateway_id`, `route.ipv6_cidr_block`, `route.nat_gateway_id`, `route.vpc_endpoint_id`, `route.vpc_peering_connection_id`.
 
 ## Timeouts
 
@@ -131,8 +139,7 @@ The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 ## Import
 
-Route Tables can be imported using the route table `id`. For example, to import
-route table `rtb-12345678`, use this command:
+Route tables can be imported using the route table `id`, for example:
 
 ```
 $ terraform import aws_route_table.example rtb-12345678
