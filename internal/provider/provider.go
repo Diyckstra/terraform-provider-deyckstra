@@ -1639,6 +1639,8 @@ func Provider() *schema.Provider {
 			"aws_paas_backup":  paas.ResourceBackup(),
 			"aws_paas_service": paas.ResourceService(),
 
+			"aws_paas_kafka_topic": paas.ResourceKafkaTopic(),
+
 			"aws_s3_bucket": s3.ResourceBucket(),
 			// "aws_s3_bucket_accelerate_configuration":             s3.ResourceBucketAccelerateConfiguration(),
 			"aws_s3_bucket_acl": s3.ResourceBucketAcl(),

@@ -40,11 +40,19 @@ func ResourceService() *schema.Resource {
 			Delete: schema.DefaultTimeout(15 * time.Minute),
 		},
 
+		CustomizeDiff: validateKafkaServiceConfiguration,
+
 		Schema: map[string]*schema.Schema{
-			"available_environment_versions": {
-				Type:     schema.TypeSet,
-				Computed: true,
-				Elem:     &schema.Schema{Type: schema.TypeString},
+			"additional_roles": {
+				Type:     schema.TypeList,
+				Optional: true,
+				ForceNew: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+					// K2 PaaS Kafka currently exposes only the coordinator role here.
+					ValidateFunc: validation.StringInSlice([]string{"coordinator"}, false),
+				},
+				ConflictsWith: []string{"coordinator"},
 			},
 			"arbitrator_required": {
 				Type:     schema.TypeBool,
@@ -53,6 +61,11 @@ func ResourceService() *schema.Resource {
 				Default:  false,
 			},
 			"auto_created_security_group_ids": {
+				Type:     schema.TypeSet,
+				Computed: true,
+				Elem:     &schema.Schema{Type: schema.TypeString},
+			},
+			"available_environment_versions": {
 				Type:     schema.TypeSet,
 				Computed: true,
 				Elem:     &schema.Schema{Type: schema.TypeString},
@@ -93,6 +106,52 @@ func ResourceService() *schema.Resource {
 						"user_login": {
 							Type:     schema.TypeString,
 							Optional: true,
+						},
+					},
+				},
+			},
+			"coordinator": {
+				Type:          schema.TypeList,
+				Optional:      true,
+				ForceNew:      true,
+				MaxItems:      1,
+				ConflictsWith: []string{"additional_roles"},
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"data_volume_iops": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							ForceNew: true,
+						},
+						"data_volume_size": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							ForceNew: true,
+						},
+						"data_volume_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
+						"instance_type": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"root_volume_iops": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							ForceNew: true,
+						},
+						"root_volume_size": {
+							Type:     schema.TypeInt,
+							Required: true,
+							ForceNew: true,
+						},
+						"root_volume_type": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
 						},
 					},
 				},
@@ -362,6 +421,7 @@ func ResourceService() *schema.Resource {
 				Computed: true,
 			},
 			services.ElasticSearch.ServiceType(): services.ElasticSearch.ResourceSchema(),
+			services.Kafka.ServiceType():         services.Kafka.ResourceSchema(),
 			services.Memcached.ServiceType():     services.Memcached.ResourceSchema(),
 			services.MongoDB.ServiceType():       services.MongoDB.ResourceSchema(),
 			services.MySQL.ServiceType():         services.MySQL.ResourceSchema(),
@@ -389,8 +449,28 @@ func resourceServiceCreate(ctx context.Context, d *schema.ResourceData, meta int
 		input.RootVolumeIops = aws.Int64(int64(d.Get("root_volume.0.iops").(int)))
 	}
 
-	if v, ok := d.GetOk("arbitrator_required"); ok {
-		input.ArbitratorRequired = aws.Bool(v.(bool))
+	// For services that support arbitrator_required, send an explicit boolean.
+	// For unsupported services (e.g. kafka), omit the field entirely.
+	manager := serviceManager(d)
+
+	if manager == nil {
+		return diag.Errorf("PaaS Service configuration error: unknown service")
+	}
+
+	if manager.Service().AllowArbitrator() {
+		// Send explicit boolean only for services that support arbitrator_required.
+		input.ArbitratorRequired = aws.Bool(d.Get("arbitrator_required").(bool))
+	}
+
+	if v, ok := d.GetOk("additional_roles"); ok {
+		input.AdditionalRoles = flex.ExpandStringList(v.([]interface{}))
+	}
+
+	if v, ok := d.GetOk("coordinator"); ok {
+		coordList := v.([]interface{})
+		if len(coordList) > 0 && coordList[0] != nil {
+			input.Coordinator = expandCoordinator(coordList[0].(map[string]interface{}))
+		}
 	}
 
 	if v, ok := d.GetOk("backup_settings"); ok {
@@ -411,12 +491,6 @@ func resourceServiceCreate(ctx context.Context, d *schema.ResourceData, meta int
 		input.NetworkInterfaceIds = flex.ExpandStringSet(v.(*schema.Set))
 	} else {
 		input.SubnetIds = flex.ExpandStringSet(d.Get("subnet_ids").(*schema.Set))
-	}
-
-	manager := serviceManager(d)
-
-	if manager == nil {
-		return diag.Errorf("PaaS Service configuration error: unknown service")
 	}
 
 	input.ServiceType = aws.String(manager.ServiceType())
@@ -501,6 +575,12 @@ func resourceServiceRead(ctx context.Context, d *schema.ResourceData, meta inter
 	d.Set("nodes", flattenNodes(service.Nodes))
 
 	d.Set("name", service.Name)
+	if err := d.Set("additional_roles", flattenServiceAdditionalRoles(service)); err != nil {
+		return diag.Errorf("error setting additional_roles: %s", err)
+	}
+	if err := d.Set("coordinator", flattenServiceCoordinator(service)); err != nil {
+		return diag.Errorf("error setting coordinator: %s", err)
+	}
 
 	d.Set("network_interface_ids", service.NetworkInterfaceIds)
 
@@ -993,4 +1073,73 @@ func flattenInstanceEndpoints(endpoints []*paas.InstanceEndpoint) []map[string]i
 	}
 
 	return tfList
+}
+
+func expandCoordinator(tfMap map[string]interface{}) *paas.NodeRequest {
+	if tfMap == nil {
+		return nil
+	}
+
+	nodeRequest := &paas.NodeRequest{
+		InstanceType:   aws.String(tfMap["instance_type"].(string)),
+		RootVolumeType: aws.String(tfMap["root_volume_type"].(string)),
+		RootVolumeSize: aws.Int64(int64(tfMap["root_volume_size"].(int))),
+	}
+
+	if v, ok := tfMap["root_volume_iops"].(int); ok && v > 0 {
+		nodeRequest.RootVolumeIops = aws.Int64(int64(v))
+	}
+
+	if v, ok := tfMap["data_volume_type"].(string); ok && v != "" {
+		nodeRequest.DataVolumeType = aws.String(v)
+	}
+
+	if v, ok := tfMap["data_volume_size"].(int); ok && v > 0 {
+		nodeRequest.DataVolumeSize = aws.Int64(int64(v))
+	}
+
+	if v, ok := tfMap["data_volume_iops"].(int); ok && v > 0 {
+		nodeRequest.DataVolumeIops = aws.Int64(int64(v))
+	}
+
+	return nodeRequest
+}
+
+func flattenServiceAdditionalRoles(service *paas.Service) []string {
+	if service == nil || service.Nodes == nil || service.Nodes.Main == nil {
+		return nil
+	}
+
+	// Dedicated coordinator nodes are represented explicitly by nodes.coordinator.
+	if service.Nodes.Coordinator != nil {
+		return nil
+	}
+
+	for _, role := range strings.Split(aws.StringValue(service.Nodes.Main.Role), ",") {
+		if strings.TrimSpace(role) == "coordinator" {
+			return []string{"coordinator"}
+		}
+	}
+
+	return nil
+}
+
+func flattenServiceCoordinator(service *paas.Service) []map[string]interface{} {
+	if service == nil || service.Nodes == nil || service.Nodes.Coordinator == nil {
+		return nil
+	}
+
+	node := service.Nodes.Coordinator
+
+	return []map[string]interface{}{
+		{
+			"data_volume_iops": aws.Int64Value(node.DataVolumeIops),
+			"data_volume_size": aws.Int64Value(node.DataVolumeSize),
+			"data_volume_type": aws.StringValue(node.DataVolumeType),
+			"instance_type":    aws.StringValue(node.InstanceType),
+			"root_volume_iops": aws.Int64Value(node.RootVolumeIops),
+			"root_volume_size": aws.Int64Value(node.RootVolumeSize),
+			"root_volume_type": aws.StringValue(node.RootVolumeType),
+		},
+	}
 }

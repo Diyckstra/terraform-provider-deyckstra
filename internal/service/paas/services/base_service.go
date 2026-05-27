@@ -90,6 +90,11 @@ func (s service) ServiceType() string {
 	return s.name
 }
 
+// AllowArbitrator reports whether the service type supports arbitrator_required on create.
+func (s service) AllowArbitrator() bool {
+	return s.allowArbitrator
+}
+
 // toInterface returns implementation of ServiceManager for specified service type.
 // It is used to call overridden methods in ServiceManager implementations.
 func (s service) toInterface() ServiceManager {
