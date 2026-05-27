@@ -50,6 +50,7 @@ In addition to all arguments above, the following attributes are exported:
 * `service_class` - The service class.
 * `service_type` - The service type. This value determines which service parameters are included in the corresponding block.
     * `elasticsearch` - Elasticsearch parameters. The structure of this block is [described below](#elasticsearch-attribute-reference).
+    * `kafka` - Kafka parameters. The structure of this block is [described below](#kafka-attribute-reference).
     * `memcached` - Memcached parameters. The structure of this block is [described below](#memcached-attribute-reference).
     * `mongodb` - MongoDB parameters. The structure of this block is [described below](#mongodb-attribute-reference).
     * `mysql` - MySQL parameters. The structure of this block is [described below](#mysql-attribute-reference).
@@ -344,6 +345,19 @@ The `user` block has the following structure:
 * `id` - The ID of the user.
 * `name` - The PostgreSQL user name.
 * `password` - The PostgreSQL user password.
+
+## Kafka Attribute Reference
+
+~> **Note** The following attributes contain default parameter values or user-defined values used when the service is created.
+
+In addition to the common attributes for all services [described above](#attribute-reference),
+the following attributes are exported only for a Kafka service:
+
+* `class` - The service class.
+* `logging` - The logging settings for the service. The structure of this block is [described below](#logging).
+* `monitoring` - The monitoring settings for the service. The structure of this block is [described below](#monitoring).
+* `options` - Other Kafka parameters.
+* `version` - The installed version.
 
 ## RabbitMQ Attribute Reference
 

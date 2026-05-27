@@ -16,16 +16,19 @@ description: |-
 [doc-transaction_isolation]: https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_transaction_isolation
 
 [elasticsearch-version]: https://docs.k2.cloud/en/api/paas/parameters/elasticsearch.html#version
+[internet gateway]: https://docs.k2.cloud/en/services/networking/igw.html
 [mongodb-version]: https://docs.k2.cloud/en/api/paas/parameters/mongodb.html#version
 [mysql-version]: https://docs.k2.cloud/en/api/paas/parameters/mysql.html#version
 [paas]: https://docs.k2.cloud/en/services/paas/index.html
 [pgsql-version]: https://docs.k2.cloud/en/api/paas/parameters/pgsql.html#version
+[kafka-version]: https://docs.k2.cloud/en/api/paas/parameters/kafka.html#version
 [rabbitmq-version]: https://docs.k2.cloud/en/api/paas/parameters/rabbitmq.html#version
 [redis-version]: https://docs.k2.cloud/en/api/paas/parameters/redis.html#version
 [technical support]: https://support.k2int.ru/app/#/project/CS
 [timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
 
 [Elasticsearch]: #elasticsearch-argument-reference
+[Kafka]: #kafka-argument-reference
 [Memcached]: #memcached-argument-reference
 [MongoDB]: #mongodb-argument-reference
 [MySQL]: #mysql-argument-reference
@@ -36,6 +39,8 @@ description: |-
 # Resource: aws_paas_service
 
 Manages a PaaS service. For details about PaaS, see the [user documentation][paas].
+
+~> **Note** A PaaS service requires the VPC to have an [internet gateway] with a default route to it (`0.0.0.0/0`); otherwise creating the service fails with `InvalidNetworkConfigurations`. The minimal examples below do not create these resources.
 
 ## Example Usage
 
@@ -349,6 +354,50 @@ resource "aws_paas_service" "pgsql" {
 }
 ```
 
+### Kafka Service
+
+~> **Note** This example uses the VPC and subnet defined in the [Elasticsearch Service example](#elasticsearch-service).
+
+~> **Note** Kafka always requires a coordinator role. For HA clusters, use either a dedicated `coordinator` block (shown below) or `additional_roles = ["coordinator"]` for combined broker+coordinator nodes.
+
+```terraform
+resource "aws_paas_service" "kafka" {
+  name              = "tf-service"
+  high_availability = true
+  instance_type     = "c5.large"
+
+  root_volume {
+    type = "gp2"
+    size = 32
+  }
+
+  data_volume {
+    type = "gp2"
+    size = 64
+  }
+
+  delete_interfaces_on_destroy = true
+  security_group_ids           = [aws_vpc.example.default_security_group_id]
+  subnet_ids                   = [aws_subnet.example.id]
+
+  ssh_key_name = "<name>"
+
+  coordinator {
+    instance_type    = "c5.large"
+    root_volume_type = "gp2"
+    root_volume_size = 32
+    data_volume_type = "gp2"
+    data_volume_size = 64
+  }
+
+  kafka {
+    version = "3.7.0"
+  }
+}
+```
+
+To create topics in this service, use the [aws_paas_kafka_topic](paas_kafka_topic.md) resource.
+
 ### RabbitMQ Service
 
 ~> **Note** This example uses the VPC and subnet defined in the [Elasticsearch Service example](#elasticsearch-service).
@@ -436,14 +485,19 @@ resource "aws_paas_service" "redis" {
     * _Default value:_ `false`
     * _Constraints:_ The parameter can be set to `true` only if `high_availability` is `true`.
       The parameter is supported only for [Elasticsearch], [MongoDB], [MySQL] and [PostgreSQL] services.
+* `additional_roles` - (Optional, ForceNew) Additional roles for broker nodes.
+    * _Valid values:_ `coordinator`
+    * _Constraints:_ Supported only for [Kafka]. Cannot be used together with `coordinator`.
 * `backup_settings` - (Optional) The backup settings for the service. The structure of this block is [described below](#backup_settings).
   The parameter is supported only for [MySQL] and [PostgreSQL] services.
+* `coordinator` - (Optional, ForceNew) Dedicated coordinator node parameters. The structure of this block is [described below](#coordinator).
+    * _Constraints:_ Supported only for [Kafka]. Cannot be used together with `additional_roles`.
 * `data_volume` - (Optional) The data volume parameters for the service. The structure of this block is [described below](#data_volume).
-  The parameter is required for [Elasticsearch], [Memcached], [MongoDB], [MySQL], [PostgreSQL], [RabbitMQ] and [Redis] services.
+  The parameter is required for [Elasticsearch], [Kafka], [Memcached], [MongoDB], [MySQL], [PostgreSQL], [RabbitMQ] and [Redis] services.
 * `delete_interfaces_on_destroy` - (Optional) Indicates whether to delete the instance network interfaces when the service is destroyed.
     * _Default value:_ `false`
 * `high_availability` - (Optional) Indicates whether to create a high availability service.
-  The parameter is supported only for [Elasticsearch], [MongoDB], [MySQL], [PostgreSQL], [RabbitMQ] and [Redis] services.
+  The parameter is supported only for [Elasticsearch], [Kafka], [MongoDB], [MySQL], [PostgreSQL], [RabbitMQ] and [Redis] services.
     * _Default value:_ `false`
 * `instance_type` - (Required) The instance type.
 * `name` - (Required) The service name. The value must start and end with a Latin letter or number and
@@ -464,6 +518,7 @@ resource "aws_paas_service" "redis" {
 One of the following blocks with service parameters must be specified:
 
 * `elasticsearch` - Elasticsearch parameters. The structure of this block is [described below](#elasticsearch-argument-reference).
+* `kafka` - Kafka parameters. The structure of this block is [described below](#kafka-argument-reference).
 * `memcached` - Memcached parameters. The structure of this block is [described below](#memcached-argument-reference).
 * `mongodb` - MongoDB parameters. The structure of this block is [described below](#mongodb-argument-reference).
 * `mysql` - MySQL parameters. The structure of this block is [described below](#mysql-argument-reference).
@@ -497,8 +552,24 @@ The `data_volume` block has the following structure:
   The parameter must be set if `type` is `io2`.
 * `size` - (Optional) The size of the data volume in GiB.
     * _Default value:_ `32`
+    * _Constraints:_ For [Kafka], the minimum value is `64`
 * `type` - (Optional) The type of the data volume.
     * _Default value:_ `st2`
+
+### coordinator
+
+The `coordinator` block has the following structure:
+
+* `data_volume_iops` - (Optional) The number of read/write operations per second for the coordinator data volume.
+  The parameter must be set if `data_volume_type` is `io2`.
+* `data_volume_size` - (Optional) The size of the coordinator data volume in GiB.
+    * _Constraints:_ For [Kafka], set this to at least `64`
+* `data_volume_type` - (Optional) The type of the coordinator data volume.
+* `instance_type` - (Required) The instance type for coordinator nodes.
+* `root_volume_iops` - (Optional) The number of read/write operations per second for the coordinator root volume.
+  The parameter must be set if `root_volume_type` is `io2`.
+* `root_volume_size` - (Required) The size of the coordinator root volume in GiB.
+* `root_volume_type` - (Required) The type of the coordinator root volume.
 
 ### root_volume
 
@@ -882,6 +953,39 @@ The `user` block has the following structure:
 
 * `name` - (Required) The PostgreSQL user name.
 * `password` - (Required) The PostgreSQL user password. The value must not contain `'`, `"`, `` ` `` and `\`.
+
+## Kafka Argument Reference
+
+In addition to the common arguments for all services [described above](#argument-reference),
+the `kafka` block can contain the following arguments:
+
+* `class` - (Optional) The service class.
+    * _Valid values:_ `message_broker`
+    * _Default value:_ `message_broker`
+* `logging` - (Optional, Editable) The logging settings for the service. The structure of this block is [described below](#logging).
+* `monitoring` - (Optional, Editable) The monitoring settings for the service. The structure of this block is [described below](#monitoring).
+* `options` - (Optional, Editable) Map containing other Kafka parameters.
+  Parameter names must be in camelCase. Values can be strings, numbers, or booleans.
+
+~> **Note** If a parameter name includes a dot, it cannot be passed in the `options`.
+If you need to use such a parameter, contact [technical support].
+
+* `version` - (Required) The version to install.
+  The list of supported versions is available in the [user documentation][kafka-version].
+
+### Kafka options example
+
+```terraform
+kafka {
+  version = "3.7.0"
+
+  options = {
+    autoCreateTopicsEnable      = true
+    uncleanLeaderElectionEnable = false
+    logRetentionHours           = 168
+  }
+}
+```
 
 ## RabbitMQ Argument Reference
 
