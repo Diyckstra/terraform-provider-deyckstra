@@ -13,12 +13,19 @@ func DataSourceService() *schema.Resource {
 		ReadContext: dataSourceServiceRead,
 
 		Schema: map[string]*schema.Schema{
-			"available_environment_versions": {
+			"additional_roles": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"auto_created_security_group_ids": {
 				Type:     schema.TypeSet,
 				Computed: true,
 				Elem:     &schema.Schema{Type: schema.TypeString},
 			},
-			"auto_created_security_group_ids": {
+			"available_environment_versions": {
 				Type:     schema.TypeSet,
 				Computed: true,
 				Elem:     &schema.Schema{Type: schema.TypeString},
@@ -53,6 +60,42 @@ func DataSourceService() *schema.Resource {
 							Computed: true,
 						},
 						"user_login": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"coordinator": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"data_volume_iops": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"data_volume_size": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"data_volume_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"instance_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"root_volume_iops": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"root_volume_size": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"root_volume_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -245,9 +288,10 @@ func DataSourceService() *schema.Resource {
 				Computed: true,
 			},
 			services.ElasticSearch.ServiceType(): services.ElasticSearch.DataSourceSchema(),
+			services.Kafka.ServiceType():         services.Kafka.DataSourceSchema(),
 			services.Memcached.ServiceType():     services.Memcached.DataSourceSchema(),
-			services.MySQL.ServiceType():         services.MySQL.DataSourceSchema(),
 			services.MongoDB.ServiceType():       services.MongoDB.DataSourceSchema(),
+			services.MySQL.ServiceType():         services.MySQL.DataSourceSchema(),
 			services.PostgreSQL.ServiceType():    services.PostgreSQL.DataSourceSchema(),
 			services.RabbitMQ.ServiceType():      services.RabbitMQ.DataSourceSchema(),
 			services.Redis.ServiceType():         services.Redis.DataSourceSchema(),

@@ -89,6 +89,7 @@ nav:
     - Data Sources:
       - aws_eks_cluster: data-sources/eks_cluster.md
       - aws_eks_cluster_auth: data-sources/eks_cluster_auth.md
+      - aws_eks_cluster_kubeconfig: data-sources/eks_cluster_kubeconfig.md
       - aws_eks_clusters: data-sources/eks_clusters.md
       - aws_eks_node_group: data-sources/eks_node_group.md
       - aws_eks_node_groups: data-sources/eks_node_groups.md
@@ -125,6 +126,7 @@ nav:
   - PaaS:
     - Resources:
       - aws_paas_backup: resources/paas_backup.md
+      - aws_paas_kafka_topic: resources/paas_kafka_topic.md
       - aws_paas_service: resources/paas_service.md
     - Data Sources:
       - aws_paas_backup: data-sources/paas_backup.md

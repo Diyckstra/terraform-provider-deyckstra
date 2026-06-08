@@ -7,6 +7,7 @@ import (
 
 const (
 	ServiceTypeElasticSearch = "elasticsearch"
+	ServiceTypeKafka         = "kafka"
 	ServiceTypeMemcached     = "memcached"
 	ServiceTypeMongoDB       = "mongodb"
 	ServiceTypeMySQL         = "mysql"
@@ -18,6 +19,7 @@ const (
 func ServiceTypeValues() []string {
 	return []string{
 		ServiceTypeElasticSearch,
+		ServiceTypeKafka,
 		ServiceTypeMemcached,
 		ServiceTypeMongoDB,
 		ServiceTypeMySQL,
@@ -94,6 +96,7 @@ func parseBytes(value int64, dimension string) (int64, error) {
 // Map with ServiceManager objects for each supported PaaS service.
 var managers = map[string]ServiceManager{
 	ElasticSearch.ServiceType(): ElasticSearch,
+	Kafka.ServiceType():         Kafka,
 	Memcached.ServiceType():     Memcached,
 	MongoDB.ServiceType():       MongoDB,
 	MySQL.ServiceType():         MySQL,
