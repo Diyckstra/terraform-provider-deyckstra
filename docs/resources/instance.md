@@ -8,7 +8,7 @@ description: |-
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 [provisioning]: https://www.terraform.io/docs/provisioners/index.html
-[timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
+[timeouts]: https://developer.hashicorp.com/terraform/plugin/framework/resources/timeouts
 
 # Resource: aws_instance
 
@@ -97,9 +97,11 @@ The following arguments are supported:
   If an image is specified in the launch template, the `ami` setting will override it.
     * _Constraints:_ Required unless `launch_template` is specified
 * `associate_public_ip_address` - (Optional) Indicates whether to associate a public IP address with an instance in a VPC.
-    * _Constraints:_ Conflicts with `network_interface`
-      The address will be assigned to the `eth0` interface only if there are free allocated external addresses.
-      This operation is available only for instances running in the VPC and for new network interfaces
+    * _Constraints:_ Conflicts with the `network_interface` argument
+
+    ~> **Note** The address will be assigned to the `eth0` interface only if there are free allocated external addresses.
+    This operation is available only for instances running in the VPC and for new network interfaces.
+
 * `availability_zone` - (Optional) An availability zone to start the instance in.
 * `disable_api_termination` - (Optional) If `true`, disables the possibility to terminate an instance via API.
 * `ebs_block_device` - (Optional) One or more configuration blocks with additional EBS block devices to attach to the instance. The structure of this block and details on drift detection are [described below](#ebs_block_device). When accessing this as an attribute reference, it is a set of objects.
@@ -114,14 +116,15 @@ The following arguments are supported:
   The structure of this block is [described below](#launch_template).
 * `monitoring` - (Optional) If `true`, the launched EC2 instance will have detailed monitoring enabled.
 * `network_interface` - (Optional) Customize network interfaces to be attached at instance boot time. The structure of this block is [described below](#network_interface).
-    * _Constraints:_ Conflicts with `associate_public_ip_address`, `private_ip`, `secondary_private_ips`, `subnet_id`, `vpc_security_group_ids`
+    * _Constraints:_ Conflicts with `associate_public_ip_address`, `private_ip`, `secondary_private_ips`, `subnet_id`, `vpc_security_group_ids` arguments
 * `placement_group` - (Optional) Placement group to start the instance in.
 * `private_ip` - (Optional) Private IP address to associate with the instance in a VPC.
-    * _Constraints:_ Conflicts with `network_interface`
+    * _Constraints:_ Conflicts with the `network_interface` argument
 * `root_block_device` - (Optional) Root block device of the instance. The structure of this block is [described below](#root_block_device). When accessing this as an attribute reference, it is a list containing one object.
 * `secondary_private_ips` - (Optional) List of secondary private IPv4 addresses to assign to the instance's primary network interface in a VPC.
-    * _Constraints:_ Conflicts with `network_interface`
-       Currently, only the primary private IP address can be specified.
+    * _Constraints:_
+        * Conflicts with the `network_interface` argument
+        * Only the primary private IP address can be specified
 * `source_dest_check` - (Optional) Controls if traffic is routed to the instance when the destination address does not match the instance.
     * _Default value:_ `true`
 * `subnet_id` - (Optional) The ID of a subnet to launch in.
@@ -130,33 +133,36 @@ The following arguments are supported:
 * `tenancy` - (Optional) The placement type.
     * _Valid values:_ `default`, `host`
 
-  ~> **Note** If you use the `host` value, you may encounter the `NotEnoughResourcesForInstanceType` error when running an instance. To avoid this, it is recommended to provide either the `subnet_id` argument or the `availability_zone` argument.
+    ~> **Note** If you use the `host` value, you may encounter the `NotEnoughResourcesForInstanceType` error when running an instance. To avoid this, it is recommended to provide either the `subnet_id` argument or the `availability_zone` argument.
 
 * `user_data` - (Optional) User data to provide when launching the instance. Do not pass gzip-compressed data via this argument; see `user_data_base64` instead. Updates to this field will trigger a stop/start of the EC2 instance by default. If the `user_data_replace_on_change` is set then updates to this field will trigger a destroy and recreate.
-    * _Constraints:_ Conflicts with `user_data_base64`
+    * _Constraints:_ Conflicts with the `user_data_base64` argument
 * `user_data_base64` - (Optional) Can be used instead of `user_data` to pass base64-encoded binary data directly. Use this instead of `user_data` whenever the value is not a valid UTF-8 string. For example, gzip-encoded user data must be base64-encoded and passed via this argument to avoid corruption. Updates to this field will trigger a stop/start of the EC2 instance by default. If the `user_data_replace_on_change` is set then updates to this field will trigger a destroy and recreate.
-    * _Constraints:_ Conflicts with `user_data`
+    * _Constraints:_ Conflicts with the `user_data` argument
 * `user_data_replace_on_change` - (Optional) When used in combination with `user_data` or `user_data_base64` will trigger a destroy and recreate when set to `true`.
     * _Default value:_ `false`
 * `volume_tags` - (Optional) Map of tags to assign to root and EBS volumes when the instance is created.
 
-~> **Note** Do not use `volume_tags` if you plan to manage block device tags outside the `aws_instance` configuration, such as using `tags` in an [`aws_ebs_volume`](ebs_volume.md) resource attached via [`aws_volume_attachment`](volume_attachment.md). Doing so will result in resource cycling and inconsistent behavior.
+    ~>**Note** Do not use `volume_tags` if you plan to manage block device tags outside the `aws_instance` configuration, such as using `tags` in an [`aws_ebs_volume`](ebs_volume.md) resource attached via [`aws_volume_attachment`](volume_attachment.md). Doing so will result in resource cycling and inconsistent behavior.
 
 * `vpc_security_group_ids` - (Optional) List of security group IDs to associate with.
-    * _Constraints:_ Conflicts with `network_interface`
+    * _Constraints:_ Conflicts with the `network_interface` argument
 
 ### ebs_block_device
 
-The `ebs_block_device` block has the following structure:
+The following arguments are required:
 
 * `device_name` - (Required) Name of the device to mount.
+
+The following arguments are optional:
+
 * `delete_on_termination` - (Optional) Whether the volume should be destroyed on instance termination.
     * _Default value:_ `true`
 * `iops` - (Optional) Amount of provisioned IOPS.
     * _Constraints:_ Only valid for the volume type `io2`
 * `snapshot_id` - (Optional) The ID of the snapshot to mount.
 * `tags` - (Optional) Map of tags to assign to the device.
-* `volume_size` - (Optional) Size of the volume, in GiB.
+* `volume_size` - (Optional) Size of the volume in GiB.
 * `volume_type` - (Optional) Type of volume.
 
 ~> **Note** Currently, changes to the `ebs_block_device` configuration of _existing_ resources cannot be automatically detected by Terraform.
@@ -166,9 +172,12 @@ For this reason, `ebs_block_device` cannot be mixed with external `aws_ebs_volum
 
 ### ephemeral_block_device
 
-The `ephemeral_block_device` block has the following structure:
+The following arguments are required:
 
 * `device_name` - (Required) The name of the block device to mount on the instance.
+
+The following arguments are optional:
+
 * `no_device` - (Optional) Suppresses the specified device included in the block device mapping.
 * `virtual_name` - (Optional) A name for the ephemeral device. Must match with the device name.
 
@@ -180,10 +189,13 @@ If you should need at any point to detach/modify/re-attach a network interface t
 
 The `network_interface` configuration block _does_, however, allow users to supply their own network interface to be used as the default network interface on an EC2 instance, attached at `eth0`.
 
-The `network_interface` block has the following structure:
+The following arguments are required:
 
 * `device_index` - (Required) Integer index of the network interface attachment.
 * `network_interface_id` - (Required) The ID of the network interface to attach.
+
+The following arguments are optional:
+
 * `delete_on_termination` - (Optional) Whether to delete the network interface on instance termination.
     * _Default value:_ `false`
     * _Constraints:_ Currently, the only valid value is `false`, as this option is only supported when creating new network interfaces during instance launching
@@ -224,13 +236,13 @@ In addition to all arguments above, the following attributes are exported:
 
 * `arn` - The Amazon Resource Name (ARN) of the instance.
 * `instance_state` - The state of the instance.
-    * _Valid values:_ `pending`, `running`, `shutting-down`, `terminated`, `stopping`, `stopped`
+    * _Valid values:_ `pending`, `running`, `shutting-down`, `stopped`, `stopping`, `terminated`
 * `primary_network_interface_id` - The ID of the instance's primary network interface.
 * `private_dns` - The private DNS name assigned to the instance. For EC2-VPC, this is only available if you've enabled DNS hostnames for your VPC.
 * `public_dns` - The public DNS name assigned to the instance. For EC2-VPC, this is only available if you've enabled DNS hostnames for your VPC.
 * `public_ip` - The public IP address assigned to the instance, if applicable.
 
-  ~> **NOTE** If you are using [`aws_eip`](eip.md) with your instance, you should refer to the EIP's address directly and not use `public_ip` as this field will change after the EIP is attached.
+    ~> **Note** If you are using [`aws_eip`](eip.md) with your instance, you should refer to the EIP's address directly and not use `public_ip` as this field will change after the EIP is attached.
 
 * `security_groups` - List of security group names associated with the instance.
 * `tags_all` - Map of tags assigned to the instance, including those inherited from the provider [`default_tags` configuration block][default-tags].
@@ -242,7 +254,7 @@ For `ebs_block_device`, in addition to the arguments above, the following attrib
 For `root_block_device`, in addition to the arguments above, the following attributes are exported:
 
 * `volume_id` - The ID of the volume. For example, the ID can be accessed like this, `aws_instance.web.root_block_device.0.volume_id`.
-* `device_name` - Device name, e.g., `disk1`.
+* `device_name` - Device name, for example, `disk1`.
 
 ### Unsupported attributes
 
@@ -257,7 +269,7 @@ The following attributes are not currently supported:
 The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 * `create` - (Default `10 minutes`) Used when launching the instance (until it reaches the initial `running` state).
-* `update` - (Default `10 minutes`) Used when stopping and starting the instance when necessary during update - e.g., when changing instance type.
+* `update` - (Default `10 minutes`) Used when stopping and starting the instance when necessary during update, for example, when changing instance type.
 * `delete` - (Default `20 minutes`) Used when terminating the instance.
 
 ## Import

@@ -30,9 +30,9 @@ In addition to all arguments above, the following attributes are exported:
 
 * `arn` - The Amazon Resource Name (ARN) of the Auto Scaling group.
 * `availability_zones` - One or more availability zones for the group.
-* `default_cool_down` - The amount of time, in seconds, after a scaling activity completes before another scaling activity can start.
+* `default_cool_down` - The amount of time in seconds after a scaling activity completes before another scaling activity can start.
 * `desired_capacity` - The desired size of the group.
-* `health_check_grace_period` - The amount of time, in seconds, after which Auto Scaling group can perform a health check on its instances.
+* `health_check_grace_period` - The amount of time in seconds, after which Auto Scaling group can perform a health check on its instances.
 * `id` - Name of the Auto Scaling group.
 * `max_size` - The maximum size of the group.
 * `min_size` - The minimum size of the group.

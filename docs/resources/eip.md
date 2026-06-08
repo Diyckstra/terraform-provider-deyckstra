@@ -8,7 +8,7 @@ description: |-
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 [elastic-ips]: https://docs.k2.cloud/en/services/networking/addresses/operations.html
-[timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
+[timeouts]: https://developer.hashicorp.com/terraform/plugin/framework/resources/timeouts
 [vpc-dns-guide]: https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns.html#vpc-dns-hostnames
 
 # Resource: aws_eip

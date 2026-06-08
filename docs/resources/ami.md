@@ -8,7 +8,7 @@ description: |-
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 [images]: https://docs.k2.cloud/en/services/storage/images.html
-[timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
+[timeouts]: https://developer.hashicorp.com/terraform/plugin/framework/resources/timeouts
 
 # Resource: aws_ami
 
@@ -59,7 +59,7 @@ The following arguments are supported:
 
 ### ebs_block_device
 
-The `ebs_block_device` blocks has the following structure:
+The `ebs_block_device` block has the following structure:
 
 * `device_name` - (Required) The device name of one or more block device mapping entries.
     * _Valid values:_ `disk<N>`, `cdrom<N>`, `floppy<N>`, where `<N>` is a disk number
@@ -71,7 +71,7 @@ The `ebs_block_device` blocks has the following structure:
 * `snapshot_id` - (Optional) The ID of an EBS snapshot that will be used to initialize the created
   EBS volumes.
     * _Constraints:_ If set, the `volume_size` attribute must be at least as large as the referenced snapshot
-* `volume_size` - (Optional) The size of created volumes, in GiB.
+* `volume_size` - (Optional) The size of created volumes in GiB.
     * _Constraints:_ Required unless `snapshot_id` is set. If `snapshot_id` is set and `volume_size` is omitted then the volume will have the same size as the selected snapshot
 * `volume_type` - (Optional) The type of EBS volume to create.
     * _Default value:_ `st2`

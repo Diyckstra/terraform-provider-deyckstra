@@ -7,7 +7,7 @@ description: |-
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts]
+[timeouts]: https://developer.hashicorp.com/terraform/plugin/framework/resources/timeouts
 
 # Resource: aws_ami_from_instance
 

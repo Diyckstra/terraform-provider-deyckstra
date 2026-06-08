@@ -3,19 +3,18 @@ subcategory: "EBS (EC2)"
 layout: "aws"
 page_title: "aws_ebs_volumes"
 description: |-
-  Provides a list of EBS volume IDs.
+  Provides a list of volume IDs.
 ---
 
 [describe-volumes]: https://docs.k2.cloud/en/api/ec2/actions/volumes/DescribeVolumes.html
 
 # Data Source: aws_ebs_volumes
 
-Provides a list of EBS volume IDs matching the specified criteria.
-This data source can be used to get a list of volume IDs with (for example) matching tags.
+Provides a list of volume IDs matching the specified criteria.
 
-## Example Usage
+## Example usage
 
-The following demonstrates obtaining a map of availability zone to EBS volume ID for volumes with a given tag value.
+The following example demonstrates obtaining a map of availability zone to volume ID for volumes with a given tag value.
 
 ```terraform
 data "aws_ebs_volumes" "example" {
@@ -39,7 +38,7 @@ output "availability_zone_to_volume_id" {
 
 ### Filter example
 
-If matching against the `size` filter, use:
+For matching against the `size` filter, use:
 
 ```terraform
 data "aws_ebs_volumes" "ten_or_twenty_gb_volumes" {
@@ -50,16 +49,22 @@ data "aws_ebs_volumes" "ten_or_twenty_gb_volumes" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `filter` - (Optional) One or more name/value pairs to use as filters.
+* `filter` - (Optional, [Block](#filter)) One or more name/value pairs to use as filters.
     * _Valid values:_ See supported names and values in [EC2 API documentation][describe-volumes]
-* `tags` - (Optional) Map of tags, each pair of which must exactly match
-  a pair on the desired volumes.
+* `tags` - (Optional, Map of strings) Key-value pairs assigned to the volume.
 
-## Attribute Reference
+### filter
 
-* `id` - The region.
-* `ids` - A set of all the EBS volume IDs found.
+* `name` - (Required, String) The name of the filter.
+    * _Constraints:_ Filter names are case-sensitive
+* `values` - (Required, List of strings) One or more filter values.
+    * _Constraints:_ Filter values are case-sensitive
+
+## Attribute reference
+
+* `id` - (String) The region.
+* `ids` - (List of strings) The list of all the volume IDs found.

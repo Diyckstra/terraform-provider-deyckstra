@@ -9,7 +9,7 @@ description: |-
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 [eks-node-groups]: https://docs.k2.cloud/en/services/kubernetes/eks_cluster.html#id7
 [lifecycle]: https://www.terraform.io/docs/configuration/meta-arguments/lifecycle.html
-[timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
+[timeouts]: https://developer.hashicorp.com/terraform/plugin/framework/resources/timeouts
 
 # Resource: aws_eks_node_group
 
@@ -83,7 +83,11 @@ resource "aws_subnet" "example" {
 
 The following arguments are required:
 
-* `cluster_name` - (Required) Name of the EKS cluster. Must be between 1-100 characters in length. Must begin with an alphanumeric character, and must only contain alphanumeric characters, dashes and underscores (`^[0-9A-Za-z][A-Za-z0-9\-_]+$`).
+* `cluster_name` - (Required) Name of the EKS cluster.
+    * _Value length:_ From 1 to 100 symbols
+    * _Constraints:_
+        * The value can contain only Latin letters, numbers, hyphens (`-`), and underscores (`_`)
+        * The value must start with a Latin letter or a number
 * `instance_types` - (Required) List of instance types associated with the EKS node group.
 * `scaling_config` - (Required) Configuration block with scaling settings. Detailed below.
 * `subnet_ids` - (Required) IDs of EC2 subnets to associate with the EKS node group.
@@ -100,25 +104,28 @@ The following arguments are optional:
 * `remote_access` - (Optional) Configuration block with remote access settings. Detailed below.
 * `tags` - (Optional) Map of tags to assign to the node group. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 * `taint` - (Optional) The Kubernetes taints to be applied to the nodes in the node group. Maximum of 50 taints per node group. Detailed below.
+* `update_config` - (Optional) A block of mutually exclusive arguments that control how many or what percent of nodes can be unavailable during a node group update. Use it to limit disruption while rolling out changes.
 
-### remote_access Configuration Block
+### remote_access
 
 * `ec2_ssh_key` - (Optional) EC2 key pair name that provides access for SSH communication with the worker nodes in the EKS node group.
 
-### scaling_config Configuration Block
+### scaling_config
 
 * `desired_size` - (Required) Desired number of worker nodes.
 * `max_size` - (Required) Maximum number of worker nodes.
 * `min_size` - (Required) Minimum number of worker nodes.
 
-### taint Configuration Block
+### taint
 
-* `key` - (Required) The key of the taint. Maximum length of 63.
-* `value` - (Optional) The value of the taint. Maximum length of 63.
 * `effect` - (Required) The effect of the taint.
     * _Valid values:_ `NO_SCHEDULE`, `NO_EXECUTE`, `PREFER_NO_SCHEDULE`
+* `key` - (Required) The key of the taint.
+    * _Value length:_ From 1 to 63 symbols
+* `value` - (Optional) The value of the taint.
+    * _Value length:_ From 1 to 63 symbols
 
-### update_config Configuration Block
+### update_config
 
 The following arguments are mutually exclusive.
 
@@ -158,8 +165,9 @@ The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 * `create` - (Default `60 minutes`) How long to wait for the EKS node group to be created.
 * `update` - (Default `60 minutes`) How long to wait for the EKS node group to be updated.
-* Note that the `update` timeout is used separately for both configuration and version update operations.
 * `delete` - (Default `60 minutes`) How long to wait for the EKS node group to be deleted.
+
+~> **Note** The `update` timeout is used separately for both configuration and version update operations.
 
 ## Import
 

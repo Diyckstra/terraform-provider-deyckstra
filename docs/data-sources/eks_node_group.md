@@ -31,7 +31,7 @@ data "aws_eks_node_group" "example" {
 In addition to all arguments above, the following attributes are exported:
 
 * `arn` - EKS node group ID.
-* `disk_size` - Disk size in GiB for worker nodes.
+* `disk_size` - Volume size in GiB for worker nodes.
 * `id` - EKS cluster name and EKS node group name separated by a colon (`:`).
 * `instance_types` - Set of instance types associated with the EKS node group.
 * `labels` - Key-value map of Kubernetes labels. Only labels that are applied with the EKS API are managed by this argument. Other Kubernetes labels applied to the EKS node group will not be managed.

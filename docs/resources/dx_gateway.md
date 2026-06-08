@@ -6,7 +6,7 @@ description: |-
   Manages a Direct Connect gateway.
 ---
 
-[timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
+[timeouts]: https://developer.hashicorp.com/terraform/plugin/framework/resources/timeouts
 
 # Resource: aws_dx_gateway
 
@@ -25,8 +25,8 @@ resource "aws_dx_gateway" "example" {
 
 The following arguments are supported:
 
-* `name` - (Required) The name of the Direct Connect gateway.
 * `amazon_side_asn` - (Required) The ASN to be configured on the cloud side of the connection. The ASN must be in the private range of 64,512 to 65,534 or 4,200,000,000 to 4,294,967,294.
+* `name` - (Required) The name of the Direct Connect gateway.
 
 ## Attribute Reference
 

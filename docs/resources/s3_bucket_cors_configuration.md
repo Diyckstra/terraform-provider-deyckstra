@@ -64,7 +64,7 @@ The `cors_rule` configuration block supports the following arguments:
 
 In addition to all arguments above, the following attributes are exported:
 
-* `id` - The `bucket`.
+* `id` - The bucket name.
 
 ### Unsupported attributes
 

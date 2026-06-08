@@ -50,12 +50,12 @@ The `health_check` block has the following structure:
 
 * `enabled` - Indicates whether health check is enabled.
 * `healthy_threshold` - Number of consecutive successful health checks after which the target status changes to healthy.
-* `interval` - The amount of time, in seconds, between health checks on an individual target.
+* `interval` - The amount of time in seconds between health checks on an individual target.
 * `matcher` - The HTTP code used to check the target availability.
 * `path` - The destination for the health check request.
 * `port` - The port used to perform health checks on targets.
 * `protocol` - The protocol used to perform health checks on targets.
-* `timeout` - The amount of time, in seconds, after which no response indicates a failed health check.
+* `timeout` - The amount of time in seconds, after which no response indicates a failed health check.
 * `unhealthy_threshold` - Number of consecutive failed health checks after which the target status changes to unhealthy.
 
 ### Unsupported attributes

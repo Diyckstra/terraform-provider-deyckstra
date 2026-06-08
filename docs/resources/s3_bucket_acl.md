@@ -70,10 +70,10 @@ resource "aws_s3_bucket_acl" "example" {
 
 The following arguments are supported:
 
+* `bucket` - (Required, Forces new resource) The name of the bucket.
+* `access_control_policy` - (Optional, Conflicts with `acl`) A configuration block that sets the ACL permissions for an object per grantee [documented below](#access_control_policy).
 * `acl` - (Optional, Conflicts with `access_control_policy`) The [canned ACL][canned-acl] to apply to the bucket.
     * _Valid values:_ `private`, `public-read`, `public-read-write`, `authenticated-read`
-* `access_control_policy` - (Optional, Conflicts with `acl`) A configuration block that sets the ACL permissions for an object per grantee [documented below](#access_control_policy).
-* `bucket` - (Required, Forces new resource) The name of the bucket.
 
 ### access_control_policy
 
@@ -94,8 +94,8 @@ The `grant` configuration block supports the following arguments:
 
 The `owner` configuration block supports the following arguments:
 
-* `id` - (Required) The ID of the owner.
 * `display_name` - (Optional) The display name of the owner.
+* `id` - (Required) The ID of the owner.
 
 ### grantee
 

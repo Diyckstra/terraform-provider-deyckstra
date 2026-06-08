@@ -3,16 +3,18 @@ subcategory: "EBS (EC2)"
 layout: "aws"
 page_title: "aws_volume_attachment"
 description: |-
-  Manages an EBS volume attachment
+  Manages a volume attachment.
 ---
+
+[timeouts]: https://developer.hashicorp.com/terraform/plugin/framework/resources/timeouts
 
 # Resource: aws_volume_attachment
 
-Manages an EBS volume attachment as a top level resource, to attach and detach volumes from instances.
+Manages a volume attachment as a top level resource to attach and detach volumes from instances.
 
-~> **Note on EBS block devices:** If you use `ebs_block_device` on an `aws_instance`, Terraform will assume management over the full set of non-root EBS block devices for the instance, and treats additional block devices as drift. For this reason, `ebs_block_device` cannot be mixed with external `aws_ebs_volume` + `aws_volume_attachment` resources for a given instance.
+~> **Note on block devices:** If you use `ebs_block_device` on an `aws_instance`, Terraform will assume management over the full set of non-root block devices for the instance, and treats additional block devices as drift. For this reason, `ebs_block_device` cannot be mixed with external `aws_ebs_volume` + `aws_volume_attachment` resources for a given instance.
 
-## Example Usage
+## Example usage
 
 ```terraform
 variable instance_id {}
@@ -28,33 +30,34 @@ resource "aws_volume_attachment" "example" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
-The following arguments are supported:
+The following arguments are required:
 
-* `device_name` - (Optional) The device name to expose to the instance.
+* `instance_id` - (Required, Forces new resource, String) The ID of the instance to attach to.
+* `volume_id` - (Required, Forces new resource, String) The ID of the volume to be attached.
 
-~> **Note** The parameter `device_name` is deprecated. Its value is ignored.
-The device name will be generated during attaching and can be changed.
+The following arguments are optional:
 
-* `instance_id` - (Required) ID of the instance to attach to.
-* `volume_id` - (Required) ID of the volume to be attached.
-* `skip_destroy` - (Optional) Set this to `true` if you do not wish to detach the volume from the instance
-  to which it is attached at destroy time, and instead just remove the attachment from Terraform state.
-  This is useful when destroying an instance which has volumes created by some other means attached.
-* `stop_instance_before_detaching` - (Optional) Set this to `true` to ensure
-  that the target instance is stopped before trying to detach the volume.
-  Stops the instance, if it is not already stopped.
+* `device_name` - (Optional, Editable, String) The device name to expose to the instance.
 
-## Attribute Reference
+    ~> **Note** This argument is deprecated. Its value is ignored. The device name will be generated during attaching and can be changed.
+
+* `skip_destroy` - (Optional, Editable, Boolean) Indicates whether to detach the volume on resource destroy or skip the detachment, but still remove the volume's attachment from the Terraform state.
+    * _Default value:_ `false`
+
+    ~> **Note**  This can be useful if the volume was created outside of Terraform and you want to keep it attached to the instance.
+
+* `stop_instance_before_detaching` - (Optional, Editable, Boolean) Indicates whether the instance should be stopped before detaching the volume.
+    * _Default value:_ `false`
+
+## Attribute reference
 
 ### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
-* `generated_device_name` - The device name generated during attaching. Value can be changed.
-* `instance_id` - ID of the instance.
-* `volume_id` - ID of the volume.
+* `generated_device_name` - (String) The device name generated during attaching. The value can be changed.
 
 ### Unsupported attributes
 
@@ -62,9 +65,16 @@ In addition to all arguments above, the following attributes are exported:
 
 The following attribute is not currently supported: `force_detach`.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts] for certain actions:
+
+* `create` - (Default `5 minutes`) Used for attaching volume.
+* `delete` - (Default `5 minutes`) Used for detaching volume.
+
 ## Import
 
-EBS volume attachments can be imported using `DEVICE_NAME:VOLUME_ID:INSTANCE_ID` (the value of `DEVICE_NAME` is ignored), e.g.,
+The volume attachment can be imported using `DEVICE_NAME:VOLUME_ID:INSTANCE_ID` (the value of `DEVICE_NAME` is ignored), for example:
 
 ```
 $ terraform import aws_volume_attachment.example disk1:vol-12345678:i-12345678

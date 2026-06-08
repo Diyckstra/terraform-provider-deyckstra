@@ -275,12 +275,14 @@ The `condition` block has the following structure:
 
 * `host_header` - (Optional, Editable) The block with information about the host headers that the host name in the URL should match.
   The structure of this block is [described below](#host_header).
-    * _Constraints:_ `host_header` can be specified only once per rule
+    * _Constraints:_
+        * This argument can be specified only once per rule
+        * Conflicts with the `path_pattern` argument
 * `path_pattern` - (Optional, Editable) The block with information about the path patterns that the path in the URL should match.
   The structure of this block is [described below](#path_pattern).
-    * _Constraints:_ `path_pattern` can be specified only once per rule
-
-~> **Note** Exactly one of `host_header` or `path_pattern` must be set per condition.
+    * _Constraints:_
+        * This argument can be specified only once per rule
+        * Conflicts with the `host_header` argument
 
 #### host_header
 

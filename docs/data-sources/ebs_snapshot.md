@@ -3,16 +3,16 @@ subcategory: "EBS (EC2)"
 layout: "aws"
 page_title: "aws_ebs_snapshot"
 description: |-
-  Provides information about an EBS snapshot.
+  Provides information about a snapshot.
 ---
 
 [describe-snapshots]: https://docs.k2.cloud/en/api/ec2/actions/snapshots/DescribeSnapshots.html
 
 # Data Source: aws_ebs_snapshot
 
-Provides information about an EBS snapshot.
+Provides information about a snapshot.
 
-## Example Usage
+## Example usage
 
 ```terraform
 data "aws_ebs_snapshot" "ebs_snapshot" {
@@ -31,34 +31,45 @@ data "aws_ebs_snapshot" "ebs_snapshot" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
 The following arguments are supported:
 
-* `filter` - (Optional) One or more name/value pairs to use as filters.
+* `filter` - (Optional, [Block](#filter)) One or more name/value pairs to use as filters.
     * _Valid values:_ See supported names and values in [EC2 API documentation][describe-snapshots]
-* `most_recent` - (Optional) If more than one result is returned, use the most recent snapshot.
-* `owners` - (Optional) List of the snapshot owners.
-    * _Valid values:_ Project ID (`project@customer`) or `self`
-* `restorable_by_user_ids` - (Optional) List of the project IDs (`project@customer`), in which volumes can be created from a snapshot.
-* `snapshot_ids` - (Optional) Returns information on a snapshot ID.
+* `most_recent` - (Optional, Boolean) Indicates whether to use the most recent snapshot if more than one result is returned.
+    * _Default value:_ `false`
+* `owners` - (Optional, List of strings) The list of the snapshot owners.
+    * _Valid values:_ `project@customer`, `self`
+* `restorable_by_user_ids` - (Optional, List of strings) The list of the project IDs (`project@customer`), in which volumes can be created from a snapshot.
+* `snapshot_ids` - (Optional, List of strings) The list of the snapshot IDs.
 
-## Attribute Reference
+### filter
+
+* `name` - (Required, String) The name of the filter.
+    * _Constraints:_ Filter names are case-sensitive
+* `values` - (Required, List of strings) One or more filter values.
+    * _Constraints:_ Filter values are case-sensitive
+
+## Attribute reference
 
 ### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` - The Amazon Resource Name (ARN) of the EBS snapshot.
-* `id` - The snapshot ID (e.g., snap-12345678).
-* `snapshot_id` - The snapshot ID (e.g., snap-12345678).
-* `description` - A description for the snapshot
-* `owner_id` - The project ID.
-* `owner_alias` - The alias of the EBS snapshot owner.
-* `volume_id` - The volume ID (e.g., vol-12345678).
-* `volume_size` - The size of the drive in GiB.
-* `state` - The snapshot state.
-* `tags` - Map of tags assigned to the snapshot.
+* `arn` - (String) The Amazon Resource Name (ARN) of the snapshot.
+* `description` - (String) The description for the snapshot.
+* `id` - (String) The ID of the snapshot.
+    * _Example:_ `snap-12345678`
+* `owner_alias` - (String) The alias of the snapshot owner.
+* `owner_id` - (String) The ID of the project that owns the snapshot.
+* `snapshot_id` - (String) The ID of the snapshot.
+    * _Example:_ `snap-12345678`
+* `state` - (String) The state of the snapshot.
+* `tags` - (Map of strings) Key-value pairs assigned to the snapshot.
+* `volume_id` - (String) The ID of the volume.
+    * _Example:_ `vol-12345678`
+* `volume_size` - (Integer) The size of the volume in GiB.
 
 ### Unsupported attributes
 

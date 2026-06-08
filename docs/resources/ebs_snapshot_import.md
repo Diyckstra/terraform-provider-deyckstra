@@ -3,17 +3,17 @@ subcategory: "EBS (EC2)"
 layout: "aws"
 page_title: "aws_ebs_snapshot_import"
 description: |-
-  Imports a disk image from S3 as a snapshot.
+  Imports a disk image from object storage as a snapshot.
 ---
 
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
-[timeouts]: https://www.terraform.io/docs/configuration/blocks/resources/syntax.html#operation-timeouts
+[timeouts]: https://developer.hashicorp.com/terraform/plugin/framework/resources/timeouts
 
 # Resource: aws_ebs_snapshot_import
 
-Imports a disk image from S3 as a snapshot.
+Imports a disk image from object storage as a snapshot.
 
-## Example Usage
+## Example usage
 
 ```terraform
 resource "aws_ebs_snapshot_import" "example" {
@@ -31,38 +31,49 @@ resource "aws_ebs_snapshot_import" "example" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
-The following arguments are supported:
+The following arguments are required:
 
-* `description` - (Optional) The description string for the import snapshot task.
-* `disk_container` - (Required) Information about the disk container. Detailed below.
-* `tags` - (Optional) Map of tags to assign to the snapshot.
-  If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
+* `disk_container` - (Required, Forces new resource, [Block](#disk_container)) Information about the disk container.
 
-### disk_container Configuration Block
+The following arguments are optional:
 
-* `description` - (Optional) The description of the disk image being imported.
-* `format` - (Required) The format of the disk image being imported. One of `VHD`, `VMDK`, `QCOW2` or `RAW`.
-* `user_bucket` - (Required) The S3 bucket for the disk image.
+* `description` - (Optional, Editable, String) The description string for the snapshot import task.
+* `tags` - (Optional, Editable, Map of strings) Key-value pairs to assign to the snapshot. If the [`default_tags` configuration block][default-tags] is used within a provider configuration, the tags with matching keys will overwrite those defined at the provider level.
 
-### user_bucket Configuration Block
+### disk_container
 
-* `s3_bucket` - The name of the S3 bucket where the disk image is located.
-* `s3_key` - The file name of the disk image.
+The following arguments are required:
 
-## Attribute Reference
+* `format` - (Required, Forces new resource, String) The format of the disk image being imported.
+    * _Valid values:_  `QCOW2`, `RAW`, `VHD`, `VMDK`
+* `user_bucket` - (Required, Forces new resource, [Block](#user_bucket)) The bucket for the disk image.
+
+The following arguments are optional:
+
+* `description` - (Optional, Editable, String) The description of the disk image being imported.
+
+#### user_bucket
+
+The following arguments are required:
+
+* `s3_bucket` - (Required, Forces new resource, String) The name of the bucket where the disk image is located.
+* `s3_key` - (Required, Forces new resource, String) The name of the disk image file.
+
+## Attribute reference
 
 ### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` - The Amazon Resource Name (ARN) of the EBS snapshot.
-* `id` - The snapshot ID (e.g., `snap-12345678`).
-* `owner_id` - The project ID.
-* `owner_alias` - The alias of the EBS snapshot owner.
-* `volume_size` - The size of the drive in GiB.
-* `tags_all` - Map of tags assigned to the snapshot, including those inherited from the provider [`default_tags` configuration block][default-tags]
+* `arn` - (String) The Amazon Resource Name (ARN) of the snapshot.
+* `id` - (String) The ID of the snapshot.
+    * _Example:_ `snap-12345678`
+* `owner_alias` - (String) The alias of the snapshot owner.
+* `owner_id` - (String) The ID of the project that owns the resource.
+* `volume_size` - (Integer) The size of the volume in GiB.
+* `tags_all` - (Map of strings) Key-value pairs assigned to the resource, including any tags inherited from the [`default_tags` configuration block][default-tags] if used within a provider configuration.
 
 ### Unsupported attributes
 
@@ -76,5 +87,9 @@ The following attributes are not currently supported:
 
 The `timeouts` block allows you to specify [timeouts] for certain actions:
 
-- `create` - (Default `60 minutes`) Used for importing the EBS snapshot.
-- `delete` - (Default `10 minutes`) Used for deleting the EBS snapshot.
+- `create` - (Default `60 minutes`) Used for importing the snapshot.
+- `delete` - (Default `10 minutes`) Used for deleting the snapshot.
+
+## Import
+
+To import a snapshot, use the [aws_ebs_snapshot](ebs_snapshot.md#import) resource.
