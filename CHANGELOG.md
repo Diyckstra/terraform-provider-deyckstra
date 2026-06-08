@@ -1,5 +1,9 @@
 ## 25.6.0 (Unreleased)
 
+ENHANCEMENTS:
+
+* resource/aws_paas_service: add new Kafka PaaS support ([#156](https://github.com/C2Devel/terraform-provider-rockitcloud/issues/156))
+
 ## 25.5.1 (May 20, 2026)
 
 ENHANCEMENTS:
