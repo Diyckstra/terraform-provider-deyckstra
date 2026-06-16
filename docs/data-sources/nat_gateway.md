@@ -1,71 +1,83 @@
 ---
 subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
-page_title: "AWS: aws_nat_gateway"
+page_title: "aws_nat_gateway"
 description: |-
-    Provides details about a specific Nat Gateway
+  Provides information about a NAT gateway.
 ---
 
-# Data Source: aws_nat_gateway
+[describe-nat-gateways]: https://docs.k2.cloud/en/api/ec2/actions/nat_gateways/DescribeNatGateways.html
 
-Provides details about a specific Nat Gateway.
+# Data source: aws_nat_gateway
 
-## Example Usage
+Provides information about a NAT gateway.
+
+## Example usage
+
+### Specific example: get a NAT gateway by the ID of its VPC
 
 ```terraform
-variable "subnet_id" {}
+variable vpc_id {}
 
-data "aws_nat_gateway" "default" {
-  subnet_id = aws_subnet.public.id
+data "aws_nat_gateway" "selected" {
+  vpc_id = var.vpc_id
 }
 ```
 
-Usage with tags:
+### Specific example: get a NAT gateway by its tags
 
 ```terraform
-data "aws_nat_gateway" "default" {
-  subnet_id = aws_subnet.public.id
-
+data "aws_nat_gateway" "selected" {
   tags = {
     Name = "gw NAT"
   }
 }
 ```
 
-## Argument Reference
+## Argument reference
 
-The arguments of this data source act as filters for querying the available
-Nat Gateways in the current region. The given filters must match exactly one
-Nat Gateway whose data will be exported as attributes.
+The arguments of this data source act as filters for querying the available NAT gateway.
 
-* `id` - (Optional) The id of the specific Nat Gateway to retrieve.
-* `subnet_id` - (Optional) The id of subnet that the Nat Gateway resides in.
-* `vpc_id` - (Optional) The id of the VPC that the Nat Gateway resides in.
-* `state` - (Optional) The state of the NAT gateway (pending | failed | available | deleting | deleted ).
-* `tags` - (Optional) A map of tags, each pair of which must exactly match
-  a pair on the desired Nat Gateway.
-* `filter` - (Optional) Custom filter block as described below.
+~> **Note** The given filters must exactly match the resource whose data will be exported as attributes.
 
-More complex filters can be expressed using one or more `filter` sub-blocks,
-which take the following arguments:
+* `filter` - (Optional, [Block](#filter)) One or more name/value pairs to use as filters.
+    * _Valid values:_ See supported names and values in [EC2 API documentation][describe-nat-gateways]
+* `id` - (Optional, String) The ID of the NAT gateway.
+* `state` - (Optional, String) The current state of the NAT gateway.
+    * _Valid values:_ `available`, `deleting`, `failed`, `pending`
+* `tags` - (Optional, Map of strings) Key-value pairs.
+  Must exactly match pairs on the required resource.
+* `vpc_id` - (Optional, String) The ID of the VPC in which the NAT gateway is located.
 
-* `name` - (Required) The name of the field to filter by, as defined by
-  [the underlying AWS API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeNatGateways.html).
-* `values` - (Required) Set of values that are accepted for the given field.
-  An Nat Gateway will be selected if any one of the given values matches.
+### filter
 
-## Attributes Reference
+* `name` - (Required, String) The name of the filter.
+    * _Constraints:_ Filter names are case-sensitive
+* `values` - (Required, List of strings) One or more filter values.
+    * _Constraints:_ Filter values are case-sensitive
 
-All of the argument attributes except `filter` block are also exported as
-result attributes. This data source will complete the data by populating
-any fields that are not included in the configuration with the data for
-the selected Nat Gateway.
+## Attribute reference
 
-`addresses` are also exported with the following attributes, when they are relevant:
-Each attachment supports the following:
+If any fields are missing from the configuration, then this data source will populate them with data for the selected NAT gateway.
 
-* `allocation_id` - The Id of the EIP allocated to the selected Nat Gateway.
-* `connectivity_type` - The connectivity type of the NAT Gateway.
-* `network_interface_id` - The Id of the ENI allocated to the selected Nat Gateway.
-* `private_ip` - The private Ip address of the selected Nat Gateway.
-* `public_ip` - The public Ip (EIP) address of the selected Nat Gateway.
+In addition to all arguments above, the following attributes are exported:
+
+* `auto_provision_zones` - (String) The state of automatic Elastic IP address allocation for each availability zone.
+    * _Valid values:_ `disabled`, `enabled`
+* `availability_mode` - (String) The availability mode of the NAT gateway.
+    * _Valid values:_ `regional`
+* `connectivity_type` - (String) The connectivity type of the NAT gateway.
+    * _Valid values:_ `public`
+* `nat_gateway_addresses` - ([Block](#nat_gateway_addresses)) The set of addresses of the NAT gateway.
+
+### nat_gateway_addresses
+
+Each block has the following structure:
+
+* `allocation_id` - (String) The allocation ID of the Elastic IP address.
+* `association_id` - (String) The association ID of the Elastic IP address.
+* `availability_zone` - (String) The availability zone of the Elastic IP address.
+* `is_primary` - (Boolean) Indicates whether the Elastic IP address is the primary address of the NAT gateway.
+* `private_ip` - (String) The private IP address.
+* `public_ip` - (String) The public IP address.
+* `status` - (String) The status of the Elastic IP address.

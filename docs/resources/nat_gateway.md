@@ -1,68 +1,138 @@
 ---
 subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
-page_title: "AWS: aws_nat_gateway"
+page_title: "aws_nat_gateway"
 description: |-
-  Provides a resource to create a VPC NAT Gateway.
+  Manages a regional NAT gateway.
 ---
+
+[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 
 # Resource: aws_nat_gateway
 
-Provides a resource to create a VPC NAT Gateway.
+Manages a regional NAT gateway.
+A regional NAT gateway is a single NAT gateway that works across all availability zones in your VPC.
 
-## Example Usage
+-> **Note** Only one NAT gateway in the `pending` or `available` state is allowed for each VPC.
 
-### Public NAT
+~> **Important** The VPC must have an attached internet gateway.
+It's recommended to specify it as an explicit dependency via `depends_on`.
+
+## Example usage
+
+### Basic example
 
 ```terraform
+resource "aws_vpc" "vpc" {
+  cidr_block = "10.0.0.0/16"
+}
+
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.vpc.id
+}
+
 resource "aws_nat_gateway" "example" {
-  allocation_id = aws_eip.example.id
-  subnet_id     = aws_subnet.example.id
+  vpc_id = aws_vpc.vpc.id
 
   tags = {
-    Name = "gw NAT"
+    Name = "tf-nat-gw"
   }
 
-  # To ensure proper ordering, it is recommended to add an explicit dependency
-  # on the Internet Gateway for the VPC.
-  depends_on = [aws_internet_gateway.example]
+  depends_on = [aws_internet_gateway.igw]
 }
 ```
 
-### Private NAT
+### Specific example: manually specified Elastic IP addresses
 
 ```terraform
+resource "aws_vpc" "vpc" {
+  cidr_block = "10.0.0.0/16"
+}
+
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.vpc.id
+}
+
+resource "aws_eip" "eip" {}
+
 resource "aws_nat_gateway" "example" {
-  connectivity_type = "private"
-  subnet_id         = aws_subnet.example.id
+  vpc_id = aws_vpc.vpc.id
+
+  availability_zone_addresses {
+    availability_zone = "ru-msk-vol51"
+    allocation_id     = aws_eip.eip.id
+  }
+
+  depends_on = [aws_internet_gateway.igw]
 }
 ```
 
-## Argument Reference
+## Argument reference
 
-The following arguments are supported:
+The following arguments are required:
 
-* `allocation_id` - (Optional) The Allocation ID of the Elastic IP address for the gateway. Required for `connectivity_type` of `public`.
-* `connectivity_type` - (Optional) Connectivity type for the gateway. Valid values are `private` and `public`. Defaults to `public`.
-* `subnet_id` - (Required) The Subnet ID of the subnet in which to place the gateway.
-* `tags` - (Optional) A map of tags to assign to the resource. If configured with a provider [`default_tags` configuration block](/docs/providers/aws/index.html#default_tags-configuration-block) present, tags with matching keys will overwrite those defined at the provider-level.
+* `vpc_id` - (Required, Forces new resource, String) The ID of the VPC in which the NAT gateway is created.
 
-## Attributes Reference
+The following arguments are optional:
+
+* `availability_mode` - (Optional, Forces new resource, String) The availability mode of the NAT gateway.
+    * _Valid values:_ `regional`
+    * _Default value:_ `regional`
+* `availability_zone_addresses` - (Optional, Editable, [Block](#availability_zone_addresses)) The Elastic IP addresses to use for handling outbound NAT traffic in specific availability zones.
+  If the block isn't specified, the Elastic IP addresses are allocated and managed automatically.
+    * _Constraints:_ Automatically allocated addresses cannot be managed via `availability_zone_addresses`, so adding the block to such a NAT gateway forces a new resource
+* `connectivity_type` - (Optional, Forces new resource, String) The connectivity type of the NAT gateway.
+    * _Valid values:_ `public`
+    * _Default value:_ `public`
+* `tags` - (Optional, Editable, Map of strings) Key-value pairs to assign to the resource.
+  If the [`default_tags` configuration block][default-tags] is used within a provider configuration, the tags with matching keys will overwrite those defined at the provider level.
+
+### availability_zone_addresses
+
+The block has the following structure:
+
+* `allocation_id` - (Required, Editable, String) The allocation ID of the Elastic IP address to use in the availability zone.
+* `availability_zone` - (Required, Editable, String) The name of the availability zone.
+
+## Attribute reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `id` - The ID of the NAT Gateway.
-* `allocation_id` - The Allocation ID of the Elastic IP address for the gateway.
-* `subnet_id` - The Subnet ID of the subnet in which the NAT gateway is placed.
-* `network_interface_id` - The ENI ID of the network interface created by the NAT gateway.
-* `private_ip` - The private IP address of the NAT Gateway.
-* `public_ip` - The public IP address of the NAT Gateway.
-* `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block](/docs/providers/aws/index.html#default_tags-configuration-block).
+* `auto_provision_zones` - (String) The state of automatic Elastic IP address allocation for each availability zone.
+    * _Valid values:_ `disabled`, `enabled`
+* `id` - (String) The ID of the NAT gateway.
+* `nat_gateway_addresses` - ([Block](#nat_gateway_addresses)) The set of addresses of the NAT gateway.
+* `tags_all` - (Map of strings) Key-value pairs assigned to the resource, including any tags inherited from the [`default_tags` configuration block][default-tags] if used within a provider configuration.
+
+### nat_gateway_addresses
+
+Each block has the following structure:
+
+* `allocation_id` - (String) The allocation ID of the Elastic IP address.
+* `association_id` - (String) The association ID of the Elastic IP address.
+* `availability_zone` - (String) The availability zone of the Elastic IP address.
+* `is_primary` - (Boolean) Indicates whether the Elastic IP address is the primary address of the NAT gateway.
+* `private_ip` - (String) The private IP address.
+* `public_ip` - (String) The public IP address.
+* `status` - (String) The status of the Elastic IP address.
+
+## Timeouts
+
+Timeouts usage for NAT gateways is not currently supported.
 
 ## Import
 
-NAT Gateways can be imported using the `id`, e.g.,
+In Terraform v1.5.0 or later, the NAT gateway can be imported by `id` using the `import` block.
 
+```terraform
+import {
+  to = aws_nat_gateway.example
+  id = "nat-12345678"
+}
 ```
-$ terraform import aws_nat_gateway.private_gw nat-05dba92075d71c408
+
+In older Terraform versions, the NAT gateway can be imported by its `id` using `terraform import`, for example:
+
+```console
+% terraform import aws_nat_gateway.example nat-12345678
 ```

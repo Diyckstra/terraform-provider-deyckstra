@@ -1,23 +1,24 @@
 ---
 subcategory: "VPC (Virtual Private Cloud)"
 layout: "aws"
-page_title: "AWS: aws_nat_gateways"
+page_title: "aws_nat_gateways"
 description: |-
-    Get information on Amazon NAT Gateways.
+  Provides a list of NAT gateway IDs.
 ---
 
-# Data Source: aws_nat_gateways
+[describe-nat-gateways]: https://docs.k2.cloud/en/api/ec2/actions/nat_gateways/DescribeNatGateways.html
 
-This resource can be useful for getting back a list of NAT gateway ids to be referenced elsewhere.
+# Data source: aws_nat_gateways
 
-## Example Usage
+Provides a list of NAT gateway IDs.
+This data source can be useful for retrieving a list of NAT gateway IDs to be referenced elsewhere.
 
-The following returns all NAT gateways in a specified VPC that are marked as available
+## Example usage
+
+### Specific example: get all available NAT gateways in the region
 
 ```terraform
 data "aws_nat_gateways" "ngws" {
-  vpc_id = var.vpc_id
-
   filter {
     name   = "state"
     values = ["available"]
@@ -30,22 +31,27 @@ data "aws_nat_gateway" "ngw" {
 }
 ```
 
-## Argument Reference
+## Argument reference
 
-* `filter` - (Optional) Custom filter block as described below.
-* `vpc_id` - (Optional) The VPC ID that you want to filter from.
-* `tags` - (Optional) A map of tags, each pair of which must exactly match
-  a pair on the desired NAT Gateways.
+The arguments of this data source act as filters for querying the available NAT gateways.
 
-More complex filters can be expressed using one or more `filter` sub-blocks,
-which take the following arguments:
+* `filter` - (Optional, [Block](#filter)) One or more name/value pairs to use as filters.
+    * _Valid values:_ See supported names and values in [EC2 API documentation][describe-nat-gateways]
+* `tags` - (Optional, Map of strings) Key-value pairs.
+  Must exactly match pairs on the required resources.
+* `vpc_id` - (Optional, String) The ID of the VPC in which the NAT gateways are located.
 
-* `name` - (Required) The name of the field to filter by, as defined by
-  [the underlying AWS API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeNatGateways.html).
-* `values` - (Required) Set of values that are accepted for the given field.
-  A Nat Gateway will be selected if any one of the given values matches.
+### filter
 
-## Attributes Reference
+* `name` - (Required, String) The name of the filter.
+    * _Constraints:_ Filter names are case-sensitive
+* `values` - (Required, List of strings) One or more filter values.
+    * _Constraints:_ Filter values are case-sensitive
 
-* `id` - AWS Region.
-* `ids` - A list of all the NAT gateway ids found.
+## Attribute reference
+
+In addition to all arguments above, the following attributes are exported:
+
+* `id` - (String) The region.
+    * _Example:_ `ru-msk`
+* `ids` - (List of strings) The list of all the NAT gateway IDs found.

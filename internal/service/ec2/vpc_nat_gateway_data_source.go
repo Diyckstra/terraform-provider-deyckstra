@@ -16,7 +16,11 @@ func DataSourceNATGateway() *schema.Resource {
 		Read: dataSourceNATGatewayRead,
 
 		Schema: map[string]*schema.Schema{
-			"allocation_id": {
+			"auto_provision_zones": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"availability_mode": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -30,24 +34,8 @@ func DataSourceNATGateway() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
-			"network_interface_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"private_ip": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"public_ip": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
+			"nat_gateway_addresses": natGatewayAddressesSchema(),
 			"state": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"subnet_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -69,9 +57,8 @@ func dataSourceNATGatewayRead(d *schema.ResourceData, meta interface{}) error {
 	input := &ec2.DescribeNatGatewaysInput{
 		Filter: BuildAttributeFilterList(
 			map[string]string{
-				"state":     d.Get("state").(string),
-				"subnet-id": d.Get("subnet_id").(string),
-				"vpc-id":    d.Get("vpc_id").(string),
+				"state":  d.Get("state").(string),
+				"vpc-id": d.Get("vpc_id").(string),
 			},
 		),
 	}
@@ -101,19 +88,14 @@ func dataSourceNATGatewayRead(d *schema.ResourceData, meta interface{}) error {
 	}
 
 	d.SetId(aws.StringValue(ngw.NatGatewayId))
+	d.Set("auto_provision_zones", ngw.AutoProvisionZones)
+	d.Set("availability_mode", ngw.AvailabilityMode)
 	d.Set("connectivity_type", ngw.ConnectivityType)
 	d.Set("state", ngw.State)
-	d.Set("subnet_id", ngw.SubnetId)
 	d.Set("vpc_id", ngw.VpcId)
 
-	for _, address := range ngw.NatGatewayAddresses {
-		if aws.StringValue(address.AllocationId) != "" {
-			d.Set("allocation_id", address.AllocationId)
-			d.Set("network_interface_id", address.NetworkInterfaceId)
-			d.Set("private_ip", address.PrivateIp)
-			d.Set("public_ip", address.PublicIp)
-			break
-		}
+	if err := d.Set("nat_gateway_addresses", flattenNATGatewayAddresses(ngw.NatGatewayAddresses)); err != nil {
+		return fmt.Errorf("error setting nat_gateway_addresses: %w", err)
 	}
 
 	if err := d.Set("tags", KeyValueTags(ngw.Tags).IgnoreAWS().IgnoreConfig(ignoreTagsConfig).Map()); err != nil {
