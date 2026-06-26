@@ -1,0 +1,11 @@
+```release-note:new-resource
+aws_nat_gateway
+```
+
+```release-note:new-data-source
+aws_nat_gateway
+```
+
+```release-note:new-data-source
+aws_nat_gateways
+```
