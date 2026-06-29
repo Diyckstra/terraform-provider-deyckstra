@@ -3,7 +3,8 @@ name: Run linters for the provider documentation
 on:
   pull_request:
     branches: 'develop'
-    paths: 'docs/**'
+    paths:
+      - 'docs/**'
 
 jobs:
   docs-linter:
@@ -26,3 +27,6 @@ jobs:
 
     - name: Run linters for the docs
       run: make docs-lint
+
+    - name: Check links in the docs
+      run: make docs-link-check
