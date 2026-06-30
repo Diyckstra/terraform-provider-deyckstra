@@ -18,8 +18,11 @@ import (
 
 func TestAccVPCNATGateway_basic(t *testing.T) {
 	var natGateway ec2.NatGateway
+	var route ec2.Route
 	resourceName := "aws_nat_gateway.test"
+	routeResourceName := "aws_route.test"
 	rName := sdkacctest.RandomWithPrefix(acctest.ResourcePrefix)
+	destinationCidr := "10.3.0.0/16"
 
 	resource.ParallelTest(t, resource.TestCase{
 		PreCheck:          func() { acctest.PreCheck(t) },
@@ -28,7 +31,7 @@ func TestAccVPCNATGateway_basic(t *testing.T) {
 		CheckDestroy:      testAccCheckNATGatewayDestroy,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccNATGatewayConfig(rName),
+				Config: testAccNATGatewayConfigRoute(rName, destinationCidr),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					testAccCheckNATGatewayExists(resourceName, &natGateway),
 					resource.TestCheckResourceAttr(resourceName, "availability_mode", "regional"),
@@ -44,6 +47,9 @@ func TestAccVPCNATGateway_basic(t *testing.T) {
 					resource.TestCheckTypeSetElemAttrPair(resourceName, "nat_gateway_addresses.*.allocation_id", "aws_eip.test", "id"),
 					resource.TestCheckTypeSetElemAttrPair(resourceName, "nat_gateway_addresses.*.public_ip", "aws_eip.test", "public_ip"),
 					resource.TestCheckResourceAttr(resourceName, "tags.%", "0"),
+					// route targets NAT gateway
+					testAccCheckRouteExists(routeResourceName, &route),
+					resource.TestCheckResourceAttrPair(routeResourceName, "nat_gateway_id", resourceName, "id"),
 				),
 			},
 			{
@@ -484,4 +490,22 @@ resource "aws_nat_gateway" "test" {
   depends_on = [aws_internet_gateway.test]
 }
 `, tagKey1, tagValue1, tagKey2, tagValue2))
+}
+
+func testAccNATGatewayConfigRoute(rName, destinationCidr string) string {
+	return acctest.ConfigCompose(testAccNATGatewayConfig(rName), fmt.Sprintf(`
+resource "aws_route_table" "test" {
+  vpc_id = aws_vpc.test.id
+
+  tags = {
+    Name = %[1]q
+  }
+}
+
+resource "aws_route" "test" {
+  route_table_id         = aws_route_table.test.id
+  destination_cidr_block = %[2]q
+  nat_gateway_id         = aws_nat_gateway.test.id
+}
+`, rName, destinationCidr))
 }
