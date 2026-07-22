@@ -1,0 +1,11 @@
+```release-note:enhancement
+resource/aws_paas_service: Add `vector` as a valid PostgreSQL extension
+```
+
+```release-note:bug
+resource/aws_paas_service: Fix validation of the `pg_visibility` PostgreSQL extension
+```
+
+```release-note:enhancement
+resource/aws_paas_service: Make `ssh_key_name` optional
+```
