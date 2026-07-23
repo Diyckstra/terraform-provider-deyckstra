@@ -1,5 +1,14 @@
 ## 25.6.0 (Unreleased)
 
+ENHANCEMENTS:
+
+* resource/aws_paas_service: Add `vector` as a valid PostgreSQL extension ([#166](https://github.com/C2Devel/terraform-provider-rockitcloud/issues/166))
+* resource/aws_paas_service: Make `ssh_key_name` optional ([#166](https://github.com/C2Devel/terraform-provider-rockitcloud/issues/166))
+
+BUG FIXES:
+
+* resource/aws_paas_service: Fix validation of the `pg_visibility` PostgreSQL extension ([#166](https://github.com/C2Devel/terraform-provider-rockitcloud/issues/166))
+
 ## 25.5.2 (June 09, 2026)
 
 ENHANCEMENTS:
