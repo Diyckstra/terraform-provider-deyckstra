@@ -57,7 +57,7 @@ func postgreSQLDatabaseExtensions() []string {
 		"moddatetime",
 		"pg_buffercache",
 		"pg_trgm",
-		"pg_visibility ",
+		"pg_visibility",
 		"pgcrypto",
 		"pgrowlocks",
 		"pgstattuple",
@@ -73,6 +73,7 @@ func postgreSQLDatabaseExtensions() []string {
 		"tsm_system_time",
 		"unaccent",
 		"uuid-ossp",
+		"vector",
 		"xml2",
 	}
 }
