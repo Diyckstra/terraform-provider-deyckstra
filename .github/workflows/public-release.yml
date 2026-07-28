@@ -11,11 +11,30 @@ jobs:
     runs-on: ubuntu-22.04-large
     steps:
     - uses: actions/checkout@v4
+      with:
+        persist-credentials: false
+        clean: true
+        fetch-depth: 0
 
     - name: Setup Go
       uses: actions/setup-go@v2
       with:
         go-version: 1.21.x
+
+    - name: Verify tag is on develop branch
+      run: |
+        TAG_COMMIT=$(git rev-list -n 1 ${{ github.ref_name }})
+        echo "Tag commit: $TAG_COMMIT"
+        
+        DEVELOP_COMMIT=$(git rev-parse origin/develop)
+        echo "Develop commit: $DEVELOP_COMMIT"
+        
+        if git merge-base --is-ancestor $TAG_COMMIT $DEVELOP_COMMIT; then
+          echo "Tag is on develop branch"
+        else
+          echo "Tag commit is not on develop branch"
+          exit 1
+        fi
 
     - name: Import GPG key
       id: import_gpg
