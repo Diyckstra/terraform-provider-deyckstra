@@ -1,0 +1,7 @@
+```release-note:new-resource
+aws_paas_logstash_pipeline
+```
+
+```release-note:enhancement
+resource/aws_paas_service, data-source/aws_paas_service: add ELK PaaS support
+```
