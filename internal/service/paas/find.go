@@ -9,6 +9,7 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/awserr"
+	"github.com/aws/aws-sdk-go/aws/request"
 	"github.com/aws/aws-sdk-go/service/paas"
 	"github.com/hashicorp/aws-sdk-go-base/v2/awsv1shim/v2/tfawserr"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
@@ -20,7 +21,11 @@ func FindServiceByID(conn *paas.PaaS, id string) (*paas.Service, error) {
 		ServiceId: aws.String(id),
 	}
 
-	output, err := conn.DescribeService(input)
+	output, err := conn.DescribeServiceWithContext(
+		context.Background(),
+		input,
+		request.WithLogLevel(aws.LogOff),
+	)
 
 	if tfawserr.ErrCodeEquals(err, ServiceNotFoundCode) {
 		return nil, &resource.NotFoundError{

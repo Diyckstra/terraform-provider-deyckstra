@@ -6,6 +6,7 @@ import (
 )
 
 const (
+	ServiceTypeELK           = "elk"
 	ServiceTypeElasticSearch = "elasticsearch"
 	ServiceTypeKafka         = "kafka"
 	ServiceTypeMemcached     = "memcached"
@@ -19,6 +20,7 @@ const (
 
 func ServiceTypeValues() []string {
 	return []string{
+		ServiceTypeELK,
 		ServiceTypeElasticSearch,
 		ServiceTypeKafka,
 		ServiceTypeMemcached,
@@ -34,6 +36,7 @@ func ServiceTypeValues() []string {
 const (
 	ServiceClassCacher        = "cacher"
 	ServiceClassDatabase      = "database"
+	ServiceClassLogging       = "logging"
 	ServiceClassMessageBroker = "message_broker"
 	ServiceClassMonitoring    = "monitoring"
 	ServiceClassSearch        = "search"
@@ -43,6 +46,7 @@ func ServiceClassValues() []string {
 	return []string{
 		ServiceClassCacher,
 		ServiceClassDatabase,
+		ServiceClassLogging,
 		ServiceClassMessageBroker,
 		ServiceClassMonitoring,
 		ServiceClassSearch,
@@ -99,6 +103,7 @@ func parseBytes(value int64, dimension string) (int64, error) {
 
 // Map with ServiceManager objects for each supported PaaS service.
 var managers = map[string]ServiceManager{
+	ELK.ServiceType():           ELK,
 	ElasticSearch.ServiceType(): ElasticSearch,
 	Kafka.ServiceType():         Kafka,
 	Memcached.ServiceType():     Memcached,

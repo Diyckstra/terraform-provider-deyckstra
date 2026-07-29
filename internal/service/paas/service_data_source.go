@@ -215,6 +215,38 @@ func DataSourceService() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"nodes": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"main": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"role": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"coordinator": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"role": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+					},
+				},
+			},
 			"name": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -287,6 +319,7 @@ func DataSourceService() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			services.ELK.ServiceType():           services.ELK.DataSourceSchema(),
 			services.ElasticSearch.ServiceType(): services.ElasticSearch.DataSourceSchema(),
 			services.Kafka.ServiceType():         services.Kafka.DataSourceSchema(),
 			services.Memcached.ServiceType():     services.Memcached.DataSourceSchema(),
