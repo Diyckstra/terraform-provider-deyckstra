@@ -35,9 +35,9 @@ function curl_and_check() {
   # $3 - output
 
   if [[ -z "${3:-}" ]]; then
-    http_code=$(curl -k -s -o /dev/null -w '%{http_code}' "${2}")
+    http_code=$(curl --fail --show-error --ssl-reqd --tlsv1.2 --tls-max 1.3 -s -o /dev/null -w '%{http_code}' "${2}")
   else
-    http_code=$(curl -k -s -o "${3}" -w '%{http_code}' "${2}")
+    http_code=$(curl --fail --show-error --ssl-reqd --tlsv1.2 --tls-max 1.3 -s -o "${3}" -w '%{http_code}' "${2}")
   fi
 
   if [[ "${http_code}" == "200" ]]; then
@@ -85,8 +85,8 @@ curl_and_check \
 
 echo "Get providers url prefix:"
 
-tf_provider_prefix=$(curl -k -s "${TF_REGISTRY_URL}/.well-known/terraform.json" | jq -r '."providers.v1"')
-s3_provider_prefix=$(curl -k -s "${S3_REGISTRY_URL}/.well-known/terraform.json" | jq -r '."providers.v1"')
+tf_provider_prefix=$(curl --fail --show-error --ssl-reqd --tlsv1.2 --tls-max 1.3 -s "${TF_REGISTRY_URL}/.well-known/terraform.json" | jq -r '."providers.v1"')
+s3_provider_prefix=$(curl --fail --show-error --ssl-reqd --tlsv1.2 --tls-max 1.3 -s "${S3_REGISTRY_URL}/.well-known/terraform.json" | jq -r '."providers.v1"')
 
 echo "  terraform registry: ${tf_provider_prefix}"
 echo "  s3 registry: ${s3_provider_prefix}"
