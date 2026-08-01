@@ -1,0 +1,15 @@
+```release-note:new-resource
+aws_paas_prometheus_notification_channel
+```
+
+```release-note:new-resource
+aws_paas_prometheus_route
+```
+
+```release-note:new-resource
+aws_paas_prometheus_scrape_job
+```
+
+```release-note:enhancement
+resource/aws_paas_service, data-source/aws_paas_service: add Prometheus PaaS support
+```
