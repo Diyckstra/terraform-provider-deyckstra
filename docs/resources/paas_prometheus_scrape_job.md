@@ -1,6 +1,5 @@
 ---
 subcategory: "PaaS"
-layout: "aws"
 page_title: "aws_paas_prometheus_scrape_job"
 description: |-
   Manages a Prometheus scrape job for a PaaS service.

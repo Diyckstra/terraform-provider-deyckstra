@@ -1,6 +1,5 @@
 ---
 subcategory: "PaaS"
-layout: "aws"
 page_title: "aws_paas_prometheus_notification_channel"
 description: |-
   Manages a Prometheus notification channel for a PaaS service.

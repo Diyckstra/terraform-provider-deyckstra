@@ -441,6 +441,9 @@ To configure alert delivery and metric collection, use the
 [aws_paas_prometheus_route](paas_prometheus_route.md), and
 [aws_paas_prometheus_scrape_job](paas_prometheus_scrape_job.md) resources.
 
+A complete runnable configuration is available in the
+[Prometheus PaaS example](https://github.com/C2Devel/terraform-provider-rockitcloud/tree/develop/examples/paas/prometheus).
+
 ### RabbitMQ Service
 
 ~> **Note** This example uses the VPC and subnet defined in the [Elasticsearch Service example](#elasticsearch-service).

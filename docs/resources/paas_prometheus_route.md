@@ -1,6 +1,5 @@
 ---
 subcategory: "PaaS"
-layout: "aws"
 page_title: "aws_paas_prometheus_route"
 description: |-
   Manages a Prometheus alerting route for a PaaS service.
