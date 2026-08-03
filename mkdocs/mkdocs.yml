@@ -127,6 +127,9 @@ nav:
     - Resources:
       - aws_paas_backup: resources/paas_backup.md
       - aws_paas_kafka_topic: resources/paas_kafka_topic.md
+      - aws_paas_prometheus_notification_channel: resources/paas_prometheus_notification_channel.md
+      - aws_paas_prometheus_route: resources/paas_prometheus_route.md
+      - aws_paas_prometheus_scrape_job: resources/paas_prometheus_scrape_job.md
       - aws_paas_service: resources/paas_service.md
     - Data Sources:
       - aws_paas_backup: data-sources/paas_backup.md

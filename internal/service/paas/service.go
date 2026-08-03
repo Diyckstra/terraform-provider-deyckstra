@@ -40,7 +40,7 @@ func ResourceService() *schema.Resource {
 			Delete: schema.DefaultTimeout(15 * time.Minute),
 		},
 
-		CustomizeDiff: validateKafkaServiceConfiguration,
+		CustomizeDiff: validateServiceConfiguration,
 
 		Schema: map[string]*schema.Schema{
 			"additional_roles": {
@@ -426,6 +426,7 @@ func ResourceService() *schema.Resource {
 			services.MongoDB.ServiceType():       services.MongoDB.ResourceSchema(),
 			services.MySQL.ServiceType():         services.MySQL.ResourceSchema(),
 			services.PostgreSQL.ServiceType():    services.PostgreSQL.ResourceSchema(),
+			services.Prometheus.ServiceType():    services.Prometheus.ResourceSchema(),
 			services.RabbitMQ.ServiceType():      services.RabbitMQ.ResourceSchema(),
 			services.Redis.ServiceType():         services.Redis.ResourceSchema(),
 		},
@@ -530,7 +531,26 @@ func resourceServiceCreate(ctx context.Context, d *schema.ResourceData, meta int
 	return resourceServiceUpdate(ctx, d, meta)
 }
 
-func resourceServiceRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceServiceRead(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+	diags := readService(d, meta)
+	if diags.HasError() || d.Id() == "" {
+		return diags
+	}
+
+	serviceType := d.Get("service_type").(string)
+	manager := services.Manager(serviceType)
+	if manager == nil {
+		return diag.Errorf("error reading PaaS Service (%s): unknown service type %q", d.Id(), serviceType)
+	}
+
+	if err := setUnsupportedArbitratorRequired(d, manager); err != nil {
+		return diag.Errorf("error setting arbitrator_required: %s", err)
+	}
+
+	return diags
+}
+
+func readService(d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	conn := meta.(*conns.AWSClient).PaaSConn
 	id := d.Id()
 
@@ -586,6 +606,10 @@ func resourceServiceRead(ctx context.Context, d *schema.ResourceData, meta inter
 
 	serviceType := aws.StringValue(service.ServiceType)
 	manager := services.Manager(serviceType)
+	if manager == nil {
+		return diag.Errorf("error reading PaaS Service (%s): unknown service type %q", id, serviceType)
+	}
+
 	parametersMap := manager.FlattenServiceParametersUsersDatabases(
 		service.Parameters,
 		service.Users,
@@ -632,6 +656,18 @@ func resourceServiceRead(ctx context.Context, d *schema.ResourceData, meta inter
 	d.Set("vpc_id", service.VpcId)
 
 	return nil
+}
+
+func setUnsupportedArbitratorRequired(d *schema.ResourceData, manager services.ServiceManager) error {
+	// DescribeService does not return arbitratorRequired. For service types that
+	// cannot use an arbitrator, however, its value is unambiguously false and
+	// must be restored during import. Otherwise Terraform sees the schema
+	// default as removed and proposes replacing the service.
+	if manager.Service().AllowArbitrator() {
+		return nil
+	}
+
+	return d.Set("arbitrator_required", false)
 }
 
 func resourceServiceUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {

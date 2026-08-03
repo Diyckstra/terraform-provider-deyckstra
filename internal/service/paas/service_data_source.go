@@ -293,16 +293,17 @@ func DataSourceService() *schema.Resource {
 			services.MongoDB.ServiceType():       services.MongoDB.DataSourceSchema(),
 			services.MySQL.ServiceType():         services.MySQL.DataSourceSchema(),
 			services.PostgreSQL.ServiceType():    services.PostgreSQL.DataSourceSchema(),
+			services.Prometheus.ServiceType():    services.Prometheus.DataSourceSchema(),
 			services.RabbitMQ.ServiceType():      services.RabbitMQ.DataSourceSchema(),
 			services.Redis.ServiceType():         services.Redis.DataSourceSchema(),
 		},
 	}
 }
 
-func dataSourceServiceRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func dataSourceServiceRead(_ context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	id := d.Get("id").(string)
 	d.SetId(id)
 
 	// FIXME: fix semgrep warning
-	return resourceServiceRead(ctx, d, meta) // nosemgrep: data-source-with-resource-read
+	return readService(d, meta) // nosemgrep: data-source-with-resource-read
 }

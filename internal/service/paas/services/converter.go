@@ -13,38 +13,42 @@ func (s service) ExpandServiceParameters(tfMap map[string]interface{}) ServicePa
 
 	serviceParameters := ServiceParameters{}
 
-	if v, ok := tfMap["logging"].([]interface{}); ok && len(v) > 0 {
-		loggingMap := v[0].(map[string]interface{})
-		serviceParameters["logging"] = true
+	if s.loggingEnabled {
+		if v, ok := tfMap["logging"].([]interface{}); ok && len(v) > 0 {
+			loggingMap := v[0].(map[string]interface{})
+			serviceParameters["logging"] = true
 
-		if v, ok := loggingMap["log_to"].(string); ok && v != "" {
-			serviceParameters["log_to"] = v
+			if v, ok := loggingMap["log_to"].(string); ok && v != "" {
+				serviceParameters["log_to"] = v
+			}
+
+			if v, ok := loggingMap["logging_tags"].(*schema.Set); ok && v.Len() > 0 {
+				serviceParameters["logging_tags"] = v.List()
+			}
+
+			delete(tfMap, "logging")
+		} else {
+			serviceParameters["logging"] = false
 		}
-
-		if v, ok := loggingMap["logging_tags"].(*schema.Set); ok && v.Len() > 0 {
-			serviceParameters["logging_tags"] = v.List()
-		}
-
-		delete(tfMap, "logging")
-	} else {
-		serviceParameters["logging"] = false
 	}
 
-	if v, ok := tfMap["monitoring"].([]interface{}); ok && len(v) > 0 {
-		monitoringMap := v[0].(map[string]interface{})
-		serviceParameters["monitoring"] = true
+	if s.monitoringEnabled {
+		if v, ok := tfMap["monitoring"].([]interface{}); ok && len(v) > 0 {
+			monitoringMap := v[0].(map[string]interface{})
+			serviceParameters["monitoring"] = true
 
-		if v, ok := monitoringMap["monitor_by"].(string); ok && v != "" {
-			serviceParameters["monitor_by"] = v
+			if v, ok := monitoringMap["monitor_by"].(string); ok && v != "" {
+				serviceParameters["monitor_by"] = v
+			}
+
+			if v, ok := monitoringMap["monitoring_labels"].(map[string]interface{}); ok && len(v) > 0 {
+				serviceParameters["monitoring_labels"] = v
+			}
+
+			delete(tfMap, "monitoring")
+		} else {
+			serviceParameters["monitoring"] = false
 		}
-
-		if v, ok := monitoringMap["monitoring_labels"].(map[string]interface{}); ok && len(v) > 0 {
-			serviceParameters["monitoring_labels"] = v
-		}
-
-		delete(tfMap, "monitoring")
-	} else {
-		serviceParameters["monitoring"] = false
 	}
 
 	for k, v := range s.toInterface().expandServiceParameters(tfMap) {
