@@ -1,5 +1,15 @@
 ## 25.6.0 (Unreleased)
 
+FEATURES:
+
+* **New Resource:** `aws_paas_prometheus_notification_channel` ([#150](https://github.com/C2Devel/terraform-provider-rockitcloud/pull/150))
+* **New Resource:** `aws_paas_prometheus_route` ([#150](https://github.com/C2Devel/terraform-provider-rockitcloud/pull/150))
+* **New Resource:** `aws_paas_prometheus_scrape_job` ([#150](https://github.com/C2Devel/terraform-provider-rockitcloud/pull/150))
+
+ENHANCEMENTS:
+
+* resource/aws_paas_service, data-source/aws_paas_service: add Prometheus PaaS support ([#150](https://github.com/C2Devel/terraform-provider-rockitcloud/issues/150))
+
 ## 25.5.3 (July 23, 2026)
 
 ENHANCEMENTS:
