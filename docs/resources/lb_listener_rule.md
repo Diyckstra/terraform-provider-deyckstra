@@ -277,12 +277,19 @@ The `condition` block has the following structure:
   The structure of this block is [described below](#host_header).
     * _Constraints:_
         * This argument can be specified only once per rule
-        * Conflicts with the `path_pattern` argument
+        * Conflicts with the `path_pattern`,`source_ip` arguments
 * `path_pattern` - (Optional, Editable) The block with information about the path patterns that the path in the URL should match.
   The structure of this block is [described below](#path_pattern).
     * _Constraints:_
         * This argument can be specified only once per rule
-        * Conflicts with the `host_header` argument
+        * Conflicts with the `host_header`,`source_ip` arguments
+* `source_ip` - (Optional, Editable) The block with information about the source IP CIDRs to match.
+  The structure of this block is [described below](#source_ip).
+    * _Constraints:_
+        * This argument can be specified only once per rule
+        * Conflicts with the `host_header`,`path_pattern` arguments
+
+~> **Note** Exactly one of `host_header`, `path_pattern` or `source_ip` must be set per condition.
 
 #### host_header
 
@@ -302,6 +309,14 @@ The `path_pattern` block has the following structure:
     * _Value length:_ From 1 to 128 symbols
     * _Constraints:_ See all the constraints in the [ELB API documentation][path-pattern-config]
 
+#### source_ip
+
+The `source_ip` block has the following structure:
+
+* `values` - (Required, Editable) List of the source IP addresses that the source IP address of the request will be compared to.
+  If multiple values are specified, a logical OR operator is applied for the condition.
+    * _Constraints:_ See all the constraints in the [ELB API documentation][source-ip-config]
+
 ## Attribute Reference
 
 ### Supported attributes
@@ -317,7 +332,7 @@ In addition to all arguments above, the following attributes are exported:
 
 The following attributes are not currently supported:
 
-`action.authenticate_cognito`, `action.authenticate_oidc`, `condition.http_header`, `condition.http_request_method`, `condition.query_string`, `condition.source_ip`, `forward.stickiness`.
+`action.authenticate_cognito`, `action.authenticate_oidc`, `condition.http_header`, `condition.http_request_method`, `condition.query_string`, `forward.stickiness`.
 
 ## Import
 
