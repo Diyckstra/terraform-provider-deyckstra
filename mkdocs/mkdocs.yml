@@ -127,6 +127,7 @@ nav:
     - Resources:
       - aws_paas_backup: resources/paas_backup.md
       - aws_paas_kafka_topic: resources/paas_kafka_topic.md
+      - aws_paas_logstash_pipeline: resources/paas_logstash_pipeline.md
       - aws_paas_prometheus_notification_channel: resources/paas_prometheus_notification_channel.md
       - aws_paas_prometheus_route: resources/paas_prometheus_route.md
       - aws_paas_prometheus_scrape_job: resources/paas_prometheus_scrape_job.md

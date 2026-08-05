@@ -15,6 +15,7 @@ description: |-
 [doc-shared_buffers]: https://postgresqlco.nf/doc/en/param/shared_buffers/
 [doc-transaction_isolation]: https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_transaction_isolation
 
+[elk-version]: https://docs.k2.cloud/en/api/paas/parameters/elk.html#version
 [elasticsearch-version]: https://docs.k2.cloud/en/api/paas/parameters/elasticsearch.html#version
 [internet gateway]: https://docs.k2.cloud/en/services/networking/igw.html
 [mongodb-version]: https://docs.k2.cloud/en/api/paas/parameters/mongodb.html#version
@@ -27,6 +28,7 @@ description: |-
 [technical support]: https://support.k2int.ru/app/#/project/CS
 [timeouts]: https://developer.hashicorp.com/terraform/plugin/framework/resources/timeouts
 
+[ELK]: #elk-argument-reference
 [Elasticsearch]: #elasticsearch-argument-reference
 [Kafka]: #kafka-argument-reference
 [Memcached]: #memcached-argument-reference
@@ -89,6 +91,38 @@ resource "aws_paas_service" "elasticsearch" {
   elasticsearch {
     version = "8.12"
     kibana  = true
+  }
+}
+```
+
+### ELK Service
+
+~> **Note** An ELK service must be deployed in a subnet with Internet access.
+
+```terraform
+resource "aws_paas_service" "elk" {
+  name          = "tf-elk-service"
+  instance_type = "m5.large"
+
+  root_volume {
+    type = "gp2"
+    size = 32
+  }
+
+  data_volume {
+    type = "gp2"
+    size = 32
+  }
+
+  delete_interfaces_on_destroy = true
+  security_group_ids           = var.elk_security_group_ids
+  subnet_ids                   = var.elk_subnet_ids
+  ssh_key_name                 = var.elk_ssh_key_name
+
+  elk {
+    version         = "8.17"
+    password        = var.elk_password
+    allow_anonymous = false
   }
 }
 ```
@@ -541,7 +575,7 @@ The following arguments are optional:
 * `arbitrator_required` - (Optional) Indicates whether to create a cluster with an arbitrator.
     * _Default value:_ `false`
     * _Constraints:_ The parameter can be set to `true` only if `high_availability` is `true`
-      The parameter is supported only for [Elasticsearch], [MongoDB], [MySQL] and [PostgreSQL] services.
+      The parameter is supported only for [ELK], [Elasticsearch], [MongoDB], [MySQL] and [PostgreSQL] services.
 * `additional_roles` - (Optional, ForceNew) Additional roles for broker nodes.
     * _Valid values:_ `coordinator`
     * _Constraints:_ Supported only for [Kafka]. Cannot be used together with `coordinator`.
@@ -550,12 +584,12 @@ The following arguments are optional:
 * `coordinator` - (Optional, ForceNew) Dedicated coordinator node parameters. The structure of this block is [described below](#coordinator).
     * _Constraints:_ Supported only for [Kafka]. Cannot be used together with `additional_roles`.
 * `data_volume` - (Optional) The data volume parameters for the service. The structure of this block is [described below](#data_volume).
-  The provider schema requires this parameter for [Elasticsearch], [Kafka], [Memcached], [MongoDB], [MySQL], [PostgreSQL],
+  The provider schema requires this parameter for [ELK], [Elasticsearch], [Kafka], [Memcached], [MongoDB], [MySQL], [PostgreSQL],
   [Prometheus], [RabbitMQ] and [Redis] services.
 * `delete_interfaces_on_destroy` - (Optional) Indicates whether to delete the instance network interfaces when the service is destroyed.
     * _Default value:_ `false`
 * `high_availability` - (Optional) Indicates whether to create a high availability service.
-  The parameter is supported only for [Elasticsearch], [Kafka], [MongoDB], [MySQL], [PostgreSQL], [RabbitMQ] and [Redis] services.
+  The parameter is supported only for [ELK], [Elasticsearch], [Kafka], [MongoDB], [MySQL], [PostgreSQL], [RabbitMQ] and [Redis] services.
   For [Prometheus], the value must remain `false`.
     * _Default value:_ `false`
 * `network_interface_ids` - (Optional) List of network interface IDs.
@@ -570,6 +604,7 @@ The following arguments are optional:
 
 One of the following blocks with service parameters must be specified:
 
+* `elk` - ELK parameters. The structure of this block is [described below](#elk-argument-reference).
 * `elasticsearch` - Elasticsearch parameters. The structure of this block is [described below](#elasticsearch-argument-reference).
 * `kafka` - Kafka parameters. The structure of this block is [described below](#kafka-argument-reference).
 * `memcached` - Memcached parameters. The structure of this block is [described below](#memcached-argument-reference).
@@ -667,6 +702,39 @@ If you need to use such a parameter, contact [technical support].
 
 * `password` - (Optional) The Elasticsearch user password.
   The value must not contain `-`, `!`, `:`, `;`, `%`, `'`, `"`, `` ` `` and `\`.
+
+## ELK Argument Reference
+
+In addition to the common arguments for all services [described above](#argument-reference),
+the `elk` block can contain the following arguments:
+
+* `allow_anonymous` - (Optional) Indicates whether anonymous access to Kibana is enabled.
+  When `password` is specified, the API defaults this value to `false`.
+* `anonymous_role` - (Optional) List containing at most one role for anonymous access.
+    * _Valid values:_ `viewer`, `editor`
+    * _Default value:_ `viewer`
+    * _Constraints:_ The parameter is applicable only if `allow_anonymous` is `true`.
+  Terraform uses the documented list-shaped configuration but sends its one
+  element as the scalar value required by the live API.
+* `class` - (Optional) The service class.
+    * _Valid values:_ `logging`
+    * _Default value:_ `logging`
+* `monitoring` - (Optional, Editable) The monitoring settings for the service.
+  The structure of this block is [described below](#monitoring).
+* `options` - (Optional, Forces new resource) Map containing other ELK parameters. Values are strings.
+* `password` - (Optional) The Elasticsearch user password. The value must be 8 to 128 characters long
+  and must not contain `-`, `!`, `:`, `;`, `%`, `'`, `"`, `` ` `` or `\`. If the password is
+  omitted, Kibana allows anonymous access by default.
+* `version` - (Required) The version to install.
+  The current list of supported versions is available in the [K2 Cloud API documentation][elk-version].
+
+~> **Note** ELK does not expose `kibana` or `logging` arguments. Kibana is an integral component of
+the K2 Cloud ELK service, and the service is itself a logging destination.
+
+~> **Note** Of the ELK-specific parameters, only `monitoring` is updated in
+place. The live API can omit `password` and `options` from DescribeService.
+Terraform preserves them in an existing resource state, but a fresh import
+cannot recover values that the API does not return.
 
 ## Memcached Argument Reference
 

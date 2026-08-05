@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/request"
 	"github.com/aws/aws-sdk-go/service/ec2"
 	"github.com/aws/aws-sdk-go/service/paas"
 	"github.com/hashicorp/aws-sdk-go-base/v2/awsv1shim/v2/tfawserr"
@@ -420,6 +421,7 @@ func ResourceService() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			services.ELK.ServiceType():           services.ELK.ResourceSchema(),
 			services.ElasticSearch.ServiceType(): services.ElasticSearch.ResourceSchema(),
 			services.Kafka.ServiceType():         services.Kafka.ResourceSchema(),
 			services.Memcached.ServiceType():     services.Memcached.ResourceSchema(),
@@ -510,8 +512,22 @@ func resourceServiceCreate(ctx context.Context, d *schema.ResourceData, meta int
 		input.UserDataContentType = aws.String(d.Get("user_data_content_type").(string))
 	}
 
-	log.Printf("[DEBUG] Creating PaaS Service: %s", input)
-	output, err := conn.CreateService(input)
+	if manager.ServiceType() == services.ServiceTypeELK {
+		log.Printf("[DEBUG] Creating PaaS ELK Service %q", name)
+	} else {
+		log.Printf("[DEBUG] Creating PaaS Service: %s", input)
+	}
+	var output *paas.CreateServiceOutput
+	var err error
+	if manager.ServiceType() == services.ServiceTypeELK {
+		output, err = conn.CreateServiceWithContext(
+			ctx,
+			input,
+			request.WithLogLevel(aws.LogOff),
+		)
+	} else {
+		output, err = conn.CreateService(input)
+	}
 
 	if err != nil {
 		return diag.Errorf("error creating PaaS Service with name %s: %s", name, err)
@@ -615,6 +631,9 @@ func readService(d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 		service.Users,
 		service.Databases,
 	)
+	if serviceType == services.ServiceTypeELK {
+		preserveELKInputOnlyParameters(d, parametersMap)
+	}
 	parametersMap["class"] = service.ServiceClass
 	d.Set(serviceType, []map[string]interface{}{parametersMap})
 
@@ -668,6 +687,35 @@ func setUnsupportedArbitratorRequired(d *schema.ResourceData, manager services.S
 	}
 
 	return d.Set("arbitrator_required", false)
+}
+
+func preserveELKInputOnlyParameters(d *schema.ResourceData, parametersMap map[string]interface{}) {
+	if password, ok := parametersMap["password"].(string); !ok || password == "" {
+		if password, ok := d.GetOk(services.ServiceTypeELK + ".0.password"); ok {
+			parametersMap["password"] = password
+		}
+	}
+
+	if options, ok := parametersMap["options"].(map[string]interface{}); !ok || len(options) == 0 {
+		if options, ok := d.GetOk(services.ServiceTypeELK + ".0.options"); ok {
+			parametersMap["options"] = options
+		}
+	}
+}
+
+func serviceParametersForUpdate(serviceType string, input services.ServiceParameters) services.ServiceParameters {
+	if serviceType != services.ServiceTypeELK {
+		return input
+	}
+
+	output := services.ServiceParameters{}
+	for _, key := range []string{"monitoring", "monitor_by", "monitoring_labels"} {
+		if value, ok := input[key]; ok {
+			output[key] = value
+		}
+	}
+
+	return output
 }
 
 func resourceServiceUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
@@ -768,10 +816,26 @@ func resourceServiceUpdate(ctx context.Context, d *schema.ResourceData, meta int
 		}
 
 		parametersMap := d.Get(serviceType).([]interface{})[0].(map[string]interface{})
-		input.Parameters = manager.ExpandServiceParameters(parametersMap)
+		input.Parameters = serviceParametersForUpdate(
+			serviceType,
+			manager.ExpandServiceParameters(parametersMap),
+		)
 
-		log.Printf("[DEBUG] Modifying PaaS Service parameters: %s", input)
-		_, err := conn.ModifyServiceParameters(input)
+		if serviceType == services.ServiceTypeELK {
+			log.Printf("[DEBUG] Modifying PaaS ELK Service (%s) parameters", id)
+		} else {
+			log.Printf("[DEBUG] Modifying PaaS Service parameters: %s", input)
+		}
+		var err error
+		if serviceType == services.ServiceTypeELK {
+			_, err = conn.ModifyServiceParametersWithContext(
+				ctx,
+				input,
+				request.WithLogLevel(aws.LogOff),
+			)
+		} else {
+			_, err = conn.ModifyServiceParameters(input)
+		}
 
 		if err != nil {
 			return diag.Errorf("error modifying PaaS Service (%s) parameters: %s", id, err)
