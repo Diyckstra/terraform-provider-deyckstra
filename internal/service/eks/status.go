@@ -62,7 +62,7 @@ func statusClusterUpdate(conn *eks.EKS, name, id string) resource.StateRefreshFu
 		output, err := FindClusterUpdateByNameAndID(conn, name, id)
 
 		if tfresource.NotFound(err) {
-			return nil, "", nil
+			return nil, eks.UpdateStatusInProgress, nil
 		}
 
 		if err != nil {
@@ -110,7 +110,7 @@ func statusNodegroupUpdate(conn *eks.EKS, clusterName, nodeGroupName, id string)
 		output, err := FindNodegroupUpdateByClusterNameNodegroupNameAndID(conn, clusterName, nodeGroupName, id)
 
 		if tfresource.NotFound(err) {
-			return nil, "", nil
+			return nil, eks.UpdateStatusInProgress, nil
 		}
 
 		if err != nil {

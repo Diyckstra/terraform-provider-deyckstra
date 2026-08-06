@@ -2,8 +2,11 @@ package eks
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"reflect"
+	"regexp"
+	"strings"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -25,6 +28,60 @@ import (
 const (
 	nodeGroupCreateRetryTimeout = 15 * time.Minute
 )
+
+var (
+	kubernetesLabelNameRegexp   = regexp.MustCompile(`^[A-Za-z0-9]([-A-Za-z0-9_.]*[A-Za-z0-9])?$`)
+	kubernetesLabelPrefixRegexp = regexp.MustCompile(`^[a-z0-9]([-a-z0-9]*[a-z0-9])?$`)
+)
+
+func validateKubernetesLabels(i interface{}, k string) ([]string, []error) {
+	labels, ok := i.(map[string]interface{})
+	if !ok {
+		return nil, []error{fmt.Errorf("%q must be a map of strings", k)}
+	}
+
+	var errors []error
+	for key, rawValue := range labels {
+		name := key
+		if strings.Count(key, "/") > 1 {
+			errors = append(errors, fmt.Errorf("%q key %q must contain at most one slash", k, key))
+		}
+		if slash := strings.LastIndex(key, "/"); slash >= 0 {
+			prefix := key[:slash]
+			name = key[slash+1:]
+			if !validKubernetesLabelPrefix(prefix) {
+				errors = append(errors, fmt.Errorf("%q key %q must have a valid DNS prefix between 1 and 253 characters", k, key))
+			}
+		}
+
+		if len(name) == 0 || len(name) > 63 || !kubernetesLabelNameRegexp.MatchString(name) {
+			errors = append(errors, fmt.Errorf("%q key %q must have a valid name of at most 63 characters", k, key))
+		}
+
+		value, ok := rawValue.(string)
+		if !ok {
+			errors = append(errors, fmt.Errorf("%q value for key %q must be a string", k, key))
+			continue
+		}
+		if len(value) > 63 || (value != "" && !kubernetesLabelNameRegexp.MatchString(value)) {
+			errors = append(errors, fmt.Errorf("%q value for key %q must be empty or a valid label value of at most 63 characters", k, key))
+		}
+	}
+
+	return nil, errors
+}
+
+func validKubernetesLabelPrefix(prefix string) bool {
+	if len(prefix) == 0 || len(prefix) > 253 {
+		return false
+	}
+	for _, label := range strings.Split(prefix, ".") {
+		if len(label) == 0 || len(label) > 63 || !kubernetesLabelPrefixRegexp.MatchString(label) {
+			return false
+		}
+	}
+	return true
+}
 
 func ResourceNodeGroup() *schema.Resource {
 	return &schema.Resource{
@@ -77,47 +134,41 @@ func ResourceNodeGroup() *schema.Resource {
 			},
 			"force_update_version": {
 				Type:     schema.TypeBool,
-				Optional: true,
+				Computed: true,
 			},
 			"instance_types": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
-				Elem:     &schema.Schema{Type: schema.TypeString},
+				MinItems: 1,
+				Elem: &schema.Schema{
+					Type:         schema.TypeString,
+					ValidateFunc: validation.StringIsNotEmpty,
+				},
 			},
 			"labels": {
-				Type:     schema.TypeMap,
-				Optional: true,
-				Elem:     &schema.Schema{Type: schema.TypeString},
+				Type:         schema.TypeMap,
+				Optional:     true,
+				ValidateFunc: validateKubernetesLabels,
+				Elem:         &schema.Schema{Type: schema.TypeString},
 			},
 			"launch_template": {
 				Type:     schema.TypeList,
-				MaxItems: 1,
-				Optional: true,
-				Computed: true, // FIXME: remove after launch_template is supported in C2 EKS API.
+				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"id": {
-							Type:          schema.TypeString,
-							Optional:      true,
-							Computed:      true,
-							ForceNew:      true,
-							ConflictsWith: []string{"launch_template.0.name"},
-							ValidateFunc:  verify.ValidLaunchTemplateID,
+							Type:     schema.TypeString,
+							Computed: true,
 						},
 						"name": {
-							Type:          schema.TypeString,
-							Optional:      true,
-							Computed:      true,
-							ForceNew:      true,
-							ConflictsWith: []string{"launch_template.0.id"},
-							ValidateFunc:  verify.ValidLaunchTemplateName,
+							Type:     schema.TypeString,
+							Computed: true,
 						},
 						"version": {
-							Type:         schema.TypeString,
-							Required:     true,
-							ValidateFunc: validation.StringLenBetween(1, 255),
+							Type:     schema.TypeString,
+							Computed: true,
 						},
 					},
 				},
@@ -143,7 +194,6 @@ func ResourceNodeGroup() *schema.Resource {
 			},
 			"release_version": {
 				Type:     schema.TypeString,
-				Optional: true,
 				Computed: true,
 			},
 			"remote_access": {
@@ -210,7 +260,7 @@ func ResourceNodeGroup() *schema.Resource {
 						"min_size": {
 							Type:         schema.TypeInt,
 							Required:     true,
-							ValidateFunc: validation.IntAtLeast(0),
+							ValidateFunc: validation.IntAtLeast(1),
 						},
 					},
 				},
@@ -282,7 +332,6 @@ func ResourceNodeGroup() *schema.Resource {
 			},
 			"version": {
 				Type:     schema.TypeString,
-				Optional: true,
 				Computed: true,
 			},
 		},
@@ -326,14 +375,6 @@ func resourceNodeGroupCreate(ctx context.Context, d *schema.ResourceData, meta i
 		input.Labels = flex.ExpandStringMap(v)
 	}
 
-	if v := d.Get("launch_template").([]interface{}); len(v) > 0 {
-		input.LaunchTemplate = expandLaunchTemplateSpecification(v)
-	}
-
-	if v, ok := d.GetOk("release_version"); ok {
-		input.ReleaseVersion = aws.String(v.(string))
-	}
-
 	if v := d.Get("remote_access").([]interface{}); len(v) > 0 {
 		input.RemoteAccess = expandRemoteAccessConfig(v)
 	}
@@ -348,10 +389,6 @@ func resourceNodeGroupCreate(ctx context.Context, d *schema.ResourceData, meta i
 
 	if v, ok := d.GetOk("update_config"); ok && len(v.([]interface{})) > 0 && v.([]interface{})[0] != nil {
 		input.UpdateConfig = expandNodegroupUpdateConfig(v.([]interface{})[0].(map[string]interface{}))
-	}
-
-	if v, ok := d.GetOk("version"); ok {
-		input.Version = aws.String(v.(string))
 	}
 
 	if len(tags) > 0 {
@@ -502,59 +539,6 @@ func resourceNodeGroupUpdate(ctx context.Context, d *schema.ResourceData, meta i
 		return diag.FromErr(err)
 	}
 
-	// Do any version update first.
-	if d.HasChanges("launch_template", "release_version", "version") {
-		input := &eks.UpdateNodegroupVersionInput{
-			ClientRequestToken: aws.String(resource.UniqueId()),
-			ClusterName:        aws.String(clusterName),
-			Force:              aws.Bool(d.Get("force_update_version").(bool)),
-			NodegroupName:      aws.String(nodeGroupName),
-		}
-
-		if v := d.Get("launch_template").([]interface{}); len(v) > 0 {
-			input.LaunchTemplate = expandLaunchTemplateSpecification(v)
-
-			// When returning Launch Template information, the API returns all
-			// fields. Since both the id and name are saved to the Terraform
-			// state for drift detection and the API returns the following
-			// error if both are present during update:
-			// InvalidParameterException: Either provide launch template ID or launch template name in the request.
-
-			// Remove the name if there are no changes, to prefer the ID.
-			if input.LaunchTemplate.Id != nil && input.LaunchTemplate.Name != nil && !d.HasChange("launch_template.0.name") {
-				input.LaunchTemplate.Name = nil
-			}
-
-			// Otherwise, remove the ID, but only if both are present still.
-			if input.LaunchTemplate.Id != nil && input.LaunchTemplate.Name != nil && !d.HasChange("launch_template.0.id") {
-				input.LaunchTemplate.Id = nil
-			}
-		}
-
-		if v, ok := d.GetOk("release_version"); ok && d.HasChange("release_version") {
-			input.ReleaseVersion = aws.String(v.(string))
-		}
-
-		if v, ok := d.GetOk("version"); ok && d.HasChange("version") {
-			input.Version = aws.String(v.(string))
-		}
-
-		output, err := conn.UpdateNodegroupVersion(input)
-
-		if err != nil {
-			return diag.Errorf("error updating EKS Node Group (%s) version: %s", d.Id(), err)
-		}
-
-		updateID := aws.StringValue(output.Update.Id)
-
-		// FIXME: Use waitNodegroupUpdateSuccessful after DescribeUpdate implementation in C2.
-		_, err = waitC2NodegroupUpdated(ctx, conn, clusterName, nodeGroupName, d.Timeout(schema.TimeoutUpdate))
-
-		if err != nil {
-			return diag.Errorf("error waiting for EKS Node Group (%s) version update (%s): %s", d.Id(), updateID, err)
-		}
-	}
-
 	if d.HasChanges("labels", "scaling_config", "taint", "update_config") {
 		oldLabelsRaw, newLabelsRaw := d.GetChange("labels")
 		oldTaintsRaw, newTaintsRaw := d.GetChange("taint")
@@ -587,8 +571,7 @@ func resourceNodeGroupUpdate(ctx context.Context, d *schema.ResourceData, meta i
 
 		updateID := aws.StringValue(output.Update.Id)
 
-		// FIXME: Use waitNodegroupUpdateSuccessful after DescribeUpdate implementation in C2.
-		_, err = waitC2NodegroupUpdated(ctx, conn, clusterName, nodeGroupName, d.Timeout(schema.TimeoutUpdate))
+		_, err = waitNodegroupUpdateSuccessful(ctx, conn, clusterName, nodeGroupName, updateID, d.Timeout(schema.TimeoutUpdate))
 
 		if err != nil {
 			return diag.Errorf("error waiting for EKS Node Group (%s) config update (%s): %s", d.Id(), updateID, err)
@@ -638,30 +621,6 @@ func resourceNodeGroupDelete(ctx context.Context, d *schema.ResourceData, meta i
 	}
 
 	return nil
-}
-
-func expandLaunchTemplateSpecification(l []interface{}) *eks.LaunchTemplateSpecification {
-	if len(l) == 0 || l[0] == nil {
-		return nil
-	}
-
-	m := l[0].(map[string]interface{})
-
-	config := &eks.LaunchTemplateSpecification{}
-
-	if v, ok := m["id"].(string); ok && v != "" {
-		config.Id = aws.String(v)
-	}
-
-	if v, ok := m["name"].(string); ok && v != "" {
-		config.Name = aws.String(v)
-	}
-
-	if v, ok := m["version"].(string); ok && v != "" {
-		config.Version = aws.String(v)
-	}
-
-	return config
 }
 
 func expandNodegroupScalingConfig(tfMap map[string]interface{}) *eks.NodegroupScalingConfig {

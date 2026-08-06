@@ -1,0 +1,15 @@
+```release-note:enhancement
+resource/aws_eks_cluster: Add K2Cloud Pod CIDR, remote access, Cluster Autoscaler, in-place security group updates, and in-place user-data updates
+```
+
+```release-note:enhancement
+resource/aws_eks_cluster: Propagate K2Cloud health and update failures from waiters and align delete timeouts
+```
+
+```release-note:enhancement
+resource/aws_eks_node_group: Reject unsupported version and custom launch-template inputs while preserving platform-managed launch-template state
+```
+
+```release-note:enhancement
+data-source/aws_eks_cluster_auth: Return an actionable error directing K2Cloud users to `aws_eks_cluster_kubeconfig`
+```

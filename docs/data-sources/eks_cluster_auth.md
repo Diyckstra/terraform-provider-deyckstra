@@ -8,21 +8,19 @@ description: |-
 
 # Data Source: aws_eks_cluster_auth
 
-Provides information about an authentication token to communicate with an EKS cluster.
+This AWS-compatible data source is not supported by K2 EKS. K2 clusters use a
+certificate-based kubeconfig instead of an IAM authentication token. Reading
+this data source returns an explicit error.
 
-## Example Usage
+Use `aws_eks_cluster_kubeconfig`:
 
 ```terraform
-data "aws_eks_cluster_auth" "example" {
+data "aws_eks_cluster_kubeconfig" "example" {
   name = "example"
 }
+
+output "kubeconfig" {
+  value     = data.aws_eks_cluster_kubeconfig.example.kubeconfig
+  sensitive = true
+}
 ```
-
-## Argument Reference
-
-* `name` - (Required) The name of the cluster.
-
-## Attribute Reference
-
-* `id` - The name of the cluster.
-* `token` - The token to use to authenticate with the cluster.
