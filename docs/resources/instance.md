@@ -102,6 +102,9 @@ The following arguments are supported:
     ~> **Note** The address will be assigned to the `eth0` interface only if there are free allocated external addresses.
     This operation is available only for instances running in the VPC and for new network interfaces.
 
+    ~> **Important** The address is picked arbitrarily among all free allocated addresses of the project, so the instance can take an address that is intended for another resource, for example, for an [`aws_eip`](eip.md) association or for an [`aws_nat_gateway`](nat_gateway.md) that allocates its addresses automatically.
+    Terraform doesn't manage the creation order of such resources on its own, so it's recommended to set it explicitly via `depends_on`: the instance must be created after the resources that need their own external addresses, for example, `depends_on = [aws_nat_gateway.example]`.
+
 * `availability_zone` - (Optional) An availability zone to start the instance in.
 * `disable_api_termination` - (Optional) If `true`, disables the possibility to terminate an instance via API.
 * `ebs_block_device` - (Optional) One or more configuration blocks with additional EBS block devices to attach to the instance. The structure of this block and details on drift detection are [described below](#ebs_block_device). When accessing this as an attribute reference, it is a set of objects.
