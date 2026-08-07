@@ -336,10 +336,10 @@ func resourceEIPUpdate(d *schema.ResourceData, meta interface{}) error {
 	// If we are updating an EIP that is not newly created, and we are attached to
 	// an instance or interface, detach first.
 	disassociate := false
-	if !d.IsNewResource() {
-		if d.HasChange("instance") && d.Get("instance").(string) != "" {
-			disassociate = true
-		} else if (d.HasChanges("network_interface", "associate_with_private_ip")) && d.Get("association_id").(string) != "" {
+	if !d.IsNewResource() && d.HasChanges("instance", "network_interface", "associate_with_private_ip") {
+		oldInstance, _ := d.GetChange("instance")
+
+		if oldInstance.(string) != "" || d.Get("association_id").(string) != "" {
 			disassociate = true
 		}
 	}
@@ -460,23 +460,14 @@ func resourceEIPDelete(d *schema.ResourceData, meta interface{}) error {
 		}
 	}
 
-	err := resource.Retry(d.Timeout(schema.TimeoutDelete), func() *resource.RetryError {
-		_, err := conn.ReleaseAddress(input)
+	// AuthFailure is the only error worth waiting out here
+	// Every other refusal is permanent, so retrying it just hide reason timeout
+	_, err := tfresource.RetryWhenAWSErrCodeEquals(d.Timeout(schema.TimeoutDelete), func() (interface{}, error) {
+		return conn.ReleaseAddress(input)
+	}, "AuthFailure")
 
-		if err == nil {
-			return nil
-		}
-		if _, ok := err.(awserr.Error); !ok {
-			return resource.NonRetryableError(err)
-		}
-
-		return resource.RetryableError(err)
-	})
-	if tfresource.TimedOut(err) {
-		_, err = conn.ReleaseAddress(input)
-	}
 	if err != nil {
-		return fmt.Errorf("Error releasing EIP address: %s", err)
+		return fmt.Errorf("error releasing EC2 EIP (%s): %w", d.Id(), err)
 	}
 	return nil
 }
