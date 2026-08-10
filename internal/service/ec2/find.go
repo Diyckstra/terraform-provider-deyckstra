@@ -4297,7 +4297,7 @@ func FindNATGateways(conn *ec2.EC2, input *ec2.DescribeNatGatewaysInput) ([]*ec2
 		return !lastPage
 	})
 
-	if tfawserr.ErrCodeEquals(err, ErrCodeNatGatewayNotFound) {
+	if tfawserr.ErrCodeEquals(err, ErrCodeInvalidNatGatewayIDNotFound) {
 		return nil, &resource.NotFoundError{
 			LastError:   err,
 			LastRequest: input,
