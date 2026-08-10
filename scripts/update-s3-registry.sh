@@ -8,14 +8,23 @@ set -euo pipefail
 TF_REGISTRY_URL=${TF_REGISTRY_URL:-"https://registry.terraform.io/"}
 S3_REGISTRY_URL=${S3_REGISTRY_URL:-"https://hc-registry.website.k2.cloud/"}
 S3_BUCKET_NAME=${S3_BUCKET_NAME:-"hc-registry"}
+S3_ASSETS_BUCKET_NAME=${S3_ASSETS_BUCKET_NAME:-"hc-releases"}
+S3_ASSETS_URL=${S3_ASSETS_URL:-"https://hc-releases.website.k2.cloud"}
 PROVIDER_NAME=${PROVIDER_NAME:-"c2devel/rockitcloud"}
 
 S3_BACKUP_DIR=${S3_BACKUP_DIR:-"./s3_backup"}
 TMP_DIR="/tmp/"
+ASSETS_TMP_DIR=$(mktemp -d "${TMP_DIR%/}/terraform-provider-assets.XXXXXX")
 
 TF_VERSIONS_FILE="${TMP_DIR}/tf-versions.json"
 S3_VERSIONS_FILE="${TMP_DIR}/s3-versions.json"
 S3_CMD_CFG_LOCATION=${S3_CMD_CFG_LOCATION:-"$HOME/.s3cfg"}
+
+function cleanup() {
+  rm -rf "${ASSETS_TMP_DIR:?}"
+}
+
+trap cleanup EXIT
 
 function trim_slashes() {
   # $1 - url part
@@ -48,26 +57,93 @@ function curl_and_check() {
   fi
 }
 
+function mirror_release_asset() {
+  # $1 - source url
+  # $2 - provider version
+
+  local source_url="${1}"
+  local version="${2}"
+  local source_path="${source_url%%\?*}"
+  local filename="${source_path##*/}"
+  local target_dir="${ASSETS_TMP_DIR}/${version}"
+  local target_key="${PROVIDER_NAME}/${version}/${filename}"
+  local uploaded_marker="${target_dir}/${filename}.uploaded"
+
+  if [[ -z "${filename}" || "${filename}" == "." || "${filename}" == ".." ]]; then
+    echo "Invalid release asset URL: ${source_url}"
+    exit 1
+  fi
+
+  mkdir -p "${target_dir}"
+
+  if [[ ! -f "${uploaded_marker}" ]]; then
+    echo "    Download asset '${filename}'"
+    curl --fail --show-error --location --ssl-reqd --tlsv1.2 --tls-max 1.3 \
+      --silent --output "${target_dir}/${filename}" "${source_url}"
+
+    echo "    Upload asset '${filename}'"
+    s3cmd put --config="${S3_CMD_CFG_LOCATION}" --quiet --acl-public \
+      "${target_dir}/${filename}" \
+      "s3://${S3_ASSETS_BUCKET_NAME}/${target_key}"
+
+    touch "${uploaded_marker}"
+  fi
+}
+
+function mirror_download_urls() {
+  # $1 - download metadata file
+  # $2 - provider version
+
+  local metadata_file="${1}"
+  local version="${2}"
+  local field
+  local source_url
+  local filename
+  local mirrored_url
+  local updated_file
+
+  for field in download_url shasums_url shasums_signature_url; do
+    source_url=$(jq -r --arg field "${field}" '.[$field] // empty' "${metadata_file}")
+    if [[ -z "${source_url}" ]]; then
+      continue
+    fi
+
+    mirror_release_asset "${source_url}" "${version}"
+
+    filename="${source_url%%\?*}"
+    filename="${filename##*/}"
+    mirrored_url="${S3_ASSETS_URL}/${PROVIDER_NAME}/${version}/${filename}"
+    updated_file="${metadata_file}.updated"
+
+    jq --arg field "${field}" --arg url "${mirrored_url}" \
+      '.[$field] = $url' "${metadata_file}" > "${updated_file}"
+    mv "${updated_file}" "${metadata_file}"
+  done
+}
+
 
 echo "Start updating s3 registry"
 
 
 echo "Check env variables"
 
-if [[ -z "${S3_REGISTRY_URL}" || -z "${S3_BUCKET_NAME}" ]]; then
-  echo "  S3_REGISTRY_URL and S3_BUCKET_NAME must not be empty"
+if [[ -z "${S3_REGISTRY_URL}" || -z "${S3_BUCKET_NAME}" || -z "${S3_ASSETS_BUCKET_NAME}" || -z "${S3_ASSETS_URL}" ]]; then
+  echo "  S3_REGISTRY_URL, S3_BUCKET_NAME, S3_ASSETS_BUCKET_NAME and S3_ASSETS_URL must not be empty"
   exit 1
 fi
 
 echo "  TF_REGISTRY_URL = ${TF_REGISTRY_URL}"
 echo "  S3_REGISTRY_URL = ${S3_REGISTRY_URL}"
 echo "  S3_BUCKET_NAME = ${S3_BUCKET_NAME}"
+echo "  S3_ASSETS_BUCKET_NAME = ${S3_ASSETS_BUCKET_NAME}"
+echo "  S3_ASSETS_URL = ${S3_ASSETS_URL}"
 echo "  PROVIDER_NAME = ${PROVIDER_NAME}"
 echo "  S3_BACKUP_DIR = ${S3_BACKUP_DIR}"
 
 
 TF_REGISTRY_URL=$(trim_slashes "${TF_REGISTRY_URL}")
 S3_REGISTRY_URL=$(trim_slashes "${S3_REGISTRY_URL}")
+S3_ASSETS_URL=$(trim_slashes "${S3_ASSETS_URL}")
 
 PROVIDER_NAME=$(to_lower "${PROVIDER_NAME}")
 
@@ -152,7 +228,11 @@ for version in $tf_provider_versions; do
       "${TF_REGISTRY_URL}/${tf_provider_prefix}/${PROVIDER_NAME}/${version}/download/${os}/${arch}" \
       "${TMP_DIR}/${version}_${os}_${arch}.json"
 
-    sed -i 's|https://releases.hashicorp.com|https://hc-releases.website.k2.cloud|g' "${TMP_DIR}/${version}_${os}_${arch}.json"
+    sed 's|https://releases.hashicorp.com|https://hc-releases.website.k2.cloud|g' \
+      "${TMP_DIR}/${version}_${os}_${arch}.json" > "${TMP_DIR}/${version}_${os}_${arch}.json.updated"
+    mv "${TMP_DIR}/${version}_${os}_${arch}.json.updated" "${TMP_DIR}/${version}_${os}_${arch}.json"
+
+    mirror_download_urls "${TMP_DIR}/${version}_${os}_${arch}.json" "${version}"
 
     s3cmd put --config=$S3_CMD_CFG_LOCATION --quiet --acl-public --content-type=application/json "${TMP_DIR}/${version}_${os}_${arch}.json" \
       "s3://${S3_BUCKET_NAME}/${s3_provider_prefix}/${PROVIDER_NAME}/${version}/download/${os}/${arch}/index.json"
