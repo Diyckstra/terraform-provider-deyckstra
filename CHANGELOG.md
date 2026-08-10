@@ -2,6 +2,9 @@
 
 FEATURES:
 
+* **New Data Source:** `aws_nat_gateway` ([#161](https://github.com/C2Devel/terraform-provider-rockitcloud/issues/161))
+* **New Data Source:** `aws_nat_gateways` ([#161](https://github.com/C2Devel/terraform-provider-rockitcloud/issues/161))
+* **New Resource:** `aws_nat_gateway` ([#161](https://github.com/C2Devel/terraform-provider-rockitcloud/pull/161))
 * **New Resource:** `aws_paas_logstash_pipeline` ([#174](https://github.com/C2Devel/terraform-provider-rockitcloud/pull/174))
 
 ENHANCEMENTS:
