@@ -9,6 +9,10 @@ FEATURES:
 
 ENHANCEMENTS:
 
+* data-source/aws_eks_cluster_auth: Return an actionable error directing K2Cloud users to `aws_eks_cluster_kubeconfig` ([#177](https://github.com/C2Devel/terraform-provider-rockitcloud/issues/177))
+* resource/aws_eks_cluster: Add K2Cloud Pod CIDR, remote access, Cluster Autoscaler, in-place security group updates, and in-place user-data updates ([#177](https://github.com/C2Devel/terraform-provider-rockitcloud/issues/177))
+* resource/aws_eks_cluster: Propagate K2Cloud health and update failures from waiters and align delete timeouts ([#177](https://github.com/C2Devel/terraform-provider-rockitcloud/issues/177))
+* resource/aws_eks_node_group: Reject unsupported version and custom launch-template inputs while preserving platform-managed launch-template state ([#177](https://github.com/C2Devel/terraform-provider-rockitcloud/issues/177))
 * resource/aws_paas_service, data-source/aws_paas_service: add ELK PaaS support ([#174](https://github.com/C2Devel/terraform-provider-rockitcloud/issues/174))
 
 ## 25.5.4 (August 04, 2026)
