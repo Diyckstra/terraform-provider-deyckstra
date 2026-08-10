@@ -6,6 +6,7 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/eks"
+	"github.com/hashicorp/aws-sdk-go-base/v2/awsv1shim/v2/tfawserr"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-provider-aws/internal/tfresource"
 )
@@ -90,6 +91,10 @@ func waitClusterCreated(conn *eks.EKS, name string, timeout time.Duration) (*eks
 	outputRaw, err := stateConf.WaitForState()
 
 	if output, ok := outputRaw.(*eks.Cluster); ok {
+		if status, health := aws.StringValue(output.Status), output.Health; status == eks.ClusterStatusFailed && health != nil {
+			tfresource.SetLastError(err, ClusterIssuesError(health.Issues))
+		}
+
 		return output, err
 	}
 
@@ -98,7 +103,16 @@ func waitClusterCreated(conn *eks.EKS, name string, timeout time.Duration) (*eks
 
 func waitClusterDeleted(conn *eks.EKS, name string, timeout time.Duration) (*eks.Cluster, error) {
 	stateConf := &resource.StateChangeConf{
-		Pending:        []string{eks.ClusterStatusPending, eks.ClusterStatusClaimed, eks.ClusterStatusDeleting},
+		Pending: []string{
+			eks.ClusterStatusActive,
+			eks.ClusterStatusClaimed,
+			eks.ClusterStatusCreating,
+			eks.ClusterStatusDeleting,
+			eks.ClusterStatusPending,
+			eks.ClusterStatusProvisioning,
+			eks.ClusterStatusReady,
+			eks.ClusterStatusUpdating,
+		},
 		Target:         []string{eks.ClusterStatusDeleted},
 		Refresh:        statusCluster(conn, name),
 		Timeout:        timeout,
@@ -112,6 +126,10 @@ func waitClusterDeleted(conn *eks.EKS, name string, timeout time.Duration) (*eks
 	}
 
 	if output, ok := outputRaw.(*eks.Cluster); ok {
+		if status, health := aws.StringValue(output.Status), output.Health; status == eks.ClusterStatusFailed && health != nil {
+			tfresource.SetLastError(err, ClusterIssuesError(health.Issues))
+		}
+
 		return output, err
 	}
 
@@ -119,6 +137,16 @@ func waitClusterDeleted(conn *eks.EKS, name string, timeout time.Duration) (*eks
 }
 
 func waitClusterUpdateSuccessful(conn *eks.EKS, name, id string, timeout time.Duration) (*eks.Update, error) { //nolint:unparam
+	if id == "" {
+		if _, err := waitClusterReadyAfterUpdate(conn, name, timeout); err != nil {
+			return nil, err
+		}
+
+		return &eks.Update{
+			Status: aws.String(eks.UpdateStatusSuccessful),
+		}, nil
+	}
+
 	stateConf := &resource.StateChangeConf{
 		Pending: []string{eks.UpdateStatusInProgress},
 		Target:  []string{eks.UpdateStatusSuccessful},
@@ -127,10 +155,48 @@ func waitClusterUpdateSuccessful(conn *eks.EKS, name, id string, timeout time.Du
 	}
 
 	outputRaw, err := stateConf.WaitForState()
+	if tfawserr.ErrCodeEquals(err, "PathNotFoundError") {
+		if _, fallbackErr := waitClusterReadyAfterUpdate(conn, name, timeout); fallbackErr != nil {
+			return nil, fallbackErr
+		}
+
+		return &eks.Update{
+			Id:     aws.String(id),
+			Status: aws.String(eks.UpdateStatusSuccessful),
+		}, nil
+	}
 
 	if output, ok := outputRaw.(*eks.Update); ok {
 		if status := aws.StringValue(output.Status); status == eks.UpdateStatusCancelled || status == eks.UpdateStatusFailed {
 			tfresource.SetLastError(err, ErrorDetailsError(output.Errors))
+		}
+
+		return output, err
+	}
+
+	return nil, err
+}
+
+func waitClusterReadyAfterUpdate(conn *eks.EKS, name string, timeout time.Duration) (*eks.Cluster, error) {
+	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			eks.ClusterStatusActive,
+			eks.ClusterStatusClaimed,
+			eks.ClusterStatusCreating,
+			eks.ClusterStatusPending,
+			eks.ClusterStatusProvisioning,
+			eks.ClusterStatusUpdating,
+		},
+		Target:  []string{eks.ClusterStatusReady},
+		Refresh: statusCluster(conn, name),
+		Timeout: timeout,
+	}
+
+	outputRaw, err := stateConf.WaitForState()
+
+	if output, ok := outputRaw.(*eks.Cluster); ok {
+		if status, health := aws.StringValue(output.Status), output.Health; status == eks.ClusterStatusFailed && health != nil {
+			tfresource.SetLastError(err, ClusterIssuesError(health.Issues))
 		}
 
 		return output, err
@@ -175,7 +241,7 @@ func waitFargateProfileDeleted(conn *eks.EKS, clusterName, fargateProfileName st
 
 func waitNodegroupCreated(ctx context.Context, conn *eks.EKS, clusterName, nodeGroupName string, timeout time.Duration) (*eks.Nodegroup, error) {
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{eks.NodegroupStatusClaimed, eks.NodegroupStatusPending, eks.NodegroupStatusCreating},
+		Pending: []string{eks.NodegroupStatusClaimed, eks.NodegroupStatusPending, eks.NodegroupStatusCreating, eks.NodegroupStatusProvisioning},
 		Target:  []string{eks.NodegroupStatusActive},
 		Refresh: statusNodegroup(conn, clusterName, nodeGroupName),
 		Timeout: timeout,
@@ -184,7 +250,7 @@ func waitNodegroupCreated(ctx context.Context, conn *eks.EKS, clusterName, nodeG
 	outputRaw, err := stateConf.WaitForStateContext(ctx)
 
 	if output, ok := outputRaw.(*eks.Nodegroup); ok {
-		if status, health := aws.StringValue(output.Status), output.Health; status == eks.NodegroupStatusCreateFailed && health != nil {
+		if status, health := aws.StringValue(output.Status), output.Health; (status == eks.NodegroupStatusCreateFailed || status == eks.NodegroupStatusDegraded) && health != nil {
 			tfresource.SetLastError(err, IssuesError(health.Issues))
 		}
 
@@ -196,7 +262,16 @@ func waitNodegroupCreated(ctx context.Context, conn *eks.EKS, clusterName, nodeG
 
 func waitNodegroupDeleted(ctx context.Context, conn *eks.EKS, clusterName, nodeGroupName string, timeout time.Duration) (*eks.Nodegroup, error) {
 	stateConf := &resource.StateChangeConf{
-		Pending:        []string{eks.NodegroupStatusClaimed, eks.NodegroupStatusPending, eks.NodegroupStatusDeleting},
+		Pending: []string{
+			eks.NodegroupStatusActive,
+			eks.NodegroupStatusClaimed,
+			eks.NodegroupStatusCreateFailed,
+			eks.NodegroupStatusDegraded,
+			eks.NodegroupStatusDeleting,
+			eks.NodegroupStatusPending,
+			eks.NodegroupStatusProvisioning,
+			eks.NodegroupStatusUpdating,
+		},
 		Target:         []string{eks.NodegroupStatusDeleted},
 		Refresh:        statusNodegroup(conn, clusterName, nodeGroupName),
 		Timeout:        timeout,
@@ -220,27 +295,6 @@ func waitNodegroupDeleted(ctx context.Context, conn *eks.EKS, clusterName, nodeG
 	return nil, err
 }
 
-// This is a temporary solution for C2 Nodegroups until DescribeUpdate is implemented.
-//
-//nolint:unparam // A waiter return value should include an object (*eks.Nodegroup) even if it is never used.
-func waitC2NodegroupUpdated(ctx context.Context, conn *eks.EKS, clusterName, nodeGroupName string, timeout time.Duration) (*eks.Nodegroup, error) {
-	stateConf := &resource.StateChangeConf{
-		Pending: []string{eks.NodegroupStatusClaimed, eks.NodegroupStatusPending, eks.NodegroupStatusUpdating},
-		Target:  []string{eks.NodegroupStatusActive},
-		Refresh: statusNodegroup(conn, clusterName, nodeGroupName),
-		Timeout: timeout,
-	}
-
-	outputRaw, err := stateConf.WaitForStateContext(ctx)
-
-	if output, ok := outputRaw.(*eks.Nodegroup); ok {
-		return output, err
-	}
-
-	return nil, err
-}
-
-//lint:ignore U1000 Ignore unused function temporarily
 func waitNodegroupUpdateSuccessful(ctx context.Context, conn *eks.EKS, clusterName, nodeGroupName, id string, timeout time.Duration) (*eks.Update, error) {
 	stateConf := &resource.StateChangeConf{
 		Pending: []string{eks.UpdateStatusInProgress},

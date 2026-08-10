@@ -88,6 +88,10 @@ resource "aws_eks_cluster" "example" {
   version = "1.30.2"
 
   legacy_cluster_params {
+    cluster_autoscaler_config {
+      cluster_autoscaler_required = true
+    }
+
     docker_registry_config {
       volume_type = "gp2"
       volume_size = 32
@@ -175,6 +179,8 @@ The following arguments are optional:
 * `kubernetes_network_config` - (Optional) Configuration block with kubernetes network configuration for the cluster. Detailed below. If removed, Terraform will only perform drift detection if a configuration value is provided.
 * `legacy_cluster_params` - (Optional) The parameters for fine-tuning the Kubernetes cluster.
   The structure of this block is [described below](#legacy_cluster_params).
+* `remote_access_config` - (Optional) K2 control-plane remote access configuration. The block accepts `ec2_ssh_key`.
+* `role_arn` - (Optional) K2 service-user ARN. Empty values are not sent to the API.
 * `tags` - (Optional) Map of tags to assign to the cluster. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
 
 ### kubernetes_network_config
@@ -183,6 +189,7 @@ The following arguments are supported in the `kubernetes_network_config` configu
 
 * `ip_family` - (Optional) The IP family used to assign Kubernetes pod and service addresses.
     * _Valid values:_ `ipv4`
+* `pod_ipv4_cidr` - (Optional) The CIDR block to assign Kubernetes pod IP addresses from.
 * `service_ipv4_cidr` - (Optional) The CIDR block to assign Kubernetes service IP addresses from. If you don't specify a block, Kubernetes assigns addresses from 10.96.0.0/12 CIDR block.
 The block must meet the following requirements:
     * Within one of the following private IP address blocks: 10.0.0.0/8, 172.16.0.0/12, or 192.168.0.0/16.
@@ -193,13 +200,14 @@ The block must meet the following requirements:
 
 The `legacy_cluster_params` block has the following structure:
 
+* `cluster_autoscaler_config` – (Optional) The configuration of the Cluster Autoscaler.
 * `docker_registry_config` – (Optional) The configuration of the Docker Registry.
   The structure of this block is [described below](#docker_registry_config).
 * `ebs_provider_config` – (Optional) The configuration of the EBS Provider.
   The structure of this block is [described below](#ebs_provider_config).
 * `ingress_config` – (Optional) The configuration of the Ingress controller.
   The structure of this block is [described below](#ingress_config).
-* `master_config` - (Optional) The configuration of the master node of the cluster.
+* `master_config` - (Required) The configuration of the master node of the cluster.
   The structure of this block is [described below](#master_config).
 * `nlb_provider_config` – (Optional) The configuration of the NLB Provider.
   The structure of this block is [described below](#nlb_provider_config).
@@ -208,6 +216,11 @@ The `legacy_cluster_params` block has the following structure:
 * `user_data_config` - (Optional) The configuration of the cluster user data.
   The structure of this block is [described below](#user_data_config).
 
+
+#### cluster_autoscaler_config
+
+* `cluster_autoscaler_required` - (Required) Whether to deploy the Cluster Autoscaler.
+* `cluster_autoscaler_user` - (Optional) K2 service user used by the Cluster Autoscaler.
 
 #### docker_registry_config
 
@@ -256,7 +269,7 @@ The `nlb_provider_config` block has the following structure:
 ### vpc_config
 
 * `subnet_ids` - (Required) List of subnet IDs.
-* `security_group_ids` - (Optional) List of security group IDs.
+* `security_group_ids` - (Optional) List of security group IDs. Changes are applied in place through the K2 cluster update API.
 
 #### placement_config
 
@@ -279,6 +292,11 @@ The `user_data_config` block has the following structure:
 * `user_data_content_type` - (Required) The type of `user_data`.
     * _Valid values:_ `cloud-config`,  `x-shellscript`
 
+Changes to `user_data_config` are applied in place through
+`UpdateClusterUserData`. The current K2 backend returned `InternalError` during
+live verification, so validate this operation in the target environment before
+depending on it in production.
+
 ## Attribute Reference
 
 ### Supported attributes
@@ -291,7 +309,8 @@ In addition to all arguments above, the following attributes are exported:
 * `created_at` - The Unix epoch time stamp in seconds for when the cluster was created.
 * `id` - The name of the cluster.
 * `platform_version` - The platform version for the cluster.
-* `status` - The status of the EKS cluster. One of `CLAIMED`, `CREATING`, `DELETED`, `DELETING`, `ERROR`, `MODIFYING`, `PENDING`, `PROVISIONING`, `READY`, `REPAIRING`.
+* `status` - The status of the EKS cluster. One of `CLAIMED`, `CREATING`, `DELETED`, `DELETING`, `ERROR`, `FAILED`, `MODIFYING`, `PENDING`, `PROVISIONING`, `READY`, `REPAIRING`, `UPDATING`.
+Cluster creation and deletion waiter failures include health issue details returned by K2.
 * `tags_all` - Map of tags assigned to the cluster, including those inherited from the provider [`default_tags` configuration block][default-tags].
 * `vpc_config` -  Nested list containing VPC configuration for the cluster.
     * `cluster_security_group_id` - The cluster security group that was created by the cloud for the cluster.
@@ -303,7 +322,7 @@ In addition to all arguments above, the following attributes are exported:
 
 The following attributes are not currently supported:
 
-`enabled_cluster_log_types`, `encryption_config`, `endpoint`, `identity`, `role_arn`, `vpc_config.endpoint_private_access`, `vpc_config.endpoint_public_access`, `vpc_config.public_access_cidrs`.
+`enabled_cluster_log_types`, `encryption_config`, `endpoint`, `identity`, `vpc_config.endpoint_private_access`, `vpc_config.endpoint_public_access`, `vpc_config.public_access_cidrs`.
 
 ## Timeouts
 
@@ -312,7 +331,7 @@ The `timeouts` block allows you to specify [timeouts] for certain actions:
 * `create` - (Default `30 minutes`) How long to wait for the EKS cluster to be created.
 * `update` - (Default `60 minutes`) How long to wait for the EKS cluster to be updated.
 Note that the `update` timeout is used separately for both `version` and `vpc_config` update timeouts.
-* `delete` - (Default `15 minutes`) How long to wait for the EKS cluster to be deleted.
+* `delete` - (Default `60 minutes`) How long to wait for the EKS cluster to be deleted.
 
 ## Import
 

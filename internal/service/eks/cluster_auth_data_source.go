@@ -5,7 +5,6 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
-	"github.com/hashicorp/terraform-provider-aws/internal/conns"
 )
 
 func DataSourceClusterAuth() *schema.Resource {
@@ -29,19 +28,5 @@ func DataSourceClusterAuth() *schema.Resource {
 }
 
 func dataSourceClusterAuthRead(d *schema.ResourceData, meta interface{}) error {
-	conn := meta.(*conns.AWSClient).STSConn
-	name := d.Get("name").(string)
-	generator, err := NewGenerator(false, false)
-	if err != nil {
-		return fmt.Errorf("error getting token generator: %w", err)
-	}
-	toke, err := generator.GetWithSTS(name, conn)
-	if err != nil {
-		return fmt.Errorf("error getting token: %w", err)
-	}
-
-	d.SetId(name)
-	d.Set("token", toke.Token)
-
-	return nil
+	return fmt.Errorf("aws_eks_cluster_auth is not supported by Rockit Cloud; use aws_eks_cluster_kubeconfig instead")
 }

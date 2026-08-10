@@ -114,7 +114,7 @@ The following arguments are optional:
 
 * `desired_size` - (Required) Desired number of worker nodes.
 * `max_size` - (Required) Maximum number of worker nodes.
-* `min_size` - (Required) Minimum number of worker nodes.
+* `min_size` - (Required) Minimum number of worker nodes. Must be at least `1`.
 
 ### taint
 
@@ -140,7 +140,7 @@ In addition to all arguments above, the following attributes are exported:
 
 * `arn` - EKS node group ID.
 * `id` - EKS cluster name and EKS node group name separated by a colon (`:`).
-* `launch_template` - Configuration block with launch template settings.
+* `launch_template` - Computed configuration for the platform-managed launch template. Custom launch templates cannot be configured.
     * `id` - EC2 launch template ID.
     * `name` - Name of the EC2 launch template.
     * `version` - EC2 launch template version number.
@@ -157,7 +157,7 @@ In addition to all arguments above, the following attributes are exported:
 
 The following attributes are not currently supported:
 
-`ami_type`, `force_update_version`, `node_role_arn`, `release_version`, `remote_access.source_security_group_ids`, `resources.remote_access_security_group_id`.
+`ami_type`, `force_update_version`, `node_role_arn`, `release_version`, configurable `version`, `remote_access.source_security_group_ids`, `resources.remote_access_security_group_id`.
 
 ## Timeouts
 
@@ -167,7 +167,7 @@ The `timeouts` block allows you to specify [timeouts] for certain actions:
 * `update` - (Default `60 minutes`) How long to wait for the EKS node group to be updated.
 * `delete` - (Default `60 minutes`) How long to wait for the EKS node group to be deleted.
 
-~> **Note** The `update` timeout is used separately for both configuration and version update operations.
+~> **Note** K2 node groups inherit the cluster Kubernetes version; version-update arguments are not supported.
 
 ## Import
 

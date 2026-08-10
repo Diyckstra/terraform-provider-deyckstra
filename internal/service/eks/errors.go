@@ -36,6 +36,21 @@ func AddonIssuesError(apiObjects []*eks.AddonIssue) error {
 	return errors.ErrorOrNil()
 }
 
+func ClusterIssuesError(apiObjects []*eks.ClusterIssue) error {
+	var errors *multierror.Error
+
+	for _, apiObject := range apiObjects {
+		if apiObject == nil {
+			continue
+		}
+
+		err := awserr.New(aws.StringValue(apiObject.Code), aws.StringValue(apiObject.Message), nil)
+		errors = multierror.Append(errors, fmt.Errorf("%s: %w", strings.Join(aws.StringValueSlice(apiObject.ResourceIds), ", "), err))
+	}
+
+	return errors.ErrorOrNil()
+}
+
 func ErrorDetailError(apiObject *eks.ErrorDetail) error {
 	if apiObject == nil {
 		return nil
