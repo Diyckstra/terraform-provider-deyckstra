@@ -1,5 +1,13 @@
 ## 25.6.0 (Unreleased)
 
+FEATURES:
+
+* **New Resource:** `aws_paas_logstash_pipeline` ([#174](https://github.com/C2Devel/terraform-provider-rockitcloud/pull/174))
+
+ENHANCEMENTS:
+
+* resource/aws_paas_service, data-source/aws_paas_service: add ELK PaaS support ([#174](https://github.com/C2Devel/terraform-provider-rockitcloud/issues/174))
+
 ## 25.5.4 (August 04, 2026)
 
 FEATURES:
