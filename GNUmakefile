@@ -161,9 +161,6 @@ test-compile:
 docs-link-check:
 	@scripts/markdown-link-check.sh
 
-docs-link-check-ghrc:
-	@LINK_CHECK_CONTAINER="ghcr.io/tcort/markdown-link-check:stable" scripts/markdown-link-check.sh	
-
 docs-lint:
 	@echo "==> Checking docs against linters..."
 	@misspell -error -source=text docs/ || (echo; \

@@ -3,7 +3,7 @@ name: Run linters for the developer documentation
 on:
   pull_request:
     branches: 'develop'
-    paths: 'docs/**'
+    paths: 'dev-docs/**'
 
 jobs:
   dev-docs-linter:
@@ -26,3 +26,6 @@ jobs:
 
     - name: Run linters for the developer documentation
       run: make dev-docs-lint
+
+    - name: Check links in the developer documentation
+      run: LINK_CHECK_PATHS="dev-docs" make docs-link-check
