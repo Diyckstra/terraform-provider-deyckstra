@@ -6,23 +6,21 @@ description: |-
   Manages an Elastic IP.
 ---
 
-[default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
+[default-tags]: https://registry.terraform.io/providers/hashicorp/aws/latest/docs#default_tags-configuration-block
 [elastic-ips]: https://docs.k2.cloud/en/services/networking/addresses/operations.html
 [timeouts]: https://developer.hashicorp.com/terraform/plugin/framework/resources/timeouts
-[vpc-dns-guide]: https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns.html#vpc-dns-hostnames
 
 # Resource: aws_eip
 
-Manages an Elastic IP. For more information about EIPs, see [user documentation][elastic-ips].
+Manages an Elastic IP (EIP). For more information about EIPs, see [user documentation][elastic-ips].
 
-## Example Usage
+## Example usage
 
-### Single EIP associated with an instance
+### Associating a single EIP with an instance
 
 ```terraform
 resource "aws_eip" "example" {
   instance = "i-12345678"
-  vpc      = true
 }
 ```
 
@@ -38,8 +36,12 @@ resource "aws_subnet" "tf_test_subnet" {
   cidr_block = "10.0.0.0/24"
 }
 
+resource "aws_internet_gateway" "default" {
+  vpc_id = aws_vpc.default.id
+}
+
 resource "aws_instance" "foo" {
-  ami           = "cmi-12345678" # add image id, change instance type if needed
+  ami           = "cmi-12345678"
   instance_type = "m1.micro"
 
   private_ip = "10.0.0.12"
@@ -47,56 +49,137 @@ resource "aws_instance" "foo" {
 }
 
 resource "aws_eip" "bar" {
-  vpc = true
-
+  instance                  = aws_instance.foo.id
   associate_with_private_ip = "10.0.0.12"
+  depends_on                = [aws_internet_gateway.default]
 }
 ```
 
-### Allocating EIP from the BYOIP pool
+### Attaching an EIP to a network interface
+
+```terraform
+resource "aws_vpc" "example" {
+  cidr_block = "10.1.0.0/16"
+}
+
+resource "aws_subnet" "example" {
+  vpc_id     = aws_vpc.example.id
+  cidr_block = "10.1.0.0/24"
+}
+
+resource "aws_internet_gateway" "example" {
+  vpc_id = aws_vpc.example.id
+}
+
+resource "aws_network_interface" "example" {
+  subnet_id = aws_subnet.example.id
+}
+
+resource "aws_eip" "by_interface" {
+  network_interface = aws_network_interface.example.id
+  depends_on        = [aws_internet_gateway.example]
+}
+```
+
+### Attaching an EIP to the second network interface of an instance
+
+```terraform
+resource "aws_vpc" "example" {
+  cidr_block = "10.2.0.0/16"
+}
+
+resource "aws_subnet" "primary" {
+  vpc_id     = aws_vpc.example.id
+  cidr_block = "10.2.0.0/24"
+}
+
+resource "aws_subnet" "secondary" {
+  vpc_id     = aws_vpc.example.id
+  cidr_block = "10.2.1.0/24"
+}
+
+resource "aws_internet_gateway" "example" {
+  vpc_id = aws_vpc.example.id
+}
+
+resource "aws_instance" "example" {
+  ami           = "cmi-12345678"
+  instance_type = "m1.micro"
+
+  private_ip = "10.2.0.10"
+  subnet_id  = aws_subnet.primary.id
+}
+
+resource "aws_network_interface" "secondary" {
+  subnet_id   = aws_subnet.secondary.id
+  private_ips = ["10.2.1.20"]
+}
+
+resource "aws_network_interface_attachment" "secondary" {
+  instance_id          = aws_instance.example.id
+  network_interface_id = aws_network_interface.secondary.id
+  device_index         = 1
+}
+
+# The EIP is attached to 10.2.1.20, not to the instance's primary 10.2.0.10.
+resource "aws_eip" "by_second_interface" {
+  network_interface         = aws_network_interface.secondary.id
+  associate_with_private_ip = "10.2.1.20"
+
+  depends_on = [
+    aws_internet_gateway.example,
+    aws_network_interface_attachment.secondary,
+  ]
+}
+```
+
+### Allocating an EIP from the BYOIP pool
 
 ```terraform
 resource "aws_eip" "byoip-ip" {
-  vpc              = true
   public_ipv4_pool = "ipv4pool-ec2-012345"
 }
 ```
 
-## Argument Reference
+## Argument reference
 
-The following arguments are supported:
+The following arguments are optional:
 
-* `address` - (Optional) IP address from an EC2 BYOIP pool.
-    _Constraints:_ This option is only available for VPC EIPs
-* `associate_with_private_ip` - (Optional) User-specified primary or secondary private IP address to associate with the elastic IP address.
-    * _Constraints:_ If no private IP address is specified, the elastic IP address is associated with the primary private IP address
-* `instance` - (Optional) The ID of the EC2 instance.
-* `network_interface` - (Optional) The ID of the network interface to associate with.
-* `public_ipv4_pool` - (Optional) The ID of the EC2 IPv4 address pool.
-    * _Constraints:_ This option is only available for VPC EIPs
-* `tags` - (Optional) Map of tags to assign to the EIP. If a provider [`default_tags` configuration block][default-tags] is used, tags with matching keys will overwrite those defined at the provider level.
-    * _Constraints:_ Tags can only be applied to EIPs in a VPC
-* `vpc` - (Optional) Boolean if the EIP is in a VPC or not.
+* `address` - (Optional, Forces new resource, String) An IP address from an EC2 BYOIP pool.
+* `associate_with_private_ip` - (Optional, Editable, String) A user-specified primary or secondary private IP address to associate with the EIP.
+    * _Constraints:_ If no private IP address is specified, the EIP is associated with the primary private IP address
+* `instance` - (Optional, Editable, String) The ID of the EC2 instance.
+* `network_interface` - (Optional, Editable, String) The ID of the network interface to associate with.
+* `public_ipv4_pool` - (Optional, Forces new resource, String) The ID of the EC2 IPv4 address pool.
+* `tags` - (Optional, Editable, Map of strings) Key-value pairs to assign to the EIP. If the [`default_tags` configuration block][default-tags] is used within a provider configuration, the tags with matching keys will overwrite those defined at the provider level.
+* `vpc` - (Optional, Editable, Boolean, **Deprecated**) Indicates whether the EIP is in a VPC.
+
+~> **Note** The argument `vpc` is deprecated.
+Its value is ignored: all EIPs are for use in a VPC.
 
 ~> **Note** You can specify either the ID of `instance` or the ID of `network_interface`, but not both.
 
 ~> **Note** If both `public_ipv4_pool` and `address` are specified, `address` will be used in the case both options are defined as API only requires one or the other.
 
-## Attribute Reference
+## Attribute reference
 
 ### Supported attributes
 
-~> **Note** The data source computes the `public_dns` and `private_dns` attributes according to the [AWS VPC DNS Guide][vpc-dns-guide] as they are not available with the EC2 API.
-
 In addition to all arguments above, the following attributes are exported:
 
-* `allocation_id` - The ID representing the allocation of the IP address.
-* `association_id` - The ID representing the association of the allocation of the IP-address with an instance or a private IP address.
-* `domain` - Indicates if this EIP is for use in VPC (`vpc`).
-* `id` - The ID of the EIP allocation.
-* `private_ip` - Contains the private IP address. Can be `""` if `associate_with_private_ip` is specified.
-* `public_ip` - Contains the public IP address.
-* `tags_all` - Map of tags assigned to the EIP, including those inherited from the provider [`default_tags` configuration block][default-tags].
+* `allocation_id` - (String) The ID of the allocation of the IP address.
+* `association_id` - (String) The ID of the address association with an instance.
+* `domain` - (String) The domain in which the EIP is used.
+    * _Constraints:_ Always `vpc`
+* `id` - (String) The ID of the EIP allocation.
+* `private_dns` - (String) The private DNS name of the network interface this EIP is attached to.
+    * _Constraints:_ Empty unless the EIP is attached to an instance or a network interface
+* `private_ip` - (String) The private IP address.
+    * _Constraints:_ Empty unless the EIP is attached to an instance or a network interface
+* `public_dns` - (String) The public DNS name of the network interface this EIP is attached to.
+    * _Constraints:_ Empty unless the EIP is attached to an instance or a network interface
+* `public_ip` - (String) The public IP address.
+* `tags_all` - (Map of strings) Key-value pairs assigned to the EIP, including any tags inherited from the [`default_tags` configuration block][default-tags] if used within a provider configuration.
 
 ### Unsupported attributes
 
@@ -104,25 +187,25 @@ In addition to all arguments above, the following attributes are exported:
 
 The following attributes are not currently supported:
 
-`carrier_ip`, `customer_owned_ip`, `customer_owned_ipv4_pool`, `network_border_group`, `private_dns`, `public_dns`.
+`carrier_ip`, `customer_owned_ip`, `customer_owned_ipv4_pool`, `network_border_group`.
 
 ## Timeouts
 
 The `timeouts` block allows you to specify [timeouts] for certain actions:
 
-- `read` - (Default `15 minutes`) How long to wait querying for information about EIPs.
-- `update` - (Default `5 minutes`) How long to wait for an EIP to be updated.
-- `delete` - (Default `3 minutes`) How long to wait for an EIP to be deleted.
+* `read` - (Default `15 minutes`) Used when waiting for a newly created EIP to become visible.
+* `update` - (Default `5 minutes`) Used when associating the EIP with an instance or a network interface.
+* `delete` - (Default `3 minutes`) Used when releasing an EIP.
 
 ## Import
 
-EIPs in a VPC can be imported using their allocation ID, e.g.,
+The EIP can be imported using the allocation ID, for example:
 
 ```
 $ terraform import aws_eip.bar eipalloc-1234567
 ```
 
-EIPs can be imported using their public IP, e.g.,
+The EIP can also be imported using the public IP, for example:
 
 ```
 $ terraform import aws_eip.bar 1.1.1.1
