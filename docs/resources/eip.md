@@ -19,14 +19,6 @@ Manages an Elastic IP (EIP). For more information about EIPs, see [user document
 ### Associating a single EIP with an instance
 
 ```terraform
-resource "aws_eip" "example" {
-  instance = "i-12345678"
-}
-```
-
-### Attaching an EIP to an instance with a pre-assigned private IP
-
-```terraform
 resource "aws_vpc" "default" {
   cidr_block = "10.0.0.0/16"
 }
@@ -49,9 +41,13 @@ resource "aws_instance" "foo" {
 }
 
 resource "aws_eip" "bar" {
-  instance                  = aws_instance.foo.id
-  associate_with_private_ip = "10.0.0.12"
-  depends_on                = [aws_internet_gateway.default]
+  instance = aws_instance.foo.id
+
+  tags = {
+    Name = "tf-eip"
+  }
+
+  depends_on = [aws_internet_gateway.default]
 }
 ```
 
@@ -123,8 +119,7 @@ resource "aws_network_interface_attachment" "secondary" {
 
 # The EIP is attached to 10.2.1.20, not to the instance's primary 10.2.0.10.
 resource "aws_eip" "by_second_interface" {
-  network_interface         = aws_network_interface.secondary.id
-  associate_with_private_ip = "10.2.1.20"
+  network_interface = aws_network_interface.secondary.id
 
   depends_on = [
     aws_internet_gateway.example,
@@ -146,8 +141,6 @@ resource "aws_eip" "byoip-ip" {
 The following arguments are optional:
 
 * `address` - (Optional, Forces new resource, String) An IP address from an EC2 BYOIP pool.
-* `associate_with_private_ip` - (Optional, Editable, String) A user-specified primary or secondary private IP address to associate with the EIP.
-    * _Constraints:_ If no private IP address is specified, the EIP is associated with the primary private IP address
 * `instance` - (Optional, Editable, String) The ID of the EC2 instance.
     * _Constraints:_ Conflicts with the `network_interface` argument.
       The EIP is associated with the primary network interface of the instance.
@@ -189,7 +182,7 @@ In addition to all arguments above, the following attributes are exported:
 
 The following attributes are not currently supported:
 
-`carrier_ip`, `customer_owned_ip`, `customer_owned_ipv4_pool`, `network_border_group`.
+`associate_with_private_ip`, `carrier_ip`, `customer_owned_ip`, `customer_owned_ipv4_pool`, `network_border_group`.
 
 ## Timeouts
 
