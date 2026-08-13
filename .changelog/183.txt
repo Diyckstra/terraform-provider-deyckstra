@@ -1,0 +1,23 @@
+```release-note:note
+resource/aws_eip: Deprecate the `vpc` argument, which is ignored since all EIPs are for use in a VPC
+```
+
+```release-note:bug
+resource/aws_eip, data-source/aws_eip: Fix `private_dns` and `public_dns`, which were predicted instead of read from the attached network interface
+```
+
+```release-note:note
+resource/aws_eip, data-source/aws_eip: Reading an attached EIP now also calls `ec2:DescribeNetworkInterfaces`
+```
+
+```release-note:bug
+resource/aws_eip: Fix `terraform destroy` failing when the address was already released outside of Terraform
+```
+
+```release-note:bug
+resource/aws_eip: Fix `default_tags` not being applied on the first apply when the resource has no `tags` argument
+```
+
+```release-note:enhancement
+resource/aws_eip: Reject specifying both `instance` and `network_interface` at plan time instead of failing during apply
+```
