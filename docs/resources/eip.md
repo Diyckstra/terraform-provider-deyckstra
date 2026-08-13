@@ -149,15 +149,17 @@ The following arguments are optional:
 * `associate_with_private_ip` - (Optional, Editable, String) A user-specified primary or secondary private IP address to associate with the EIP.
     * _Constraints:_ If no private IP address is specified, the EIP is associated with the primary private IP address
 * `instance` - (Optional, Editable, String) The ID of the EC2 instance.
+    * _Constraints:_ Conflicts with the `network_interface` argument.
+      The EIP is associated with the primary network interface of the instance.
+      If the instance has more than one network interface, use the `network_interface` argument to specify another one
 * `network_interface` - (Optional, Editable, String) The ID of the network interface to associate with.
+    * _Constraints:_ Conflicts with the `instance` argument
 * `public_ipv4_pool` - (Optional, Forces new resource, String) The ID of the EC2 IPv4 address pool.
 * `tags` - (Optional, Editable, Map of strings) Key-value pairs to assign to the EIP. If the [`default_tags` configuration block][default-tags] is used within a provider configuration, the tags with matching keys will overwrite those defined at the provider level.
 * `vpc` - (Optional, Editable, Boolean, **Deprecated**) Indicates whether the EIP is in a VPC.
 
 ~> **Note** The argument `vpc` is deprecated.
 Its value is ignored: all EIPs are for use in a VPC.
-
-~> **Note** You can specify either the ID of `instance` or the ID of `network_interface`, but not both.
 
 ~> **Note** If both `public_ipv4_pool` and `address` are specified, `address` will be used in the case both options are defined as API only requires one or the other.
 
