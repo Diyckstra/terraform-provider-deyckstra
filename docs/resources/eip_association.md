@@ -32,9 +32,7 @@ resource "aws_instance" "web" {
   }
 }
 
-resource "aws_eip" "example" {
-  vpc = true
-}
+resource "aws_eip" "example" {}
 ```
 
 ## Argument Reference
