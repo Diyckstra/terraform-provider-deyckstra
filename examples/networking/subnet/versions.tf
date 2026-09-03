@@ -1,10 +1,10 @@
 terraform {
-  required_version = ">= 0.12"
+  required_version = ">= 1.11.0, < 2.0.0"
 
   required_providers {
     aws = {
-      source  = "c2devel/rockitcloud"
-      version = "~> 25.4"
+      source  = "hc-registry.website.k2.cloud/c2devel/rockitcloud"
+      version = ">= 25.5.6"
     }
   }
 }
