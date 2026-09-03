@@ -1,0 +1,7 @@
+```release-note:bug
+resource/aws_route_table, resource/aws_default_route_table: Fix a permanent diff for a `route` that targets a network interface attached to an instance
+```
+
+```release-note:note
+resource/aws_route_table, resource/aws_default_route_table: Document that editing a `route` block makes the plan report all routes as replaced, while the apply updates only the changed ones
+```

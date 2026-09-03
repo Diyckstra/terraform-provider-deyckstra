@@ -10,6 +10,7 @@ description: |-
 [default-tags]: https://registry.terraform.io/providers/hashicorp/aws/latest/docs#default_tags-configuration-block
 [route-tables]: https://docs.k2.cloud/en/services/networking/routetables.html
 [timeouts]: https://developer.hashicorp.com/terraform/plugin/framework/resources/timeouts
+[sdk-diff-issue]: https://github.com/hashicorp/terraform/issues/21901
 
 # Resource: aws_default_route_table
 
@@ -108,6 +109,12 @@ One of the following target arguments must be supplied:
 * `nat_gateway_id` - (Optional, Editable, String) The ID of the NAT gateway.
 * `network_interface_id` - (Optional, Editable, String) The ID of the network interface.
 * `transit_gateway_id` - (Optional, Editable, String) The ID of the transit gateway.
+
+~> **Note** Changing any argument inside a `route` block makes `terraform plan` report that every route
+of the route table is replaced. This is a [known Terraform SDK issue][sdk-diff-issue]: an argument omitted
+in the configuration is treated as `null` there, while the state keeps the default value for its type,
+and the difference is highlighted as soon as the block is edited. The plan is misleading, not the apply:
+the provider updates only the routes that actually changed and leaves the rest alone.
 
 ## Attribute reference
 

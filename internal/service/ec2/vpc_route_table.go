@@ -239,7 +239,10 @@ func resourceRouteTableRead(d *schema.ResourceData, meta interface{}) error {
 		return fmt.Errorf("error setting propagating_vgws: %w", err)
 	}
 
-	if err := d.Set("route", flattenEc2Routes(conn, routeTable.Routes)); err != nil {
+	routes := flattenEc2Routes(conn, routeTable.Routes)
+	routeTableKeepConfiguredTarget(d.Get("route").(*schema.Set).List(), routes)
+
+	if err := d.Set("route", routes); err != nil {
 		return fmt.Errorf("error setting route: %w", err)
 	}
 
@@ -907,6 +910,58 @@ func flattenEc2Routes(conn *ec2.EC2, apiObjects []*ec2.Route) []interface{} {
 	}
 
 	return tfList
+}
+
+// routeTableKeepConfiguredTarget drops instance_id from the read routes whose
+// configuration targets network_interface_id instead.
+//
+// For a route that targets an ENI attached to an instance the API reports both
+// instanceId and networkInterfaceId, while resourceRouteTableHash ignores
+// network_interface_id as soon as instance_id is set. A configuration using
+// network_interface_id therefore never matches the route read back, and every
+// plan shows the same in-place update. Configurations using the deprecated
+// instance_id are left untouched, so both forms stay stable.
+func routeTableKeepConfiguredTarget(configured, routes []interface{}) {
+	usesNetworkInterface := make(map[string]bool)
+
+	for _, v := range configured {
+		tfMap, ok := v.(map[string]interface{})
+
+		if !ok {
+			continue
+		}
+
+		networkInterfaceID, _ := tfMap["network_interface_id"].(string)
+		instanceID, _ := tfMap["instance_id"].(string)
+
+		if networkInterfaceID == "" || instanceID != "" {
+			continue
+		}
+
+		if _, destination := routeTableRouteDestinationAttribute(tfMap); destination != "" {
+			usesNetworkInterface[destination] = true
+		}
+	}
+
+	if len(usesNetworkInterface) == 0 {
+		return
+	}
+
+	for _, v := range routes {
+		tfMap, ok := v.(map[string]interface{})
+
+		if !ok {
+			continue
+		}
+
+		if networkInterfaceID, _ := tfMap["network_interface_id"].(string); networkInterfaceID == "" {
+			continue
+		}
+
+		if _, destination := routeTableRouteDestinationAttribute(tfMap); usesNetworkInterface[destination] {
+			tfMap["instance_id"] = ""
+		}
+	}
 }
 
 // routeTableRouteDestinationAttribute returns the attribute key and value of the route table route's destination.
