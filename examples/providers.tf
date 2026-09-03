@@ -9,6 +9,14 @@ terraform {
       source  = "hc-registry.website.k2.cloud/hashicorp/local"
       version = "~> 2.5"
     }
+    random = {
+      source  = "hc-registry.website.k2.cloud/hashicorp/random"
+      version = "~> 3.3"
+    }
+    tls = {
+      source  = "hc-registry.website.k2.cloud/hashicorp/tls"
+      version = "~> 4.0"
+    }
   }
 }
 

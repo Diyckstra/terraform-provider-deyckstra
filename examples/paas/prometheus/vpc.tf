@@ -2,7 +2,7 @@ resource "aws_vpc" "example" {
   cidr_block = "172.16.0.0/16"
 
   tags = {
-    Name = "terraform-paas-kafka-example"
+    Name = "terraform-paas-prometheus-example"
   }
 }
 
@@ -12,7 +12,7 @@ resource "aws_subnet" "example" {
   availability_zone = var.availability_zone
 
   tags = {
-    Name = "terraform-paas-kafka-example"
+    Name = "terraform-paas-prometheus-example"
   }
 }
 
@@ -20,7 +20,7 @@ resource "aws_internet_gateway" "example" {
   vpc_id = aws_vpc.example.id
 
   tags = {
-    Name = "terraform-paas-kafka-example"
+    Name = "terraform-paas-prometheus-example"
   }
 }
 
@@ -30,7 +30,7 @@ resource "aws_nat_gateway" "example" {
   vpc_id = aws_vpc.example.id
 
   tags = {
-    Name = "terraform-paas-kafka-example"
+    Name = "terraform-paas-prometheus-example"
   }
 }
 

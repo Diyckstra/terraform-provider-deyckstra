@@ -4,11 +4,12 @@ The ELB (Elastic Load Balancing) example launches the nginx web server on the ta
 
 This example assumes that an SSH key pair was created in the cloud console.
 
+The example takes credentials from a `c2rc.sh` file.
+Get the file for your project and place it in this directory before running the example.
+
 Running the example:
 
-```
-$ export AWS_ACCESS_KEY_ID="your-access-key"
-$ export AWS_SECRET_ACCESS_KEY="your-secret-key"
+```shell
 $ terraform init
 $ terraform apply -var="key_name=your-key-name"
 ```

@@ -21,15 +21,15 @@ Layout:
 | `vpc.tf`           | VPC + subnet + Internet Gateway + default route |
 | `kafka-cluster.tf` | SSH key pair, Kafka PaaS service, outputs |
 | `kafka-topics.tf`  | `aws_paas_kafka_topic` resources, outputs |
-| `terraform.tfvars.example` | Template for `terraform.tfvars` |
+| `terraform.template.tfvars` | Template for `terraform.tfvars` |
 
 ## Running the example
 
-```bash
-export AWS_ACCESS_KEY_ID="<project>:<user>"
-export AWS_SECRET_ACCESS_KEY="<secret>"
+The example takes credentials from a `c2rc.sh` file.
+Get the file for your project and place it in this directory before running the example.
 
-cp terraform.tfvars.example terraform.tfvars
+```bash
+cp terraform.template.tfvars terraform.tfvars
 # edit terraform.tfvars and at least set ssh_public_key
 
 terraform init
