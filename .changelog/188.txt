@@ -1,0 +1,15 @@
+```release-note:breaking-change
+resource/aws_route_table, resource/aws_default_route_table: make the `route.instance_id` argument read-only. Use `route.network_interface_id` with the instance `primary_network_interface_id` attribute instead
+```
+
+```release-note:bug
+resource/aws_route_table, resource/aws_default_route_table: fix a permanent diff for a `route` that targets a network interface attached to an instance
+```
+
+```release-note:bug
+data-source/aws_route_table: fix the lookup by the `route_table_id` argument, which always failed with an API error
+```
+
+```release-note:breaking-change
+data-source/aws_route_table: remove the `gateway_id` argument, as gateway route table associations are not supported by the platform
+```
