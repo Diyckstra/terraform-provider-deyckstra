@@ -2,6 +2,6 @@
 resource/aws_eip_association: Fix `allow_reassociation` being ignored when set to `false`, which allowed an already associated Elastic IP to be re-associated
 ```
 
-```release-note:breaking-change
+```release-note:bug
 resource/aws_eip_association: Make `private_ip_address` read-only, as the API ignores the specified value. Configurations that set it explicitly must remove the argument
 ```
