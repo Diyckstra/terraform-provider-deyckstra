@@ -35,7 +35,7 @@ func TestAccVPCRoute_basic(t *testing.T) {
 				Config: testAccRouteIPv4InternetGatewayConfig(rName, destinationCidr),
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckRouteTableExists(rtResourceName, &routeTable),
-					testAccCheckRouteTableNumberOfRoutes(&routeTable, 2),
+					testAccCheckRouteTableNumberOfRoutes(&routeTable, 1),
 					testAccCheckRouteExists(resourceName, &route),
 					resource.TestCheckResourceAttr(resourceName, "carrier_gateway_id", ""),
 					resource.TestCheckResourceAttr(resourceName, "core_network_arn", ""),
@@ -115,7 +115,10 @@ func TestAccVPCRoute_Disappears_routeTable(t *testing.T) {
 	})
 }
 
+// A VPC does not get an IPv6 CIDR block, so an IPv6 route cannot be created.
 func TestAccVPCRoute_ipv6ToEgressOnlyInternetGateway(t *testing.T) {
+	t.Skip("IPv6 is not supported")
+
 	var route ec2.Route
 	resourceName := "aws_route.test"
 	eoigwResourceName := "aws_egress_only_internet_gateway.test"
@@ -166,7 +169,10 @@ func TestAccVPCRoute_ipv6ToEgressOnlyInternetGateway(t *testing.T) {
 	})
 }
 
+// A VPC does not get an IPv6 CIDR block, so an IPv6 route cannot be created.
 func TestAccVPCRoute_ipv6ToInternetGateway(t *testing.T) {
+	t.Skip("IPv6 is not supported")
+
 	var route ec2.Route
 	resourceName := "aws_route.test"
 	igwResourceName := "aws_internet_gateway.test"
@@ -212,7 +218,10 @@ func TestAccVPCRoute_ipv6ToInternetGateway(t *testing.T) {
 	})
 }
 
+// A VPC does not get an IPv6 CIDR block, so an IPv6 route cannot be created.
 func TestAccVPCRoute_ipv6ToInstance(t *testing.T) {
+	t.Skip("IPv6 is not supported")
+
 	var route ec2.Route
 	resourceName := "aws_route.test"
 	instanceResourceName := "aws_instance.test"
@@ -258,7 +267,10 @@ func TestAccVPCRoute_ipv6ToInstance(t *testing.T) {
 	})
 }
 
+// A VPC does not get an IPv6 CIDR block, so an IPv6 route cannot be created.
 func TestAccVPCRoute_IPv6ToNetworkInterface_unattached(t *testing.T) {
+	t.Skip("IPv6 is not supported")
+
 	var route ec2.Route
 	resourceName := "aws_route.test"
 	eniResourceName := "aws_network_interface.test"
@@ -304,7 +316,10 @@ func TestAccVPCRoute_IPv6ToNetworkInterface_unattached(t *testing.T) {
 	})
 }
 
+// A VPC does not get an IPv6 CIDR block, so an IPv6 route cannot be created.
 func TestAccVPCRoute_ipv6ToVPCPeeringConnection(t *testing.T) {
+	t.Skip("IPv6 is not supported")
+
 	var route ec2.Route
 	resourceName := "aws_route.test"
 	pcxResourceName := "aws_vpc_peering_connection.test"
@@ -350,7 +365,10 @@ func TestAccVPCRoute_ipv6ToVPCPeeringConnection(t *testing.T) {
 	})
 }
 
+// A VPC does not get an IPv6 CIDR block, so an IPv6 route cannot be created.
 func TestAccVPCRoute_ipv6ToVPNGateway(t *testing.T) {
+	t.Skip("IPv6 is not supported")
+
 	var route ec2.Route
 	resourceName := "aws_route.test"
 	vgwResourceName := "aws_vpn_gateway.test"
@@ -396,7 +414,10 @@ func TestAccVPCRoute_ipv6ToVPNGateway(t *testing.T) {
 	})
 }
 
+// aws_vpn_gateway is not supported.
 func TestAccVPCRoute_ipv4ToVPNGateway(t *testing.T) {
+	t.Skip("aws_vpn_gateway is not supported")
+
 	var route ec2.Route
 	resourceName := "aws_route.test"
 	vgwResourceName := "aws_vpn_gateway.test"
@@ -518,7 +539,8 @@ func TestAccVPCRoute_IPv4ToNetworkInterface_unattached(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "nat_gateway_id", ""),
 					resource.TestCheckResourceAttrPair(resourceName, "network_interface_id", eniResourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "origin", ec2.RouteOriginCreateRoute),
-					resource.TestCheckResourceAttr(resourceName, "state", ec2.RouteStateBlackhole),
+					// A route to a detached network interface stays active in the cloud, it does not become a blackhole.
+					resource.TestCheckResourceAttr(resourceName, "state", ec2.RouteStateActive),
 					resource.TestCheckResourceAttr(resourceName, "transit_gateway_id", ""),
 					resource.TestCheckResourceAttr(resourceName, "vpc_endpoint_id", ""),
 					resource.TestCheckResourceAttr(resourceName, "vpc_peering_connection_id", ""),
@@ -652,7 +674,10 @@ func TestAccVPCRoute_IPv4ToNetworkInterface_twoAttachments(t *testing.T) {
 	})
 }
 
+// aws_vpc_peering_connection is not supported.
 func TestAccVPCRoute_ipv4ToVPCPeeringConnection(t *testing.T) {
+	t.Skip("aws_vpc_peering_connection is not supported")
+
 	var route ec2.Route
 	resourceName := "aws_route.test"
 	pcxResourceName := "aws_vpc_peering_connection.test"
@@ -744,7 +769,10 @@ func TestAccVPCRoute_ipv4ToNatGateway(t *testing.T) {
 	})
 }
 
+// A VPC does not get an IPv6 CIDR block, so an IPv6 route cannot be created.
 func TestAccVPCRoute_ipv6ToNatGateway(t *testing.T) {
+	t.Skip("IPv6 is not supported")
+
 	var route ec2.Route
 	resourceName := "aws_route.test"
 	ngwResourceName := "aws_nat_gateway.test"
@@ -790,7 +818,10 @@ func TestAccVPCRoute_ipv6ToNatGateway(t *testing.T) {
 	})
 }
 
+// aws_vpc_endpoint is not supported.
 func TestAccVPCRoute_doesNotCrashWithVPCEndpoint(t *testing.T) {
+	t.Skip("aws_vpc_endpoint is not supported")
+
 	var route ec2.Route
 	var routeTable ec2.RouteTable
 	resourceName := "aws_route.test"
@@ -807,7 +838,7 @@ func TestAccVPCRoute_doesNotCrashWithVPCEndpoint(t *testing.T) {
 				Config: testAccRouteWithVPCEndpointConfig(rName),
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckRouteTableExists(rtResourceName, &routeTable),
-					testAccCheckRouteTableNumberOfRoutes(&routeTable, 3),
+					testAccCheckRouteTableNumberOfRoutes(&routeTable, 2),
 					testAccCheckRouteExists(resourceName, &route),
 				),
 			},
@@ -871,7 +902,10 @@ func TestAccVPCRoute_ipv4ToTransitGateway(t *testing.T) {
 	})
 }
 
+// A VPC does not get an IPv6 CIDR block, so an IPv6 route cannot be created.
 func TestAccVPCRoute_ipv6ToTransitGateway(t *testing.T) {
+	t.Skip("IPv6 is not supported")
+
 	if testing.Short() {
 		t.Skip("skipping long-running test in short mode")
 	}
@@ -921,7 +955,10 @@ func TestAccVPCRoute_ipv6ToTransitGateway(t *testing.T) {
 	})
 }
 
+// aws_ec2_carrier_gateway is not supported.
 func TestAccVPCRoute_ipv4ToCarrierGateway(t *testing.T) {
+	t.Skip("aws_ec2_carrier_gateway is not supported")
+
 	var route ec2.Route
 	resourceName := "aws_route.test"
 	cgwResourceName := "aws_ec2_carrier_gateway.test"
@@ -1059,7 +1096,10 @@ func TestAccVPCRoute_ipv6ToLocalGateway(t *testing.T) {
 	})
 }
 
+// A VPC does not get an IPv6 CIDR block, so an IPv6 route cannot be created.
 func TestAccVPCRoute_conditionalCIDRBlock(t *testing.T) {
+	t.Skip("IPv6 is not supported")
+
 	var route ec2.Route
 	resourceName := "aws_route.test"
 	rName := sdkacctest.RandomWithPrefix(acctest.ResourcePrefix)
@@ -1232,7 +1272,8 @@ func TestAccVPCRoute_IPv4Update_target(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "local_gateway_id", ""),
 					resource.TestCheckResourceAttrPair(resourceName, "network_interface_id", eniResourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "origin", ec2.RouteOriginCreateRoute),
-					resource.TestCheckResourceAttr(resourceName, "state", ec2.RouteStateBlackhole),
+					// A route to a detached network interface stays active in the cloud, it does not become a blackhole.
+					resource.TestCheckResourceAttr(resourceName, "state", ec2.RouteStateActive),
 					resource.TestCheckResourceAttr(resourceName, "transit_gateway_id", ""),
 					resource.TestCheckResourceAttr(resourceName, "vpc_endpoint_id", ""),
 					resource.TestCheckResourceAttr(resourceName, "vpc_peering_connection_id", ""),
@@ -1317,7 +1358,10 @@ func TestAccVPCRoute_IPv4Update_target(t *testing.T) {
 	})
 }
 
+// A VPC does not get an IPv6 CIDR block, so an IPv6 route cannot be created.
 func TestAccVPCRoute_IPv6Update_target(t *testing.T) {
+	t.Skip("IPv6 is not supported")
+
 	if testing.Short() {
 		t.Skip("skipping long-running test in short mode")
 	}
@@ -1538,7 +1582,10 @@ func TestAccVPCRoute_ipv4ToVPCEndpoint(t *testing.T) {
 }
 
 // https://github.com/hashicorp/terraform-provider-aws/issues/11455.
+// A route table has no local route in the cloud, so there is nothing to replace.
 func TestAccVPCRoute_localRoute(t *testing.T) {
+	t.Skip("local routes are not supported")
+
 	var routeTable ec2.RouteTable
 	var vpc ec2.Vpc
 	resourceName := "aws_route.test"
@@ -1557,7 +1604,7 @@ func TestAccVPCRoute_localRoute(t *testing.T) {
 				Check: resource.ComposeTestCheckFunc(
 					acctest.CheckVPCExists(vpcResourceName, &vpc),
 					testAccCheckRouteTableExists(rtResourceName, &routeTable),
-					testAccCheckRouteTableNumberOfRoutes(&routeTable, 1),
+					testAccCheckRouteTableNumberOfRoutes(&routeTable, 0),
 				),
 			},
 			{
@@ -1577,7 +1624,10 @@ func TestAccVPCRoute_localRoute(t *testing.T) {
 	})
 }
 
+// aws_ec2_managed_prefix_list is not supported.
 func TestAccVPCRoute_prefixListToInternetGateway(t *testing.T) {
+	t.Skip("aws_ec2_managed_prefix_list is not supported")
+
 	var route ec2.Route
 	resourceName := "aws_route.test"
 	igwResourceName := "aws_internet_gateway.test"
@@ -1623,7 +1673,10 @@ func TestAccVPCRoute_prefixListToInternetGateway(t *testing.T) {
 	})
 }
 
+// aws_ec2_managed_prefix_list is not supported.
 func TestAccVPCRoute_prefixListToVPNGateway(t *testing.T) {
+	t.Skip("aws_ec2_managed_prefix_list is not supported")
+
 	var route ec2.Route
 	resourceName := "aws_route.test"
 	vgwResourceName := "aws_vpn_gateway.test"
@@ -1669,7 +1722,10 @@ func TestAccVPCRoute_prefixListToVPNGateway(t *testing.T) {
 	})
 }
 
+// aws_ec2_managed_prefix_list is not supported.
 func TestAccVPCRoute_prefixListToInstance(t *testing.T) {
+	t.Skip("aws_ec2_managed_prefix_list is not supported")
+
 	var route ec2.Route
 	resourceName := "aws_route.test"
 	instanceResourceName := "aws_instance.test"
@@ -1715,7 +1771,10 @@ func TestAccVPCRoute_prefixListToInstance(t *testing.T) {
 	})
 }
 
+// aws_ec2_managed_prefix_list is not supported.
 func TestAccVPCRoute_PrefixListToNetworkInterface_unattached(t *testing.T) {
+	t.Skip("aws_ec2_managed_prefix_list is not supported")
+
 	var route ec2.Route
 	resourceName := "aws_route.test"
 	eniResourceName := "aws_network_interface.test"
@@ -1761,7 +1820,10 @@ func TestAccVPCRoute_PrefixListToNetworkInterface_unattached(t *testing.T) {
 	})
 }
 
+// aws_ec2_managed_prefix_list is not supported.
 func TestAccVPCRoute_PrefixListToNetworkInterface_attached(t *testing.T) {
+	t.Skip("aws_ec2_managed_prefix_list is not supported")
+
 	var route ec2.Route
 	resourceName := "aws_route.test"
 	eniResourceName := "aws_network_interface.test"
@@ -1808,7 +1870,10 @@ func TestAccVPCRoute_PrefixListToNetworkInterface_attached(t *testing.T) {
 	})
 }
 
+// aws_ec2_managed_prefix_list is not supported.
 func TestAccVPCRoute_prefixListToVPCPeeringConnection(t *testing.T) {
+	t.Skip("aws_ec2_managed_prefix_list is not supported")
+
 	var route ec2.Route
 	resourceName := "aws_route.test"
 	pcxResourceName := "aws_vpc_peering_connection.test"
@@ -1854,7 +1919,10 @@ func TestAccVPCRoute_prefixListToVPCPeeringConnection(t *testing.T) {
 	})
 }
 
+// aws_ec2_managed_prefix_list is not supported.
 func TestAccVPCRoute_prefixListToNatGateway(t *testing.T) {
+	t.Skip("aws_ec2_managed_prefix_list is not supported")
+
 	var route ec2.Route
 	resourceName := "aws_route.test"
 	ngwResourceName := "aws_nat_gateway.test"
@@ -1900,7 +1968,10 @@ func TestAccVPCRoute_prefixListToNatGateway(t *testing.T) {
 	})
 }
 
+// aws_ec2_managed_prefix_list is not supported.
 func TestAccVPCRoute_prefixListToTransitGateway(t *testing.T) {
+	t.Skip("aws_ec2_managed_prefix_list is not supported")
+
 	if testing.Short() {
 		t.Skip("skipping long-running test in short mode")
 	}
@@ -1950,7 +2021,10 @@ func TestAccVPCRoute_prefixListToTransitGateway(t *testing.T) {
 	})
 }
 
+// aws_ec2_managed_prefix_list is not supported.
 func TestAccVPCRoute_prefixListToCarrierGateway(t *testing.T) {
+	t.Skip("aws_ec2_managed_prefix_list is not supported")
+
 	var route ec2.Route
 	resourceName := "aws_route.test"
 	cgwResourceName := "aws_ec2_carrier_gateway.test"
@@ -2000,7 +2074,10 @@ func TestAccVPCRoute_prefixListToCarrierGateway(t *testing.T) {
 	})
 }
 
+// aws_ec2_managed_prefix_list is not supported.
 func TestAccVPCRoute_prefixListToLocalGateway(t *testing.T) {
+	t.Skip("aws_ec2_managed_prefix_list is not supported")
+
 	var route ec2.Route
 	resourceName := "aws_route.test"
 	localGatewayDataSourceName := "data.aws_ec2_local_gateway.first"
@@ -2050,7 +2127,10 @@ func TestAccVPCRoute_prefixListToLocalGateway(t *testing.T) {
 	})
 }
 
+// aws_ec2_managed_prefix_list is not supported.
 func TestAccVPCRoute_prefixListToEgressOnlyInternetGateway(t *testing.T) {
+	t.Skip("aws_ec2_managed_prefix_list is not supported")
+
 	var route ec2.Route
 	resourceName := "aws_route.test"
 	eoigwResourceName := "aws_egress_only_internet_gateway.test"
@@ -2306,9 +2386,8 @@ resource "aws_route" "test" {
 
 func testAccRouteIPv6InstanceConfig(rName, destinationCidr string) string {
 	return acctest.ConfigCompose(
-		testAccLatestAmazonNatInstanceAmiConfig(),
+		testAccInstanceAMIConfig(),
 		acctest.ConfigAvailableAZsNoOptIn(),
-		acctest.AvailableEC2InstanceTypeForAvailabilityZone("data.aws_availability_zones.available.names[0]", "t3.micro", "t2.micro"),
 		fmt.Sprintf(`
 resource "aws_vpc" "test" {
   cidr_block                       = "10.1.0.0/16"
@@ -2331,8 +2410,8 @@ resource "aws_subnet" "test" {
 }
 
 resource "aws_instance" "test" {
-  ami           = data.aws_ami.amzn-ami-nat-instance.id
-  instance_type = data.aws_ec2_instance_type_offering.available.instance_type
+  ami           = data.aws_ami.instance_test.id
+  instance_type = "m1.micro"
   subnet_id     = aws_subnet.test.id
 
   ipv6_address_count = 1
@@ -2638,9 +2717,8 @@ resource "aws_route" "test" {
 
 func testAccRouteIPv4InstanceConfig(rName, destinationCidr string) string {
 	return acctest.ConfigCompose(
-		testAccLatestAmazonNatInstanceAmiConfig(),
+		testAccInstanceAMIConfig(),
 		acctest.ConfigAvailableAZsNoOptIn(),
-		acctest.AvailableEC2InstanceTypeForAvailabilityZone("data.aws_availability_zones.available.names[0]", "t3.micro", "t2.micro"),
 		fmt.Sprintf(`
 resource "aws_vpc" "test" {
   cidr_block = "10.1.0.0/16"
@@ -2661,8 +2739,8 @@ resource "aws_subnet" "test" {
 }
 
 resource "aws_instance" "test" {
-  ami           = data.aws_ami.amzn-ami-nat-instance.id
-  instance_type = data.aws_ec2_instance_type_offering.available.instance_type
+  ami           = data.aws_ami.instance_test.id
+  instance_type = "m1.micro"
   subnet_id     = aws_subnet.test.id
 
   tags = {
@@ -2833,9 +2911,8 @@ resource "aws_route" "test" {
 
 func testAccRouteIPv4NetworkInterfaceAttachedConfig(rName, destinationCidr string) string {
 	return acctest.ConfigCompose(
-		testAccLatestAmazonNatInstanceAmiConfig(),
+		testAccInstanceAMIConfig(),
 		acctest.ConfigAvailableAZsNoOptIn(),
-		acctest.AvailableEC2InstanceTypeForAvailabilityZone("data.aws_availability_zones.available.names[0]", "t3.micro", "t2.micro"),
 		fmt.Sprintf(`
 resource "aws_vpc" "test" {
   cidr_block = "10.1.0.0/16"
@@ -2864,8 +2941,8 @@ resource "aws_network_interface" "test" {
 }
 
 resource "aws_instance" "test" {
-  ami           = data.aws_ami.amzn-ami-nat-instance.id
-  instance_type = data.aws_ec2_instance_type_offering.available.instance_type
+  ami           = data.aws_ami.instance_test.id
+  instance_type = "m1.micro"
 
   network_interface {
     device_index         = 0
@@ -2898,9 +2975,8 @@ resource "aws_route" "test" {
 
 func testAccRouteIPv4NetworkInterfaceTwoAttachmentsConfig(rName, destinationCidr, targetResourceName string) string {
 	return acctest.ConfigCompose(
-		testAccLatestAmazonNatInstanceAmiConfig(),
+		testAccInstanceAMIConfig(),
 		acctest.ConfigAvailableAZsNoOptIn(),
-		acctest.AvailableEC2InstanceTypeForAvailabilityZone("data.aws_availability_zones.available.names[0]", "t3.micro", "t2.micro"),
 		fmt.Sprintf(`
 resource "aws_vpc" "test" {
   cidr_block = "10.1.0.0/16"
@@ -2920,6 +2996,16 @@ resource "aws_subnet" "test" {
   }
 }
 
+resource "aws_subnet" "test2" {
+  cidr_block        = "10.1.2.0/24"
+  vpc_id            = aws_vpc.test.id
+  availability_zone = data.aws_availability_zones.available.names[0]
+
+  tags = {
+    Name = %[1]q
+  }
+}
+
 resource "aws_network_interface" "test1" {
   subnet_id = aws_subnet.test.id
 
@@ -2929,7 +3015,7 @@ resource "aws_network_interface" "test1" {
 }
 
 resource "aws_network_interface" "test2" {
-  subnet_id = aws_subnet.test.id
+  subnet_id = aws_subnet.test2.id
 
   tags = {
     Name = %[1]q
@@ -2937,8 +3023,8 @@ resource "aws_network_interface" "test2" {
 }
 
 resource "aws_instance" "test" {
-  ami           = data.aws_ami.amzn-ami-nat-instance.id
-  instance_type = data.aws_ec2_instance_type_offering.available.instance_type
+  ami           = data.aws_ami.instance_test.id
+  instance_type = "m1.micro"
 
   network_interface {
     device_index         = 0
@@ -3056,8 +3142,7 @@ resource "aws_eip" "test" {
 }
 
 resource "aws_nat_gateway" "test" {
-  allocation_id = aws_eip.test.id
-  subnet_id     = aws_subnet.test.id
+  vpc_id = aws_vpc.test.id
 
   tags = {
     Name = %[1]q
@@ -3272,9 +3357,8 @@ resource "aws_route" "test" {
 
 func testAccRouteIPv4FlexiTargetConfig(rName, destinationCidr, targetAttribute, targetValue string) string {
 	return acctest.ConfigCompose(
-		acctest.ConfigLatestAmazonLinuxHvmEbsAmi(),
+		testAccInstanceAMIConfig(),
 		acctest.ConfigAvailableAZsNoOptInDefaultExclude(),
-		acctest.AvailableEC2InstanceTypeForAvailabilityZone("data.aws_availability_zones.available.names[0]", "t3.micro", "t2.micro"),
 		fmt.Sprintf(`
 locals {
   target_attr  = %[3]q
@@ -3318,8 +3402,8 @@ resource "aws_subnet" "test" {
 }
 
 resource "aws_instance" "test" {
-  ami           = data.aws_ami.amzn-ami-minimal-hvm-ebs.id
-  instance_type = data.aws_ec2_instance_type_offering.available.instance_type
+  ami           = data.aws_ami.instance_test.id
+  instance_type = "m1.micro"
   subnet_id     = aws_subnet.test.id
 
   tags = {
@@ -3378,8 +3462,7 @@ resource "aws_eip" "test" {
 }
 
 resource "aws_nat_gateway" "test" {
-  allocation_id = aws_eip.test.id
-  subnet_id     = aws_subnet.test.id
+  vpc_id = aws_vpc.test.id
 
   tags = {
     Name = %[1]q
@@ -3447,9 +3530,8 @@ resource "aws_route" "test" {
 
 func testAccRouteIPv6FlexiTargetConfig(rName, destinationCidr, targetAttribute, targetValue string) string {
 	return acctest.ConfigCompose(
-		acctest.ConfigLatestAmazonLinuxHvmEbsAmi(),
+		testAccInstanceAMIConfig(),
 		acctest.ConfigAvailableAZsNoOptIn(),
-		acctest.AvailableEC2InstanceTypeForAvailabilityZone("data.aws_availability_zones.available.names[0]", "t3.micro", "t2.micro"),
 		fmt.Sprintf(`
 locals {
   target_attr  = %[3]q
@@ -3495,8 +3577,8 @@ resource "aws_subnet" "test" {
 }
 
 resource "aws_instance" "test" {
-  ami           = data.aws_ami.amzn-ami-minimal-hvm-ebs.id
-  instance_type = data.aws_ec2_instance_type_offering.available.instance_type
+  ami           = data.aws_ami.instance_test.id
+  instance_type = "m1.micro"
   subnet_id     = aws_subnet.test.id
 
   ipv6_address_count = 1
@@ -3680,9 +3762,8 @@ resource "aws_route" "test" {
 
 func testAccRoutePrefixListInstanceConfig(rName string) string {
 	return acctest.ConfigCompose(
-		testAccLatestAmazonNatInstanceAmiConfig(),
+		testAccInstanceAMIConfig(),
 		acctest.ConfigAvailableAZsNoOptIn(),
-		acctest.AvailableEC2InstanceTypeForAvailabilityZone("data.aws_availability_zones.available.names[0]", "t3.micro", "t2.micro"),
 		fmt.Sprintf(`
 resource "aws_vpc" "test" {
   cidr_block = "10.1.0.0/16"
@@ -3703,8 +3784,8 @@ resource "aws_subnet" "test" {
 }
 
 resource "aws_instance" "test" {
-  ami           = data.aws_ami.amzn-ami-nat-instance.id
-  instance_type = data.aws_ec2_instance_type_offering.available.instance_type
+  ami           = data.aws_ami.instance_test.id
+  instance_type = "m1.micro"
   subnet_id     = aws_subnet.test.id
 
   tags = {
@@ -3788,9 +3869,8 @@ resource "aws_route" "test" {
 
 func testAccRoutePrefixListNetworkInterfaceAttachedConfig(rName string) string {
 	return acctest.ConfigCompose(
-		testAccLatestAmazonNatInstanceAmiConfig(),
+		testAccInstanceAMIConfig(),
 		acctest.ConfigAvailableAZsNoOptIn(),
-		acctest.AvailableEC2InstanceTypeForAvailabilityZone("data.aws_availability_zones.available.names[0]", "t3.micro", "t2.micro"),
 		fmt.Sprintf(`
 resource "aws_vpc" "test" {
   cidr_block = "10.1.0.0/16"
@@ -3819,8 +3899,8 @@ resource "aws_network_interface" "test" {
 }
 
 resource "aws_instance" "test" {
-  ami           = data.aws_ami.amzn-ami-nat-instance.id
-  instance_type = data.aws_ec2_instance_type_offering.available.instance_type
+  ami           = data.aws_ami.instance_test.id
+  instance_type = "m1.micro"
 
   network_interface {
     device_index         = 0
@@ -3945,8 +4025,7 @@ resource "aws_eip" "test" {
 }
 
 resource "aws_nat_gateway" "test" {
-  allocation_id = aws_eip.test.id
-  subnet_id     = aws_subnet.test.id
+  vpc_id = aws_vpc.test.id
 
   tags = {
     Name = %[1]q
