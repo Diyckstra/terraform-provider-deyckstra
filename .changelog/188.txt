@@ -1,9 +1,9 @@
 ```release-note:breaking-change
-resource/aws_route_table, resource/aws_default_route_table: make the `route.instance_id` argument read-only. Use `route.network_interface_id` with the instance `primary_network_interface_id` attribute instead
+resource/aws_route_table, resource/aws_default_route_table: make the `route.instance_id` argument read-only. Use `route.network_interface_id` instead
 ```
 
-```release-note:bug
-resource/aws_route_table, resource/aws_default_route_table: fix a permanent diff for a `route` that targets a network interface attached to an instance
+```release-note:breaking-change
+resource/aws_route: make the `instance_id` argument read-only. Use `network_interface_id` instead
 ```
 
 ```release-note:bug
