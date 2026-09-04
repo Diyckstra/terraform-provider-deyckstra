@@ -43,17 +43,22 @@ The arguments of this data source act as filters for querying specific routes in
 * `destination_cidr_block` - (Optional, String) The CIDR block of the route.
 * `gateway_id` - (Optional, String) The ID of the internet gateway.
 * `instance_id` - (Optional, String) The ID of the instance.
+* `nat_gateway_id` - (Optional, String) The ID of the NAT gateway.
 * `network_interface_id` - (Optional, String) The ID of the network interface.
 * `transit_gateway_id` - (Optional, String) The ID of the transit gateway.
 
 ## Attribute reference
 
-All arguments are exported as attributes.
+### Supported attributes
+
+All arguments are exported as attributes. In addition, the following attribute is exported:
+
+* `id` - (String) The route identifier computed from the routing table identifier and route destination.
 
 ### Unsupported attributes
 
-~> **Note** These arguments may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
-The following arguments are not currently supported:
+The following attributes are not currently supported:
 
-`carrier_gateway_id`, `core_network_arn`, `destination_ipv6_cidr_block`, `destination_prefix_list_id`, `egress_only_gateway_id`, `local_gateway_id`, `nat_gateway_id`, `vpc_endpoint_id`, `vpc_peering_connection_id`.
+`carrier_gateway_id`, `core_network_arn`, `destination_ipv6_cidr_block`, `destination_prefix_list_id`, `egress_only_gateway_id`, `local_gateway_id`, `vpc_endpoint_id`, `vpc_peering_connection_id`.

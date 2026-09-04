@@ -42,6 +42,7 @@ The following destination argument must be supplied:
 One of the following target arguments must be supplied:
 
 * `gateway_id` - (Optional, Editable, String) The ID of the internet gateway.
+* `nat_gateway_id` - (Optional, Editable, String) The ID of the NAT gateway.
 * `network_interface_id` - (Optional, Editable, String) The ID of the network interface.
 * `transit_gateway_id` - (Optional, Editable, String) The ID of the transit gateway.
 
@@ -53,9 +54,9 @@ This argument is **deprecated** and should not be used:
 
 ### Supported attributes
 
-In addition to all arguments above, the following attributes are exported:
-
 ~> **Note** Only the arguments that are configured (one of the above) will be exported as an attribute once the resource is created.
+
+In addition to all arguments above, the following attributes are exported:
 
 * `id` - (String) The route identifier computed from the routing table identifier and route destination.
 * `instance_owner_id` - (String) The ID of the project that owns the instance.
@@ -68,14 +69,14 @@ In addition to all arguments above, the following attributes are exported:
 
 The following attributes are not currently supported:
 
-`carrier_gateway_id`, `core_network_arn`, `destination_ipv6_cidr_block`, `destination_prefix_list_id`, `egress_only_gateway_id`, `local_gateway_id`, `nat_gateway_id`, `vpc_endpoint_id`, `vpc_peering_connection_id`.
+`carrier_gateway_id`, `core_network_arn`, `destination_ipv6_cidr_block`, `destination_prefix_list_id`, `egress_only_gateway_id`, `local_gateway_id`, `vpc_endpoint_id`, `vpc_peering_connection_id`.
 
 ## Timeouts
 
 The `timeouts` block allows you to specify [timeouts] for certain actions:
 
 - `create` - (Default `5 minutes`) Used for route creation.
-- `update` - (Default `2 minutes`) Used for route creation.
+- `update` - (Default `2 minutes`) Used for updating the route.
 - `delete` - (Default `5 minutes`) Used for route deletion.
 
 ## Import
