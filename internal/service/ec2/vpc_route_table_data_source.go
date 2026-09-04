@@ -172,15 +172,15 @@ func dataSourceRouteTableRead(d *schema.ResourceData, meta interface{}) error {
 	req := &ec2.DescribeRouteTablesInput{}
 	vpcId, vpcIdOk := d.GetOk("vpc_id")
 	subnetId, subnetIdOk := d.GetOk("subnet_id")
-	rtbId, rtbOk := d.GetOk("route_table_id")
+	rtbId, rtbIdOk := d.GetOk("route_table_id")
 	tags, tagsOk := d.GetOk("tags")
 	filter, filterOk := d.GetOk("filter")
 
-	if !rtbOk && !vpcIdOk && !subnetIdOk && !filterOk && !tagsOk {
+	if !rtbIdOk && !vpcIdOk && !subnetIdOk && !filterOk && !tagsOk {
 		return fmt.Errorf("one of route_table_id, vpc_id, subnet_id, filters, or tags must be assigned")
 	}
 	// The route-table-id filter is not supported, so the ID is passed as a request parameter.
-	if rtbOk {
+	if rtbIdOk {
 		req.RouteTableIds = aws.StringSlice([]string{rtbId.(string)})
 	}
 	req.Filters = BuildAttributeFilterList(
