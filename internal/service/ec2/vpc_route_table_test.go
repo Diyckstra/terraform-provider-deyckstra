@@ -185,7 +185,6 @@ func TestAccVPCRouteTable_ipv4ToInstance(t *testing.T) {
 	})
 }
 
-// aws_egress_only_internet_gateway is not supported.
 func TestAccVPCRouteTable_ipv6ToEgressOnlyInternetGateway(t *testing.T) {
 	t.Skip("aws_egress_only_internet_gateway is not supported")
 
@@ -468,7 +467,6 @@ func TestAccVPCRouteTable_ipv4ToVPCEndpoint(t *testing.T) {
 	})
 }
 
-// aws_ec2_carrier_gateway is not supported.
 func TestAccVPCRouteTable_ipv4ToCarrierGateway(t *testing.T) {
 	t.Skip("aws_ec2_carrier_gateway is not supported")
 
@@ -543,7 +541,6 @@ func TestAccVPCRouteTable_ipv4ToLocalGateway(t *testing.T) {
 	})
 }
 
-// aws_vpc_peering_connection is not supported.
 func TestAccVPCRouteTable_ipv4ToVPCPeeringConnection(t *testing.T) {
 	t.Skip("aws_vpc_peering_connection is not supported")
 
@@ -582,7 +579,6 @@ func TestAccVPCRouteTable_ipv4ToVPCPeeringConnection(t *testing.T) {
 	})
 }
 
-// aws_vpn_gateway is not supported.
 func TestAccVPCRouteTable_vgwRoutePropagation(t *testing.T) {
 	t.Skip("aws_vpn_gateway is not supported")
 
@@ -635,9 +631,8 @@ func TestAccVPCRouteTable_vgwRoutePropagation(t *testing.T) {
 	})
 }
 
-// A VPC does not get an IPv6 CIDR block, so assign_generated_ipv6_cidr_block has no effect.
 func TestAccVPCRouteTable_conditionalCIDRBlock(t *testing.T) {
-	t.Skip("IPv6 is not supported")
+	t.Skip("a VPC does not get an IPv6 CIDR block, so assign_generated_ipv6_cidr_block has no effect")
 
 	var routeTable ec2.RouteTable
 	resourceName := "aws_route_table.test"
@@ -711,9 +706,8 @@ func TestAccVPCRouteTable_ipv4ToNatGateway(t *testing.T) {
 	})
 }
 
-// A VPC does not get an IPv6 CIDR block, so an IPv6 route cannot be created.
 func TestAccVPCRouteTable_IPv6ToNetworkInterface_unattached(t *testing.T) {
-	t.Skip("IPv6 is not supported")
+	t.Skip("a VPC does not get an IPv6 CIDR block, so an IPv6 route cannot be created")
 
 	var routeTable ec2.RouteTable
 	resourceName := "aws_route_table.test"
@@ -829,7 +823,6 @@ func TestAccVPCRouteTable_IPv4ToNetworkInterfaces_unattached(t *testing.T) {
 	})
 }
 
-// aws_vpc_ipv4_cidr_block_association is not supported.
 func TestAccVPCRouteTable_vpcMultipleCIDRs(t *testing.T) {
 	t.Skip("aws_vpc_ipv4_cidr_block_association is not supported")
 
@@ -898,9 +891,8 @@ func TestAccVPCRouteTable_vpcClassicLink(t *testing.T) {
 	})
 }
 
-// aws_vpc_endpoint and the aws_region data source are not supported.
 func TestAccVPCRouteTable_gatewayVPCEndpoint(t *testing.T) {
-	t.Skip("aws_vpc_endpoint is not supported")
+	t.Skip("aws_vpc_endpoint and the aws_region data source are not supported")
 
 	var routeTable ec2.RouteTable
 	var vpce ec2.VpcEndpoint
@@ -978,7 +970,6 @@ func TestAccVPCRouteTable_multipleRoutes(t *testing.T) {
 				),
 			},
 			{
-				// The target of the first route changes, the other two stay the same.
 				Config: testAccRouteTableMultipleRoutesConfig(rName,
 					"cidr_block", destinationCidr1, "transit_gateway_id", fmt.Sprintf("%s.id", tgwResourceName),
 					"cidr_block", destinationCidr2, "network_interface_id", fmt.Sprintf("%s.primary_network_interface_id", instanceResourceName),
@@ -993,7 +984,6 @@ func TestAccVPCRouteTable_multipleRoutes(t *testing.T) {
 				),
 			},
 			{
-				// The destinations are swapped between the targets.
 				Config: testAccRouteTableMultipleRoutesConfig(rName,
 					"cidr_block", destinationCidr3, "gateway_id", fmt.Sprintf("%s.id", igwResourceName),
 					"cidr_block", destinationCidr1, "network_interface_id", fmt.Sprintf("%s.primary_network_interface_id", instanceResourceName),
@@ -1103,8 +1093,6 @@ func testAccCheckRouteTableDestroy(s *terraform.State) error {
 	return nil
 }
 
-// A route table has no implicit local route in the cloud, unlike in AWS, so the
-// expected numbers here are one lower than in the upstream provider.
 func testAccCheckRouteTableNumberOfRoutes(routeTable *ec2.RouteTable, n int) resource.TestCheckFunc {
 	return func(s *terraform.State) error {
 		if len := len(routeTable.Routes); len != n {
@@ -2210,6 +2198,8 @@ locals {
 }
 
 resource "aws_route_table" "test" {
+  depends_on = [aws_ec2_transit_gateway_vpc_attachment.test]
+
   vpc_id = aws_vpc.test.id
 
   dynamic "route" {
@@ -2239,20 +2229,11 @@ resource "aws_route_table" "test" {
 `, rName, destinationAttr1, destinationValue1, targetAttribute1, targetValue1, destinationAttr2, destinationValue2, targetAttribute2, targetValue2, destinationAttr3, destinationValue3, targetAttribute3, targetValue3))
 }
 
-// testAccInstanceAMIConfig returns the configuration for a data source
-// that describes an image available in the cloud.
-// aws_ec2_instance_type_offering isn't supported, so callers hardcode an
-// instance type instead of looking one up.
 func testAccInstanceAMIConfig() string {
 	return `
 data "aws_ami" "instance_test" {
   most_recent = true
   owners      = ["k2"]
-
-  filter {
-    name   = "name"
-    values = ["CirrOS 0.4.0"]
-  }
 }
 `
 }

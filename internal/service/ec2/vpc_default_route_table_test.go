@@ -304,9 +304,8 @@ func TestAccVPCDefaultRouteTable_ipv4ToVPCEndpoint(t *testing.T) {
 	})
 }
 
-// aws_vpc_endpoint and the aws_region data source are not supported.
 func TestAccVPCDefaultRouteTable_vpcEndpointAssociation(t *testing.T) {
-	t.Skip("aws_vpc_endpoint is not supported")
+	t.Skip("aws_vpc_endpoint and the aws_region data source are not supported")
 
 	var routeTable ec2.RouteTable
 	resourceName := "aws_default_route_table.test"
@@ -379,9 +378,8 @@ func TestAccVPCDefaultRouteTable_tags(t *testing.T) {
 	})
 }
 
-// A VPC does not get an IPv6 CIDR block, so assign_generated_ipv6_cidr_block has no effect.
 func TestAccVPCDefaultRouteTable_conditionalCIDRBlock(t *testing.T) {
-	t.Skip("IPv6 is not supported")
+	t.Skip("a VPC does not get an IPv6 CIDR block, so assign_generated_ipv6_cidr_block has no effect")
 
 	var routeTable ec2.RouteTable
 	resourceName := "aws_default_route_table.test"
@@ -420,7 +418,6 @@ func TestAccVPCDefaultRouteTable_conditionalCIDRBlock(t *testing.T) {
 	})
 }
 
-// aws_ec2_managed_prefix_list is not supported.
 func TestAccVPCDefaultRouteTable_prefixListToInternetGateway(t *testing.T) {
 	t.Skip("aws_ec2_managed_prefix_list is not supported")
 
@@ -464,7 +461,6 @@ func TestAccVPCDefaultRouteTable_prefixListToInternetGateway(t *testing.T) {
 	})
 }
 
-// aws_vpn_gateway is not supported.
 func TestAccVPCDefaultRouteTable_revokeExistingRules(t *testing.T) {
 	t.Skip("aws_vpn_gateway is not supported")
 
