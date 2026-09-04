@@ -19,13 +19,13 @@ Creates a routing table entry (a route) in a VPC routing table.
 ### Basic example
 
 ```terraform
-variable route_table_id {}
-variable instance_id {}
+variable "route_table_id" {}
+variable "network_interface_id" {}
 
 resource "aws_route" "example" {
   route_table_id         = var.route_table_id
   destination_cidr_block = "10.0.0.0/22"
-  instance_id            = var.instance_id
+  network_interface_id   = var.network_interface_id
 }
 ```
 
@@ -46,19 +46,17 @@ One of the following target arguments must be supplied:
 * `network_interface_id` - (Optional, Editable, String) The ID of the network interface.
 * `transit_gateway_id` - (Optional, Editable, String) The ID of the transit gateway.
 
-This argument is **deprecated** and should not be used:
-
-* `instance_id` - (Optional, Editable, String) The ID of the instance. Use the `network_interface_id` argument instead.
-
 ## Attribute reference
 
 ### Supported attributes
 
 ~> **Note** Only the arguments that are configured (one of the above) will be exported as an attribute once the resource is created.
+The `instance_id` attribute is an exception: it is exported for any route that targets a network interface attached to an instance.
 
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - (String) The route identifier computed from the routing table identifier and route destination.
+* `instance_id` - (String) The ID of the instance the target network interface is attached to.
 * `instance_owner_id` - (String) The ID of the project that owns the instance.
 * `origin` - (String) Describes how the route was created - by `CreateRouteTable`, `CreateRoute` or `EnableVgwRoutePropagation`.
 * `state` - (String) The state of the route - `active` or `blackhole`.

@@ -10,7 +10,6 @@ description: |-
 [default-tags]: https://www.terraform.io/docs/providers/aws/index.html#default_tags-configuration-block
 [route-tables]: https://docs.k2.cloud/en/services/networking/routetables.html
 [timeouts]: https://developer.hashicorp.com/terraform/plugin/framework/resources/timeouts
-[sdk-diff-issue]: https://github.com/hashicorp/terraform/issues/21901
 
 # Resource: aws_route_table
 
@@ -66,7 +65,8 @@ resource "aws_route_table" "example" {
 
 ### Specific example: removing all managed routes subsequently
 
-~> **Note** This example deletes routes created in the [example above](#basic-example).
+~> **Note** This example redefines the route table from the [Basic example](#basic-example) with `route = []` instead of the `route` blocks.
+Applying it removes all routes managed by Terraform.
 
 ```terraform
 resource "aws_route_table" "example" {
@@ -106,16 +106,8 @@ One of the following target arguments must be supplied:
 * `network_interface_id` - (Optional, Editable, String) The ID of the network interface.
 * `transit_gateway_id` - (Optional, Editable, String) The ID of the transit gateway.
 
-The following attribute is exported inside the block:
-
-* `instance_id` - (String) The ID of the instance the target network interface is attached to.
-
-~> **Note** The `route.instance_id` attribute cannot be specified in configuration files.
-To route traffic to an instance, use `network_interface_id` with the instance's `primary_network_interface_id` attribute.
-
-~> **Note** Changing any argument inside a `route` block makes `terraform plan` report that every route of the route table is replaced.
-This is a [known Terraform SDK issue][sdk-diff-issue]: an argument omitted in the configuration is treated as `null` there, while the state keeps the default value for its type, and the difference is highlighted as soon as the block is edited.
-The plan is misleading, not the apply: the provider updates only the routes that actually changed and leaves the rest alone.
+~> **Note** The `route.instance_id` argument was removed and cannot be specified in configuration files anymore.
+To route traffic to an instance, use `network_interface_id`.
 
 ## Attribute reference
 
@@ -128,6 +120,7 @@ In addition to all arguments above, the following attributes are exported:
 
 * `arn` - (String) The Amazon Resource Name (ARN) of the route table.
 * `id` - (String) The ID of the route table.
+* `route.instance_id` - (String) The ID of the instance the target network interface is attached to.
 * `tags_all` - (Map of strings) Key-value pairs assigned to the resource, including any tags inherited from the [`default_tags` configuration block][default-tags] if used within a provider configuration.
 
 ### Unsupported attributes

@@ -66,7 +66,6 @@ In addition to all arguments above, the following attributes are exported:
 * `arn` - (String) The Amazon Resource Name (ARN) of the route table.
 * `id` - (String) The ID of the route table.
 * `associations` - ([Block](#associations)) The list of associations.
-* `route_table_id` - (String) The ID of the route table.
 * `routes` - ([Block](#routes)) The list of routes.
 
 #### associations
