@@ -117,9 +117,8 @@ func ResourceRouteTable() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 						},
-						// Reported by the API for a route that targets an ENI attached to an
-						// instance. Read-only: configuring both this and network_interface_id
-						// would make the route set never match the configuration.
+						// Read-only: the API reports it for a route to an attached ENI,
+						// and a configured value would never match the route set read back.
 						"instance_id": {
 							Type:     schema.TypeString,
 							Computed: true,
