@@ -94,9 +94,10 @@ func ResourceEIP() *schema.Resource {
 				Computed: true,
 			},
 			"instance": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
+				Type:          schema.TypeString,
+				Optional:      true,
+				Computed:      true,
+				ConflictsWith: []string{"network_interface"},
 			},
 			"network_border_group": {
 				Type:     schema.TypeString,
@@ -105,9 +106,10 @@ func ResourceEIP() *schema.Resource {
 				ForceNew: true,
 			},
 			"network_interface": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
+				Type:          schema.TypeString,
+				Optional:      true,
+				Computed:      true,
+				ConflictsWith: []string{"instance"},
 			},
 			"private_dns": {
 				Type:     schema.TypeString,
