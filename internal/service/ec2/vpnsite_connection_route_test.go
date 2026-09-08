@@ -15,6 +15,9 @@ import (
 )
 
 func TestAccVPNSiteConnectionRoute_basic(t *testing.T) {
+	// The platform supports neither VPN connection routes nor VPN gateway resources.
+	t.Skip("aws_vpn_connection_route is not supported")
+
 	rName := sdkacctest.RandomWithPrefix(acctest.ResourcePrefix)
 	rBgpAsn := sdkacctest.RandIntRange(64512, 65534)
 	resourceName := "aws_vpn_connection_route.test"
@@ -36,6 +39,9 @@ func TestAccVPNSiteConnectionRoute_basic(t *testing.T) {
 }
 
 func TestAccVPNSiteConnectionRoute_disappears(t *testing.T) {
+	// The platform supports neither VPN connection routes nor VPN gateway resources.
+	t.Skip("aws_vpn_connection_route is not supported")
+
 	rName := sdkacctest.RandomWithPrefix(acctest.ResourcePrefix)
 	rBgpAsn := sdkacctest.RandIntRange(64512, 65534)
 	resourceName := "aws_vpn_connection_route.test"

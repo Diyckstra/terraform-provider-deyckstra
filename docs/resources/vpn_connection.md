@@ -89,6 +89,13 @@ resource "aws_vpn_connection" "single_tunnel" {
 }
 ```
 
+## Routing
+
+Static routes to the networks behind the customer gateway are configured with [`aws_route`](route.md) or the `route` block of [`aws_route_table`](route_table.md), where the `gateway_id` argument is set to the ID of the VPN connection.
+
+To install the routes received over BGP into a route table, use [`aws_vpn_gateway_route_propagation`](vpn_gateway_route_propagation.md).
+A fault-tolerant connection supports BGP routing only, static routing is not available for it, see [user documentation][vpn-connections].
+
 ## Argument Reference
 
 The following arguments are required:

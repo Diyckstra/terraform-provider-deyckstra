@@ -16,6 +16,10 @@ Requests automatic route propagation between a VPN gateway and a route table.
 the `propagating_vgws` argument set. If that argument is set, any route
 propagation not explicitly listed in its value will be removed.
 
+~> **Note** Only one route table of the VPC can receive the routes propagated from the VPN gateway.
+The platform enables the propagation into the main route table of the VPC, so to propagate the routes into another table,
+disable the propagation for the main one first, otherwise the operation fails with the `Propagation.AlreadyEnabled` error.
+
 ## Example Usage
 
 -> **Note** For convenience, the ID of the VPN gateway is the same as the ID of the VPC, to which it belongs (`vpc-ABCD1234`/`vgw-ABCD1234`).
@@ -25,17 +29,13 @@ resource "aws_vpc" "example" {
   cidr_block = "10.1.0.0/16"
 }
 
-resource "aws_route_table" "example" {
-  vpc_id = aws_vpc.example.id
-}
-
 data "aws_vpn_gateway" "selected" {
   id = aws_vpc.example.id # vpc_id can be used as vpn_gateway_id
 }
 
 resource "aws_vpn_gateway_route_propagation" "example" {
   vpn_gateway_id = data.aws_vpn_gateway.selected.id
-  route_table_id = aws_route_table.example.id
+  route_table_id = aws_vpc.example.main_route_table_id
 }
 ```
 

@@ -125,25 +125,13 @@ resource "aws_vpc" "test" {
   }
 }
 
-resource "aws_vpn_gateway" "test" {
-  vpc_id = aws_vpc.test.id
-
-  tags = {
-    Name = %[1]q
-  }
-}
-
-resource "aws_route_table" "test" {
-  vpc_id = aws_vpc.test.id
-
-  tags = {
-    Name = %[1]q
-  }
-}
-
 resource "aws_vpn_gateway_route_propagation" "test" {
-  vpn_gateway_id = aws_vpn_gateway.test.id
-  route_table_id = aws_route_table.test.id
+  # The platform creates a VPN gateway for every VPC and gives it the ID of the VPC.
+  vpn_gateway_id = replace(aws_vpc.test.id, "vpc-", "vgw-")
+
+  # Only one route table per VPN gateway can receive the propagated routes, and the
+  # platform enables the propagation into the main route table of the VPC.
+  route_table_id = aws_vpc.test.main_route_table_id
 }
 `, rName)
 }
