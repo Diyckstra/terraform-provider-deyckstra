@@ -30,12 +30,12 @@ For more information about VPN connections, see [user documentation][vpn-connect
 
 ```terraform
 resource "aws_vpc" "example" {
-   cidr_block         = "172.16.8.0/24"
-   enable_dns_support = true
+  cidr_block         = "172.16.8.0/24"
+  enable_dns_support = true
 
-   tags = {
-     Name = "tf-vpc"
-   }
+  tags = {
+    Name = "tf-vpc"
+  }
 }
 
 resource "aws_customer_gateway" "example" {
