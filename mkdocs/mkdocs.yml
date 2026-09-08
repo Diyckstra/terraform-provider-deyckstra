@@ -232,6 +232,7 @@ nav:
       - aws_vpn_gateway_route_propagation: resources/vpn_gateway_route_propagation.md
     - Data Sources:
       - aws_customer_gateway: data-sources/customer_gateway.md
+      - aws_vpn_connection: data-sources/vpn_connection.md
       - aws_vpn_gateway: data-sources/vpn_gateway.md
   
 theme:

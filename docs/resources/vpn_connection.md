@@ -12,26 +12,24 @@ description: |-
 
 # Resource: aws_vpn_connection
 
--> **Unsupported resource**
-This resource is currently unsupported.
-
 Manages a Site-to-Site VPN connection. A Site-to-Site VPN connection is an Internet Protocol security (IPSec) VPN connection between a VPC and an on-premises network.
 
 For more information about VPN connections, see [user documentation][vpn-connections].
 
-~> **Note:** All arguments including `tunnel1_preshared_key` and `tunnel2_preshared_key` will be stored in the raw state as plain-text.
-[Read more about sensitive data in state][sensitive-data].
-
-~> **Note:** The CIDR blocks in the arguments `tunnel1_inside_cidr` and `tunnel2_inside_cidr` must have a prefix of /30 and be a part of a specific range.
-
 -> **Note** For convenience, the ID of the VPN gateway is the same as the ID of the VPC, to which it belongs (`vpc-ABCD1234`/`vgw-ABCD1234`).
+
+~> **Note** Only one VPN connection can exist between a customer gateway and a VPC. Creating a second connection for the same pair returns the existing connection instead of a new one.
+
+~> **Note** All arguments including `tunnel1_preshared_key` and `tunnel2_preshared_key` will be stored in the raw state as plain-text.
+[Read more about sensitive data in state][sensitive-data].
 
 ## Example Usage
 
+### Fault-tolerant connection
+
 ```terraform
 resource "aws_vpc" "example" {
-  cidr_block         = "172.16.8.0/24"
-  enable_dns_support = true
+  cidr_block = "172.16.8.0/24"
 
   tags = {
     Name = "tf-vpc"
@@ -49,7 +47,7 @@ resource "aws_customer_gateway" "example" {
 }
 
 resource "aws_vpn_connection" "example" {
-  vpn_gateway_id      = replace(aws_vpc.example.id, "/vpc/", "vgw")
+  vpn_gateway_id      = aws_vpc.example.id # vpc_id can be used as vpn_gateway_id
   customer_gateway_id = aws_customer_gateway.example.id
   type                = aws_customer_gateway.example.type
 
@@ -59,85 +57,139 @@ resource "aws_vpn_connection" "example" {
 }
 ```
 
+### Connection without fault tolerance
+
+~> **Note** This example uses the VPC defined in the [fault-tolerant connection example](#fault-tolerant-connection).
+Only one connection can exist between a customer gateway and a VPC, so the example creates its own customer gateway.
+
+```terraform
+resource "aws_customer_gateway" "single_tunnel" {
+  bgp_asn    = 65001
+  ip_address = "172.0.0.2"
+  type       = "ipsec.1"
+
+  tags = {
+    Name = "tf-customer-gateway-single-tunnel"
+  }
+}
+
+resource "aws_vpn_connection" "single_tunnel" {
+  vpn_gateway_id      = aws_vpc.example.id # vpc_id can be used as vpn_gateway_id
+  customer_gateway_id = aws_customer_gateway.single_tunnel.id
+  type                = aws_customer_gateway.single_tunnel.type
+  high_availability   = false
+
+  tunnel1_inside_cidr   = "169.254.252.8/30"
+  tunnel1_preshared_key = "tf_example_key"
+  tunnel1_ike_versions  = ["ikev2"]
+
+  tags = {
+    Name = "tf-vpn-connection-single-tunnel"
+  }
+}
+```
+
 ## Argument Reference
 
 The following arguments are required:
 
-* `customer_gateway_id` - (Required) The ID of the customer gateway.
-* `type` - (Required) The type of VPN connection. Valid values are `ipsec.1`, `ipsec.legacy`.
-* `vpn_gateway_id` - (Required) The ID of the VPN gateway.
+* `customer_gateway_id` - (Required, Forces new resource, String) The ID of the customer gateway.
+* `type` - (Required, Forces new resource, String) The type of VPN connection.
+    * _Valid values:_ `ipsec.1`, `ipsec.legacy`
+* `vpn_gateway_id` - (Required, Forces new resource, String) The ID of the VPN gateway.
 
-Other arguments:
+The following arguments are optional:
 
-* `local_ipv4_network_cidr` - (Optional, Default `0.0.0.0/0`) The IPv4 CIDR on the customer gateway (on-premises) side of the VPN connection. Valid value must not fall within the range of 169.254.0.0/16.
-* `remote_ipv4_network_cidr` - (Optional, Default `0.0.0.0/0`) The IPv4 CIDR on the cloud side of the VPN connection. Valid value must not fall within the range of 169.254.0.0/16.
-* `tags` - (Optional) Tags to apply to the connection. If configured with a provider [`default_tags` configuration block][default-tags] present, tags with matching keys will overwrite those defined at the provider-level.
-* `tunnel1_ike_versions` - (Optional) The IKE versions that are permitted for the first VPN tunnel. Valid values are `ikev1 | ikev2`.
-* `tunnel2_ike_versions` - (Optional) The IKE versions that are permitted for the second VPN tunnel. Valid values are `ikev1 | ikev2`.
-* `tunnel1_inside_cidr` - (Optional) The CIDR block of the inside IP addresses for the first VPN tunnel. Valid value is a size /30 CIDR block from the 169.254.0.0/16 range.
-* `tunnel2_inside_cidr` - (Optional) The CIDR block of the inside IP addresses for the second VPN tunnel. Valid value is a size /30 CIDR block from the 169.254.0.0/16 range.
-* `tunnel1_preshared_key` - (Optional) The preshared key of the first VPN tunnel. The preshared key must be between 8 and 64 characters in length and cannot start with zero(0). Allowed characters are alphanumeric characters, periods(.) and underscores(_).
-* `tunnel2_preshared_key` - (Optional) The preshared key of the second VPN tunnel. The preshared key must be between 8 and 64 characters in length and cannot start with zero(0). Allowed characters are alphanumeric characters, periods(.) and underscores(_).
-* `tunnel1_phase1_dh_group_numbers` - (Optional) List of one or more Diffie-Hellman group numbers that are permitted for the first VPN tunnel for phase 1 IKE negotiations. Valid values are `2 | 5 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21`.
-* `tunnel2_phase1_dh_group_numbers` - (Optional) List of one or more Diffie-Hellman group numbers that are permitted for the second VPN tunnel for phase 1 IKE negotiations. Valid values are `2 | 5 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21`.
-* `tunnel1_phase1_encryption_algorithms` - (Optional) List of one or more encryption algorithms that are permitted for the first VPN tunnel for phase 1 IKE negotiations. Valid values are `AES128 | AES256 | AES128-GCM-16 | AES256-GCM-16`.
-* `tunnel2_phase1_encryption_algorithms` - (Optional) List of one or more encryption algorithms that are permitted for the second VPN tunnel for phase 1 IKE negotiations. Valid values are `AES128 | AES256 | AES128-GCM-16 | AES256-GCM-16`.
-* `tunnel1_phase1_integrity_algorithms` - (Optional) One or more integrity algorithms that are permitted for the first VPN tunnel for phase 1 IKE negotiations. Valid values are `SHA1 | SHA2-256 | SHA2-384 | SHA2-512`.
-* `tunnel2_phase1_integrity_algorithms` - (Optional) One or more integrity algorithms that are permitted for the second VPN tunnel for phase 1 IKE negotiations. Valid values are `SHA1 | SHA2-256 | SHA2-384 | SHA2-512`.
-* `tunnel1_phase1_lifetime_seconds` - (Optional, Default `28800`) The lifetime for phase 1 of the IKE negotiation for the first VPN tunnel, in seconds. Valid value is between `900` and `28800`.
-* `tunnel2_phase1_lifetime_seconds` - (Optional, Default `28800`) The lifetime for phase 1 of the IKE negotiation for the second VPN tunnel, in seconds. Valid value is between `900` and `28800`.
-* `tunnel1_phase2_dh_group_numbers` - (Optional) List of one or more Diffie-Hellman group numbers that are permitted for the first VPN tunnel for phase 2 IKE negotiations. Valid values are `0 | 2 | 5 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21`.
-  The `0` value is applicable for Phase2 only and means that the PFS (Perfect Forward Secrecy) mode is disabled.
-  In order to prevent the session encryption key from being compromised, do not disable PFS.
-* `tunnel2_phase2_dh_group_numbers` - (Optional) List of one or more Diffie-Hellman group numbers that are permitted for the second VPN tunnel for phase 2 IKE negotiations. Valid values are `0 | 2 | 5 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21`.
-  The `0` value is applicable for Phase2 only and means that the PFS (Perfect Forward Secrecy) mode is disabled.
-  In order to prevent the session encryption key from being compromised, do not disable PFS.
-* `tunnel1_phase2_encryption_algorithms` - (Optional) List of one or more encryption algorithms that are permitted for the first VPN tunnel for phase 2 IKE negotiations. Valid values are `AES128 | AES256 | AES128-GCM-16 | AES256-GCM-16`.
-* `tunnel2_phase2_encryption_algorithms` - (Optional) List of one or more encryption algorithms that are permitted for the second VPN tunnel for phase 2 IKE negotiations. Valid values are `AES128 | AES256 | AES128-GCM-16 | AES256-GCM-16`.
-* `tunnel1_phase2_integrity_algorithms` - (Optional) List of one or more integrity algorithms that are permitted for the first VPN tunnel for phase 2 IKE negotiations. Valid values are `SHA1 | SHA2-256 | SHA2-384 | SHA2-512`.
-* `tunnel2_phase2_integrity_algorithms` - (Optional) List of one or more integrity algorithms that are permitted for the second VPN tunnel for phase 2 IKE negotiations. Valid values are `SHA1 | SHA2-256 | SHA2-384 | SHA2-512`.
-* `tunnel1_phase2_lifetime_seconds` - (Optional, Default `3600`) The lifetime for phase 2 of the IKE negotiation for the first VPN tunnel, in seconds. Valid value is between `900` and `3600`.
-* `tunnel2_phase2_lifetime_seconds` - (Optional, Default `3600`) The lifetime for phase 2 of the IKE negotiation for the second VPN tunnel, in seconds. Valid value is between `900` and `3600`.
-* `tunnel1_replay_window_size` - (Optional, Default `1024`) The number of packets in an IKE replay window for the first VPN tunnel. Valid value is between `64` and `2048`.
-* `tunnel2_replay_window_size` - (Optional, Default `1024`) The number of packets in an IKE replay window for the second VPN tunnel. Valid value is between `64` and `2048`.
+* `high_availability` - (Optional, Forces new resource, Boolean) Indicates whether the connection is created with two tunnels terminated in different availability zones.
+A connection without fault tolerance has a single tunnel, so the `tunnel2_*` arguments cannot be specified for it.
+    * _Default value:_ `true`
+* `local_ipv4_network_cidr` - (Optional, Forces new resource, String) The IPv4 CIDR on the customer gateway (on-premises) side of the VPN connection.
+    * _Constraints:_ The value must not fall within the range of `169.254.0.0/16`
+    * _Default value:_ `0.0.0.0/0`
+* `remote_ipv4_network_cidr` - (Optional, Forces new resource, String) The IPv4 CIDR on the cloud side of the VPN connection.
+    * _Constraints:_ The value must not fall within the range of `169.254.0.0/16`
+    * _Default value:_ `0.0.0.0/0`
+* `tags` - (Optional, Editable, Map of strings) Key-value pairs to assign to the connection. If the [`default_tags` configuration block][default-tags] is used within a provider configuration, the tags with matching keys will overwrite those defined at the provider level.
 
-## Attributes Reference
+The following arguments configure the tunnels of the connection.
+The `tunnel2_*` arguments are supported only for a fault-tolerant connection.
+
+* `tunnel1_ike_versions`, `tunnel2_ike_versions` - (Optional, Forces new resource, Set of strings) The IKE version that is permitted for the VPN tunnel.
+    * _Constraints:_ Only one version can be specified
+    * _Valid values:_ `ikev1`, `ikev2`
+    * _Default value:_ `ikev1`
+* `tunnel1_inside_cidr`, `tunnel2_inside_cidr` - (Optional, Forces new resource, String) The CIDR block of the inside IP addresses for the VPN tunnel.
+The first address of the block is assigned to the VPC, the second one is assigned to the customer gateway.
+    * _Constraints:_ A `/30` CIDR block from the `169.254.252.0/22` range, unique among the connections of the VPN gateway
+* `tunnel1_preshared_key`, `tunnel2_preshared_key` - (Optional, Forces new resource, String) The pre-shared key (PSK) used for the primary authentication between the VPN gateway and the customer gateway.
+    * _Constraints:_ From 8 to 64 alphanumeric characters, periods (`.`) and underscores (`_`), the key cannot start with zero (`0`)
+* `tunnel1_phase1_dh_group_numbers`, `tunnel2_phase1_dh_group_numbers` - (Optional, Forces new resource, Set of integers) The Diffie-Hellman group numbers that are permitted for the VPN tunnel for phase 1 IKE negotiations.
+    * _Constraints:_ Up to six values
+    * _Valid values:_ `2`, `5`, `14`, `15`, `16`, `17`, `18`, `19`, `20`, `21`
+    * _Default value:_ `5`, `14`, `15`, `16`, `17`, `18`
+* `tunnel1_phase2_dh_group_numbers`, `tunnel2_phase2_dh_group_numbers` - (Optional, Forces new resource, Set of integers) The Diffie-Hellman group number that is permitted for the VPN tunnel for phase 2 IKE negotiations.
+The `0` value disables the Perfect Forward Secrecy (PFS) mode. In order to prevent the session encryption key from being compromised, do not disable PFS.
+    * _Constraints:_ Only one number can be specified, the `19`, `20` and `21` numbers are not supported for `ikev1`
+    * _Valid values:_ `0`, `2`, `5`, `14`, `15`, `16`, `17`, `18`, `19`, `20`, `21`
+    * _Default value:_ `14`
+* `tunnel1_phase1_encryption_algorithms`, `tunnel2_phase1_encryption_algorithms` - (Optional, Forces new resource, Set of strings) The encryption algorithms that are permitted for the VPN tunnel for phase 1 IKE negotiations.
+    * _Constraints:_ The `aes_gcm128`, `aes_gcm256` and `chacha20poly1305` algorithms are not supported for `ikev1`
+    * _Valid values:_ `aes128`, `aes256`, `aes_ctr128`, `aes_ctr256`, `aes_gcm128`, `aes_gcm256`, `camellia128`, `camellia256`, `chacha20poly1305`
+    * _Default value:_ All the supported algorithms, depending on the IKE version
+* `tunnel1_phase2_encryption_algorithms`, `tunnel2_phase2_encryption_algorithms` - (Optional, Forces new resource, Set of strings) The encryption algorithms that are permitted for the VPN tunnel for phase 2 IKE negotiations.
+    * _Constraints:_ The `chacha20poly1305` algorithm is not supported for `ikev1`
+    * _Valid values:_ `aes128`, `aes256`, `aes_ccm128`, `aes_ccm256`, `aes_ctr128`, `aes_ctr256`, `aes_gcm128`, `aes_gcm256`, `camellia128`, `camellia256`, `chacha20poly1305`
+    * _Default value:_ All the supported algorithms, depending on the IKE version
+* `tunnel1_phase1_integrity_algorithms`, `tunnel2_phase1_integrity_algorithms` - (Optional, Forces new resource, Set of strings) The integrity algorithms that are permitted for the VPN tunnel for phase 1 IKE negotiations.
+    * _Valid values:_ `sha1`, `sha256`, `sha384`, `sha512`
+    * _Default value:_ `sha1`, `sha256`, `sha384`, `sha512`
+* `tunnel1_phase2_integrity_algorithms`, `tunnel2_phase2_integrity_algorithms` - (Optional, Forces new resource, Set of strings) The integrity algorithms that are permitted for the VPN tunnel for phase 2 IKE negotiations.
+    * _Valid values:_ `sha1`, `sha256`, `sha384`, `sha512`
+    * _Default value:_ `sha1`, `sha256`, `sha384`, `sha512`
+* `tunnel1_phase1_lifetime_seconds`, `tunnel2_phase1_lifetime_seconds` - (Optional, Forces new resource, Integer) The lifetime for phase 1 of the IKE negotiation, in seconds.
+    * _Constraints:_ From `900` to `28800`
+    * _Default value:_ `28800`
+* `tunnel1_phase2_lifetime_seconds`, `tunnel2_phase2_lifetime_seconds` - (Optional, Forces new resource, Integer) The lifetime for phase 2 of the IKE negotiation, in seconds.
+    * _Constraints:_ From `900` to `3600`, the value must not exceed the phase 1 lifetime
+    * _Default value:_ `3600`
+* `tunnel1_replay_window_size`, `tunnel2_replay_window_size` - (Optional, Forces new resource, Integer) The number of packets in an IKE replay window.
+    * _Constraints:_ From `32` to `2048`
+    * _Default value:_ `1024`
+
+## Attribute Reference
+
+~> **Note** The platform does not return the tunnel options, so their values are read from the customer gateway configuration.
 
 ### Supported attributes
 
 In addition to all arguments above, the following attributes are exported:
 
-* `arn` - The ARN of the VPN connection.
-* `id` - The ID of the VPN connection.
-* `customer_gateway_configuration` - The configuration information for the VPN connection's customer gateway (in the native XML format).
-* `customer_gateway_id` - The ID of the customer gateway to which the connection is attached.
-* `tags_all` - A map of tags assigned to the resource, including those inherited from the provider [`default_tags` configuration block][default-tags].
-* `tunnel1_address` - The public IP address of the first VPN tunnel.
-* `tunnel1_cgw_inside_address` - The RFC 6890 link-local address of the first VPN tunnel (Customer Gateway Side).
-* `tunnel1_vgw_inside_address` - The RFC 6890 link-local address of the first VPN tunnel (VPN Gateway Side).
-* `tunnel1_preshared_key` - The preshared key of the first VPN tunnel.
-* `tunnel1_bgp_asn` - The bgp asn number of the first VPN tunnel.
-* `tunnel1_bgp_holdtime` - The bgp holdtime of the first VPN tunnel.
-* `tunnel2_address` - The public IP address of the second VPN tunnel.
-* `tunnel2_cgw_inside_address` - The RFC 6890 link-local address of the second VPN tunnel (Customer Gateway Side).
-* `tunnel2_vgw_inside_address` - The RFC 6890 link-local address of the second VPN tunnel (VPN Gateway Side).
-* `tunnel2_preshared_key` - The preshared key of the second VPN tunnel.
-* `tunnel2_bgp_asn` - The bgp asn number of the second VPN tunnel.
-* `tunnel2_bgp_holdtime` - The bgp holdtime of the second VPN tunnel.
-* `vgw_telemetry` - Telemetry for the VPN tunnels. Detailed below.
-* `vpn_gateway_id` - The ID of the virtual private gateway to which the connection is attached.
+* `arn` - (String) The Amazon Resource Name (ARN) of the VPN connection.
+* `customer_gateway_configuration` - (String) The configuration information for the VPN connection's customer gateway (in the native XML format).
+* `id` - (String) The ID of the VPN connection.
+* `tags_all` - (Map of strings) Key-value pairs assigned to the resource, including any tags inherited from the [`default_tags` configuration block][default-tags] if used within a provider configuration.
+* `tunnel1_address`, `tunnel2_address` - (String) The public IP address of the VPN tunnel.
+* `tunnel1_bgp_asn`, `tunnel2_bgp_asn` - (String) The BGP ASN of the VPN tunnel.
+* `tunnel1_bgp_holdtime`, `tunnel2_bgp_holdtime` - (Integer) The BGP hold time of the VPN tunnel.
+* `tunnel1_cgw_inside_address`, `tunnel2_cgw_inside_address` - (String) The RFC 6890 link-local address of the VPN tunnel (customer gateway side).
+* `tunnel1_vgw_inside_address`, `tunnel2_vgw_inside_address` - (String) The RFC 6890 link-local address of the VPN tunnel (VPN gateway side).
+* `vgw_telemetry` - (Set of objects) Telemetry for the VPN tunnels, see [below](#vgw_telemetry).
+
+The `tunnel2_*` attributes are empty for a connection without fault tolerance.
 
 #### vgw_telemetry
 
-* `accepted_route_count` - The number of accepted routes.
-* `last_status_change` - The date and time of the last change in status.
-* `outside_ip_address` - The Internet-routable IP address of the virtual private gateway's outside interface.
-* `status` - The status of the VPN tunnel.
-* `status_message` - If an error occurs, a description of the error.
+The following attributes are exported inside the block:
+
+* `accepted_route_count` - (Integer) The number of accepted routes.
+* `last_status_change` - (String) The date and time of the last change in status.
+* `outside_ip_address` - (String) The internet-routable IP address of the VPN gateway's outside interface.
+* `status` - (String) The status of the VPN tunnel.
+* `status_message` - (String) If an error occurs, a description of the error.
 
 ### Unsupported attributes
 
-~> **Note** These attributes may be present in the `terraform.tfstate` file but they have preset values and cannot be specified in configuration files.
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
 
 The following attributes are not currently supported:
 
@@ -145,7 +197,7 @@ The following attributes are not currently supported:
 
 ## Import
 
-VPN connections can be imported using the ID of VPN connection, e.g.,
+VPN connections can be imported using the ID of VPN connection, for example:
 
 ```
 $ terraform import aws_vpn_connection.example vpn-12345678

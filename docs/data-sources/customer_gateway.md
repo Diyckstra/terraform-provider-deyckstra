@@ -32,7 +32,6 @@ resource "aws_vpn_connection" "transit" {
   vpn_gateway_id      = aws_vpc.main.id # vpc_id can be used as vpn_gateway_id
   customer_gateway_id = data.aws_customer_gateway.selected.id
   type                = data.aws_customer_gateway.selected.type
-  static_routes_only  = false
 }
 ```
 
