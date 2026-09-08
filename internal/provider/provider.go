@@ -445,9 +445,10 @@ func Provider() *schema.Provider {
 			// "aws_vpc_ipam_preview_next_cidr": ec2.DataSourceVPCIpamPreviewNextCidr(),
 			// "aws_vpc_peering_connection":     ec2.DataSourceVPCPeeringConnection(),
 			// "aws_vpc_peering_connections":    ec2.DataSourceVPCPeeringConnections(),
-			"aws_vpc":         ec2.DataSourceVPC(),
-			"aws_vpcs":        ec2.DataSourceVPCs(),
-			"aws_vpn_gateway": ec2.DataSourceVPNGateway(),
+			"aws_vpc":            ec2.DataSourceVPC(),
+			"aws_vpcs":           ec2.DataSourceVPCs(),
+			"aws_vpn_connection": ec2.DataSourceVPNConnection(),
+			"aws_vpn_gateway":    ec2.DataSourceVPNGateway(),
 
 			// "aws_ecr_authorization_token": ecr.DataSourceAuthorizationToken(),
 			// "aws_ecr_image":               ecr.DataSourceImage(),
