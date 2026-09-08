@@ -85,79 +85,65 @@ func VpnTunnelOptionsIKEVersion_Values() []string {
 }
 
 const (
-	VpnTunnelOptionsPhase1EncryptionAlgorithmAES128        = "AES128"
-	VpnTunnelOptionsPhase1EncryptionAlgorithmAES256        = "AES256"
-	VpnTunnelOptionsPhase1EncryptionAlgorithmAES128_GCM_16 = "AES128-GCM-16"
-	VpnTunnelOptionsPhase1EncryptionAlgorithmAES256_GCM_16 = "AES256-GCM-16"
+	VpnTunnelOptionsEncryptionAlgorithmAES128           = "aes128"
+	VpnTunnelOptionsEncryptionAlgorithmAES256           = "aes256"
+	VpnTunnelOptionsEncryptionAlgorithmAESCCM128        = "aes_ccm128"
+	VpnTunnelOptionsEncryptionAlgorithmAESCCM256        = "aes_ccm256"
+	VpnTunnelOptionsEncryptionAlgorithmAESCTR128        = "aes_ctr128"
+	VpnTunnelOptionsEncryptionAlgorithmAESCTR256        = "aes_ctr256"
+	VpnTunnelOptionsEncryptionAlgorithmAESGCM128        = "aes_gcm128"
+	VpnTunnelOptionsEncryptionAlgorithmAESGCM256        = "aes_gcm256"
+	VpnTunnelOptionsEncryptionAlgorithmCamellia128      = "camellia128"
+	VpnTunnelOptionsEncryptionAlgorithmCamellia256      = "camellia256"
+	VpnTunnelOptionsEncryptionAlgorithmChaCha20Poly1305 = "chacha20poly1305"
 )
 
+// The aes_ccm128 and aes_ccm256 algorithms are supported for the second IKE phase only.
 func VpnTunnelOptionsPhase1EncryptionAlgorithm_Values() []string {
 	return []string{
-		VpnTunnelOptionsPhase1EncryptionAlgorithmAES128,
-		VpnTunnelOptionsPhase1EncryptionAlgorithmAES256,
-		VpnTunnelOptionsPhase1EncryptionAlgorithmAES128_GCM_16,
-		VpnTunnelOptionsPhase1EncryptionAlgorithmAES256_GCM_16,
+		VpnTunnelOptionsEncryptionAlgorithmAES128,
+		VpnTunnelOptionsEncryptionAlgorithmAES256,
+		VpnTunnelOptionsEncryptionAlgorithmAESCTR128,
+		VpnTunnelOptionsEncryptionAlgorithmAESCTR256,
+		VpnTunnelOptionsEncryptionAlgorithmAESGCM128,
+		VpnTunnelOptionsEncryptionAlgorithmAESGCM256,
+		VpnTunnelOptionsEncryptionAlgorithmCamellia128,
+		VpnTunnelOptionsEncryptionAlgorithmCamellia256,
+		VpnTunnelOptionsEncryptionAlgorithmChaCha20Poly1305,
 	}
 }
-
-const (
-	VpnTunnelOptionsPhase1IntegrityAlgorithmSHA1     = "SHA1"
-	VpnTunnelOptionsPhase1IntegrityAlgorithmSHA2_256 = "SHA2-256"
-	VpnTunnelOptionsPhase1IntegrityAlgorithmSHA2_384 = "SHA2-384"
-	VpnTunnelOptionsPhase1IntegrityAlgorithmSHA2_512 = "SHA2-512"
-)
-
-func VpnTunnelOptionsPhase1IntegrityAlgorithm_Values() []string {
-	return []string{
-		VpnTunnelOptionsPhase1IntegrityAlgorithmSHA1,
-		VpnTunnelOptionsPhase1IntegrityAlgorithmSHA2_256,
-		VpnTunnelOptionsPhase1IntegrityAlgorithmSHA2_384,
-		VpnTunnelOptionsPhase1IntegrityAlgorithmSHA2_512,
-	}
-}
-
-const (
-	VpnTunnelOptionsPhase2EncryptionAlgorithmAES128        = "AES128"
-	VpnTunnelOptionsPhase2EncryptionAlgorithmAES256        = "AES256"
-	VpnTunnelOptionsPhase2EncryptionAlgorithmAES128_GCM_16 = "AES128-GCM-16"
-	VpnTunnelOptionsPhase2EncryptionAlgorithmAES256_GCM_16 = "AES256-GCM-16"
-)
 
 func VpnTunnelOptionsPhase2EncryptionAlgorithm_Values() []string {
-	return []string{
-		VpnTunnelOptionsPhase2EncryptionAlgorithmAES128,
-		VpnTunnelOptionsPhase2EncryptionAlgorithmAES256,
-		VpnTunnelOptionsPhase2EncryptionAlgorithmAES128_GCM_16,
-		VpnTunnelOptionsPhase2EncryptionAlgorithmAES256_GCM_16,
-	}
+	return append(VpnTunnelOptionsPhase1EncryptionAlgorithm_Values(),
+		VpnTunnelOptionsEncryptionAlgorithmAESCCM128,
+		VpnTunnelOptionsEncryptionAlgorithmAESCCM256,
+	)
 }
 
 const (
-	VpnTunnelOptionsPhase2IntegrityAlgorithmSHA1     = "SHA1"
-	VpnTunnelOptionsPhase2IntegrityAlgorithmSHA2_256 = "SHA2-256"
-	VpnTunnelOptionsPhase2IntegrityAlgorithmSHA2_384 = "SHA2-384"
-	VpnTunnelOptionsPhase2IntegrityAlgorithmSHA2_512 = "SHA2-512"
+	VpnTunnelOptionsIntegrityAlgorithmSHA1   = "sha1"
+	VpnTunnelOptionsIntegrityAlgorithmSHA256 = "sha256"
+	VpnTunnelOptionsIntegrityAlgorithmSHA384 = "sha384"
+	VpnTunnelOptionsIntegrityAlgorithmSHA512 = "sha512"
 )
 
-func VpnTunnelOptionsPhase2IntegrityAlgorithm_Values() []string {
+func VpnTunnelOptionsIntegrityAlgorithm_Values() []string {
 	return []string{
-		VpnTunnelOptionsPhase2IntegrityAlgorithmSHA1,
-		VpnTunnelOptionsPhase2IntegrityAlgorithmSHA2_256,
-		VpnTunnelOptionsPhase2IntegrityAlgorithmSHA2_384,
-		VpnTunnelOptionsPhase2IntegrityAlgorithmSHA2_512,
+		VpnTunnelOptionsIntegrityAlgorithmSHA1,
+		VpnTunnelOptionsIntegrityAlgorithmSHA256,
+		VpnTunnelOptionsIntegrityAlgorithmSHA384,
+		VpnTunnelOptionsIntegrityAlgorithmSHA512,
 	}
 }
 
-const (
-	VpnTunnelOptionsStartupActionAdd   = "add"
-	VpnTunnelOptionsStartupActionStart = "start"
-)
+// The zero group number is supported for the second IKE phase only, it disables
+// the Perfect Forward Secrecy.
+func VpnTunnelOptionsPhase1DHGroupNumber_Values() []int {
+	return []int{2, 5, 14, 15, 16, 17, 18, 19, 20, 21}
+}
 
-func VpnTunnelOptionsStartupAction_Values() []string {
-	return []string{
-		VpnTunnelOptionsStartupActionAdd,
-		VpnTunnelOptionsStartupActionStart,
-	}
+func VpnTunnelOptionsPhase2DHGroupNumber_Values() []int {
+	return append([]int{0}, VpnTunnelOptionsPhase1DHGroupNumber_Values()...)
 }
 
 const (
