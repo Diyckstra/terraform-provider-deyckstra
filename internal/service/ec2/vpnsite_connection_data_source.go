@@ -2,6 +2,7 @@ package ec2
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/arn"
@@ -215,27 +216,27 @@ func dataSourceVPNConnectionRead(d *schema.ResourceData, meta interface{}) error
 	// response only if the connection is in the pending or available state.
 	tunnelInfo, err := CustomerGatewayConfigurationToTunnelInfo(aws.StringValue(vpnConnection.CustomerGatewayConfiguration), "", "")
 
-	if err != nil {
-		return nil
+	if err == nil {
+		d.Set("high_availability", tunnelInfo.Tunnel2Address != "")
+		d.Set("local_ipv4_network_cidr", tunnelInfo.LocalIpv4NetworkCidr)
+		d.Set("remote_ipv4_network_cidr", tunnelInfo.RemoteIpv4NetworkCidr)
+		d.Set("tunnel1_address", tunnelInfo.Tunnel1Address)
+		d.Set("tunnel1_bgp_asn", tunnelInfo.Tunnel1BGPASN)
+		d.Set("tunnel1_bgp_holdtime", tunnelInfo.Tunnel1BGPHoldTime)
+		d.Set("tunnel1_cgw_inside_address", tunnelInfo.Tunnel1CgwInsideAddress)
+		d.Set("tunnel1_inside_cidr", tunnelInfo.Tunnel1InsideCidr)
+		d.Set("tunnel1_preshared_key", tunnelInfo.Tunnel1PreSharedKey)
+		d.Set("tunnel1_vgw_inside_address", tunnelInfo.Tunnel1VgwInsideAddress)
+		d.Set("tunnel2_address", tunnelInfo.Tunnel2Address)
+		d.Set("tunnel2_bgp_asn", tunnelInfo.Tunnel2BGPASN)
+		d.Set("tunnel2_bgp_holdtime", tunnelInfo.Tunnel2BGPHoldTime)
+		d.Set("tunnel2_cgw_inside_address", tunnelInfo.Tunnel2CgwInsideAddress)
+		d.Set("tunnel2_inside_cidr", tunnelInfo.Tunnel2InsideCidr)
+		d.Set("tunnel2_preshared_key", tunnelInfo.Tunnel2PreSharedKey)
+		d.Set("tunnel2_vgw_inside_address", tunnelInfo.Tunnel2VgwInsideAddress)
+	} else if vpnConnection.CustomerGatewayConfiguration != nil {
+		log.Printf("[ERROR] Error unmarshaling Customer Gateway XML configuration for (%s): %s", d.Id(), err)
 	}
-
-	d.Set("high_availability", tunnelInfo.Tunnel2Address != "")
-	d.Set("local_ipv4_network_cidr", tunnelInfo.LocalIpv4NetworkCidr)
-	d.Set("remote_ipv4_network_cidr", tunnelInfo.RemoteIpv4NetworkCidr)
-	d.Set("tunnel1_address", tunnelInfo.Tunnel1Address)
-	d.Set("tunnel1_bgp_asn", tunnelInfo.Tunnel1BGPASN)
-	d.Set("tunnel1_bgp_holdtime", tunnelInfo.Tunnel1BGPHoldTime)
-	d.Set("tunnel1_cgw_inside_address", tunnelInfo.Tunnel1CgwInsideAddress)
-	d.Set("tunnel1_inside_cidr", tunnelInfo.Tunnel1InsideCidr)
-	d.Set("tunnel1_preshared_key", tunnelInfo.Tunnel1PreSharedKey)
-	d.Set("tunnel1_vgw_inside_address", tunnelInfo.Tunnel1VgwInsideAddress)
-	d.Set("tunnel2_address", tunnelInfo.Tunnel2Address)
-	d.Set("tunnel2_bgp_asn", tunnelInfo.Tunnel2BGPASN)
-	d.Set("tunnel2_bgp_holdtime", tunnelInfo.Tunnel2BGPHoldTime)
-	d.Set("tunnel2_cgw_inside_address", tunnelInfo.Tunnel2CgwInsideAddress)
-	d.Set("tunnel2_inside_cidr", tunnelInfo.Tunnel2InsideCidr)
-	d.Set("tunnel2_preshared_key", tunnelInfo.Tunnel2PreSharedKey)
-	d.Set("tunnel2_vgw_inside_address", tunnelInfo.Tunnel2VgwInsideAddress)
 
 	return nil
 }
