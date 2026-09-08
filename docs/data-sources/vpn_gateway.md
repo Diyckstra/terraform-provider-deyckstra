@@ -17,32 +17,47 @@ Provides information about a VPN gateway.
 ## Example Usage
 
 ```terraform
-data "aws_vpn_gateway" "selected" {
-  filter {
-    name   = "tag:Name"
-    values = ["vpn-gw"]
-  }
+resource "aws_vpc" "example" {
+  cidr_block = "10.1.0.0/16"
 }
 
-output "vpn_gateway_id" {
-  value = data.aws_vpn_gateway.selected.id
+data "aws_vpn_gateway" "selected" {
+  id = aws_vpc.example.id # vpc_id can be used as vpn_gateway_id
+}
+
+output "vpn_gateway_state" {
+  value = data.aws_vpn_gateway.selected.state
 }
 ```
 
 ## Argument Reference
 
-The arguments of this data source act as filters for querying the available VPN gateways.
-The given filters must match exactly one VPN gateway whose data will be exported as attributes.
+~> **Note** The platform supports the search by the gateway ID only, see [EC2 API documentation][describe-vpn-gateways].
+The other arguments are not taken into account, so the search without the `id` argument fails with the "multiple EC2 VPN Gateways matched" error whenever the project has more than one VPC.
 
-* `attached_vpc_id` - (Optional) ID of a VPC attached to the specific VPN gateway to retrieve.
-* `availability_zone` - (Optional) The availability zone of the specific VPN gateway to retrieve.
-* `filter` - (Optional) One or more name/value pairs to use as filters.
-    * _Valid values:_ See supported names and values in [EC2 API documentation][describe-vpn-gateways]
-* `id` - (Optional) ID of the specific VPN gateway to retrieve.
-* `state` - (Optional) The state of the specific VPN gateway to retrieve.
-* `tags` - (Optional) Map of tags, each pair of which must exactly match
-  a pair on the desired VPN gateway.
+The following argument is supported:
+
+* `id` - (Optional, String) The ID of the VPN gateway to retrieve.
+
+### Unsupported arguments
+
+The following arguments are not currently supported:
+
+`attached_vpc_id`, `availability_zone`, `filter`, `state`, `tags`.
 
 ## Attribute Reference
 
-All aare also exported as result attributes.
+### Supported attributes
+
+In addition to all arguments above, the following attributes are exported:
+
+* `attached_vpc_id` - (String) The ID of the VPC the gateway is attached to.
+* `state` - (String) The state of the VPN gateway.
+
+### Unsupported attributes
+
+~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
+
+The following attributes are not currently supported:
+
+`amazon_side_asn`, `arn`, `availability_zone`, `tags`.

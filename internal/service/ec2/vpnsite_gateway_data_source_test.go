@@ -12,6 +12,9 @@ import (
 )
 
 func TestAccVPNSiteGatewayDataSource_unattached(t *testing.T) {
+	// The platform creates a VPN gateway for every VPC, so there are no unattached ones.
+	t.Skip("unattached VPN gateways are not supported")
+
 	rName := sdkacctest.RandomWithPrefix(acctest.ResourcePrefix)
 	dataSourceNameById := "data.aws_vpn_gateway.test_by_id"
 	dataSourceNameByTags := "data.aws_vpn_gateway.test_by_tags"
@@ -52,7 +55,6 @@ func TestAccVPNSiteGatewayDataSource_attached(t *testing.T) {
 			{
 				Config: testAccVPNGatewayAttachedDataSourceConfig(rName),
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrPair(dataSourceName, "id", "aws_vpn_gateway.test", "id"),
 					resource.TestCheckResourceAttrPair(dataSourceName, "attached_vpc_id", "aws_vpc.test", "id"),
 					resource.TestMatchResourceAttr(dataSourceName, "state", regexp.MustCompile("(?i)available")),
 				),
@@ -98,19 +100,10 @@ resource "aws_vpc" "test" {
   }
 }
 
-resource "aws_vpn_gateway" "test" {
-  tags = {
-    Name = %[1]q
-  }
-}
-
-resource "aws_vpn_gateway_attachment" "test" {
-  vpc_id         = aws_vpc.test.id
-  vpn_gateway_id = aws_vpn_gateway.test.id
-}
-
+# The platform creates a VPN gateway for every VPC, attaches it on its own and gives
+# it the ID of the VPC. The search by any argument except the ID is not supported.
 data "aws_vpn_gateway" "test" {
-  attached_vpc_id = aws_vpn_gateway_attachment.test.vpc_id
+  id = replace(aws_vpc.test.id, "vpc-", "vgw-")
 }
 `, rName)
 }

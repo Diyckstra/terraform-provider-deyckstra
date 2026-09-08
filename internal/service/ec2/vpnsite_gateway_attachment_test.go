@@ -15,6 +15,9 @@ import (
 )
 
 func TestAccVPNSiteGatewayAttachment_basic(t *testing.T) {
+	// The platform attaches the VPN gateway to its VPC on its own, the attachment resource is not supported.
+	t.Skip("aws_vpn_gateway_attachment is not supported")
+
 	var v ec2.VpcAttachment
 	resourceName := "aws_vpn_gateway_attachment.test"
 	rName := sdkacctest.RandomWithPrefix(acctest.ResourcePrefix)
@@ -36,6 +39,9 @@ func TestAccVPNSiteGatewayAttachment_basic(t *testing.T) {
 }
 
 func TestAccVPNSiteGatewayAttachment_disappears(t *testing.T) {
+	// The platform attaches the VPN gateway to its VPC on its own, the attachment resource is not supported.
+	t.Skip("aws_vpn_gateway_attachment is not supported")
+
 	var v ec2.VpcAttachment
 	resourceName := "aws_vpn_gateway_attachment.test"
 	rName := sdkacctest.RandomWithPrefix(acctest.ResourcePrefix)

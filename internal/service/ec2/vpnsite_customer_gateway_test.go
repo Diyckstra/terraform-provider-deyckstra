@@ -115,6 +115,9 @@ func TestAccVPNSiteCustomerGateway_tags(t *testing.T) {
 }
 
 func TestAccVPNSiteCustomerGateway_deviceName(t *testing.T) {
+	// The device_name argument is not supported by the platform.
+	t.Skip("device_name is not supported")
+
 	var gateway ec2.CustomerGateway
 	rBgpAsn := sdkacctest.RandIntRange(64512, 65534)
 	rName := sdkacctest.RandomWithPrefix(acctest.ResourcePrefix)
@@ -171,6 +174,9 @@ func TestAccVPNSiteCustomerGateway_4ByteASN(t *testing.T) {
 }
 
 func TestAccVPNSiteCustomerGateway_certificate(t *testing.T) {
+	// The certificate_arn argument and the ACM PCA service are not supported by the platform.
+	t.Skip("certificate_arn is not supported")
+
 	var gateway ec2.CustomerGateway
 	var caRoot acmpca.CertificateAuthority
 	var caSubordinate acmpca.CertificateAuthority
