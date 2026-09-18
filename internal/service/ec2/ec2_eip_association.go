@@ -136,7 +136,14 @@ func resourceEIPAssociationCreate(d *schema.ResourceData, meta interface{}) erro
 func resourceEIPAssociationRead(d *schema.ResourceData, meta interface{}) error {
 	conn := meta.(*conns.AWSClient).EC2Conn
 
-	request := DescribeAddressesByID(d.Id())
+	request := &ec2.DescribeAddressesInput{
+		Filters: []*ec2.Filter{
+			{
+				Name:   aws.String("association-id"),
+				Values: []*string{aws.String(d.Id())},
+			},
+		},
+	}
 
 	var response *ec2.DescribeAddressesOutput
 	err := resource.Retry(propagationTimeout, func() *resource.RetryError {
@@ -217,15 +224,4 @@ func readEIPAssociation(d *schema.ResourceData, address *ec2.Address) error {
 	}
 
 	return nil
-}
-
-func DescribeAddressesByID(id string) *ec2.DescribeAddressesInput {
-	return &ec2.DescribeAddressesInput{
-		Filters: []*ec2.Filter{
-			{
-				Name:   aws.String("association-id"),
-				Values: []*string{aws.String(id)},
-			},
-		},
-	}
 }

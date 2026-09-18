@@ -24,31 +24,7 @@ func ResourceEIP() *schema.Resource {
 		Update: resourceEIPUpdate,
 		Delete: resourceEIPDelete,
 		Importer: &schema.ResourceImporter{
-			// The EIP can be imported by its IP address, but its ID is always
-			// the allocation ID.
-			State: func(d *schema.ResourceData, meta interface{}) ([]*schema.ResourceData, error) {
-				if net.ParseIP(d.Id()) == nil {
-					return []*schema.ResourceData{d}, nil
-				}
-
-				conn := meta.(*conns.AWSClient).EC2Conn
-
-				addresses, err := FindEIPs(conn, &ec2.DescribeAddressesInput{
-					PublicIps: aws.StringSlice([]string{d.Id()}), // ElasticIps
-				})
-
-				if err != nil {
-					return nil, fmt.Errorf("error reading EC2 EIP (%s): %w", d.Id(), err)
-				}
-
-				if len(addresses) != 1 {
-					return nil, fmt.Errorf("found %d EC2 EIPs for %s, expected 1", len(addresses), d.Id())
-				}
-
-				d.SetId(aws.StringValue(addresses[0].AllocationId))
-
-				return []*schema.ResourceData{d}, nil
-			},
+			State: resourceEIPImport,
 		},
 
 		CustomizeDiff: verify.SetTagsDiff,
@@ -399,6 +375,32 @@ func resourceEIPDelete(d *schema.ResourceData, meta interface{}) error {
 		return fmt.Errorf("error releasing EC2 EIP (%s): %w", d.Id(), err)
 	}
 	return nil
+}
+
+// resourceEIPImport allows the EIP to be imported by its IP address, while its ID
+// is always the allocation ID.
+func resourceEIPImport(d *schema.ResourceData, meta interface{}) ([]*schema.ResourceData, error) {
+	if net.ParseIP(d.Id()) == nil {
+		return []*schema.ResourceData{d}, nil
+	}
+
+	conn := meta.(*conns.AWSClient).EC2Conn
+
+	addresses, err := FindEIPs(conn, &ec2.DescribeAddressesInput{
+		PublicIps: aws.StringSlice([]string{d.Id()}), // ElasticIps
+	})
+
+	if err != nil {
+		return nil, fmt.Errorf("error reading EC2 EIP (%s): %w", d.Id(), err)
+	}
+
+	if len(addresses) != 1 {
+		return nil, fmt.Errorf("found %d EC2 EIPs for %s, expected 1", len(addresses), d.Id())
+	}
+
+	d.SetId(aws.StringValue(addresses[0].AllocationId))
+
+	return []*schema.ResourceData{d}, nil
 }
 
 func disassociateEip(d *schema.ResourceData, meta interface{}) error {

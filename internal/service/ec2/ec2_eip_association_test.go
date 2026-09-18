@@ -170,7 +170,14 @@ func testAccCheckEIPAssociationExists(name string, res *ec2.Address) resource.Te
 
 		conn := acctest.Provider.Meta().(*conns.AWSClient).EC2Conn
 
-		request := tfec2.DescribeAddressesByID(rs.Primary.ID)
+		request := &ec2.DescribeAddressesInput{
+			Filters: []*ec2.Filter{
+				{
+					Name:   aws.String("association-id"),
+					Values: []*string{aws.String(rs.Primary.ID)},
+				},
+			},
+		}
 
 		describe, err := conn.DescribeAddresses(request)
 		if err != nil {
