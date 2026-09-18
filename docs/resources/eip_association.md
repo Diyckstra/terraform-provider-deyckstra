@@ -58,7 +58,7 @@ The following arguments are supported:
 
 * `allocation_id` - (Optional, Forces new resource, String) The ID of the allocation.
     * _Constraints:_ Required if the `public_ip` is not supplied
-* `allow_reassociation` - (Optional, Forces new resource, Boolean) Indicates whether to allow an EIP to be re-associated. Reassociation is automatic, but you can specify `false` to ensure the operation fails if the EIP is already associated with another resource.
+* `allow_reassociation` - (Optional, Forces new resource, Boolean) Indicates whether to allow an EIP to be re-associated. By default, if an EIP is already associated with another resource, it will be re-associated. If `false`, the EIP will be associated only if it is free; otherwise, the resource creation will fail.
 * `instance_id` - (Optional, Forces new resource, String) The ID of the instance.
     * _Constraints:_ Required if the `network_interface_id` is not supplied
 * `network_interface_id` - (Optional, Forces new resource, String) The ID of the network interface.
@@ -66,21 +66,14 @@ The following arguments are supported:
 * `public_ip` - (Optional, Forces new resource, String) The EIP address.
     * _Constraints:_ Required if the `allocation_id` is not supplied
 
+~> **Note** The `private_ip_address` argument is not supported: the platform ignores the specified value and associates the EIP with the primary private IP address of the network interface.
+
 ## Attribute reference
 
-### Supported attributes
-
-In addition to all arguments above, the following attribute is exported:
+In addition to all arguments above, the following attributes are exported:
 
 * `id` - (String) The ID of the association.
-
-### Unsupported attributes
-
-~> **Note** These attributes may be present in the `terraform.tfstate` file, but they have preset values and cannot be specified in configuration files.
-
-The following attributes are not currently supported:
-
-`private_ip_address`.
+* `private_ip_address` - (String) The private IP address associated with the EIP.
 
 ## Timeouts
 
